@@ -1,0 +1,17 @@
+mFOS.Services
+mFOS.Web.UI
+mFOS.Web.UI/Common/CustomerAttributes
+mFOS.Web.UI/Content/Style
+mFOS.Web.UI/Controllers
+rFOS.Web.UI/Controllers/API
+mFOS.Web.UI/Views/AdminPanel
+mFOS.Web.UI/Views/Home
+mFOS.Web.UI/Views/Reports
+mFOS.Web.UI/Views/Retailer
+mFOS.Web.UI/Views/RetailerOrders
+mFOS.Web.UI/Views/SaleOfficer
+mFOS.Web.UI/Views/Setup
+mFOS.Web.UI/Views/Shared
+mSetup
+mSetup/Validation
+mShared

@@ -1,0 +1,546 @@
+﻿@model FOS.Shared.SaleOfficerData
+    @{
+        ViewBag.Title = "Sale Officer";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <!-- BEGIN PAGE HEADER-->
+    <div class="row-fluid">
+        <div class="span12">
+            <!-- BEGIN THEME CUSTOMIZER-->
+            <!-- END THEME CUSTOMIZER-->
+            <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+            <h3 class="page-title"></h3>
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">Sales Officer</a>
+@*                    <span class="divider">/</span>*@
+                </li>
+@*                <li>
+                    <a href="#">Manage Sales Officer</a>
+                </li>*@
+            </ul>
+            <!-- END PAGE TITLE & BREADCRUMB-->
+        </div>
+    </div>
+
+    @using (Ajax.BeginForm("NewUpdateSaleOfficer", "SaleOfficer", new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row-fluid">
+
+            <div class="span12">
+                <!-- BEGIN SAMPLE FORMPORTLET-->
+                <div class="widget green" style="">
+                    <div class="widget-title">
+                        <h4>Manage Sales Officer</h4>
+                        <span class="tools">
+                            @*<a href="javascript:;" class="icon-chevron-down"></a>*@
+                            @*<a href="javascript:;" class="icon-remove"></a>*@
+                        </span>
+                    </div>
+                    <div class="widget-body" style="height: 450px;">
+
+                        <div class="span12">
+
+                            <div class="span6">
+
+                                <div class="control-group">
+                                    <label class="control-label">Head Type *</label>
+                                    <div class="controls">
+                                        @Html.DropDownListFor(model => model.Type, new SelectList(Model.RegionalHeadTypeData, "ID", "Type"), new { @class = "", style = "220px" })
+                                    </div>
+                                </div>
+
+                                @if (FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser() == 0)
+                                {
+                                    <div class="control-group">
+                                        <label class="control-label">Select Head *</label>
+                                        <div class="controls">
+                                            @Html.DropDownListFor(model => model.RegionalHeadID, new SelectList(Model.RegionalHead, "ID", "Name"), new { @class = "" })
+                                            @Html.ValidationMessageFor(model => model.RegionalHeadID)
+                                            @Html.HiddenFor(model => model.HiddenRegionalHeadID)
+                                        </div>
+                                    </div>
+                                    <script>
+                                    $(document).ready(function () {
+                                        $("#HiddenRegionalHeadID").val("@FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser()");
+                                    });
+                                    </script>
+                                }
+                                else
+                                {
+                                    @Html.HiddenFor(model => model.HiddenRegionalHeadID)
+                                    <script>
+                                    $(document).ready(function () {
+                                        $("#HiddenRegionalHeadID").val("@FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser()");
+                                    });
+                                    </script>
+                                }
+
+
+                                <div class="control-group">
+                                    <label class="control-label">Select Projects *</label>
+                                    <div class="controls">
+                                        @Html.DropDownListFor(model => model.SOProjects, new SelectList(Model.SOProjects, "ID", "Name"), new { @class = "", style = "220px" })
+                                        @Html.ValidationMessageFor(model => model.SOProjects)
+                                        @Html.HiddenFor(model => model.ProjectIDD)
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">Select Zone *</label>
+                                    <div class="controls">
+                                        @Html.DropDownListFor(model => model.Regions, new SelectList(Model.Regions, "ID", "Name"), new { @class = "", style = "220px" })
+                                        @Html.ValidationMessageFor(model => model.Regions)
+                                        @Html.HiddenFor(model => model.RegionIDD)
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label">Select Towns *</label>
+                                    <div class="controls">
+                                        @Html.DropDownListFor(model => model.Towns, new SelectList(Model.Towns, "ID", "Name"), new { @class = "", style = "220px" })
+                                        @Html.ValidationMessageFor(model => model.Towns)
+                                        @Html.HiddenFor(model => model.TownIDD)
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label">SO Name *</label>
+                                    <div class="controls">
+                                        @Html.EditorFor(model => model.Name)
+                                        @Html.ValidationMessageFor(model => model.Name)
+                                        @Html.HiddenFor(model => model.ID)
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">Select Role *</label>
+                                    <div class="controls">
+                                        @Html.DropDownListFor(model => model.SoRoleID, new SelectList(Model.SORoles, "ID", "Name"), new { @class = "", style = "220px" })
+                                        @Html.ValidationMessageFor(model => model.SoRoleID)
+                                        @Html.HiddenFor(model => model.SoRoleID)
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+
+                            <div class="span6">
+
+                                <span style="font-size: 10px;margin-left: 180px;color: #cc514f;"></span>
+                                <div class="control-group">
+
+                                <label class="control-label">Phone 1 *</label>
+                                <div class="controls">
+                                    @Html.EditorFor(model => model.Phone1)
+                                    @Html.ValidationMessageFor(model => model.Phone1)
+                                </div>
+                            </div>
+
+                                <span style="font-size: 10px;margin-left: 180px;color: #cc514f;"></span>
+                            <div class="control-group">
+
+                                <label class="control-label">Phone 2</label>
+                                <div class="controls">
+                                    @Html.EditorFor(model => model.Phone2)
+                                    @Html.ValidationMessageFor(model => model.Phone2)
+                                </div>
+                            </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">User Name *</label>
+                                    <div class="controls">
+                                        @Html.EditorFor(model => model.UserName)
+                                        @Html.ValidationMessageFor(model => model.UserName)
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">Password *</label>
+                                    <div class="controls">
+                                        @Html.EditorFor(model => model.Password)
+                                        @Html.ValidationMessageFor(model => model.Password)
+                                    </div>
+                                </div>
+
+                               
+                                 <div class="control-group" style="">
+                                    <div class="form-actions" style="padding-left: 238px;">
+                                        <button type="submit" id="btnNew" value="Create" class="btn btn-primary">
+                                            <i class="icon-ok icon-white" style="padding-right:8px"></i><span id="create">Create</span>
+                                        </button>
+                                        <button type="button" id="btnRefresh" class="btn btn-info"><i class="icon-ban-circle icon-white" style="padding-right:8px"></i>Reset</button>
+                                    </div>
+                                </div>
+                            
+
+                                </div>
+
+                             </div>
+
+                        <!-- END FORM-->
+                    </div>
+                </div>
+                <!-- END SAMPLE FORM PORTLET-->
+
+            </div>
+        </div>
+    }
+    <!-- BEGIN EDITABLE TABLE widget-->
+    <div class="row-fluid">
+        <div class="span12">
+            <!-- BEGIN EXAMPLE TABLE widget-->
+            <div class="widget green">
+                <div class="widget-title">
+                    <h4>View Detail</h4>
+                    <span class="tools">
+                        @*<a href="javascript:;" class="icon-chevron-down"></a>*@
+                        @*<a href="javascript:;" class="icon-remove"></a>*@
+                    </span>
+                </div>
+                <div class="widget-body">
+                    <div>
+                        <div class="clearfix">
+                            @*<div class="btn-group">
+                                    <button id="editable-sample_new" class="btn green">
+                                        Add New <i class="icon-plus"></i>
+                                    </button>
+                                </div>*@
+                            <div class="btn-group pull-right"></div>
+                        </div>
+                        <div class="space15"></div>
+                        <table class="table table-striped table-hover table-bordered" id="datatab" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ID)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.RegionalHeadID)
+                                    </th>
+                                    <th style-="8%">Sr #</th>
+                                    <th style="width:20%">
+                                        Name
+                                    </th>
+                                    <th style="width:20%">
+                                        Regional Head
+                                    </th>
+                                    <th style="width:20%">
+                                        Zone
+                                    </th>
+                                    <th style="width:12%">
+                                        User Name
+                                    </th>
+                               
+                                    <th style="width:15%">
+                                       Phone 1
+                                    </th>
+                                    <th style="width:15%">
+                                        Phone 2
+                                    </th>
+                                    <th style="width:10%">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE widget-->
+        </div>
+    </div>
+    <!-- END EDITABLE TABLE widget-->
+
+    <script>
+  
+
+    function GenerateDetailGrid() {
+
+        //$('#datatab tfoot th').each(function () {
+        //    $(this).html('<input type="text" />');
+        //});
+
+        var oTable = $('#datatab').DataTable({
+            "aLengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
+            "iDisplayLength": 10,
+            "paging": true,
+            "pagingType": "full_numbers",
+            "serverSide": true,
+            "bRetrieve": true,
+            "bDestroy": true,
+            "autoWidth": true,
+            "ajax": {
+                "type": "POST",
+                "url": '@Url.Action("DataHandler", "SaleOfficer")',
+                "contentType": 'application/json; charset=utf-8',
+                'data': function (data) {
+                    data.RegionalHeadType = $('#Type').val();
+                    data.RegionalHeadID = $('#RegionalHeadID').val() == null ? 1 : $('#RegionalHeadID').val();
+                    return data = JSON.stringify(data);
+                },
+
+            },
+            "fnDrawCallback": function (osetting) {
+
+                var UpdateCheck = "0";
+                var DeleteCheck = "0";
+
+                if (UpdateCheck == "@HttpContext.Current.Session["UpdateCheck"]") { $(".edit").css("display", "none"); }
+                else {
+                    $(".edit").on("click", function () {
+
+                        ClearForm();
+
+                        $('#ID').val($(this).attr("data-id"));
+                        $('#create').text('Update');
+
+                        $("#Name").val($(this).attr("data-name"));
+                        $("#UserName").val($(this).attr("data-username"));
+                        $("#Password").val($(this).attr("data-password"));
+                        $("#RegionalHeadID").val($(this).attr("data-regionalheadid"));
+
+                        $("#HiddenRegionalHeadID").val($(this).attr("data-regionalheadid"));
+
+                        $("#Phone1").val($(this).attr("data-phone1").replace("null", ""));
+                        $("#Phone2").val($(this).attr("data-phone2").replace("null", ""));
+
+                        $('html, body').animate({
+                            scrollTop: $("#main-content").offset().top
+                        }, 500);
+                        $("#RegionalHeadID").focus();
+                    });
+                }
+
+                if (UpdateCheck == "@HttpContext.Current.Session["DeleteCheck"]") { $(".delete").css("display", "none"); }
+                else {
+                    $(".delete").on("click", function () {
+
+                        var SaleOfficerID = $(this).attr("data-id");
+
+                        // confirm dialog
+                        alertify.confirm("Are You Sure You Want To Delete This Record ?  ", function (e) {
+                            if (e) {
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("DeleteSaleOfficer", "SaleOfficer")",
+                                    data: { saleOfficerID: SaleOfficerID },
+                                    success: function (data) {
+
+                                        if (data == "0") {
+                                            alertify.success('Sales Officer Deleted Successfully.');
+                                            var table = $('#datatab').DataTable();
+                                            table.row(this).remove().draw(false);
+                                            LoadRegionalHead();
+                                        }
+
+                                        else { alertify.error('This Sales Officer Has Retailers. Delete Them First.'); }
+                                    }
+
+                                });
+
+                            } else { }
+                        });
+
+                    });
+                }
+            },
+            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                $("td:first", nRow).html(iDisplayIndex + 1);
+                return nRow;
+            },
+            "oLanguage": { "sSearch": "Search Sale Officer : " },
+            "sDom": 'lftipr',
+            "processing": true,
+            "deferRender": true,
+            "bSelect": true,
+            "columns": [
+           { "data": "ID", "bVisible": false },
+           { "data": "RegionalHeadID", "bVisible": false },
+           { "data": "Name", "bSortable": false },
+           { "data": "Name" },
+           { "data": "RegionalHeadName" },
+           { "data": "RegionName" },
+           { "data": "UserName" },
+           { "data": "Phone1" },
+           { "data": "Phone2" },
+            {
+                "sClass": "center-align-td",
+                "mData": null,
+                "bSortable": false,
+                "mRender": function (data, type, row) {
+                    return '<button class="btn btn-success edit" data-id=' + row.ID + '  data-name=' + '"' + row.Name + '"' + '  data-username=' + '"' + row.UserName + '"' + ' data-password=' + '"' + row.Password + '"' + '  data-regionalheadid=' + row.RegionalHeadID + ' data-phone1="' + row.Phone1 + '" data-phone2="' + row.Phone2 + '">' + '<i class=icon-pencil></i>' + '</button>&nbsp;<button class="btn btn-info delete" data-id=' + row.ID + '>' + '<i class=icon-trash></i>' + '</button>';
+                }
+            }
+            ],
+            "order": [1, "asc"]
+
+        });
+
+    }
+
+
+        function LoadRegionalHead() {
+
+            var RegionalHeadType = $("#Type").val();
+
+            $.ajax({
+                type: "POST",
+                data: { RegionalHeadType: RegionalHeadType },
+                url: "@Url.Action("GetRegionalHeadAccordingToType", "SaleOfficer")",
+                dataType: 'json',
+                success: function (json) {
+
+                    var $el = $("#RegionalHeadID");
+                    $el.empty(); // remove old options
+                    $.each(json, function (value, key) {
+
+                        $el.append($("<option></option>")
+                                .attr("value", key.ID).text(key.Name));
+                    });
+                    $("#RegionalHeadID").trigger("change");
+                }
+                
+            });
+        }
+
+
+        function LoadSORegions() {
+
+            var RegionalHeadType = $("#RegionalHeadID").val();
+
+            $.ajax({
+                type: "POST",
+                data: { RegionalHeadType: RegionalHeadType },
+                url: "@Url.Action("GetSORegions", "SaleOfficer")",
+                dataType: 'json',
+            success: function (json) {
+
+                var $el = $("#RegionID");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+
+                    $el.append($("<option></option>")
+                            .attr("value", key.ID).text(key.Name));
+                });
+                $("#RegionID").trigger("change");
+            }
+                
+        });
+        }
+
+        
+            $(document).ready(function () {
+
+                var WriteCheck = "0";
+
+                if (WriteCheck == "@HttpContext.Current.Session["WriteCheck"]") {
+                // $("#btnNew").css("display", "none");
+                $("#btnNew").attr("disabled", true);
+                }
+                else {
+                }
+
+                LoadRegionalHead();
+                $("#Type").change(function () {
+                    LoadRegionalHead();
+                });
+
+                $('#Regions').css("width", "220px");
+
+                $('#Regions').change(function () {
+                    debugger;
+
+                    $('#RegionIDD').val($('#Regions').multipleSelect('getSelects'));
+
+                }).multipleSelect({
+                    filter: true
+                });
+
+
+                $('#Towns').css("width", "220px");
+
+                $('#Towns').change(function () {
+
+                    $('#TownIDD').val($('#Towns').multipleSelect('getSelects'));
+
+                }).multipleSelect({
+                    filter: true
+                });
+
+                $('#SOProjects').css("width", "220px");
+
+                $('#SOProjects').change(function () {
+
+                    $('#ProjectIDD').val($('#SOProjects').multipleSelect('getSelects'));
+
+                }).multipleSelect({
+                    filter: true
+                });
+                $("#RegionalHeadID").change(function () {
+                    LoadSORegions();
+                    $("#HiddenRegionalHeadID").val($(this).val())
+                    var dt = $('#datatab').DataTable();
+                    dt.ajax.reload();
+                });
+
+                $("#liSales,#liSalesOfficer").addClass("active");
+           
+                GenerateDetailGrid();
+      
+
+                $("#btnRefresh").click(function () {
+                    ClearForm();
+                });
+        });
+    
+    </script>
+
+    <script type="text/javascript">
+
+    function ClearForm() {
+        $('#Name').val('');
+        $('#Password').val('');
+        $('#Phone1').val('');
+        $('#UserName').val('');
+        $('#Phone2').val('');
+        $('#ID').val(0);
+        $('#btnNew').val('Create');
+    }
+
+    function OnSuccess(response) {
+        if (response == "1") {
+            alertify.success("Sales Officer Saved Successfully.");
+         
+            var dt = $('#datatab').DataTable();
+            $('#create').text('Create');
+            dt.ajax.reload();
+            ClearForm();
+        }
+        else if (response == "0") {
+            alertify.error("Unable To Save Sales Officer.");
+        }
+        else if (response == "2") {
+            alertify.error("Phone Number Already Exist.");
+        }
+        else {
+            alertify.error(response);
+        }
+
+    }
+
+    function OnFailure(response) {
+        if (response.status == 422) {
+            var errors = JSON.parse(response.responseText);
+            alertify.error(errors.errors);
+        }
+        else {
+            alertify.error(response);
+        }
+    }
+
+       
+    </script>

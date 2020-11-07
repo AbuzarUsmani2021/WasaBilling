@@ -1,0 +1,1126 @@
+﻿@model FOS.Shared.JobsData
+
+@{
+    ViewBag.Title = "Jobs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    #preview {
+        position: absolute;
+        border: 1px solid #ccc;
+        background: #333;
+        padding: 1px;
+        display: none;
+        color: #fff;
+        z-index: 3000;
+    }
+</style>
+<link href='~/Content/Style/fullcalendar.min.css' rel='stylesheet' />
+<link href='~/Content/Style/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+<script src='~/Scripts/lib/moment.min.js'></script>
+<script src='~/Scripts/lib/jquery-ui.min.js'></script>
+<script src='~/Scripts/lib/fullcalendar.min.js'></script>
+<link href="~/Content/Style/jquery-ui.min.css" rel="stylesheet" />
+
+
+<!-- BEGIN PAGE HEADER-->
+<div class="row-fluid">
+    <div class="span12">
+        <!-- BEGIN THEME CUSTOMIZER-->
+        <!-- END THEME CUSTOMIZER-->
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        <h3 class="page-title"></h3>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#">Complaints</a>
+                <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="#">Complaints Detail</a>
+            </li>
+        </ul>
+        <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+</div>
+
+
+
+<!-- BEGIN EDITABLE TABLE widget-->
+<div class="row-fluid">
+    <div class="span12">
+        <!-- BEGIN EXAMPLE TABLE widget-->
+        <div class="widget green">
+            <div class="widget-title">
+                <h4>Visit Detail</h4>
+                @*<span class="tools" style="margin-right: 15px">
+                   
+                    <a href="@Url.Action("ExportToExcel", "Job")" style="background-color: #85b73a;border: 1px solid #6a9627;padding: 5px;margin-right: 0px;">Export</a>
+                </span>*@
+            </div>
+
+
+
+
+            <div class="widget-body">
+                <div>
+                    <div class="clearfix">
+                        @*<div class="control-group" style="margin-bottom: 14px; display:inline">
+                                <label class="control-label" style="display:inline">Starting Date *</label>
+                                <div class="controls" style="display:inline">
+                                    <input class="text-box single-line" id="StartingDate1" name="StartingDate1" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                                </div>
+                            </div>*@
+
+                        @*<div class="control-group" style="margin-bottom: 14px; display:inline">
+                                <label class="control-label" style="display:inline">Ending Date *</label>
+                                <div class="controls" style="display:inline">
+                                    <input class="text-box single-line" id="StartingDate2" name="StartingDate2" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                                </div>
+                            </div>*@
+
+
+
+                        @*<div class="control-group" style="margin-bottom: 14px; display:inline">
+                                <label class="control-label" style="display:inline">Sales Officer *</label>
+                                <div class="controls" style="display:inline">
+                                    @Html.DropDownListFor(model => model.SaleOfficerID, new SelectList(Model.SaleOfficer, "ID", "Name"), new { @class = "" })
+
+                                </div>
+                            </div>*@
+                        @*<div class="control-group" style="margin-bottom: 14px; display:inline">
+                                <button type="button" class="btn btn-success" id="btn_search">Search</button>
+
+                            </div>*@
+
+
+                        <div class="btn-group pull-right"></div>
+                    </div>
+                    <div class="space15"></div>
+                    <table class="table table-striped table-hover table-bordered" style="width: 100%;" id="datatab">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th style="width: 10% !important">Sr #</th>
+
+                                <th style="width:16% !important">
+                                    Client
+                                </th>
+
+                                <th style="width:16% !important">
+                                    Project
+                                </th>
+                                <th style="width:16% !important">
+                                    Site
+                                </th>
+                                <th style="width:16% !important">
+                                    FaultType
+                                </th>
+
+                                <th style="width:16% !important">
+                                    Priority
+                                </th>
+
+                               
+                                <th style="width:16% !important">
+                                    Launched By
+                                </th>
+
+                                <th style="width:16% !important">Status</th>
+
+                                <th style="width:10% !important">Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE widget-->
+    </div>
+</div>
+<!-- END EDITABLE TABLE widget-->
+<!-- Shop Modal -->
+<div id="ComplaintModal" class="modal hide fade in" role="dialog" style="width: 71%;height: 100%;top: 4%;left: 15%;overflow-y:scroll;">
+
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="margin-left: 25px; margin-right: 25px;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-weight: 900; color: #951b26;">Update COMPLAINT Information</h4>
+            </div>
+            <div class="modal-body">
+
+                <div>
+                    <div class="clearfix">
+                        @*<div class="btn-group">
+                        <button id="editable-sample_new" class="btn green">
+                            Add New <i class="icon-plus"></i>
+                        </button>
+                    </div>*@
+                        <div class="btn-group pull-right"></div>
+                    </div>
+                    @using (Ajax.BeginForm("UpdateComplaints", "Complaint", new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @class = "form-horizontal form-label-left", @style = "margin-top: -16px;" }))
+                    {
+
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+
+                        <div class="form-group">
+
+                            <div class="span12">
+
+                                <div class="span3" style="margin-top: 0px;">
+
+
+
+                                    <!-- Select RegionalHead -->
+                                    <div class="control-group">
+                                        <label class="control-label">Select Client *</label>
+                                        <div class="controls" style="float: left; margin-left: auto;">
+                                            @Html.DropDownListFor(model => model.ClientId, new SelectList(Model.Client, "ID", "Name"), new { @class = "" })
+                                            @Html.ValidationMessageFor(model => model.ClientId)
+                                            @Html.HiddenFor(model => model.ClientId)
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="control-group" style="margin-bottom: 10px">
+                                        <label class="control-label">Select Project *</label>
+                                        <div class="controls" style="margin-left: 0px">
+                                            @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.SaleOfficers, "ID", "Name"), new { @class = "" })
+                                            @Html.HiddenFor(model => model.ProjectId)
+                                            @Html.ValidationMessageFor(model => model.ProjectId)
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="control-group" style="margin-bottom: 10px">
+                                        <label class="control-label">Select Zone *</label>
+                                        <div class="controls" style="margin-left: 0px">
+                                            @Html.DropDownListFor(model => model.CityID, new SelectList(Model.Cities, "ID", "Name"), new { @class = "" })
+                                            @Html.ValidationMessageFor(model => model.CityID)
+                                        </div>
+                                    </div>
+
+                                    @*<div class="control-group" style="margin-bottom: 10px">
+                                    <label class="control-label">Select Town *</label>
+                                    <div class="controls" style="margin-left: 0px">
+                                        @Html.DropDownListFor(model => model.AreaID, new SelectList(Model.Areas, "ID", "Name"), new { @class = "Areas" })
+                                        @Html.HiddenFor(model => model.AreaID)
+                                    </div>
+                                </div>*@
+                                    <div class="control-group" style="margin-bottom: 10px">
+                                        <label class="control-label">Select Site *</label>
+                                        <div class="controls" style="margin-left: 0px">
+                                            @Html.DropDownListFor(model => model.SiteId, new SelectList(Model.Areas, "ID", "Name"), new { @class = "Areas" })
+                                            @Html.HiddenFor(model => model.SiteId)
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="span3" style="margin-top: 0px;">
+
+                                    <div class="control-group" style="margin-bottom: 10px">
+                                        <label class="control-label">Select Fault Type *</label>
+                                        <div class="controls" style="margin-left: 0px">
+                                            @Html.DropDownListFor(model => model.FaulttypeId, new SelectList(Model.faultTypes, "Id", "Name"), new { @class = "Areas" })
+                                            @Html.HiddenFor(model => model.FaulttypeId)
+                                        </div>
+                                    </div>
+                                    <div class="control-group" style="margin-bottom: 10px">
+                                        <label class="control-label">Select Priority *</label>
+                                        <div class="controls" style="margin-left: 0px">
+                                            @Html.DropDownListFor(model => model.PriorityId, new SelectList(Model.priorityDatas, "ID", "Name"), new { @class = "Areas" })
+                                            @Html.HiddenFor(model => model.PriorityId)
+                                        </div>
+                                    </div>
+
+
+                                    <div class="control-group" style="margin-bottom: 10px">
+                                        <label class="control-label">Select Status *</label>
+                                        <div class="controls" style="margin-left: 0px">
+                                            @Html.DropDownListFor(model => model.StatusId, new SelectList(Model.complaintStatuses, "ID", "Name"), new { @class = "Areas" })
+                                            @Html.HiddenFor(model => model.StatusId)
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group" style="margin-bottom: 10px">
+                                        <label class="control-label">Launched By *</label>
+                                        <div class="controls" style="margin-left: 0px">
+                                            @Html.DropDownListFor(model => model.LaunchedById, new SelectList(Model.LaunchedBy, "ID", "Name"), new { @class = "Areas" })
+                                            @Html.HiddenFor(model => model.LaunchedById)
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group" style="margin-bottom: 0px">
+                                        <label class="control-label" style="">Person Name</label>
+                                        <div class="controls" style="margin-left: 0px">
+                                            @Html.EditorFor(model => model.Name)
+                                        </div>
+                                    </div>
+
+                                    @*<div class="control-group" style="margin-bottom: 0px; margin-top: 4px;">
+
+                                    <label class="control-label" style="">ContactPerson Name *</label>
+                                    <div class="controls" style="margin-left: 0px">
+                                        @Html.EditorFor(model => model.ContactPerson)
+                                    </div>
+                                </div>*@
+
+                                    @*<div class="control-group" style="margin-bottom: 0px; margin-top: 4px;">
+
+                                    <label class="control-label" style="width: 130px">ContactPerson No</label>
+                                    <div class="controls" style="margin-left: 0px">
+                                        @Html.EditorFor(model => model.ContactPersonCell)
+                                        @Html.ValidationMessageFor(model => model.ContactPersonCell)
+                                    </div>
+                                </div>*@
+
+                                </div>
+
+
+
+                                <div class="span3" style="margin-top: 0px;">
+
+                                    <div class="control-group" style="margin-bottom: 0px">
+                                        <label class="control-label" style="">Remarks</label>
+                                        <div class="controls" style="margin-left: 0px">
+                                            @Html.EditorFor(model => model.Remarks)
+                                        </div>
+                                    </div>
+
+
+
+                                    <!-- Buttons -->
+                                    <div class="control-group" style="margin-top: -25px">
+                                        <div class="form-actions" style="float: right; padding-left: 0px; padding-right: 45px; margin-top: 40px;">
+                                            <button type="submit" id="btnNew" class="btn btn-primary" style="margin-right: 8px; width: 100px;">
+                                                <span id="create">Save</span>
+                                            </button>
+                                            @* <button type="button" id="btnRefresh" class="btn btn-info"><i class="icon-ban-circle icon-white" style="padding-right: 8px"></i>Reset</button>*@
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    }
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- END Shop Modal -->
+<!-- Painter Modal -->
+<div id="PainterModal" class="modal hide fade in" role="dialog" style="width: 71%;height: 100%;top: 7%;left: 15%; overflow-y:scroll;">
+
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+                <div class="span12">
+
+                    <h2 style="margin-top: -10px;text-align:center;color: #62c462;font-weight: bolder;border-bottom: 1px solid #62c462;border-top: 1px solid #62c462;padding-bottom: 10px;padding-top: 10px;" id="jobstatus">DONE</h2>
+
+                    <div class="span12" style="padding:2px">
+
+                        <table class="table table-striped table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center;background: #545454;color: white;" colspan="2">Detail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 19px  0px 19px  5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Sales Officer</span></td>
+                                    <td style="padding: 19px  0px 19px  5px;"><span id="PsaleOfficer" style=""></span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 19px  0px 19px  5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">School/ShopName</span></td>
+                                    <td style="padding: 19px  0px 19px  5px;"><span id="PSchool" style=""></span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 18px  0px 18px  5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Visit Type</span></td>
+                                    <td style="padding: 18px  0px 18px  5px;"><span id="PvisitPlan" style=""></span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 18px  0px 18px  5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Status</span></td>
+                                    <td style="padding: 18px  0px 18px  5px;"><span id="Pstatus" style="color:#62c462"></span></td>
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+
+                    @*<table class="table table-striped table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width:46%;text-align:center;background: #545454;color: white;" colspan="2">Detail</th>
+                                    <th style="text-align:center;background: #545454;color: white;">1kg Qty</th>
+                                    <th style="text-align:center;background: #545454;color: white;">5kg Qty</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="width:56%;padding: 21px 0px 17px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Using WallCoat</span></td>
+                                    <td style="width:22%;padding: 0px 0px 0px 5px;text-align:center"><h4 id="UseWallCoat">-</h4></td>
+                                    <td style="width:22%;padding: 0px 10px 0px 10px;text-align:center"><input disabled id="UseWalCoat1KG" style="width: 65px;height: 22px;font-size: 10px;" type="text" value=""></td>
+                                    <td style="width:22%;padding: 0px 10px 0px 10px;text-align:center"><input disabled id="UseWalCoat5KG" style="width: 65px;height: 22px;font-size: 10px;" type="text" value=""></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:56%;padding: 21px 0px 17px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">New Order</span></td>
+                                    <td style="width:22%;padding: 0px 0px 0px 5px;text-align:center"><h4 id="PNewOrder">-</h4></td>
+                                    <td style="width:22%;padding: 0px 10px 0px 10px;text-align:center"><input disabled id="PNewOrder1KG" style="width: 65px;height: 22px;font-size: 10px;" type="text" value=""></td>
+                                    <td style="width:22%;padding: 0px 10px 0px 10px;text-align:center"><input disabled id="PNewOrder5KG" style="width: 65px;height: 22px;font-size: 10px;" type="text" value=""></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:56%;    padding: 19px 0px 16px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">New Lead</span></td>
+                                    <td style="width:22%;padding: 0px 0px 0px 5px;text-align:center" colspan="3"><h4 id="PNewLead">-</h4></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:56%;padding: 21px 0px 17px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Mobile No</span></td>
+                                    <td style="width:22%;padding: 0px 0px 0px 5px;text-align:center" colspan="3"><h4 id="PNewLeadMobileNo">-</h4></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:56%;padding: 21px 0px 17px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Remarks</span></td>
+                                    <td style="width:22%;text-align:center;" colspan="3">
+                                        <textarea disabled id="PRemarks" style="width:95%;height:133px;font-size: 10px;resize:none"></textarea>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>*@
+
+
+
+                </div>
+
+
+                <div class="span6" style="margin-left:0px;padding:5px">
+
+                    @*<table class="table table-striped table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width:46%;text-align:center;background: #545454;color: white;" colspan="2">Detail</th>
+                                    <th style="text-align:center;background: #545454;color: white;">1kg Qty</th>
+                                    <th style="text-align:center;background: #545454;color: white;">5kg Qty</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="width:56%;padding: 21px 0px 17px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Using WallCoat</span></td>
+                                    <td style="width:22%;padding: 0px 0px 0px 5px;text-align:center"><h4 id="UseWallCoat">-</h4></td>
+                                    <td style="width:22%;padding: 0px 10px 0px 10px;text-align:center"><input disabled id="UseWalCoat1KG" style="width: 65px;height: 22px;font-size: 10px;" type="text" value=""></td>
+                                    <td style="width:22%;padding: 0px 10px 0px 10px;text-align:center"><input disabled id="UseWalCoat5KG" style="width: 65px;height: 22px;font-size: 10px;" type="text" value=""></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:56%;padding: 21px 0px 17px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">New Order</span></td>
+                                    <td style="width:22%;padding: 0px 0px 0px 5px;text-align:center"><h4 id="PNewOrder">-</h4></td>
+                                    <td style="width:22%;padding: 0px 10px 0px 10px;text-align:center"><input disabled id="PNewOrder1KG" style="width: 65px;height: 22px;font-size: 10px;" type="text" value=""></td>
+                                    <td style="width:22%;padding: 0px 10px 0px 10px;text-align:center"><input disabled id="PNewOrder5KG" style="width: 65px;height: 22px;font-size: 10px;" type="text" value=""></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:56%;    padding: 19px 0px 16px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">New Lead</span></td>
+                                    <td style="width:22%;padding: 0px 0px 0px 5px;text-align:center" colspan="3"><h4 id="PNewLead">-</h4></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:56%;padding: 21px 0px 17px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Mobile No</span></td>
+                                    <td style="width:22%;padding: 0px 0px 0px 5px;text-align:center" colspan="3"><h4 id="PNewLeadMobileNo">-</h4></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:56%;padding: 21px 0px 17px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Remarks</span></td>
+                                    <td style="width:22%;text-align:center;" colspan="3">
+                                        <textarea disabled id="PRemarks" style="width:95%;height:133px;font-size: 10px;resize:none"></textarea>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>*@
+
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- END Painter Modal -->
+<!-- B2B Modal -->
+<div id="B2BModal" class="modal hide fade in" role="dialog" style="width: 71%;height: 100%;top: 0%;left: 15%;">
+
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+                <div class="span12">
+
+                    <h2 style="margin-top: -10px;text-align:center;color: #62c462;font-weight: bolder;border-bottom: 1px solid #62c462;border-top: 1px solid #62c462;padding-bottom: 10px;padding-top: 10px;" id="jobstatus">DONE</h2>
+
+                    <div class="span6" style="padding:5px">
+
+                        <table class="table table-striped table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center;background: #545454;color: white;" colspan="2">Detail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 19px  0px 19px  5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Sales Officer</span></td>
+                                    <td style="padding: 19px  0px 19px  5px;"><span id="BsaleOfficer" style=""></span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 18px  0px 18px  5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Visit Type</span></td>
+                                    <td style="padding: 18px  0px 18px  5px;"><span id="BvisitPlan" style=""></span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 18px  0px 18px  5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Status</span></td>
+                                    <td style="padding: 18px  0px 18px  5px;"><span id="Bstatus" style="color:#62c462"></span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 18px  0px 18px  5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Visted Date</span></td>
+                                    <td style="padding: 18px  0px 18px  5px;"><span id="BvisitedDate" style=""></span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 18px  0px 18px  5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Visted Time</span></td>
+                                    <td style="padding: 18px  0px 18px  5px;"><span id="BvisitedTime" style=""></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="span6" style="margin-left:0px;padding:5px">
+                        <table class="table table-striped table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width:46%;text-align:center;background: #545454;color: white;" colspan="2">Detail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="width:35%;padding: 0px 0px 0px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Area</span></td>
+                                    <td style="width:65%;padding: 0px 0px 0px 5px;text-align:center"><h4 id="BArea">-</h4></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:35%;padding: 0px 0px 0px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Shop</span></td>
+                                    <td style="width:65%;padding: 0px 0px 0px 5px;text-align:center"><h4 id="BShop">-</h4></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:35%;padding: 0px 0px 0px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Old house</span></td>
+                                    <td style="width:65%;padding: 0px 0px 0px 5px;text-align:center"><h4 id="BOldHouse">-</h4></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:35%;padding: 0px 0px 0px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">New House</span></td>
+                                    <td style="width:65%;padding: 0px 0px 0px 5px;text-align:center"><h4 id="BNewHouse">-</h4></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:35%;padding: 0px 0px 0px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Plaza/Basement</span></td>
+                                    <td style="width:65%;padding: 0px 0px 0px 5px;text-align:center"><h4 id="BPB">-</h4></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:35%;padding: 0px 0px 0px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Factory Area</span></td>
+                                    <td style="width:65%;padding: 0px 0px 0px 5px;text-align:center"><h4 id="BFactory">-</h4></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:35%;padding: 0px 0px 0px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Mosque</span></td>
+                                    <td style="width:65%;padding: 0px 0px 0px 5px;text-align:center"><h4 id="BMosque">-</h4></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:35%;padding: 0px 0px 0px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Others</span></td>
+                                    <td style="width:65%;padding: 0px 0px 0px 5px;text-align:center"><h4 id="BOthers">-</h4></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:35%;padding: 0px 0px 0px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">New Lead</span></td>
+                                    <td style="width:65%;padding: 0px 0px 0px 5px;text-align:center"><h4 id="BLead">-</h4></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:35%;padding: 0px 0px 0px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Sample Applied</span></td>
+                                    <td style="width:65%;padding: 0px 0px 0px 5px;text-align:center"><h4 id="BSampleApplied">-</h4></td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width:35%;padding: 0px 0px 0px 5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Remarks</span></td>
+                                    <td style="width:65%;text-align:center;" colspan="3">
+                                        <textarea disabled id="BRemarks" style="width:95%;height:70px;font-size: 10px;resize:none"></textarea>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- END B2B Modal -->
+<!-- Edit Order Modal -->
+<div id="EditShopModal" class="modal hide fade in" role="dialog" style="width: 71%;height: 100%;top: 4%;left: 15%;overflow-y:scroll;">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+                <div class="span12">
+
+                    <h2 style="margin-top: -10px;text-align:center;color: #62c462;font-weight: bolder;border-bottom: 1px solid #62c462;border-top: 1px solid #62c462;padding-bottom: 10px;padding-top: 10px;" id="jobstatus">DONE</h2>
+              
+                    <div class="span12" style="padding:5px">
+               
+                        <table class="table table-striped table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center;background: #545454;color: white;" colspan="2">Detail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 19px  0px 19px  5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Sales Officer</span></td>
+                                    <td style="padding: 19px  0px 19px  5px;"><span id="saleOfficer2" style=""></span></td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding: 19px  0px 19px  5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">School/ShopName</span></td>
+                                    <td style="padding: 19px  0px 19px  5px;"><span id="SchoolShopName2" style=""></span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 18px  0px 18px  5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Visit Plan</span></td>
+                                    <td style="padding: 18px  0px 18px  5px;"><span id="visitPlan2" style=""></span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 18px  0px 18px  5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">ActivityType</span></td>
+                                    <td style="padding: 18px  0px 18px  5px;"><span id="ActivityType2" style=""></span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 18px  0px 18px  5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Status</span></td>
+                                    <td style="padding: 18px  0px 18px  5px;"><span id="status2" style="color:#62c462"></span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 18px  0px 18px  5px;"><span style="margin: 0px 0px 0px 0px;font-weight: 600;color: #376892;">Visted Date</span></td>
+                                    <td style="padding: 18px  0px 18px  5px;"><span id="visitedDate2" style=""></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="span12" style="padding:0px">
+
+                        <table class="table table-striped table-hover table-bordered" id="tblItems2">
+                            @*@using (Ajax.BeginForm("UpdateTheOrder", "RetailerOrders", new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @class = "form-horizontal form-label-left", @style = "margin-top: -16px;" }))
+                            {
+
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true)*@
+                               <thead>
+                                <tr><th style="text-align:center;background: #545454;" colspan="12">Items</th></tr>
+                                <tr>
+
+                                    @*<th style="width: 10% !important">Sr #</th>*@
+
+                                    <th style="width:16% !important">
+                                        ItemName
+                                    </th>
+
+                                    <th style="width:16% !important">
+                                        Quantity
+                                    </th>
+
+                                    <th style="width:16% !important">
+                                        Price
+                                    </th>
+                                    <th style="width:16% !important">
+                                        Option
+                                    </th>
+                                </tr>
+                               
+                            </thead>
+
+                            <tbody style="overflow-y:scroll">
+
+                            </tbody>
+                            
+                        @*}*@
+                        </table>
+                     
+                    </div>
+   
+
+                 
+                   
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!-- END Shop Modal -->
+<!-- Buttons -->
+<button id="ShopModalButton" data-toggle="modal" data-target="#ComplaintModal" style="display:none"></button>
+<button id="EditShopModalButton" data-toggle="modal" data-target="#EditShopModal" style="display:none"></button>
+<button id="PainterModalButton" data-toggle="modal" data-target="#PainterModal" style="display:none"></button>
+<button id="B2BModalButton" data-toggle="modal" data-target="#B2BModal" style="display:none"></button>
+
+<script src="~/Scripts/js/preview.js"></script>
+
+<script>
+    function editProduct(JobItemID)
+    {
+        debugger;
+        var Price = $('#ProductPrice').val();
+        var Quantity = $('#ProductQuantity').val();
+        $.ajax({
+
+            type: "POST",
+            data: {JobItemID: JobItemID, Price: Price,Quantity: Quantity},
+            url: "@Url.Action("EditRetailerOrder", "RetailerOrders")",
+
+            dataType: 'JSON',
+            success: function (json) {
+                alert("Updated Successfully!");
+                GenerateDetailGrid();
+            }
+    });
+    }
+    function GenerateDetailGrid() {
+
+        var oTable = $('#datatab').DataTable({
+            "aLengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
+            "iDisplayLength": 10,
+            "paging": true,
+            "searching":true,
+            "pagingType": "full_numbers",
+            "serverSide": true,
+            "bRetrieve": true,
+            "bDestroy": true,
+            "autoWidth": true,
+            "bRestore": true,
+            "ajax": {
+                "type": "POST",
+                "contentType": "application/json; charset=utf-8",
+                "dataType": "json",
+                "url": '@Url.Action("JobDetailDataHandler" , "RetailerOrders")',
+                'data': function (data) {
+                    debugger;
+
+
+                    return data = JSON.stringify(data);
+                },
+            },
+            "fnDrawCallback": function (osetting) {
+                $(".edit").on("click", function () {
+                        debugger;
+                        ClearForm();
+
+                        var edit = $(this);
+                        var RetailerID = $(this).attr("data-id");
+
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("GetEditRetailer", "Retailer")",
+                            data: { RetailerID: RetailerID },
+                            success: function (Response) {
+                                debugger;
+                                if (Response != null) {
+
+                                    $("#RegionalHeadID").val(Response.RegionalHeadID);
+                                    var ZoneID = Response.ZoneID;
+                                    $.ajax({
+                                        type: "POST",
+                                        data: { ZoneID: ZoneID },
+                                        url: "@Url.Action("GetDealerListBySaleOfficerIDR", "Retailer")",
+                                        dataType: 'json',
+                                        success: function (json) {
+
+                                            var $el = $("#DealerID");
+                                            $el.empty(); // remove old options
+                                            $.each(json, function (value, key) {
+
+                                                $el.append($("<option></option>")
+                                                        .attr("value", key.ID).text(key.Name));
+                                            });
+
+                                            $("#DealerID").val(Response.DealerID);
+                                            $("#DealerID").trigger("chosen:updated");
+                                        }
+                                    });
+
+                                    var AreaID = Response.AreaID;
+
+                                    try {
+                                        $.ajax({
+                                            type: "POST",
+                                            data: { SaleOfficerID: Response.SaleOfficerID },
+                                            url: "@Url.Action("LoadCitiesListRelatedToRegionalHead", "Retailer")",
+                                            dataType: 'json',
+                                            success: function (json) {
+
+                                                var $el = $("#CityID");
+                                                $el.empty(); // remove old options
+                                                $.each(json, function (value, key) {
+
+                                                    $el.append($("<option></option>")
+                                                            .attr("value", key.ID).text(key.Name));
+                                                });
+                                                $("#CityID").val(Response.CityID);
+                                                $('#CityID').trigger('change');
+
+                                                setTimeout(function () {
+                                                    $("#AreaID").val(Response.AreaID);
+                                                }, 2000);
+
+                                            }
+                                        });
+
+                                    } catch (e) { }
+
+                                    @*try {
+
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "@Url.Action("GetAreaForSaleOfficerEdit", "SaleOfficer")",
+                                            dataType: 'json',
+                                            data: { ID: Response.SaleOfficerID, CityID: Response.CityID },
+                                            success: function (json) {
+
+                                                var $el = $("#Areas");
+                                                $el.empty(); // Remove Old Options
+
+                                                $.each(json, function (value, key) {
+
+                                                    $el.append($("<option></option>")
+                                                   .val(key.ID).text(key.Name));
+                                                });
+
+                                                //$(".Areas").val('' + $('.edit').attr('data-areaid') + '');
+                                                //$(".Areas").trigger('chosen:updated');
+
+                                                $(".Areas").val(Response.AreaID);
+
+                                                $(".Areas").trigger('chosen:updated');
+
+                                                var array = $("#Location").val().split(",");
+
+                                                //location = new google.maps.LatLng(array[0], array[1]);
+                                                //mapCanvas = document.getElementById('map-canvas');
+                                                //map_options = {
+                                                //    center: location,
+                                                //    zoom: 15,
+                                                //    mapTypeId: google.maps.MapTypeId.ROADMAP
+                                                //}
+                                                //map = new google.maps.Map(mapCanvas, map_options);
+
+                                                //marker = new google.maps.Marker({
+                                                //    position: location,
+                                                //    animation: google.maps.Animation.DROP,
+                                                //});
+
+                                                //marker.setMap(map);
+
+                                                //google.maps.event.addDomListener(window, 'load');
+
+                                            }
+
+                                        });
+
+                                    } catch (e) {
+                                        alert(e);
+                                    }*@
+
+                                    $('#Location').attr('disabled', true);
+                                    $('#Location').css("background-color", "#eee");
+
+                                    $('#SaleOfficerName').attr('disabled', true);
+                                    $('#SaleOfficerName').css("background-color", "#eee");
+
+                                    $('#ID').val(Response.ID);
+                                    $("#Name").val(Response.Name);
+                                    $("#SaleOfficerID").val(Response.SaleOfficerID);
+                                    $("#SaleOfficerID").trigger("chosen:updated");
+                                    $("#SaleOfficerName").val(Response.SaleOfficerName);
+
+                                    if (Response.RetailerType == "Retailer") {
+                                        $("input[name=RetailerType][value='Retailer']").prop("checked", true);
+                                    }
+                                    else if (Response.RetailerType == "Distributor") {
+                                        $("input[name=RetailerType][value='Distributor']").prop("checked", true);
+                                    }
+                                    else {
+                                        $("input[name=RetailerType][value='Retailer']").prop("checked", false);
+                                        $("input[name=RetailerType][value='Distributor']").prop("checked", false);
+                                    }
+
+                                    $("#Address").val(Response.Address);
+                                    $("#Phone1").val(Response.Phone1.replace("null", ""));
+                                    $("#Phone2").val(Response.Phone2.replace("null", ""));
+
+                                    $("#AreaNameID").val($("#Areas").val());
+
+                                    if (Response.Location == "null") {
+                                        $("#Location").val("");
+                                    }
+                                    else {
+                                        $("#Location").val(Response.Location);
+                                    }
+
+                                    if (Response.LocationName == "null") {
+                                        $("#locationName").val("");
+                                    }
+                                    else {
+                                        $("#locationName").val(Response.LocationName);
+                                    }
+
+                                    if (Response.CNIC == "null") {
+                                        $("#CNIC").val("");
+                                    }
+                                    else {
+                                        $("#CNIC").val(Response.CNIC);
+                                    }
+
+                                    if (Response.LandLineNo == "null") {
+                                        $("#LandLineNo").val("");
+                                    }
+                                    else {
+                                        $("#LandLineNo").val(Response.LandLineNo);
+                                    }
+
+                                    if (Response.Market == "null") {
+                                        $("#Market").val("");
+                                    }
+                                    else {
+                                        $("#Market").val(Response.Market);
+                                    }
+
+                                    if (Response.BankName == "null") {
+                                        $("#BankName").val("");
+                                    }
+                                    else {
+                                        $("#BankName").val(Response.BankName);
+                                    }
+
+                                    if (Response.BankName2 == "null") {
+                                        $("#BankName2").val("");
+                                    }
+                                    else {
+                                        $("#BankName2").val(Response.BankName2);
+                                    }
+
+                                    if (Response.CardNumber == "null") {
+                                        $("#CardNumber").val("");
+                                    }
+                                    else {
+                                        $("#CardNumber").val(Response.CardNumber);
+                                    }
+
+                                    if (Response.AccountNo == "null") {
+                                        $("#AccountNo").val("");
+                                    }
+                                    else {
+                                        $("#AccountNo").val(Response.AccountNo);
+                                    }
+
+                                    if (Response.AccountNo2 == "null") {
+                                        $("#AccountNo2").val("");
+                                    }
+                                    else {
+                                        $("#AccountNo2").val(Response.AccountNo2);
+                                    }
+                                    if (Response.ShopName == "null") {
+                                        $("#ShopName").val("");
+                                    }
+                                    else {
+                                        $("#ShopName").val(Response.ShopName);
+                                    }
+
+                                    if (Response.RetailerCode == "null") {
+                                        $("#RetailerCode").val("");
+                                    }
+                                    else {
+                                        $("#RetailerCode").val(Response.RetailerCode);
+                                    }
+
+                                }
+
+                                else { alertify.error('An Error Occured, Try Again...'); }
+                            }
+
+                        });
+
+                        $("#Areas").change(function () {
+                            $("#AreaNameID").val($(this).val());
+                        });
+
+                        $('html, body').animate({
+                            //scrollTop: $("#main-content").offset().top
+                        }, 500);
+
+                    });
+
+
+
+            },
+            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                $("td:first", nRow).html(iDisplayIndex + 1);
+                return nRow;
+            },
+            "oLanguage": { "sSearch": "Search jobs : " },
+            "sDom": 'lftipr',
+            "processing": true,
+            "deferRender": true,
+            "bSelect": true,
+            "columns": [
+           { "data": "ID", "bVisible": false },
+           { "data": "DealerID", "bVisible": false },
+           { "data": "SaleOfficerID", "bVisible": false },
+           { "data": "ID" },
+            { "data": "RegionName" },
+                { "data": "ZoneName" },
+                { "data": "RetailerName" },
+                { "data": "FaultTypeName" },
+                { "data": "PriorityName" },
+
+            {
+
+                "data": "LaunchedByName"
+
+
+
+            },
+
+
+                { "data": "StatusName", "sClass": "center-align-td", },
+           {
+               "sClass": "center-align-td",
+               "mData": null,
+               "bSortable": false,
+               "mRender": function (data, type, row) {
+
+                   // alert('<button class="btn btn-success edit" data-id=' + row.ID + '' + ' data-saleofficer=' + '"' + row.SaleOfficerName + '"' + ' data-ShopName=' + '"' + row.ShopName + '"' + ' data-VisitPlanName=' + '"' + row.VisitPlanName + '"' + ' data-RetailerType=' + '"' + row.RetailerType + '"' + ' data-visitplan=' + '"' + row.VisitPlanName + '"' + ' data-visittype=' + '"' + row.VisitType + '"' + ' data-retailertype=' + '"' + row.RetailerType + '"' + ' data-savailability=' + '"' + row.SAvailable + '"' + ' data-squantity1kg=' + '"' + row.SQuantity1KG + '"' + ' data-squantity5kg=' + '"' + row.SQuantity5KG + '"' + 'data-sneworder=' + '"' + row.SNewOrder + '"' + ' data-snewquantity1kg=' + '"' + row.SNewQuantity1KG + '"' + ' data-snewquantity5kg=' + '"' + row.SNewQuantity5KG + '"' + ' data-spreviousorder1kg=' + '"' + row.SPreviousOrder1KG + '"' + ' data-spreviousorder5kg=' + '"' + row.SPreviousOrder5KG + '"' + ' data-sposmaterialavailable=' + '"' + row.SPOSMaterialAvailable + '"' + ' data-simage=' + '"' + row.SImage + '"' + 'data-snote=' + '"' + row.SNote + '"' + 'data-pusewc=' + '"' + row.PUseWC + '"' + ' data-pusewc1kg=' + '"' + row.PUseWC1KG + '"' + ' data-pusewc5kg=' + '"' + row.PUseWC5KG + '"' + ' data-pneworder=' + '"' + row.PNewOrder + '"' + ' data-pneworder1kg=' + '"' + row.PNewOrder1KG + '"' + ' data-pneworder5kg=' + '"' + row.PNewOrder5KG + '"' + ' data-pnewlead=' + '"' + row.PNewLead + '"' + ' data-pnewleadmobno=' + '"' + row.PNewLeadMobNo + '"' + ' data-premarks=' + '"' + row.PRemarks + '"' + 'data-bareaid=' + '"' + row.BAreaName + '"' + ' data-bshop=' + '"' + row.BShop + '"' + ' data-boldhouse=' + '"' + row.BOldHouse + '"' + ' data-bnewhouse=' + '"' + row.BNewHouse + '"' + ' data-bparking=' + '"' + row.BParking + '"' + ' data-bplazabasement=' + '"' + row.BPlazaBasement + '"' + ' data-bfactoryarea=' + '"' + row.BFactoryArea + '"' + ' data-bmosque=' + '"' + row.BMosque + '"' + ' data-bothers=' + '"' + row.BOthers + '"' + ' data-blead=' + '"' + row.BLead + '"' + ' data-bsampleapplied=' + '"' + row.BSampleApplied + '"' + ' data-bremarks=' + '"' + row.BRemarks + '"' + ' data-statuschecker=' + '"' + row.StatusChecker + '"' + ' data-assigndate=' + '"' + row.AssignDate + '"' + ' data-visiteddate=' + '"' + row.VisitedDate + '"' + 'data-visitdate=' + '"' + row.VisitDate + '"' + 'data-address=' + '"' + row.Address + '"' + '><i class=icon-file-text-alt></i></button>');
+                  // return '<button class="btn btn-success edit" data-id=' + row.JobID + '' + ' data-saleofficer=' + '"' + row.SaleOfficerName + '"' + ' data-ShopName=' + '"' + row.ShopName + '"' + ' data-VisitPlanName=' + '"' + row.VisitPlanName + '"' + ' data-RetailerType=' + '"' + row.RetailerType + '"' + ' data-visitplan=' + '"' + row.VisitPlanName + '"' + ' data-visittype=' + '"' + row.VisitType + '"' + ' data-retailertype=' + '"' + row.RetailerType + '"' + ' data-savailability=' + '"' + row.SAvailable + '"' + ' data-squantity1kg=' + '"' + row.SQuantity1KG + '"' + ' data-squantity5kg=' + '"' + row.SQuantity5KG + '"' + 'data-sneworder=' + '"' + row.SNewOrder + '"' + ' data-snewquantity1kg=' + '"' + row.SNewQuantity1KG + '"' + ' data-snewquantity5kg=' + '"' + row.SNewQuantity5KG + '"' + ' data-spreviousorder1kg=' + '"' + row.SPreviousOrder1KG + '"' + ' data-spreviousorder5kg=' + '"' + row.SPreviousOrder5KG + '"' + ' data-sposmaterialavailable=' + '"' + row.SPOSMaterialAvailable + '"' + ' data-simage=' + '"' + row.SImage + '"' + 'data-snote=' + '"' + row.SNote + '"' + 'data-pusewc=' + '"' + row.PUseWC + '"' + ' data-pusewc1kg=' + '"' + row.PUseWC1KG + '"' + ' data-pusewc5kg=' + '"' + row.PUseWC5KG + '"' + ' data-pneworder=' + '"' + row.PNewOrder + '"' + ' data-pneworder1kg=' + '"' + row.PNewOrder1KG + '"' + ' data-pneworder5kg=' + '"' + row.PNewOrder5KG + '"' + ' data-pnewlead=' + '"' + row.PNewLead + '"' + ' data-pnewleadmobno=' + '"' + row.PNewLeadMobNo + '"' + ' data-premarks=' + '"' + row.PRemarks + '"' + 'data-bareaid=' + '"' + row.BAreaName + '"' + ' data-bshop=' + '"' + row.BShop + '"' + ' data-boldhouse=' + '"' + row.BOldHouse + '"' + ' data-bnewhouse=' + '"' + row.BNewHouse + '"' + ' data-bparking=' + '"' + row.BParking + '"' + ' data-bplazabasement=' + '"' + row.BPlazaBasement + '"' + ' data-bfactoryarea=' + '"' + row.BFactoryArea + '"' + ' data-bmosque=' + '"' + row.BMosque + '"' + ' data-bothers=' + '"' + row.BOthers + '"' + ' data-blead=' + '"' + row.BLead + '"' + ' data-bsampleapplied=' + '"' + row.BSampleApplied + '"' + ' data-bremarks=' + '"' + row.BRemarks + '"' + ' data-statuschecker=' + '"' + row.StatusChecker + '"' + ' data-assigndate=' + '"' + row.AssignDate + '"' + ' data-visiteddate=' + '"' + row.VisitedDate + '"' + 'data-visitdate=' + '"' + row.VisitDate + '"' + 'data-address=' + '"' + row.Address + '"' + '><i class=icon-pencil></i></button><button class="btn btn-primary view" data-id=' + row.JobID + '' + ' data-saleofficer=' + '"' + row.SaleOfficerName + '"' + ' data-ShopName=' + '"' + row.ShopName + '"' + ' data-VisitPlanName=' + '"' + row.VisitPlanName + '"' + ' data-RetailerType=' + '"' + row.RetailerType + '"' + ' data-visitplan=' + '"' + row.VisitPlanName + '"' + ' data-visittype=' + '"' + row.VisitType + '"' + ' data-retailertype=' + '"' + row.RetailerType + '"' + ' data-savailability=' + '"' + row.SAvailable + '"' + ' data-squantity1kg=' + '"' + row.SQuantity1KG + '"' + ' data-squantity5kg=' + '"' + row.SQuantity5KG + '"' + 'data-sneworder=' + '"' + row.SNewOrder + '"' + ' data-snewquantity1kg=' + '"' + row.SNewQuantity1KG + '"' + ' data-snewquantity5kg=' + '"' + row.SNewQuantity5KG + '"' + ' data-spreviousorder1kg=' + '"' + row.SPreviousOrder1KG + '"' + ' data-spreviousorder5kg=' + '"' + row.SPreviousOrder5KG + '"' + ' data-sposmaterialavailable=' + '"' + row.SPOSMaterialAvailable + '"' + ' data-simage=' + '"' + row.SImage + '"' + 'data-snote=' + '"' + row.SNote + '"' + 'data-pusewc=' + '"' + row.PUseWC + '"' + ' data-pusewc1kg=' + '"' + row.PUseWC1KG + '"' + ' data-pusewc5kg=' + '"' + row.PUseWC5KG + '"' + ' data-pneworder=' + '"' + row.PNewOrder + '"' + ' data-pneworder1kg=' + '"' + row.PNewOrder1KG + '"' + ' data-pneworder5kg=' + '"' + row.PNewOrder5KG + '"' + ' data-pnewlead=' + '"' + row.PNewLead + '"' + ' data-pnewleadmobno=' + '"' + row.PNewLeadMobNo + '"' + ' data-premarks=' + '"' + row.PRemarks + '"' + 'data-bareaid=' + '"' + row.BAreaName + '"' + ' data-bshop=' + '"' + row.BShop + '"' + ' data-boldhouse=' + '"' + row.BOldHouse + '"' + ' data-bnewhouse=' + '"' + row.BNewHouse + '"' + ' data-bparking=' + '"' + row.BParking + '"' + ' data-bplazabasement=' + '"' + row.BPlazaBasement + '"' + ' data-bfactoryarea=' + '"' + row.BFactoryArea + '"' + ' data-bmosque=' + '"' + row.BMosque + '"' + ' data-bothers=' + '"' + row.BOthers + '"' + ' data-blead=' + '"' + row.BLead + '"' + ' data-bsampleapplied=' + '"' + row.BSampleApplied + '"' + ' data-bremarks=' + '"' + row.BRemarks + '"' + ' data-statuschecker=' + '"' + row.StatusChecker + '"' + ' data-assigndate=' + '"' + row.AssignDate + '"' + ' data-visiteddate=' + '"' + row.VisitedDate + '"' + 'data-visitdate=' + '"' + row.VisitDate + '"' + 'data-address=' + '"' + row.Address + '"' + '><i class=icon-file-text-alt></i></button>';
+
+                   return '<button class="btn btn-success edit" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#ComplaintModal">' + '<i class=icon-pencil></i>' + '</button>';
+               }
+           }
+            ], "order": [0, "asc"]
+
+        });
+
+    }
+
+    function addZero(i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+
+    $(document).ready(function () {
+
+
+    });
+
+</script>
+
+
+<script>
+    function ConvertDateFormat(DateFormat) {
+        var re = /\/Date\(([0-9]*)\)\//;
+        var m = DateFormat.match(re);
+        if (m) { return new Date(parseInt(DateFormat.substr(6))); }
+        else { return "-" };
+    }
+
+    $(document).ready(function () {
+
+        $('#StartingDate1').datepicker(
+              {
+                  dateFormat: 'dd-M-yy',
+                  changeMonth: true,
+                  changeYear: true,
+                  yearRange: '1950:2100'
+              });
+        var startDate = '@DateTime.Now.Date.Year.ToString()-@DateTime.Now.Month.ToString().PadLeft(2, '0')-01';
+        startDate = $.datepicker.formatDate("dd-M-yy", new Date(startDate));
+        //alert(startDate);
+
+        $('#StartingDate1').val(startDate);
+        $('#StartingDate2').val('@DateTime.Now.ToString("dd-MMM-yyyy")');
+        $('#StartingDate2').datepicker(
+        {
+            dateFormat: 'dd-M-yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2100'
+        });
+        $("#liJob,#liCheckJobs").addClass("active");
+        GenerateDetailGrid();
+    });
+
+
+
+
+
+
+
+
+
+
+    $("#btn_search").click(function () {
+        debugger;
+        //GenerateDetailGrid();
+        $('#datatab').DataTable().ajax.reload();
+
+
+    });
+
+
+
+</script>
+

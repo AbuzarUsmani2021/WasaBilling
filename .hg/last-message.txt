@@ -1,0 +1,1 @@
+VisitInformationReport and total count of follow up in dashboard
