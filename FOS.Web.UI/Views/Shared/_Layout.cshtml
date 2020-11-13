@@ -56,101 +56,103 @@
     <!-- BEGIN HEADER -->
     <div id="header" class="navbar navbar-inverse navbar-fixed-top">
         <!-- BEGIN TOP NAVIGATION BAR -->
-        <div class="navbar-inner" style="box-shadow: 0px 0px 7px black;background-color: #6d7eef;">
-        <div class="container-fluid">
+        <div class="navbar-inner">
+            <div class="contailuid">
 
 
                 <!-- BEGIN LOGO -->
-                <a class="brand" style="padding-top: 18px; color:white; font-size:17px;">
-                    <span><strong>WASA LAHORE</strong></span>
+                <a class="brand" style="width:52px;">
+                    <img src="~/Images/WASALahoreLogo2.jpg" style="height:-webkit-fill-available;" />
                 </a>
+                <a class="brand" style="padding-top: 14px; color:white; font-size:17px;">
+        <span><strong>WASA LAHORE</strong></span>
+        <strong><small style="font-size: 70%;float: right;margin-top: -1px;margin-right: 21px;">Powered By KSB</small></strong>
+    </a>
                 <!-- END LOGO -->
                 <!--BEGIN SIDEBAR TOGGLE-->
                 <div class="sidebar-toggle-box hidden-phone">
-                    <div class="icon-reorder tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+        <div class="icon-reorder tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
 
-                </div>
+    </div>
                 <!--END SIDEBAR TOGGLE-->
-                <a class="brand" style="padding-top: 18px; color:white; font-size:17px; width:910px;padding-right:0px;padding-left:0px;">
-                    <marquee direction="left">
-                        <strong>MAINTENANCE OF TUBE WELLS INSTALLED BY WASA IN LAHORE</strong>
-                    </marquee>
+                <a class="brand" style="padding-top: 18px; color:white; font-size:17px; width:925px;padding-right:0px;padding-left:0px;">
+        <marquee direction="left" style="width:900px;">
+            <strong>MAINTENANCE OF TUBE WELLS INSTALLED BY WASA IN LAHORE</strong>
+        </marquee>
+    </a>
+
+
+    <div class=" ">
+        <ul class="nav pull-left top-menu" style="width: 98px;margin-top: 5px;">
+            <li><a type="button" class="btn" style="background-color:white; color:black; padding-bottom: 7px;" href="@Url.Action("Logout", "AdminPanel")"><i class="icon-key"></i><strong> LOGOUT</strong></a></li>
+        </ul>
+    </div>
+
+
+
+
+                <a class="brand" style="padding-left:0px;width:52px;float:right;padding-right:0px;">
+                    <img src="~/Images/brand.gif"  style="height:-webkit-fill-available;" />
                 </a>
 
-
-                <div class="top-nav ">
-                    <ul class="nav pull-right top-menu" style="width: 98px;margin-top: 5px;">
-
-
-                        <li><a type="button" class="btn" style="background-color:white; color:black; padding-bottom: 7px;" href="@Url.Action("Logout", "AdminPanel")"><i class="icon-key"></i><strong> LOGOUT</strong></a></li>
-
-
-
-                    </ul>
-                    <!-- END TOP NAVIGATION MENU -->
-                </div>
-
-
-
-
                 @*<!-- BEGIN RESPONSIVE MENU TOGGLER -->
-            <a class="btn btn-navbar collapsed" id="main_menu_trigger" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="arrow"></span>
-            </a>
-            <!-- END RESPONSIVE MENU TOGGLER -->*@
+        <a class="btn btn-navbar collapsed" id="main_menu_trigger" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="arrow"></span>
+        </a>
+        <!-- END RESPONSIVE MENU TOGGLER -->*@
 
                 @*<!-- BEGIN NOTIFICATION -->
-            <div id="top_menu" class="nav notify-row">
+        <div id="top_menu" class="nav notify-row">
 
-                <ul class="nav top-menu">
+            <ul class="nav top-menu">
 
-                    <!-- END INBOX DROPDOWN -->
-                    <!-- BEGIN NOTIFICATION DROPDOWN -->
-                    <li class="dropdown" id="header_notification_bar">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <!-- END INBOX DROPDOWN -->
+                <!-- BEGIN NOTIFICATION DROPDOWN -->
+                <li class="dropdown" id="header_notification_bar">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 
-                            <i class="icon-bell"></i>
-                            <span style="font-size: 14px;" class="badge badge-warning"><span class="getCount"></span></span>
-                        </a>
-                        <ul class="dropdown-menu extended notification">
-                            <li>
-                                <a href="@Url.Action("DeleteRetailerApproval", "Retailer")" style="width: 100%;">
-                                    <span class="label label-important" style="margin-right: 10px;"><span class=""><i class="icon-envelope" style="margin-right: 1px;"></i></span></span>
-                                    <span class="getCount1"></span> Pending Delete Retailer Request
-                                    <span class="small italic"></span>
-                                </a>
+                        <i class="icon-bell"></i>
+                        <span style="font-size: 14px;" class="badge badge-warning"><span class="getCount"></span></span>
+                    </a>
+                    <ul class="dropdown-menu extended notification">
+                        <li>
+                            <a href="@Url.Action("DeleteRetailerApproval", "Retailer")" style="width: 100%;">
+                                <span class="label label-important" style="margin-right: 10px;"><span class=""><i class="icon-envelope" style="margin-right: 1px;"></i></span></span>
+                                <span class="getCount1"></span> Pending Delete Retailer Request
+                                <span class="small italic"></span>
+                            </a>
 
-                            </li>
+                        </li>
 
-                        </ul>
-                    </li>
+                    </ul>
+                </li>
 
-                    <!-- END NOTIFICATION DROPDOWN -->
-                </ul>
-            </div>
-            <!-- END  NOTIFICATION -->*@
+                <!-- END NOTIFICATION DROPDOWN -->
+            </ul>
+        </div>
+        <!-- END  NOTIFICATION -->*@
                 <!-- BEGIN USER LOGIN DROPDOWN -->
                 <!-- END USER LOGIN DROPDOWN -->
                 @*<div class="top-nav ">
-                        <ul class="nav pull-right top-menu" style="        border-right: 2px solid #527d10;
-            width: 135px;
-            background-image: linear-gradient(to bottom, #0169b2, #0169b2);
-            margin-right: 15px;
-            padding-top: 7px;
-            height: 47px">
+                    <ul class="nav pull-right top-menu" style="        border-right: 2px solid #527d10;
+        width: 135px;
+        background-image: linear-gradient(to bottom, #0169b2, #0169b2);
+        margin-right: 15px;
+        padding-top: 7px;
+        height: 47px">
 
-                            <!-- END SUPPORT -->
-                            <!-- BEGIN USER LOGIN DROPDOWN -->
-                            <li class="dropdown" style="width: 150px;padding: 10px;">
-                                KSB Complaints
-                            </li>
-                            <!-- END USER LOGIN DROPDOWN -->
-                        </ul>
-                        <!-- END TOP NAVIGATION MENU -->
-                    </div>*@
+                        <!-- END SUPPORT -->
+                        <!-- BEGIN USER LOGIN DROPDOWN -->
+                        <li class="dropdown" style="width: 150px;padding: 10px;">
+                            KSB Complaints
+                        </li>
+                        <!-- END USER LOGIN DROPDOWN -->
+                    </ul>
+                    <!-- END TOP NAVIGATION MENU -->
+                </div>*@
 
             </div>
         </div>

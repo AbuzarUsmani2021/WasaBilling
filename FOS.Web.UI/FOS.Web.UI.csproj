@@ -387,6 +387,42 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GPSalesForceAppDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\App_Start\RouteConfig.cs" />
+    <Compile Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Controllers\HomeController.cs" />
+    <Compile Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Controllers\UserController.cs" />
+    <Compile Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Crypto.cs" />
+    <Compile Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Models\Extended\User.cs" />
+    <Compile Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Models\MyModel.Context.cs" />
+    <Compile Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Models\MyModel.Context1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Models\MyModel.cs" />
+    <Compile Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Models\MyModel.Designer.cs">
+      <DependentUpon>MyModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Models\MyModel1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Models\MyModel1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Models\User.cs">
+      <DependentUpon>MyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Models\UserLogin.cs" />
+    <Compile Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Properties\AssemblyInfo.cs" />
     <Compile Include="Models\MVCDatatableApp.cs" />
     <Compile Include="Monthly.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -715,6 +751,166 @@
     <Content Include="Content\Font\myriadproregular.eot" />
     <Content Include="Content\Font\myriadproregular.ttf" />
     <Content Include="Content\Font\myriadproregular.woff" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\bootstrap.3.0.0\content\Content\bootstrap.css" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\bootstrap.3.0.0\content\Content\bootstrap.min.css" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\bootstrap.3.0.0\content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\bootstrap.3.0.0\content\Scripts\bootstrap.js" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\bootstrap.3.0.0\content\Scripts\bootstrap.min.js" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\tools\about_EntityFramework.help.txt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\tools\EntityFramework.PowerShell.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\tools\EntityFramework.PowerShell.Utility.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\tools\migrate.exe" />
+    <None Include="Images\New folder\RegistrationAndLoginP2\packages\jQuery.1.10.2\Content\Scripts\jquery-1.10.2-vsdoc.js" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\jQuery.1.10.2\Content\Scripts\jquery-1.10.2.js" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\jQuery.1.10.2\Content\Scripts\jquery-1.10.2.min.js" />
+    <None Include="Images\New folder\RegistrationAndLoginP2\packages\jQuery.1.10.2\Tools\jquery-1.10.2.intellisense.js" />
+    <None Include="Images\New folder\RegistrationAndLoginP2\packages\jQuery.Validation.1.11.1\Content\Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\jQuery.Validation.1.11.1\Content\Scripts\jquery.validate.js" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\jQuery.Validation.1.11.1\Content\Scripts\jquery.validate.min.js" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.2.2.0\lib\net40\Microsoft.ApplicationInsights.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.2.2.0\lib\net40\Microsoft.ApplicationInsights.XML" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.XML" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.2.2.0\lib\net46\Microsoft.ApplicationInsights.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.2.2.0\lib\net46\Microsoft.ApplicationInsights.XML" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.2.2.0\lib\netstandard1.5\Microsoft.ApplicationInsights.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.2.2.0\lib\netstandard1.5\Microsoft.ApplicationInsights.XML" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.2.2.0\lib\portable-win81+wpa81\Microsoft.ApplicationInsights.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.2.2.0\lib\uap10.0\Microsoft.ApplicationInsights.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.2.2.0\lib\wp8\Microsoft.ApplicationInsights.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net40\Microsoft.AI.Agent.Intercept.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\lib\net40\Microsoft.AI.DependencyCollector.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\lib\net40\Microsoft.AI.DependencyCollector.XML" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\lib\net45\Microsoft.AI.DependencyCollector.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\lib\net45\Microsoft.AI.DependencyCollector.XML" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\lib\net40\Microsoft.AI.PerfCounterCollector.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.Web.2.2.0\lib\net40\Microsoft.AI.Web.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.Web.2.2.0\lib\net40\Microsoft.AI.Web.XML" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.Web.2.2.0\lib\net45\Microsoft.AI.Web.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.Web.2.2.0\lib\net45\Microsoft.AI.Web.XML" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net40\Microsoft.AI.WindowsServer.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net40\Microsoft.AI.WindowsServer.XML" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net45\Microsoft.AI.WindowsServer.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net45\Microsoft.AI.WindowsServer.XML" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\lib\net40\Microsoft.AI.ServerTelemetryChannel.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\lib\net40\Microsoft.AI.ServerTelemetryChannel.XML" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.XML" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.jQuery.Unobtrusive.Validation.3.2.3\Content\Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.jQuery.Unobtrusive.Validation.3.2.3\Content\Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.Net.Compilers.1.0.0\tools\csc.exe" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.Net.Compilers.1.0.0\tools\Microsoft.Build.Tasks.CodeAnalysis.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.Net.Compilers.1.0.0\tools\Microsoft.CodeAnalysis.CSharp.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.Net.Compilers.1.0.0\tools\Microsoft.CodeAnalysis.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.Net.Compilers.1.0.0\tools\Microsoft.CodeAnalysis.VisualBasic.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.Net.Compilers.1.0.0\tools\System.Collections.Immutable.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.Net.Compilers.1.0.0\tools\System.Reflection.Metadata.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.Net.Compilers.1.0.0\tools\vbc.exe" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.Net.Compilers.1.0.0\tools\VBCSCompiler.exe" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Modernizr.2.6.2\Content\Scripts\modernizr-2.6.2.js" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin.sln" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\App_Data\MyDatabase.mdf" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\App_Data\MyDatabase_log.ldf">
+      <DependentUpon>MyDatabase.mdf</DependentUpon>
+    </Content>
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\EntityFramework.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\EntityFramework.SqlServer.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\EntityFramework.SqlServer.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\EntityFramework.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\Microsoft.AI.Agent.Intercept.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\Microsoft.AI.DependencyCollector.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\Microsoft.AI.DependencyCollector.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\Microsoft.AI.PerfCounterCollector.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\Microsoft.AI.ServerTelemetryChannel.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\Microsoft.AI.ServerTelemetryChannel.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\Microsoft.AI.Web.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\Microsoft.AI.Web.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\Microsoft.AI.WindowsServer.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\Microsoft.AI.WindowsServer.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\Microsoft.ApplicationInsights.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\Microsoft.ApplicationInsights.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\RegistrationAndLogin.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\RegistrationAndLogin.pdb" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\roslyn\csc.exe" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\roslyn\Microsoft.CodeAnalysis.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\roslyn\System.Collections.Immutable.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\roslyn\System.Reflection.Metadata.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\roslyn\vbc.exe" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\roslyn\VBCSCompiler.exe" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\System.Web.Helpers.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\System.Web.Helpers.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\System.Web.Mvc.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\System.Web.Mvc.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\System.Web.Razor.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\System.Web.Razor.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\System.Web.Webpages.Deployment.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\System.Web.Webpages.Deployment.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\System.Web.Webpages.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\System.Web.Webpages.Razor.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\System.Web.Webpages.Razor.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\System.Web.Webpages.xml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Content\bootstrap.css" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Content\bootstrap.min.css" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Content\Site.css" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Global.asax" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Models\MyModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MyModel.Context1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Models\MyModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MyModel1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\obj\Debug\RegistrationAndLogin.csproj.FileListAbsolute.txt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\obj\Debug\RegistrationAndLogin.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\obj\Debug\RegistrationAndLogin.pdb" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\obj\Debug\TempPE\Models.MyModel.cs.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\obj\Debug\TempPE\Models.MyModel.Designer.cs.dll" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\RegistrationAndLogin.csproj" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\RegistrationAndLogin.csproj.user" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Scripts\bootstrap.js" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Scripts\bootstrap.min.js" />
+    <None Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Scripts\jquery-1.10.2.js" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Scripts\jquery-1.10.2.min.js" />
+    <None Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Scripts\jquery.validate.js" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Scripts\jquery.validate.min.js" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Scripts\modernizr-2.6.2.js" />
     <Content Include="Images\RetailerJobImages\2693ret09-13-2018011308.jpg" />
     <Content Include="Images\RetailerJobImages\2750ret10-05-2018080552.jpg" />
     <Content Include="Images\RetailerJobImages\2753ret10-18-2018071820.jpg" />
@@ -729,6 +925,8 @@
     <Content Include="Images\UserImages\12645099_1021983351232757_3982245613306640049_n.jpg" />
     <Content Include="Images\UserImages\12661745_1021983401232752_5329974416226080818_n.jpg" />
     <Content Include="Images\UserImages\1915325_10154491127201840_7287174597877936812_n.jpg" />
+    <Content Include="Images\WASALahoreLogo.png" />
+    <Content Include="Images\WASALahoreLogo2.jpg" />
     <Content Include="Images\WASA_Logo.png" />
     <Content Include="Images\Whitening_REpairing_Cream__10736.1413186187.500.750.jpg" />
     <Content Include="LOGO16.ico" />
@@ -772,6 +970,125 @@
     <Content Include="Monthly.xsc">
       <DependentUpon>Monthly.xsd</DependentUpon>
     </Content>
+    <Content Include="Images\New folder\RegistrationAndLogin.rar" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\.vs\config\applicationhost.config" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\.vs\RegistrationAndLogin\v14\.suo" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\.vs\RegistrationAndLogin\v15\.suo" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\.vs\RegistrationAndLogin\v15\Server\sqlite3\db.lock" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\.vs\RegistrationAndLogin\v15\Server\sqlite3\storage.ide" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\.vs\RegistrationAndLogin\v15\Server\sqlite3\storage.ide-shm" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\.vs\RegistrationAndLogin\v15\Server\sqlite3\storage.ide-wal" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\bootstrap.3.0.0\bootstrap.3.0.0.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\bootstrap.3.0.0\content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\bootstrap.3.0.0\content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\bootstrap.3.0.0\content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\Content\App.config.transform" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\Content\Web.config.transform" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\EntityFramework.6.1.3.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\tools\EntityFramework.psd1" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\tools\EntityFramework.psm1" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\tools\init.ps1" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\EntityFramework.6.1.3\tools\install.ps1" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\jQuery.1.10.2\Content\Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\jQuery.1.10.2\jQuery.1.10.2.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\jQuery.1.10.2\Tools\common.ps1" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\jQuery.1.10.2\Tools\install.ps1" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\jQuery.1.10.2\Tools\uninstall.ps1" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\jQuery.Validation.1.11.1\jQuery.Validation.1.11.1.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.2.2.0\Microsoft.ApplicationInsights.2.2.0.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\content\ApplicationInsights.config.install.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\content\ApplicationInsights.config.transform" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\content\ApplicationInsights.config.uninstall.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\Microsoft.ApplicationInsights.DependencyCollector.2.2.0.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\content\ApplicationInsights.config.install.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\content\ApplicationInsights.config.transform" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\content\ApplicationInsights.config.uninstall.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.Web.2.2.0\content\net40\ApplicationInsights.config.install.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.Web.2.2.0\content\net40\ApplicationInsights.config.transform" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.Web.2.2.0\content\net40\ApplicationInsights.config.uninstall.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.Web.2.2.0\content\net40\web.config.install.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.Web.2.2.0\content\net40\web.config.uninstall.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.Web.2.2.0\content\net45\ApplicationInsights.config.install.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.Web.2.2.0\content\net45\ApplicationInsights.config.transform" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.Web.2.2.0\content\net45\ApplicationInsights.config.uninstall.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.Web.2.2.0\content\net45\web.config.install.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.Web.2.2.0\content\net45\web.config.uninstall.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.Web.2.2.0\Microsoft.ApplicationInsights.Web.2.2.0.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\content\ApplicationInsights.config.install.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\content\ApplicationInsights.config.transform" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\content\ApplicationInsights.config.uninstall.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\Microsoft.ApplicationInsights.WindowsServer.2.2.0.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\Tools\install.ps1" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\content\ApplicationInsights.config.install.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\content\ApplicationInsights.config.transform" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\content\ApplicationInsights.config.uninstall.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.Mvc.5.2.3\Content\Web.config.install.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.Mvc.5.2.3\Content\Web.config.uninstall.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.Mvc.5.2.3\Microsoft.AspNet.Mvc.5.2.3.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.Razor.3.2.3\Microsoft.AspNet.Razor.3.2.3.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.WebPages.3.2.3\Content\Web.config.install.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.WebPages.3.2.3\Content\Web.config.uninstall.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.AspNet.WebPages.3.2.3\Microsoft.AspNet.WebPages.3.2.3.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\content\web.config.install.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\content\web.config.uninstall.xdt" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\tools\init.ps1" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\tools\uninstall.ps1" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.jQuery.Unobtrusive.Validation.3.2.3\Microsoft.jQuery.Unobtrusive.Validation.3.2.3.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.Net.Compilers.1.0.0\Microsoft.Net.Compilers.1.0.0.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.Net.Compilers.1.0.0\ThirdPartyNotices.rtf" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.Net.Compilers.1.0.0\tools\Microsoft.CSharp.Core.targets" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.Net.Compilers.1.0.0\tools\Microsoft.VisualBasic.Core.targets" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.Net.Compilers.1.0.0\tools\VBCSCompiler.exe.config" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Microsoft.Web.Infrastructure.1.0.0.0\Microsoft.Web.Infrastructure.1.0.0.0.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Modernizr.2.6.2\Modernizr.2.6.2.nupkg" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Modernizr.2.6.2\Tools\common.ps1" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Modernizr.2.6.2\Tools\install.ps1" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\packages\Modernizr.2.6.2\Tools\uninstall.ps1" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\ApplicationInsights.config" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\ApplicationInsights.config" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\RegistrationAndLogin.dll.config" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\roslyn\Microsoft.CSharp.Core.targets" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\roslyn\Microsoft.VisualBasic.Core.targets" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\bin\roslyn\VBCSCompiler.exe.config" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\fonts\glyphicons-halflings-regular.woff" />
+    <EntityDeploy Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Models\MyModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MyModel1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Models\MyModel.edmx.diagram">
+      <DependentUpon>MyModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\obj\Debug\edmxResourcesToEmbed\Models\MyModel.csdl" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\obj\Debug\edmxResourcesToEmbed\Models\MyModel.msl" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\obj\Debug\edmxResourcesToEmbed\Models\MyModel.ssdl" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\obj\Debug\RegistrationAndLogin.csproj.CoreCompileInputs.cache" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\obj\Debug\RegistrationAndLogin.csprojAssemblyReference.cache" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\obj\Debug\RegistrationAndLogin.csprojResolveAssemblyReference.cache" />
+    <None Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\packages.config" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Views\Home\Index.cshtml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Views\User\Login.cshtml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Views\User\Registration.cshtml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Views\User\VerifyAccount.cshtml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Views\web.config" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Views\_ViewStart.cshtml" />
+    <Content Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Web.config" />
+    <None Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Images\New folder\RegistrationAndLoginP2\RegistrationAndLogin\Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Monthly.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>Monthly.Designer.cs</LastGenOutput>

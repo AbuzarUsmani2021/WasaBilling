@@ -4159,11 +4159,7 @@ namespace FOS.Setup
             {
                 throw;
             }
-            area.Insert(0, new SubDivisionData
-            {
-                ID = 0,
-                Name = "Select"
-            });
+           
 
             return area;
         }

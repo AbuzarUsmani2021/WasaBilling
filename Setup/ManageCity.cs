@@ -175,6 +175,12 @@ namespace FOS.Setup
             {
                 throw;
             }
+            city.Insert(0, new FaultTypeData
+            {
+                Id = 0,
+                Name = "--Select Fault Type--"
+            });
+
 
             return city;
         }
@@ -204,6 +210,11 @@ namespace FOS.Setup
             {
                 throw;
             }
+            city.Insert(0, new FaultTypeData
+            {
+                Id = 0,
+                Name = "--Select Fault Type Detail--"
+            });
 
             return city;
         }
@@ -583,7 +594,7 @@ namespace FOS.Setup
         }
 
 
-        public static List<CityData> GetFaulttypedetaileList(int ClientID, string selectText = "Select")
+        public static List<CityData> GetFaulttypedetaileList(int ClientID, string selectText = "--Select Fault Type Detail--")
         {
             List<CityData> cityList;
 

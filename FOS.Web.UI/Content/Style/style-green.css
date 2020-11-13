@@ -1,7 +1,4 @@
-body {
-    color: #888888;
-    background: #ffffff;
-}
+
 
 a, a:hover {
 }
@@ -11,16 +8,8 @@ ul.faq-list li a:hover, ul.faq-list li a.active {
 }
 
 #header.navbar-inverse .navbar-inner {
-    background-color: #47b8f1;
-    background-image: -moz-linear-gradient(top, #47b8f1, #47b8f1);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#47b8f1), to(#47b8f1));
-    background-image: -webkit-linear-gradient(top, #47b8f1, #47b8f1);
-    background-image: -o-linear-gradient(top, #47b8f1, #47b8f1);
     background-image: linear-gradient(to bottom, #0169b2, #0169b2);
-    background-repeat: repeat-x;
-    border-color: #47b8f1;
     color: #fff;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff79b82e', endColorstr='#ff79b82e', GradientType=0);
     height: 54px;
 }
 

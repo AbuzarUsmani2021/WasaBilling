@@ -48,7 +48,7 @@ namespace FOS.Setup
             area.Insert(0, new AreaData
             {
                 ID = 0,
-                Name = "Select"
+                Name = "--Select Town--"
             });
             return area;
         }

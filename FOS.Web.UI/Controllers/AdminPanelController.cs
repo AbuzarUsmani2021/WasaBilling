@@ -67,7 +67,7 @@ namespace FOS.Web.UI.Controllers
                 SessionManager.Destroy("UserName");
             }
 
-            string pageUrl = string.IsNullOrEmpty(returnUrl) ? string.Format("{0}/Home/UserHome", Settings.AppPath) : returnUrl;
+            string pageUrl = string.IsNullOrEmpty(returnUrl) ? string.Format("{0}/Home/Home", Settings.AppPath) : returnUrl;
             //return Json(new { status = userId, url =pageUrl }, JsonRequestBehavior.AllowGet);
             return Json(new { status = response, url = pageUrl }, JsonRequestBehavior.AllowGet);
             //New Home Page Logic

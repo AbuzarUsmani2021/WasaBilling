@@ -6,13 +6,12 @@ Website: http://thevectorlab.net/
 */
 /* body styles */
 body {
-    color: #000;
+    color: #888888;
     font-family: 'Arial';
     padding: 0px !important;
     margin: 0px !important;
     font-size: 13px;
-    /*overflow-x: hidden ;*/
-    background: #404040;
+    background: #ffffff;
 }
 
 @font-face {
@@ -47,11 +46,11 @@ body {
     font-style: normal;
 }
 
-div, input, select, textarea, span, img, table, td, th, p, a, button, ul, li {
+/*div, input, select, textarea, span, img, table, td, th, p, a, button, ul, li {
     border-radius: 0 !important;
     -moz-border-radius: 0 !important;
     -webkit-border-radius: 0 !important;
-}
+}*/
 
 /*buttons style*/
 
@@ -466,9 +465,7 @@ a, a:focus, a:hover, a:active {
     padding: 10px;
 }
 
-.navbar-inner, .navbar-fixed-top .navbar-inner, .navbar-static-top .navbar-inner {
-    box-shadow: none;
-}
+
 
 #header .navbar-inner .nav > li {
     margin-left: 0px !important;
@@ -507,7 +504,7 @@ a, a:focus, a:hover, a:active {
         background-color: #0169b2;
     }
 
-#header .navbar-inner {
+/*#header .navbar-inner {
     top: 0px;
     width: 100%;
     margin: 0px !important;
@@ -520,12 +517,12 @@ a, a:focus, a:hover, a:active {
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
-}
+}*/
 
-#header.navbar-inverse .navbar-inner {
+/*#header.navbar-inverse .navbar-inner {
     height: 51px;
     border: none !important;
-}
+}*/
 
 #header.navbar-inverse .divider-vertical {
     height: 40px;
