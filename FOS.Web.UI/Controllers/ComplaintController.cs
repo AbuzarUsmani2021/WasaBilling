@@ -39,7 +39,7 @@ namespace FOS.Web.UI.Controllers
             }
 
             List<SaleOfficerData> SaleOfficerObj = ManageSaleOffice.GetProjectsData();
-            var objSaleOff = SaleOfficerObj.FirstOrDefault();
+            //var objSaleOff = SaleOfficerObj.FirstOrDefault();
 
             List<DealerData> DealerObj = ManageDealer.GetAllDealersListRelatedToRegionalHead(regId);
 
