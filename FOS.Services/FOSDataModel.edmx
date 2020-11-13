@@ -449,6 +449,10 @@
           <Property Name="AssignedToSaleOfficer" Type="int" />
           <Property Name="WorkDoneID" Type="int" />
           <Property Name="IsPublished" Type="int" />
+          <Property Name="ChildFaultTypeID" Type="int" />
+          <Property Name="ChildFaultTypeDetailID" Type="int" />
+          <Property Name="ChildStatusID" Type="int" />
+          <Property Name="ChildAssignedSaleOfficerID" Type="int" />
         </EntityType>
         <EntityType Name="JobsDetail_HTR">
           <Key>
@@ -5063,9 +5067,6 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <FunctionImport Name="Sp_GetProgressList1_4Final" ReturnType="Collection(FOS_WallCoatModel.Sp_GetProgressList1_4Final_Result)">
           <Parameter Name="StockID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="Sp_GetProgressListFinal" ReturnType="Collection(FOS_WallCoatModel.Sp_GetProgressListFinal_Result)">
-          <Parameter Name="StockID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="Sp_GetProgressView1_1" ReturnType="Collection(FOS_WallCoatModel.Sp_GetProgressView1_1_Result)">
           <Parameter Name="StockID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -5078,6 +5079,9 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
             <Parameter Name="RegionID" Mode="In" Type="Int32" />
             <Parameter Name="dateFrom" Mode="In" Type="DateTime" />
             <Parameter Name="dateTo" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_GetProgressListFinal" ReturnType="Collection(FOS_WallCoatModel.Sp_GetProgressListFinal_Result1)">
+            <Parameter Name="StockID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="AreasRelatedtoCities_Result">
@@ -9136,6 +9140,10 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <NavigationProperty Name="Job" Relationship="FOS_WallCoatModel.FK_SoRetailersJobs_Jobs" FromRole="JobsDetail" ToRole="Job" />
           <NavigationProperty Name="RegionalHead" Relationship="FOS_WallCoatModel.FK_JobsDetail_RegionalHeads" FromRole="JobsDetail" ToRole="RegionalHead" />
           <NavigationProperty Name="Retailer" Relationship="FOS_WallCoatModel.FK_SoRetailersJobs_Retailers" FromRole="JobsDetail" ToRole="Retailer" />
+          <Property Name="ChildFaultTypeID" Type="Int32" />
+          <Property Name="ChildFaultTypeDetailID" Type="Int32" />
+          <Property Name="ChildStatusID" Type="Int32" />
+          <Property Name="ChildAssignedSaleOfficerID" Type="Int32" />
         </EntityType>
         <Association Name="FK_JobsDetail_Areas">
           <End Type="FOS_WallCoatModel.Area" Role="Area" Multiplicity="0..1" />
@@ -9320,6 +9328,24 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Property Type="String" Name="Picture2" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="Picture3" Nullable="true" MaxLength="200" />
           <Property Type="Int32" Name="AssignedSaleOfficerID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Sp_GetProgressListFinal_Result1">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="ComplaintID" Nullable="false" />
+          <Property Type="String" Name="ComplaintNo" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="LaunchDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="InitialRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="IsPublished" Nullable="true" />
+          <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="FaultType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FaultTypeDetail" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SiteCode" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="JobDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="ProgressStatusID" Nullable="true" />
+          <Property Type="String" Name="ProgressStatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PRemarks" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="SaleofficerName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LaunchedByName" Nullable="true" MaxLength="50" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -12862,6 +12888,10 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySetMapping Name="JobsDetails">
             <EntityTypeMapping TypeName="FOS_WallCoatModel.JobsDetail">
               <MappingFragment StoreEntitySet="JobsDetail">
+                <ScalarProperty Name="ChildAssignedSaleOfficerID" ColumnName="ChildAssignedSaleOfficerID" />
+                <ScalarProperty Name="ChildStatusID" ColumnName="ChildStatusID" />
+                <ScalarProperty Name="ChildFaultTypeDetailID" ColumnName="ChildFaultTypeDetailID" />
+                <ScalarProperty Name="ChildFaultTypeID" ColumnName="ChildFaultTypeID" />
                 <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
                 <ScalarProperty Name="WorkDoneID" ColumnName="WorkDoneID" />
                 <ScalarProperty Name="AssignedToSaleOfficer" ColumnName="AssignedToSaleOfficer" />
@@ -13028,27 +13058,6 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Sp_GetProgressListFinal" FunctionName="FOS_WallCoatModel.Store.Sp_GetProgressListFinal">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_GetProgressListFinal_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
-                <ScalarProperty Name="ComplaintNo" ColumnName="ComplaintNo" />
-                <ScalarProperty Name="LaunchDate" ColumnName="LaunchDate" />
-                <ScalarProperty Name="InitialRemarks" ColumnName="InitialRemarks" />
-                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
-                <ScalarProperty Name="FaultType" ColumnName="FaultType" />
-                <ScalarProperty Name="FaultTypeDetail" ColumnName="FaultTypeDetail" />
-                <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
-                <ScalarProperty Name="JobDate" ColumnName="JobDate" />
-                <ScalarProperty Name="ProgressStatusID" ColumnName="ProgressStatusID" />
-                <ScalarProperty Name="ProgressStatusName" ColumnName="ProgressStatusName" />
-                <ScalarProperty Name="PRemarks" ColumnName="PRemarks" />
-                <ScalarProperty Name="SaleofficerName" ColumnName="SaleofficerName" />
-                <ScalarProperty Name="LaunchedByName" ColumnName="LaunchedByName" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="Sp_GetProgressView1_1" FunctionName="FOS_WallCoatModel.Store.Sp_GetProgressView1_1">
             <ResultMapping>
               <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_GetProgressView1_1_Result">
@@ -13097,6 +13106,28 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
                 <ScalarProperty Name="Picture2" ColumnName="Picture2" />
                 <ScalarProperty Name="Picture3" ColumnName="Picture3" />
                 <ScalarProperty Name="AssignedSaleOfficerID" ColumnName="AssignedSaleOfficerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_GetProgressListFinal" FunctionName="FOS_WallCoatModel.Store.Sp_GetProgressListFinal">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_GetProgressListFinal_Result1">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
+                <ScalarProperty Name="ComplaintNo" ColumnName="ComplaintNo" />
+                <ScalarProperty Name="LaunchDate" ColumnName="LaunchDate" />
+                <ScalarProperty Name="InitialRemarks" ColumnName="InitialRemarks" />
+                <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="FaultType" ColumnName="FaultType" />
+                <ScalarProperty Name="FaultTypeDetail" ColumnName="FaultTypeDetail" />
+                <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
+                <ScalarProperty Name="JobDate" ColumnName="JobDate" />
+                <ScalarProperty Name="ProgressStatusID" ColumnName="ProgressStatusID" />
+                <ScalarProperty Name="ProgressStatusName" ColumnName="ProgressStatusName" />
+                <ScalarProperty Name="PRemarks" ColumnName="PRemarks" />
+                <ScalarProperty Name="SaleofficerName" ColumnName="SaleofficerName" />
+                <ScalarProperty Name="LaunchedByName" ColumnName="LaunchedByName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

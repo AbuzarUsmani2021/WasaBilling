@@ -33,9 +33,9 @@ namespace FOS.Web.UI.Controllers.API
 
                     var result = dbContext.Sp_GetProgressView1_1(ID).ToList();
 
-                    var JobId = db.JobsDetails.Where(x => x.ID == ID).Select(x => x.JobID).FirstOrDefault();
+                    var JobId = db.JobsDetails.Where(x => x.ID == ID).FirstOrDefault();
 
-                    var jobtblID = db.Jobs.Where(x => x.ID == JobId).Select(x => x.FaultTypeId).FirstOrDefault();
+                    var jobtblID = db.Jobs.Where(x => x.ID == JobId.JobID).FirstOrDefault();
 
                     foreach (var item in result)
                     {
@@ -44,14 +44,23 @@ namespace FOS.Web.UI.Controllers.API
                         comlist.Picture2 = item.Picture2;
                         comlist.Picture3 = item.Picture3;
                         comlist.ProgressStatusID = item.ProgressStatusID;
-                        comlist.JobDate = item.JobDate;
+                        comlist.LaunchDate = item.JobDate;
                         comlist.ProgressStatusName = item.ProgressStatusName;
-                        comlist.ProgressStatusOtherRemarks = item.ProgressStatusOtherRemarks;
+                        comlist.ProgressStatusRemarks = item.ProgressStatusOtherRemarks;
                         comlist.FaultTypeDetailOtherRemarks = item.FaulttypeDetailOtherRemarks;
-                        comlist.PRemarks = item.PRemarks;
+                        comlist.ProgressRemarks = item.PRemarks;
                         comlist.SaleOfficerName = item.SaleofficerName;
-                        comlist.FaultTypeID = jobtblID;
-
+                        comlist.FaultTypeId = jobtblID.FaultTypeId;
+                        comlist.ResolutionHour = jobtblID.ResolvedHours;
+                        comlist.FaultTypeDetailID = jobtblID.FaultTypeDetailID;
+                        comlist.PriorityId = jobtblID.PriorityId;
+                        comlist.ComplainttypeID = jobtblID.ComplainttypeID;
+                        comlist.AssignedSaleOfficerID = JobId.AssignedToSaleOfficer;
+                        comlist.PersonName = jobtblID.PersonName;
+                        comlist.IsPublished = JobId.IsPublished;
+                        //comlist.ComplaintStatusName = db.ComplaintStatus.Where(x => x.Id == jobtblID.ComplaintStatusId).Select(x => x.Name).FirstOrDefault();
+                        //// comlist.FaultTypeName = db.FaultTypes.Where(x => x.Id == jobtblID.FaultTypeId).Select(x => x.Name).FirstOrDefault();
+                        //comlist.FaultTypeDetailName = db.FaultTypeDetails.Where(x => x.ID == jobtblID.FaultTypeDetailID).Select(x => x.Name).FirstOrDefault();
                         list.Add(comlist);
                     }
 
@@ -60,7 +69,7 @@ namespace FOS.Web.UI.Controllers.API
                     {
                         return Ok(new
                         {
-                            ProgressView = list
+                            ProgressViewEdit = list
 
                         });
                     }
@@ -75,7 +84,7 @@ namespace FOS.Web.UI.Controllers.API
             object[] paramm = { };
             return Ok(new
             {
-                ProgressView = paramm
+                ProgressViewEdit = paramm
             });
 
         }
@@ -85,25 +94,42 @@ namespace FOS.Web.UI.Controllers.API
 
     public class MyProgressStatusView
     {
-       
+
+        public int ComplaintID { get; set; }
+        public int? ResolutionHour { get; set; }
+        public int? AssignedSaleOfficerID { get; set; }
+        public string TicketNo { get; set; }
         public string Picture1 { get; set; }
         public string Picture2 { get; set; }
         public string Picture3 { get; set; }
-        public DateTime? JobDate { get; set; }
+        public string AssignedSaleOfficerName { get; set; }
+        public DateTime? LaunchDate { get; set; }
 
-        public int? ProgressStatusID { get; set; }
-
+        public string SiteName { get; set; }
         public string ProgressStatusName { get; set; }
-        public string ProgressStatusOtherRemarks { get; set; }
-
+        public string ProgressStatusRemarks { get; set; }
+        public string LaunchedByName { get; set; }
+        public int? SiteID { get; set; }
+        public int? ProgressStatusID { get; set; }
+        public int? SaleOfficerID { get; set; }
+        public string SiteCode { get; set; }
+        public int? FaultTypeId { get; set; }
+        public int? IsPublished { get; set; }
+        public int? PriorityId { get; set; }
+        public int? ComplaintStatusId { get; set; }
+        public int? FaultTypeDetailID { get; set; }
+        public int? ComplainttypeID { get; set; }
+        public string PriorityName { get; set; }
+        public string ComplainttypeName { get; set; }
+        public string PersonName { get; set; }
+        public string ComplaintStatusName { get; set; }
+        public string FaulttypeName { get; set; }
+        public string FaultTypeDetailName { get; set; }
         public string FaultTypeDetailOtherRemarks { get; set; }
-
-        public string PRemarks { get; set; }
-   
         public string SaleOfficerName { get; set; }
 
-   
+        public string InitialRemarks { get; set; }
 
-        public int? FaultTypeID { get; set; }
+        public string ProgressRemarks { get; set; }
     }
 }

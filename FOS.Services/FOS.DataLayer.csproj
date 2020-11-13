@@ -430,6 +430,9 @@
     <Compile Include="Sp_GetProgressListFinal_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Sp_GetProgressListFinal_Result1.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Sp_GetProgressList_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>

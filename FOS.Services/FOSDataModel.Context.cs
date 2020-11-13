@@ -3554,15 +3554,6 @@ namespace FOS.DataLayer
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetProgressList1_4Final_Result>("Sp_GetProgressList1_4Final", stockIDParameter);
         }
     
-        public virtual ObjectResult<Sp_GetProgressListFinal_Result> Sp_GetProgressListFinal(Nullable<int> stockID)
-        {
-            var stockIDParameter = stockID.HasValue ?
-                new ObjectParameter("StockID", stockID) :
-                new ObjectParameter("StockID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetProgressListFinal_Result>("Sp_GetProgressListFinal", stockIDParameter);
-        }
-    
         public virtual ObjectResult<Sp_GetProgressView1_1_Result> Sp_GetProgressView1_1(Nullable<int> stockID)
         {
             var stockIDParameter = stockID.HasValue ?
@@ -3604,6 +3595,15 @@ namespace FOS.DataLayer
                 new ObjectParameter("dateTo", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_MyComplaintListRemarksGet1_1_Result>("Sp_MyComplaintListRemarksGet1_1", regionIDParameter, dateFromParameter, dateToParameter);
+        }
+    
+        public virtual ObjectResult<Sp_GetProgressListFinal_Result1> Sp_GetProgressListFinal(Nullable<int> stockID)
+        {
+            var stockIDParameter = stockID.HasValue ?
+                new ObjectParameter("StockID", stockID) :
+                new ObjectParameter("StockID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetProgressListFinal_Result1>("Sp_GetProgressListFinal", stockIDParameter);
         }
     }
 }

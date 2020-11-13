@@ -259,6 +259,7 @@
     <Compile Include="Common\UserManager.cs" />
     <Compile Include="Controllers\API\ClientRemarksController.cs" />
     <Compile Include="Controllers\API\ComplaintSummaryForWasaController.cs" />
+    <Compile Include="Controllers\API\PublishProgressController.cs" />
     <Compile Include="Controllers\API\MyComplaintListForWasaController.cs" />
     <Compile Include="Controllers\API\WorkDoneController.cs" />
     <Compile Include="Controllers\API\GetProgressViewEditController.cs" />

@@ -30,7 +30,7 @@ namespace FOS.Web.UI.Controllers.API
                 JobObj.PriorityId = obj.PriorityId;
                 JobObj.FaultTypeId = obj.FaulttypeId;
                 JobObj.ResolvedHours = obj.ResolvedHour;
-                JobObj.InitialRemarks = obj.Remarks;
+               // JobObj.InitialRemarks = obj.Remarks;
                 JobObj.FaultTypeDetailID = obj.FaulttypeDetailId;
                 JobObj.ComplaintStatusId = obj.StatusID;
                 if (JobObj.ComplaintStatusId == 3)
@@ -47,11 +47,16 @@ namespace FOS.Web.UI.Controllers.API
                 jobDetail.PRemarks = obj.Remarks;
                 jobDetail.AssignedToSaleOfficer = obj.AssignedToID;
                 jobDetail.RetailerID = JobObj.SiteID;
+                jobDetail.IsPublished = 0;
                 jobDetail.ProgressStatusID = obj.ProgressStatusId;
                 jobDetail.ProgressStatusRemarks = obj.ProgressStatusOtherRemarks;
                 jobDetail.WorkDoneID = obj.WorkDoneID;
                 jobDetail.JobDate = DateTime.UtcNow.AddHours(5);
                 jobDetail.SalesOficerID = obj.SaleOfficerID;
+                jobDetail.ChildFaultTypeDetailID = obj.FaulttypeDetailId;
+                jobDetail.ChildFaultTypeID = obj.FaulttypeId;
+                jobDetail.ChildStatusID = obj.StatusID;
+                jobDetail.ChildAssignedSaleOfficerID = obj.AssignedToID;
                 if (obj.Picture1 == "" || obj.Picture1 == null)
                 {
                     jobDetail.Picture1 = null;

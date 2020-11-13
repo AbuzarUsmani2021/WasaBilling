@@ -14,7 +14,7 @@ using System.Web.Services.Protocols;
 
 namespace FOS.Web.UI.Controllers.API
 {
-    public class GetProgressViewEditController : ApiController
+    public class PublishProgressController : ApiController
     {
         FOSDataModel db = new FOSDataModel();
 
@@ -31,44 +31,11 @@ namespace FOS.Web.UI.Controllers.API
 
                
                 
-                jobDetail.PRemarks = obj.Remarks;
-
-                jobDetail.AssignedToSaleOfficer = obj.AssignedToID;
-                jobDetail.ProgressStatusID = obj.ProgressStatusId;
-                jobDetail.ProgressStatusRemarks = obj.ProgressStatusOtherRemarks;
-                jobDetail.JobDate = DateTime.UtcNow.AddHours(5);
+               
                 jobDetail.IsPublished = obj.IsPublished;
             
-                if (obj.Picture1 == "" || obj.Picture1 == null)
-                {
-                    jobDetail.Picture1 = null;
-                }
-                else
-                {
-                    jobDetail.Picture1 = ConvertIntoByte(obj.Picture1, "Complaint", DateTime.Now.ToString("dd-mm-yyyy hhmmss").Replace(" ", ""), "ComplaintImages");
-                }
-                if (obj.Picture2 == "" || obj.Picture2 == null)
-                {
-                    jobDetail.Picture2 = null;
-                }
-                else
-                {
-                    jobDetail.Picture2 = ConvertIntoByte1(obj.Picture2, "Complaint1", DateTime.Now.ToString("dd-mm-yyyy hhmmss").Replace(" ", ""), "ComplaintImages");
-                }
-                if (obj.Picture3 == "" || obj.Picture3 == null)
-                {
-                    jobDetail.Picture3 = null;
-                }
-                else
-                {
-                    jobDetail.Picture3 = ConvertIntoByte2(obj.Picture3, "Complaint2", DateTime.Now.ToString("dd-mm-yyyy hhmmss").Replace(" ", ""), "ComplaintImages");
-                }
-                job = db.Jobs.Where(x => x.ID == jobDetail.JobID).FirstOrDefault();
-                job.FaultTypeId = obj.FaulttypeId;
-                job.FaultTypeDetailID = obj.FaulttypeDetailId;
-                job.PriorityId = obj.PriorityId;
-                job.ResolvedHours = obj.ResolvedHour;
-                job.PersonName = obj.Name;
+              
+            
                 
                 db.SaveChanges();
 
@@ -76,7 +43,7 @@ namespace FOS.Web.UI.Controllers.API
                 return new Result<SuccessResponse>
                 {
                     Data = null,
-                    Message = "ProgressView Edit Successfully",
+                    Message = "Publish Progress Successfully",
                     ResultType = ResultType.Success,
                     Exception = null,
                     ValidationErrors = null
@@ -154,47 +121,10 @@ namespace FOS.Web.UI.Controllers.API
             public int ID { get; set; }
 
 
-            public int SaleOfficerID { get; set; }
-
-            public int ResolvedHour { get; set; }
-            public int AssignedToID { get; set; }
-
-
-            public int? ComplaintTypeID { get; set; }
+           
             public int? IsPublished { get; set; }
 
-            public string FaultTypeDetailOtherRemarks { get; set; }
-            public string ProgressStatusOtherRemarks { get; set; }
-            public string Name { get; set; }
-
-
-
-            public Nullable<int> StatusID { get; set; }
-
-            public Nullable<int> RetailerID { get; set; }
-
-
-            public int SiteId { get; set; }
-            public int? FaulttypeId { get; set; }
-
-            public int? PriorityId { get; set; }
-
-            public int? ProgressStatusId { get; set; }
-
-            public int? WorkDoneID { get; set; }
-            public string ProgressStatusName { get; set; }
-            public int? FaulttypeDetailId { get; set; }
-
-            public string Picture1 { get; set; }
-            public string Picture2 { get; set; }
-            public string Picture3 { get; set; }
-            public string Picture4 { get; set; }
-
-            public string Picture5 { get; set; }
-           
-
-            public string Token { get; set; }
-            public string Remarks { get; set; }
+          
 
 
 

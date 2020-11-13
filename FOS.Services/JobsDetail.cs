@@ -91,6 +91,10 @@ namespace FOS.DataLayer
         public Nullable<int> AssignedToSaleOfficer { get; set; }
         public Nullable<int> WorkDoneID { get; set; }
         public Nullable<int> IsPublished { get; set; }
+        public Nullable<int> ChildFaultTypeID { get; set; }
+        public Nullable<int> ChildFaultTypeDetailID { get; set; }
+        public Nullable<int> ChildStatusID { get; set; }
+        public Nullable<int> ChildAssignedSaleOfficerID { get; set; }
     
         public virtual Area Area { get; set; }
         public virtual Dealer Dealer { get; set; }
