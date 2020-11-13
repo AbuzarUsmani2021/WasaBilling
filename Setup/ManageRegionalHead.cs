@@ -131,11 +131,11 @@ namespace FOS.Setup
             {
                 throw;
             }
-            //regionalHeadData.Insert(0, new RegionData
-            //{
-            //    ID = 0,
-            //    Name = "Select"
-            //});
+            regionalHeadData.Insert(0, new RegionData
+            {
+                ID = 0,
+                Name = "--Select Project--"
+            });
 
             return regionalHeadData;
         }
