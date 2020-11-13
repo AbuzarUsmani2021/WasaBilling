@@ -873,7 +873,7 @@ namespace FOS.Setup
             saleOfficerData.Insert(0, new SaleOfficerData
             {
                 ID = 0,
-                Name = "All"
+                Name = "--Select Project--"
             });
             return saleOfficerData;
             
