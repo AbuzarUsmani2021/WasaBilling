@@ -1529,6 +1529,50 @@ namespace FOS.Setup
 
         #endregion
 
+        public static List<JobsDetailData> AllFilteredSites(string From, string To, int Project)
+        {
+            List<JobsDetailData> doneJobData = new List<JobsDetailData>();
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    DateTime FromDate = Convert.ToDateTime(From);
+                    DateTime ToDate = Convert.ToDateTime(To);
+
+                    doneJobData = (from job in dbContext.Jobs
+                                   where job.ZoneID == Project && job.CreatedDate >= FromDate && job.CreatedDate <= ToDate
+
+
+                                   select new JobsDetailData
+                                   {
+                                       ID = job.ID,
+                                       JobID = job.ID,
+                                       RetailerID = job.SiteID,
+                                       RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
+                                       FaultTypeID = job.FaultTypeId,
+                                       FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                                       FaultTypeDetailID = job.FaultTypeDetailID,
+                                       FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                                       StatusID = job.ComplaintStatusId,
+                                       StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                                       LaunchedByID = job.LaunchedById,
+                                       LaunchedByName = dbContext.ComplaintlaunchedBies.Where(p => p.Id == job.LaunchedById).Select(p => p.Name).FirstOrDefault(),
+                                       TicketNo = job.TicketNo,
+                                       SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
+                                       dateformat = job.CreatedDate.ToString(),
+                                       ComplaintTypeName = job.ComplaintType.Name,
+                                       d1 = DateTime.Now,
+                                       d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : DateTime.Now),
+                                   }).ToList();
+                }
+            }
+            catch (Exception exp)
+            {
+                Log.Instance.Error(exp, "Get Complaints List Failed");
+                throw;
+            }
+            return doneJobData;
+        }
 
         public static List<JobsDetailData> GetResult11(string search, string sortOrder, int start, int length, List<JobsDetailData> dtResult, List<string> columnFilters/* string saleofficer, string StartingDate1,string StartingDate2*/)
         {

@@ -32,7 +32,7 @@
 <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
 
-    
+
 <h3 class="page-title"></h3>
 
 <div class="widget-title text-center" style=" background-color: #1969b1;">
@@ -61,8 +61,11 @@
         </div>
     </div>
     <div class="grid-item" style="margin-top: 28px;">
-        <button type="submit" id="btnNew" class="btn btn-primary">
-            <i class="icon-ok icon-white" style="padding-right: 2px"></i><span style="width:50px" id="create">Apply Filter</span>
+        <button type="submit" id="ApplyFilter" class="btn btn-primary">
+            <i class="icon-ok icon-white" style="padding-right: 2px"></i><span style="width:50px">Apply Filter</span>
+        </button>
+        <button type="submit" id="Clear" class="btn btn-primary">
+            <i class="icon-remove icon-white" style="padding-right: 2px"></i><span style="width:50px">Clear</span>
         </button>
     </div>
 
@@ -70,10 +73,20 @@
 
 </div>
 
-<div class="table-responsive">
+@*<div class="table-responsive">
     <table class="table table-striped table-hover table-bordered" id="datatab">
         <thead>
-            <tr>
+           
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>*@
+
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover ">
+        <thead>
+            <tr class="align-center" style="background-color:#081f3e;color:white;">
                 <th>Sr #</th>
                 <th>Complaint No</th>
                 <th>Site ID</th>
@@ -89,11 +102,14 @@
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody></tbody>
+        <tbody id="records_table">
+            <tr class="align-center" id="NoData" style="display:none;">
+                <td colspan="7">No Any Previous Record Found!</td>
+            </tr>
     </table>
-    </div>
+</div>
 
-    <script>
+<script>
 
      function GenerateDetailGrid()
         {
@@ -189,7 +205,7 @@
 
 
                         var JobID = ($(this).attr("data-id"));
-                        
+
                         $.ajax({
 
                             type: "POST",
@@ -198,7 +214,7 @@
 
                             dataType: 'JSON',
                             success: function (json) {
-                                
+
                                 var row = "";
 
                                 $.each(json, function (value, key) {
@@ -266,7 +282,7 @@
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 $("td:first", nRow).html(iDisplayIndex + 1);
 
-                
+
                 if (aData["StatusID"] == "3")
                 {
                     $(nRow).find('td:eq(9)').css('background-color', '#A0B978');
@@ -337,5 +353,62 @@
         });
 
 
+    $(function () {
+        $("#ApplyFilter").click(function () {
+            var From = $('#StartingDate1').val();
+            var To = $('#StartingDate2').val();
+            var Project = $('#ProjectId').val();
+            var url = "/RetailerOrders/HomeComplaintsDataHandler?To=" + To + "&From=" + From + "&Project=" + Project;
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (data) {
+                    var obj = JSON.parse(data);
+                    console.log(data)
+                    debugger
+                    
 
-    </script>
+                   
+                    $("#Prescribe").css('display', 'inline-block');
+                    $("#patientcard").css('display', 'block');
+                    $(".hammad").remove();
+                    if (obj.Prescribtions.length === 0) {
+                        $("#NoData").css('display', 'table-row');
+                    }
+                    else {
+                        console.log(obj);
+                        debugger
+                        var a = 1;
+                        var k = 1;
+                        $.each(obj.Prescribtions, function (i, item) {
+                            $('<tr class="align-center hammad">').html("<td>" + obj.Prescribtions[i].Date + "</td><td>" + obj.Prescribtions[i].Symptoms + "</td><td>" + obj.Prescribtions[i].LabTest + "</td><td>" + obj.Prescribtions[i].Disease + "</td><td id='Med" + k + "'>" + ' ' + "</td><td>" + obj.Prescribtions[i].Precaution + "</td><td id='DownloadReport" + a + "'>" + ' ' + "</td><td><a class='btn btn-center' href='#' id='UploadFile' onclick='UploadFile()' style='background-color:#081f3e; padding:13px 10px; color:white; margin-bottom:12px;'><i class='fa fa-plus-Square'></i>" + 'Upload Report' + "</a></td>").appendTo('#records_table');
+                            k++;
+                            a++;
+                        });
+                        k = 1;
+                        $.each(obj.Prescribtions, function (i, item) {
+                            $.each(obj.Medicines, function (j, item2) {
+                                if (item.Date == item2.Date && item.Patient_Id == item2.Patient_Id) {
+                                    $('<p>').html(item2.Medicine_Name + ' ' + "(" + item2.Time + ")").appendTo('#Med' + k + '');
+                                }
+                            });
+                            k++;
+                        });
+                        a = 1;
+                        $.each(obj.Prescribtions, function (i, item) {
+                            $.each(obj.Reports, function (j, item2) {
+                                if (item.LabTest == item2.ReportName && item.Patient_Id == item2.Patient_Id) {
+                                    $('<a class="btn btn-center" style="background-color:#081f3e; padding:13px 10px; color: white; margin-bottom: 12px;" href="#" onclick="Download(' + item2.Report_Id + ')">' + ' ').html(item2.ReportName).appendTo('#DownloadReport' + a + '');
+                                }
+
+                            });
+                            a++;
+                        });
+
+                        $("#NoData").css('display', 'none');
+                    }
+                }
+            })
+        });
+    });
+</script>
