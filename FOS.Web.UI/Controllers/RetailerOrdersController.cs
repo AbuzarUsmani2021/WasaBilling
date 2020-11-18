@@ -14,6 +14,7 @@ using System.IO;
 using System.Data.SqlClient;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace FOS.Web.UI.Controllers
 {
@@ -2194,70 +2195,70 @@ namespace FOS.Web.UI.Controllers
 
 
 
-        public JsonResult OpenComplaintsDataHandler(DTParameters param)
-        {
-            try
-            {
-                var dtsource = new List<JobsDetailData>();
+        //public JsonResult OpenComplaintsDataHandler(DTParameters param)
+        //{
+        //    try
+        //    {
+        //        var dtsource = new List<JobsDetailData>();
 
-                //int regionalheadID = FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser();
+        //        //int regionalheadID = FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser();
 
-                //if (regionalheadID == 0)
-                //{
-                dtsource = ManageJobs.GetOpenComplaintsDetailForGrid();
-                //}
-                //else
-                //{
-                //  dtsource = ManageJobs.GetJobsDetailForGrid(regionalheadID);
-                //}
+        //        //if (regionalheadID == 0)
+        //        //{
+        //        dtsource = ManageJobs.GetOpenComplaintsDetailForGrid();
+        //        //}
+        //        //else
+        //        //{
+        //        //  dtsource = ManageJobs.GetJobsDetailForGrid(regionalheadID);
+        //        //}
 
-                List<String> columnSearch = new List<String>();
+        //        List<String> columnSearch = new List<String>();
 
-                foreach (var col in param.Columns)
-                {
-                    columnSearch.Add(col.Search.Value);
-                }
+        //        foreach (var col in param.Columns)
+        //        {
+        //            columnSearch.Add(col.Search.Value);
+        //        }
 
-                List<JobsDetailData> data = ManageJobs.GetResult12(param.Search.Value, param.SortOrder, param.Start, param.Length, dtsource, columnSearch/*param.SaleOfficer,param.StartingDate1,param.StartingDate2*/);
-                foreach (var itm in data)
-                {
-                    if (itm.AssignDate.HasValue)
-                    {
+        //        List<JobsDetailData> data = ManageJobs.GetResult12(param.Search.Value, param.SortOrder, param.Start, param.Length, dtsource, columnSearch/*param.SaleOfficer,param.StartingDate1,param.StartingDate2*/);
+        //        foreach (var itm in data)
+        //        {
+        //            if (itm.AssignDate.HasValue)
+        //            {
 
-                        itm.VisitDateFormatted = Convert.ToDateTime(itm.AssignDate).ToString("dd-MM-yyyy");
-                    }
-                    if (itm.ElapseTime != null)
-                    {
+        //                itm.VisitDateFormatted = Convert.ToDateTime(itm.AssignDate).ToString("dd-MM-yyyy");
+        //            }
+        //            if (itm.ElapseTime != null)
+        //            {
 
-                        var format = itm.ElapseTime;
-                        itm.VisitDateFormatted = format.ToString(@"hh\:mm");
-
-
+        //                var format = itm.ElapseTime;
+        //                itm.VisitDateFormatted = format.ToString(@"hh\:mm");
 
 
 
-                    }
 
-                    var ProgressID = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusID;
 
-                    itm.ProgressStatus = db.ProgressStatus.Where(x => x.ID == ProgressID).Select(x => x.Name).FirstOrDefault();
+        //            }
 
-                }
-                int count = ManageJobs.Count12(param.Search.Value, dtsource, columnSearch /*param.SaleOfficer, param.StartingDate1, param.StartingDate2*/);
-                DTResult<JobsDetailData> result = new DTResult<JobsDetailData>
-                {
-                    draw = param.Draw,
-                    data = data,
-                    recordsFiltered = count,
-                    recordsTotal = count
-                };
-                return Json(result);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { error = ex.Message });
-            }
-        }
+        //            var ProgressID = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusID;
+
+        //            itm.ProgressStatus = db.ProgressStatus.Where(x => x.ID == ProgressID).Select(x => x.Name).FirstOrDefault();
+
+        //        }
+        //        int count = ManageJobs.Count12(param.Search.Value, dtsource, columnSearch /*param.SaleOfficer, param.StartingDate1, param.StartingDate2*/);
+        //        DTResult<JobsDetailData> result = new DTResult<JobsDetailData>
+        //        {
+        //            draw = param.Draw,
+        //            data = data,
+        //            recordsFiltered = count,
+        //            recordsTotal = count
+        //        };
+        //        return Json(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { error = ex.Message });
+        //    }
+        //}
 
 
 
@@ -2336,17 +2337,13 @@ namespace FOS.Web.UI.Controllers
         //    }
         //}
 
-        public JsonResult HomeComplaintsDataHandler(DTParameters param, string From, string To, int Project)
+        public JsonResult HomeComplaintsDataHandler(DTParameters param)
         {
             try
             {
-                DTResult<JobsDetailData> result = null;
-                if (From != null && To != null && Project != 0)
-                {
-
-
+                    DTResult<JobsDetailData> result = null;
                     var dtsource = new List<JobsDetailData>();
-                    dtsource = ManageJobs.AllFilteredSites(From, To, Project);
+                    dtsource = ManageJobs.AllFilteredComplaints(param.StartingDate1, param.StartingDate2, param.ProjectId);
                     List<String> columnSearch = new List<String>();
                     foreach (var col in param.Columns)
                     {
@@ -2355,14 +2352,27 @@ namespace FOS.Web.UI.Controllers
                     List<JobsDetailData> data = ManageJobs.GetResult12(param.Search.Value, param.SortOrder, param.Start, param.Length, dtsource, columnSearch/*param.SaleOfficer,param.StartingDate1,param.StartingDate2*/);
                     foreach (var itm in data)
                     {
-                        if (itm.AssignDate.HasValue)
+                    if (itm.ElapseTime != null)
+                    {   
+                        if (itm.StatusID == 3)
                         {
-
-                            itm.VisitDateFormatted = Convert.ToDateTime(itm.AssignDate).ToString("dd-MM-yyyy");
+                            var format = itm.ResolveTime;
+                            itm.VisitDateFormatted = format.ToString(@"hh\:mm");
                         }
-                        var ProgressID = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusID;
-
-                        itm.ProgressStatus = db.ProgressStatus.Where(x => x.ID == ProgressID).Select(x => x.Name).FirstOrDefault();
+                        else
+                        {
+                            var format = itm.ElapseTime;
+                            itm.VisitDateFormatted = format.ToString(@"hh\:mm");
+                        }
+                    }
+                    var ProgressID = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault();
+                        var dateformat = Convert.ToDateTime(ProgressID.JobDate);
+                        itm.UpdatedAt = dateformat.ToString();
+                        itm.ProgressStatus = db.ProgressStatus.Where(x => x.ID == ProgressID.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+                        if (itm.ProgressStatus == "Other")
+                        {
+                            itm.ProgressStatusOtherRemarks = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusRemarks;
+                        }
                     }
                     int count = ManageJobs.Count12(param.Search.Value, dtsource, columnSearch /*param.SaleOfficer, param.StartingDate1, param.StartingDate2*/);
                     result = new DTResult<JobsDetailData>
@@ -2372,131 +2382,83 @@ namespace FOS.Web.UI.Controllers
                         recordsFiltered = count,
                         recordsTotal = count
                     };
-                }
-                else
-                {
-                    var dtsource = new List<JobsDetailData>();
-
-                    //int regionalheadID = FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser();
-
-                    //if (regionalheadID == 0)
-                    //{
-                    dtsource = ManageJobs.GetRetailerJobsDetailForGrid();
-                    //}
-                    //else
-                    //{
-                    //  dtsource = ManageJobs.GetJobsDetailForGrid(regionalheadID);
-                    //}
-
-                    List<String> columnSearch = new List<String>();
-
-                    foreach (var col in param.Columns)
-                    {
-                        columnSearch.Add(col.Search.Value);
-                    }
-
-                    List<JobsDetailData> data = ManageJobs.GetResult12(param.Search.Value, param.SortOrder, param.Start, param.Length, dtsource, columnSearch/*param.SaleOfficer,param.StartingDate1,param.StartingDate2*/);
-                    foreach (var itm in data)
-                    {
-                        if (itm.AssignDate.HasValue)
-                        {
-
-                            itm.VisitDateFormatted = Convert.ToDateTime(itm.AssignDate).ToString("dd-MM-yyyy");
-                        }
-                        var ProgressID = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusID;
-
-                        itm.ProgressStatus = db.ProgressStatus.Where(x => x.ID == ProgressID).Select(x => x.Name).FirstOrDefault();
-
-                    }
-                    int count = ManageJobs.Count12(param.Search.Value, dtsource, columnSearch /*param.SaleOfficer, param.StartingDate1, param.StartingDate2*/);
-                    result = new DTResult<JobsDetailData>
-                    {
-                        draw = param.Draw,
-                        data = data,
-                        recordsFiltered = count,
-                        recordsTotal = count
-                    };
-                }
-                return Json(result);
-
+                    return Json(result);
             }
             catch (Exception ex)
             {
                 return Json(new { error = ex.Message });
             }
-            //try
-            //{
-            //    var dtsource = new List<JobsDetailData>();
-
-            //    //int regionalheadID = FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser();
-
-            //    //if (regionalheadID == 0)
-            //    //{
-            //    dtsource = ManageJobs.GetHomeComplaintDetailForGrid();
-            //    //}
-            //    //else
-            //    //{
-            //    //  dtsource = ManageJobs.GetJobsDetailForGrid(regionalheadID);
-            //    //}
-
-            //    List<String> columnSearch = new List<String>();
-
-            //    foreach (var col in param.Columns)
-            //    {
-            //        columnSearch.Add(col.Search.Value);
-            //    }
-
-            //    List<JobsDetailData> data = ManageJobs.GetResult12(param.Search.Value, param.SortOrder, param.Start, param.Length, dtsource, columnSearch/*param.SaleOfficer,param.StartingDate1,param.StartingDate2*/);
-            //    foreach (var itm in data)
-            //    {
-            //        if (itm.dateformat != null)
-            //        {
-            //            var format = Convert.ToDateTime(itm.dateformat);
-            //            itm.dateformat = format.ToString("yyyy/MM/dd HH:mm");
-            //        }
-
-            //        if (itm.ElapseTime!=null)
-            //        {
-
-            //            var format = itm.ElapseTime;
-            //            itm.VisitDateFormatted = format.ToString(@"hh\:mm");
-
-
-
-
-
-            //        }
-
-            //        var ProgressID = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault();
-
-            //        var dateformat= Convert.ToDateTime(ProgressID.JobDate);
-            //        itm.UpdatedAt = dateformat.ToString("yyyy/MM/dd HH:mm");
-            //        itm.ProgressStatus = db.ProgressStatus.Where(x => x.ID == ProgressID.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
-
-            //        if (itm.ProgressStatus == "Other")
-            //        {
-            //            itm.ProgressStatusOtherRemarks = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusRemarks;
-            //        }
-            //    }
-            //    int count = ManageJobs.Count12(param.Search.Value, dtsource, columnSearch /*param.SaleOfficer, param.StartingDate1, param.StartingDate2*/);
-            //    DTResult<JobsDetailData> result = new DTResult<JobsDetailData>
-            //    {
-            //        draw = param.Draw,
-            //        data = data,
-            //        recordsFiltered = count,
-            //        recordsTotal = count
-            //    };
-            //    return Json(result);
-            //}
-            //catch (Exception ex)
-            //{
-            //    return Json(new { error = ex.Message });
-            //}
+            
         }
 
+        //public JsonResult HomeComplaintsDataHandler(string From, string To, int Project)
+        //{
+        //    var dtsource = new List<JobsDetailData>();
 
-
-
+        //    if (From != null && To != null && Project != 0)
+        //    {
+        //        dtsource = ManageJobs.AllFilteredComplaints(From, To, Project);
+        //        foreach (var itm in dtsource)
+        //        {
+        //            if (itm.ElapseTime != null)
+        //            {
+        //                if (itm.StatusID == 3)
+        //                {
+        //                    var format = itm.ResolveTime;
+        //                    itm.VisitDateFormatted = format.ToString(@"hh\:mm");
+        //                }
+        //                else
+        //                {
+        //                    var format = itm.ElapseTime;
+        //                    itm.VisitDateFormatted = format.ToString(@"hh\:mm");
+        //                }
+        //            }
+        //            var ProgressID = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault();
+        //            var dateformat = Convert.ToDateTime(ProgressID.JobDate);
+        //            //itm.UpdatedAt = dateformat.ToString("yyyy/MM/dd HH:mm");
+        //            itm.UpdatedAt = dateformat.ToString(@"hh\:mm");
+        //            itm.ProgressStatus = db.ProgressStatus.Where(x => x.ID == ProgressID.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+        //            if (itm.ProgressStatus == "Other")
+        //            {
+        //                itm.ProgressStatusOtherRemarks = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusRemarks;
+        //            }
+        //        }
+               
+        //    }
+        //    else 
+        //    {
+        //        {
+        //            dtsource = ManageJobs.AllComplaintsComplaints();
+        //            foreach (var itm in dtsource)
+        //            {
+        //                if (itm.ElapseTime != null)
+        //                {
+        //                    if (itm.StatusID == 3)
+        //                    {
+        //                        var format = itm.ResolveTime;
+        //                        itm.VisitDateFormatted = format.ToString(@"hh\:mm");
+        //                    }
+        //                    else
+        //                    {
+        //                        var format = itm.ElapseTime;
+        //                        itm.VisitDateFormatted = format.ToString(@"hh\:mm");
+        //                    }
+        //                }
+        //                var ProgressID = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault();
+        //                var dateformat = Convert.ToDateTime(ProgressID.JobDate);
+        //                //itm.UpdatedAt = dateformat.ToString("yyyy/MM/dd HH:mm");
+        //                itm.UpdatedAt = dateformat.ToString(@"hh\:mm");
+        //                itm.ProgressStatus = db.ProgressStatus.Where(x => x.ID == ProgressID.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+        //                if (itm.ProgressStatus == "Other")
+        //                {
+        //                    itm.ProgressStatusOtherRemarks = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusRemarks;
+        //                }
+        //            }
+                    
+        //        }
+        //    }
+        //    return Json(dtsource);
+        //}
 
 
 

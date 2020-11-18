@@ -18,6 +18,10 @@
         padding: 20px;
         background-color: #1969b1;
     }
+    .table-bordered th, .table-bordered td {
+        border-left: 1px solid #ddd;
+        vertical-align: middle;
+    }
 
     .label {
         color: white;
@@ -27,10 +31,7 @@
         color: white;
     }
 </style>
-
 <link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
-<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-
 
 
 <h3 class="page-title"></h3>
@@ -73,342 +74,140 @@
 
 </div>
 
-@*<div class="table-responsive">
-    <table class="table table-striped table-hover table-bordered" id="datatab">
-        <thead>
-           
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>*@
-
-
 <div class="table-responsive">
-    <table class="table table-bordered table-striped table-hover ">
-        <thead>
-            <tr class="align-center" style="background-color:#081f3e;color:white;">
+        <table class="table table-striped table-hover table-bordered" id="datatab">
+            <thead>
+       <tr class="align-center" style="background-color:#006dcc; color:white;">
                 <th>Sr #</th>
                 <th>Complaint No</th>
                 <th>Site ID</th>
                 <th>Site Name</th>
                 <th>Fault Type</th>
                 <th>Complaint Type</th>
-                <th>Registered By</th>
-                <th>Registered At</th>
+                <th>Launched By</th>
+                <th>Launched At</th>
                 <th>Elapsed Time (HH:MM)</th>
-                <th id="StatusColumn">Status</th>
+                <th id="StatusColumn">Complaint Status</th>
                 <th id="StatusColumn">Progress Status</th>
                 <th id="StatusColumn">Updated At(HH:MM)</th>
                 <th>Actions</th>
             </tr>
-        </thead>
-        <tbody id="records_table">
-            <tr class="align-center" id="NoData" style="display:none;">
-                <td colspan="7">No Any Previous Record Found!</td>
-            </tr>
-    </table>
-</div>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
 <script>
 
-     function GenerateDetailGrid()
-        {
-        var oTable = $('#datatab').DataTable
+
+    $(document).ready(function () {
+
+        GenerateDetailGrid();
+
+        $('input[name=StartingDate1]').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
+        $('input[name=StartingDate1]').datepicker({ dateFormat: "dd-MM-yy" });
+        $("input[name=StartingDate1]").trigger('change');
+
+        $('input[name=StartingDate2]').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
+        $('input[name=StartingDate2]').datepicker({ dateFormat: "dd-MM-yy" });
+        $("input[name=StartingDate2]").trigger('change');
+
+    });
+
+
+  
+
+    function GenerateDetailGrid() {
+
+        var table = $('#datatab').DataTable
             ({
-            "aLengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
-            "iDisplayLength": 10,
-            "lengthChange": false,
-            "pagingType": "full_numbers",
-            "info": true,
-            "serverSide": true,
-            "bRetrieve": true,
-            "bDestroy": true,
-            "autoWidth": false,
-            "ajax": {
-                "type": "POST",
-                "url": '@Url.Action("HomeComplaintsDataHandler", "RetailerOrders")',
-                "contentType": 'application/json; charset=utf-8',
-                'data': function (data) {
-                    data.DealerID = $('#DealerID').val();
-                    return data = JSON.stringify(data);
+                "aLengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
+                "iDisplayLength": 10,
+                "lengthChange": true,
+                "pagingType": "full_numbers",
+                "info": true,
+                "serverSide": true,
+                "bRetrieve": true,
+                "bDestroy": true,
+                "autoWidth": false,
+                "ajax":
+                {
+                    "type": "POST",
+                    "url": '@Url.Action("HomeComplaintsDataHandler", "RetailerOrders")',
+                    "contentType": 'application/json; charset=utf-8',
+                    'data': function (data) {
+                        data.StartingDate1 = $('#StartingDate1').val();
+                        data.StartingDate2 = $('#StartingDate2').val();
+                        data.ProjectId = $('#ProjectId').val();
+                        return data = JSON.stringify(data);
+                    },
                 },
-            },
-            "fnDrawCallback": function (osetting) {
-
-                var UpdateCheck = "0";
-                var DeleteCheck = "0";
-
-                if (UpdateCheck == "@HttpContext.Current.Session["UpdateCheck"]") { $(".edit").css("display", "none"); }
-
-                else {
-
-                    $(".edit").on("click", function () {
-
-
-                        var edit = $(this);
-                        var RetailerID = $(this).attr("data-id");
-
-                        $.ajax({
-                            type: "POST",
-                            url: "@Url.Action("GetEditComplaint", "Complaint")",
-                            data: { ComplaintId: RetailerID },
-                            success: function (Response) {
-                                if (Response != null) {
-                                    $('#ID').val(Response.ID);
-                                    $('#ClientId').attr('disabled', true);
-                                    $("#ClientId").val(Response.RegionID);
-
-                                    $('#ProjectId').attr('disabled', true);
-
-                                    $("#ProjectId").val(Response.ZoneId);
-                                    $('#CityID').attr('disabled', true);
-
-                                    $("#CityID").val(Response.CityID);
-                                    $('#AreaID').attr('disabled', true);
-                                    $("#AreaID").val(Response.AreaID);
-                                    $("#SiteId").val(Response.RetailerID);
-                                    $('#SiteId').attr('disabled', true);
-                                    $('#SubDivisionID').attr('disabled', true);
-                                    $('#SubDivisionID').css("background-color", "#eee");
-                                    $("#SubDivisionID").val(Response.SubDivisionID);
-                                    $("#FaulttypeId").val(Response.FaulttypeId);
-                                    $("#FaulttypeDetailId").val(Response.FaulttypeDetailId);
-                                    $("#ProgressStatusOtherRemarks").val(Response.ProgressStatusOtherRemarks);
-                                    $("#FaultTypeDetailOtherRemarks").val(Response.FaultTypeDetailOtherRemarks);
-                                    $("#PriorityId").val(Response.PriorityID);
-                                    $("#StatusID").val(Response.StatusID);
-                                    $("#ProgressStatusId").val(Response.ProgressStatusId);
-                                    $("#ComplaintTypeID").val(Response.ComplaintTypeID);
-                                    $("#LaunchedById").val(Response.LaunchedByID);
-                                    $("#Remarks").val(Response.Remarks);
-                                    $("#Name").val(Response.Name);
-
-                                    $('#DisableSiteID').attr('disabled', true);
-                                    $('#DisableSiteID').css("background-color", "#eee");
-                                    $("#DisableSiteID").val(Response.DisableSiteID);
-
-
-                                }
-
-                                else { alertify.error('An Error Occured, Try Again...'); }
-                            }
-
-                        });
-
-                        $("#Areas").change(function () {
-                            $("#AreaNameID").val($(this).val());
-                        });
-
-                        $('html, body').animate({
-                            //scrollTop: $("#main-content").offset().top
-                        }, 500);
-
-
-                        var JobID = ($(this).attr("data-id"));
-
-                        $.ajax({
-
-                            type: "POST",
-                            data: { JobID: JobID },
-                            url: "@Url.Action("GetComplaintDetailsToID", "Job")",
-
-                            dataType: 'JSON',
-                            success: function (json) {
-
-                                var row = "";
-
-                                $.each(json, function (value, key) {
-
-                                    var jsonDate = key.JobDate;
-                                    var value = new Date(parseInt(jsonDate.toString().substr(6)));
-                                    var finalResult = value.getMonth() + 1 + "/" + value.getDate() + "/" +
-                                        value.getFullYear();
-                                    row += "<tr><td style='width:210px'>" + finalResult + "</td><td style='width:200px'>" + key.UpdatedBy + "</td><td style='width:270px'>" + key.ProgressStatus + "</td><td>" + key.ProgressRemarks + "</td><td>  </td></tr>";
-
-                                });
-
-                                $('#tbldetails').append(row);
-
-
-                                $("#tbldetails").html(row);
-                            }
-
-                        });
+                "fnDrawCallback": function (osetting) {
+                    $("#Clear").click(function () {
+                        From = $('#StartingDate1').val("");
+                        To = $('#StartingDate2').val("");
+                        Project = $('#ProjectId').val("");
+                        table.clear().draw();
                     });
-
-
-
-
-
-
-                }
-
-                if (UpdateCheck == "@HttpContext.Current.Session["DeleteCheck"]") { $(".delete").css("display", "none"); }
-                else {
-
-                    $(".delete").on("click", function () {
-
-                        var RetailerID = $(this).attr("data-id");
-
-                        // confirm dialog
-                        alertify.confirm("Are You Sure You Want To Delete This Record ?  ", function (e) {
-                            if (e) {
-
-                                $.ajax({
-                                    type: "POST",
-                                    url: "@Url.Action("DeleteRetailer", "Retailer")",
-                                    data: { retailerID: RetailerID },
-                                    success: function (data) {
-
-                                        if (data == "0") {
-                                            alertify.success('Record Deleted Successfully');
-                                            var table = $('#datatab').DataTable();
-                                            table.row(this).remove().draw(false);
-                                        }
-
-                                        else { alertify.error('An Error Occured, Try Again...'); }
-                                    }
-
-                                });
-
-                            } else { }
-                        });
-
+                    $("#ApplyFilter").click(function () {
+                        table.clear().draw();
                     });
-
-                }
-            },
-
-            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                $("td:first", nRow).html(iDisplayIndex + 1);
-
-
-                if (aData["StatusID"] == "3")
-                {
-                    $(nRow).find('td:eq(9)').css('background-color', '#A0B978');
-                   // $('td', nRow).css('background-color', 'Green');
-                }
-                if (aData["StatusID"] == "4") {
-                    $(nRow).find('td:eq(9)').css('background-color', '#F0E801');
-                }
-                if (aData["ComplaintTypeName"] == "Major") {
-                    $(nRow).find('td:eq(5)').css('background-color', 'red');
-                }
-
-
-                return nRow;
-            },
-
-            "searching": false,
-            "processing": true,
-            "deferRender": true,
-            "bSelect": false,
-            "columns": [
-                { "data": "ID" },
-                { "data": "TicketNo" },
-                { "data": "SiteCode", "sClass": "center-align-td",},
-                { "data": "RetailerName" },
-                { "data": "FaultTypeFinalName" },
-                { "data": "ComplaintTypeName", "sClass": "center-align-td", },
-                { "data": "SaleOfficerName"},
-                { "data": "dateformat", "sClass": "center-align-td", },
-                { "data": "VisitDateFormatted","sClass": "center-align-td", },
-                { "data": "StatusName", "sClass": "center-align-td",},
-                { "data": "ProgressStatus"},
-                { "data": "UpdatedAt", "sClass": "center-align-td",},
-                {
-                    "sClass": "center-align-td",
-                    "mData": null,
-                    "bSortable": false,
-                    "mRender": function (data, type, row) {
-
-                        // alert('<button class="btn btn-success edit" data-id=' + row.ID + '' + ' data-saleofficer=' + '"' + row.SaleOfficerName + '"' + ' data-ShopName=' + '"' + row.ShopName + '"' + ' data-VisitPlanName=' + '"' + row.VisitPlanName + '"' + ' data-RetailerType=' + '"' + row.RetailerType + '"' + ' data-visitplan=' + '"' + row.VisitPlanName + '"' + ' data-visittype=' + '"' + row.VisitType + '"' + ' data-retailertype=' + '"' + row.RetailerType + '"' + ' data-savailability=' + '"' + row.SAvailable + '"' + ' data-squantity1kg=' + '"' + row.SQuantity1KG + '"' + ' data-squantity5kg=' + '"' + row.SQuantity5KG + '"' + 'data-sneworder=' + '"' + row.SNewOrder + '"' + ' data-snewquantity1kg=' + '"' + row.SNewQuantity1KG + '"' + ' data-snewquantity5kg=' + '"' + row.SNewQuantity5KG + '"' + ' data-spreviousorder1kg=' + '"' + row.SPreviousOrder1KG + '"' + ' data-spreviousorder5kg=' + '"' + row.SPreviousOrder5KG + '"' + ' data-sposmaterialavailable=' + '"' + row.SPOSMaterialAvailable + '"' + ' data-simage=' + '"' + row.SImage + '"' + 'data-snote=' + '"' + row.SNote + '"' + 'data-pusewc=' + '"' + row.PUseWC + '"' + ' data-pusewc1kg=' + '"' + row.PUseWC1KG + '"' + ' data-pusewc5kg=' + '"' + row.PUseWC5KG + '"' + ' data-pneworder=' + '"' + row.PNewOrder + '"' + ' data-pneworder1kg=' + '"' + row.PNewOrder1KG + '"' + ' data-pneworder5kg=' + '"' + row.PNewOrder5KG + '"' + ' data-pnewlead=' + '"' + row.PNewLead + '"' + ' data-pnewleadmobno=' + '"' + row.PNewLeadMobNo + '"' + ' data-premarks=' + '"' + row.PRemarks + '"' + 'data-bareaid=' + '"' + row.BAreaName + '"' + ' data-bshop=' + '"' + row.BShop + '"' + ' data-boldhouse=' + '"' + row.BOldHouse + '"' + ' data-bnewhouse=' + '"' + row.BNewHouse + '"' + ' data-bparking=' + '"' + row.BParking + '"' + ' data-bplazabasement=' + '"' + row.BPlazaBasement + '"' + ' data-bfactoryarea=' + '"' + row.BFactoryArea + '"' + ' data-bmosque=' + '"' + row.BMosque + '"' + ' data-bothers=' + '"' + row.BOthers + '"' + ' data-blead=' + '"' + row.BLead + '"' + ' data-bsampleapplied=' + '"' + row.BSampleApplied + '"' + ' data-bremarks=' + '"' + row.BRemarks + '"' + ' data-statuschecker=' + '"' + row.StatusChecker + '"' + ' data-assigndate=' + '"' + row.AssignDate + '"' + ' data-visiteddate=' + '"' + row.VisitedDate + '"' + 'data-visitdate=' + '"' + row.VisitDate + '"' + 'data-address=' + '"' + row.Address + '"' + '><i class=icon-file-text-alt></i></button>');
-                        // return '<button class="btn btn-success edit" data-id=' + row.JobID + '' + ' data-saleofficer=' + '"' + row.SaleOfficerName + '"' + ' data-ShopName=' + '"' + row.ShopName + '"' + ' data-VisitPlanName=' + '"' + row.VisitPlanName + '"' + ' data-RetailerType=' + '"' + row.RetailerType + '"' + ' data-visitplan=' + '"' + row.VisitPlanName + '"' + ' data-visittype=' + '"' + row.VisitType + '"' + ' data-retailertype=' + '"' + row.RetailerType + '"' + ' data-savailability=' + '"' + row.SAvailable + '"' + ' data-squantity1kg=' + '"' + row.SQuantity1KG + '"' + ' data-squantity5kg=' + '"' + row.SQuantity5KG + '"' + 'data-sneworder=' + '"' + row.SNewOrder + '"' + ' data-snewquantity1kg=' + '"' + row.SNewQuantity1KG + '"' + ' data-snewquantity5kg=' + '"' + row.SNewQuantity5KG + '"' + ' data-spreviousorder1kg=' + '"' + row.SPreviousOrder1KG + '"' + ' data-spreviousorder5kg=' + '"' + row.SPreviousOrder5KG + '"' + ' data-sposmaterialavailable=' + '"' + row.SPOSMaterialAvailable + '"' + ' data-simage=' + '"' + row.SImage + '"' + 'data-snote=' + '"' + row.SNote + '"' + 'data-pusewc=' + '"' + row.PUseWC + '"' + ' data-pusewc1kg=' + '"' + row.PUseWC1KG + '"' + ' data-pusewc5kg=' + '"' + row.PUseWC5KG + '"' + ' data-pneworder=' + '"' + row.PNewOrder + '"' + ' data-pneworder1kg=' + '"' + row.PNewOrder1KG + '"' + ' data-pneworder5kg=' + '"' + row.PNewOrder5KG + '"' + ' data-pnewlead=' + '"' + row.PNewLead + '"' + ' data-pnewleadmobno=' + '"' + row.PNewLeadMobNo + '"' + ' data-premarks=' + '"' + row.PRemarks + '"' + 'data-bareaid=' + '"' + row.BAreaName + '"' + ' data-bshop=' + '"' + row.BShop + '"' + ' data-boldhouse=' + '"' + row.BOldHouse + '"' + ' data-bnewhouse=' + '"' + row.BNewHouse + '"' + ' data-bparking=' + '"' + row.BParking + '"' + ' data-bplazabasement=' + '"' + row.BPlazaBasement + '"' + ' data-bfactoryarea=' + '"' + row.BFactoryArea + '"' + ' data-bmosque=' + '"' + row.BMosque + '"' + ' data-bothers=' + '"' + row.BOthers + '"' + ' data-blead=' + '"' + row.BLead + '"' + ' data-bsampleapplied=' + '"' + row.BSampleApplied + '"' + ' data-bremarks=' + '"' + row.BRemarks + '"' + ' data-statuschecker=' + '"' + row.StatusChecker + '"' + ' data-assigndate=' + '"' + row.AssignDate + '"' + ' data-visiteddate=' + '"' + row.VisitedDate + '"' + 'data-visitdate=' + '"' + row.VisitDate + '"' + 'data-address=' + '"' + row.Address + '"' + '><i class=icon-pencil></i></button><button class="btn btn-primary view" data-id=' + row.JobID + '' + ' data-saleofficer=' + '"' + row.SaleOfficerName + '"' + ' data-ShopName=' + '"' + row.ShopName + '"' + ' data-VisitPlanName=' + '"' + row.VisitPlanName + '"' + ' data-RetailerType=' + '"' + row.RetailerType + '"' + ' data-visitplan=' + '"' + row.VisitPlanName + '"' + ' data-visittype=' + '"' + row.VisitType + '"' + ' data-retailertype=' + '"' + row.RetailerType + '"' + ' data-savailability=' + '"' + row.SAvailable + '"' + ' data-squantity1kg=' + '"' + row.SQuantity1KG + '"' + ' data-squantity5kg=' + '"' + row.SQuantity5KG + '"' + 'data-sneworder=' + '"' + row.SNewOrder + '"' + ' data-snewquantity1kg=' + '"' + row.SNewQuantity1KG + '"' + ' data-snewquantity5kg=' + '"' + row.SNewQuantity5KG + '"' + ' data-spreviousorder1kg=' + '"' + row.SPreviousOrder1KG + '"' + ' data-spreviousorder5kg=' + '"' + row.SPreviousOrder5KG + '"' + ' data-sposmaterialavailable=' + '"' + row.SPOSMaterialAvailable + '"' + ' data-simage=' + '"' + row.SImage + '"' + 'data-snote=' + '"' + row.SNote + '"' + 'data-pusewc=' + '"' + row.PUseWC + '"' + ' data-pusewc1kg=' + '"' + row.PUseWC1KG + '"' + ' data-pusewc5kg=' + '"' + row.PUseWC5KG + '"' + ' data-pneworder=' + '"' + row.PNewOrder + '"' + ' data-pneworder1kg=' + '"' + row.PNewOrder1KG + '"' + ' data-pneworder5kg=' + '"' + row.PNewOrder5KG + '"' + ' data-pnewlead=' + '"' + row.PNewLead + '"' + ' data-pnewleadmobno=' + '"' + row.PNewLeadMobNo + '"' + ' data-premarks=' + '"' + row.PRemarks + '"' + 'data-bareaid=' + '"' + row.BAreaName + '"' + ' data-bshop=' + '"' + row.BShop + '"' + ' data-boldhouse=' + '"' + row.BOldHouse + '"' + ' data-bnewhouse=' + '"' + row.BNewHouse + '"' + ' data-bparking=' + '"' + row.BParking + '"' + ' data-bplazabasement=' + '"' + row.BPlazaBasement + '"' + ' data-bfactoryarea=' + '"' + row.BFactoryArea + '"' + ' data-bmosque=' + '"' + row.BMosque + '"' + ' data-bothers=' + '"' + row.BOthers + '"' + ' data-blead=' + '"' + row.BLead + '"' + ' data-bsampleapplied=' + '"' + row.BSampleApplied + '"' + ' data-bremarks=' + '"' + row.BRemarks + '"' + ' data-statuschecker=' + '"' + row.StatusChecker + '"' + ' data-assigndate=' + '"' + row.AssignDate + '"' + ' data-visiteddate=' + '"' + row.VisitedDate + '"' + 'data-visitdate=' + '"' + row.VisitDate + '"' + 'data-address=' + '"' + row.Address + '"' + '><i class=icon-file-text-alt></i></button>';
-
-                        return '<button class="btn btn-success edit" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal">' + '<i class=icon-pencil></i>' + '</button>';
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                    $("td:first", nRow).html(iDisplayIndex + 1);
+                    if (aData["StatusID"] == "3") {
+                        $(nRow).find('td:eq(9)').css('background-color', '#A0B978');
+                        // $('td', nRow).css('background-color', 'Green');
                     }
-                }
+                    if (aData["StatusID"] == "4") {
+                        $(nRow).find('td:eq(9)').css('background-color', '#F0E801');
+                    }
+                    if (aData["ComplaintTypeName"] == "Major") {
+                        $(nRow).find('td:eq(5)').css('background-color', 'red');
+                    }
+                    return nRow;
+                },
+                "searching": false,
+                "processing": true,
+                "deferRender": true,
+                "bSelect": true,
+                "columns": [
+                    { "data": "ID", "sClass": "center-align-td" },
+                    { "data": "TicketNo", "sClass": "center-align-td" },
+                    { "data": "SiteCode", "sClass": "center-align-td"},
+                    { "data": "RetailerName", "sClass": "center-align-td" },
+                    { "data": "FaultTypeFinalName", "sClass": "center-align-td" },
+                    { "data": "ComplaintTypeName", "sClass": "center-align-td", },
+                    { "data": "SaleOfficerName", "sClass": "center-align-td" },
+                    { "data": "dateformat", "sClass": "center-align-td", },
+                    { "data": "VisitDateFormatted", "sClass": "center-align-td", },
+                    { "data": "StatusName", "sClass": "center-align-td", },
+                    { "data": "ProgressStatus", "sClass": "center-align-td" },
+                    { "data": "UpdatedAt", "sClass": "center-align-td", },
+                    {
+                        "sClass": "center-align-td",
+                        "mData": null,
+                        "bSortable": false,
+                        "mRender": function (data, type, row) {
+
+                            // alert('<button class="btn btn-success edit" data-id=' + row.ID + '' + ' data-saleofficer=' + '"' + row.SaleOfficerName + '"' + ' data-ShopName=' + '"' + row.ShopName + '"' + ' data-VisitPlanName=' + '"' + row.VisitPlanName + '"' + ' data-RetailerType=' + '"' + row.RetailerType + '"' + ' data-visitplan=' + '"' + row.VisitPlanName + '"' + ' data-visittype=' + '"' + row.VisitType + '"' + ' data-retailertype=' + '"' + row.RetailerType + '"' + ' data-savailability=' + '"' + row.SAvailable + '"' + ' data-squantity1kg=' + '"' + row.SQuantity1KG + '"' + ' data-squantity5kg=' + '"' + row.SQuantity5KG + '"' + 'data-sneworder=' + '"' + row.SNewOrder + '"' + ' data-snewquantity1kg=' + '"' + row.SNewQuantity1KG + '"' + ' data-snewquantity5kg=' + '"' + row.SNewQuantity5KG + '"' + ' data-spreviousorder1kg=' + '"' + row.SPreviousOrder1KG + '"' + ' data-spreviousorder5kg=' + '"' + row.SPreviousOrder5KG + '"' + ' data-sposmaterialavailable=' + '"' + row.SPOSMaterialAvailable + '"' + ' data-simage=' + '"' + row.SImage + '"' + 'data-snote=' + '"' + row.SNote + '"' + 'data-pusewc=' + '"' + row.PUseWC + '"' + ' data-pusewc1kg=' + '"' + row.PUseWC1KG + '"' + ' data-pusewc5kg=' + '"' + row.PUseWC5KG + '"' + ' data-pneworder=' + '"' + row.PNewOrder + '"' + ' data-pneworder1kg=' + '"' + row.PNewOrder1KG + '"' + ' data-pneworder5kg=' + '"' + row.PNewOrder5KG + '"' + ' data-pnewlead=' + '"' + row.PNewLead + '"' + ' data-pnewleadmobno=' + '"' + row.PNewLeadMobNo + '"' + ' data-premarks=' + '"' + row.PRemarks + '"' + 'data-bareaid=' + '"' + row.BAreaName + '"' + ' data-bshop=' + '"' + row.BShop + '"' + ' data-boldhouse=' + '"' + row.BOldHouse + '"' + ' data-bnewhouse=' + '"' + row.BNewHouse + '"' + ' data-bparking=' + '"' + row.BParking + '"' + ' data-bplazabasement=' + '"' + row.BPlazaBasement + '"' + ' data-bfactoryarea=' + '"' + row.BFactoryArea + '"' + ' data-bmosque=' + '"' + row.BMosque + '"' + ' data-bothers=' + '"' + row.BOthers + '"' + ' data-blead=' + '"' + row.BLead + '"' + ' data-bsampleapplied=' + '"' + row.BSampleApplied + '"' + ' data-bremarks=' + '"' + row.BRemarks + '"' + ' data-statuschecker=' + '"' + row.StatusChecker + '"' + ' data-assigndate=' + '"' + row.AssignDate + '"' + ' data-visiteddate=' + '"' + row.VisitedDate + '"' + 'data-visitdate=' + '"' + row.VisitDate + '"' + 'data-address=' + '"' + row.Address + '"' + '><i class=icon-file-text-alt></i></button>');
+                            // return '<button class="btn btn-success edit" data-id=' + row.JobID + '' + ' data-saleofficer=' + '"' + row.SaleOfficerName + '"' + ' data-ShopName=' + '"' + row.ShopName + '"' + ' data-VisitPlanName=' + '"' + row.VisitPlanName + '"' + ' data-RetailerType=' + '"' + row.RetailerType + '"' + ' data-visitplan=' + '"' + row.VisitPlanName + '"' + ' data-visittype=' + '"' + row.VisitType + '"' + ' data-retailertype=' + '"' + row.RetailerType + '"' + ' data-savailability=' + '"' + row.SAvailable + '"' + ' data-squantity1kg=' + '"' + row.SQuantity1KG + '"' + ' data-squantity5kg=' + '"' + row.SQuantity5KG + '"' + 'data-sneworder=' + '"' + row.SNewOrder + '"' + ' data-snewquantity1kg=' + '"' + row.SNewQuantity1KG + '"' + ' data-snewquantity5kg=' + '"' + row.SNewQuantity5KG + '"' + ' data-spreviousorder1kg=' + '"' + row.SPreviousOrder1KG + '"' + ' data-spreviousorder5kg=' + '"' + row.SPreviousOrder5KG + '"' + ' data-sposmaterialavailable=' + '"' + row.SPOSMaterialAvailable + '"' + ' data-simage=' + '"' + row.SImage + '"' + 'data-snote=' + '"' + row.SNote + '"' + 'data-pusewc=' + '"' + row.PUseWC + '"' + ' data-pusewc1kg=' + '"' + row.PUseWC1KG + '"' + ' data-pusewc5kg=' + '"' + row.PUseWC5KG + '"' + ' data-pneworder=' + '"' + row.PNewOrder + '"' + ' data-pneworder1kg=' + '"' + row.PNewOrder1KG + '"' + ' data-pneworder5kg=' + '"' + row.PNewOrder5KG + '"' + ' data-pnewlead=' + '"' + row.PNewLead + '"' + ' data-pnewleadmobno=' + '"' + row.PNewLeadMobNo + '"' + ' data-premarks=' + '"' + row.PRemarks + '"' + 'data-bareaid=' + '"' + row.BAreaName + '"' + ' data-bshop=' + '"' + row.BShop + '"' + ' data-boldhouse=' + '"' + row.BOldHouse + '"' + ' data-bnewhouse=' + '"' + row.BNewHouse + '"' + ' data-bparking=' + '"' + row.BParking + '"' + ' data-bplazabasement=' + '"' + row.BPlazaBasement + '"' + ' data-bfactoryarea=' + '"' + row.BFactoryArea + '"' + ' data-bmosque=' + '"' + row.BMosque + '"' + ' data-bothers=' + '"' + row.BOthers + '"' + ' data-blead=' + '"' + row.BLead + '"' + ' data-bsampleapplied=' + '"' + row.BSampleApplied + '"' + ' data-bremarks=' + '"' + row.BRemarks + '"' + ' data-statuschecker=' + '"' + row.StatusChecker + '"' + ' data-assigndate=' + '"' + row.AssignDate + '"' + ' data-visiteddate=' + '"' + row.VisitedDate + '"' + 'data-visitdate=' + '"' + row.VisitDate + '"' + 'data-address=' + '"' + row.Address + '"' + '><i class=icon-pencil></i></button><button class="btn btn-primary view" data-id=' + row.JobID + '' + ' data-saleofficer=' + '"' + row.SaleOfficerName + '"' + ' data-ShopName=' + '"' + row.ShopName + '"' + ' data-VisitPlanName=' + '"' + row.VisitPlanName + '"' + ' data-RetailerType=' + '"' + row.RetailerType + '"' + ' data-visitplan=' + '"' + row.VisitPlanName + '"' + ' data-visittype=' + '"' + row.VisitType + '"' + ' data-retailertype=' + '"' + row.RetailerType + '"' + ' data-savailability=' + '"' + row.SAvailable + '"' + ' data-squantity1kg=' + '"' + row.SQuantity1KG + '"' + ' data-squantity5kg=' + '"' + row.SQuantity5KG + '"' + 'data-sneworder=' + '"' + row.SNewOrder + '"' + ' data-snewquantity1kg=' + '"' + row.SNewQuantity1KG + '"' + ' data-snewquantity5kg=' + '"' + row.SNewQuantity5KG + '"' + ' data-spreviousorder1kg=' + '"' + row.SPreviousOrder1KG + '"' + ' data-spreviousorder5kg=' + '"' + row.SPreviousOrder5KG + '"' + ' data-sposmaterialavailable=' + '"' + row.SPOSMaterialAvailable + '"' + ' data-simage=' + '"' + row.SImage + '"' + 'data-snote=' + '"' + row.SNote + '"' + 'data-pusewc=' + '"' + row.PUseWC + '"' + ' data-pusewc1kg=' + '"' + row.PUseWC1KG + '"' + ' data-pusewc5kg=' + '"' + row.PUseWC5KG + '"' + ' data-pneworder=' + '"' + row.PNewOrder + '"' + ' data-pneworder1kg=' + '"' + row.PNewOrder1KG + '"' + ' data-pneworder5kg=' + '"' + row.PNewOrder5KG + '"' + ' data-pnewlead=' + '"' + row.PNewLead + '"' + ' data-pnewleadmobno=' + '"' + row.PNewLeadMobNo + '"' + ' data-premarks=' + '"' + row.PRemarks + '"' + 'data-bareaid=' + '"' + row.BAreaName + '"' + ' data-bshop=' + '"' + row.BShop + '"' + ' data-boldhouse=' + '"' + row.BOldHouse + '"' + ' data-bnewhouse=' + '"' + row.BNewHouse + '"' + ' data-bparking=' + '"' + row.BParking + '"' + ' data-bplazabasement=' + '"' + row.BPlazaBasement + '"' + ' data-bfactoryarea=' + '"' + row.BFactoryArea + '"' + ' data-bmosque=' + '"' + row.BMosque + '"' + ' data-bothers=' + '"' + row.BOthers + '"' + ' data-blead=' + '"' + row.BLead + '"' + ' data-bsampleapplied=' + '"' + row.BSampleApplied + '"' + ' data-bremarks=' + '"' + row.BRemarks + '"' + ' data-statuschecker=' + '"' + row.StatusChecker + '"' + ' data-assigndate=' + '"' + row.AssignDate + '"' + ' data-visiteddate=' + '"' + row.VisitedDate + '"' + 'data-visitdate=' + '"' + row.VisitDate + '"' + 'data-address=' + '"' + row.Address + '"' + '><i class=icon-file-text-alt></i></button>';
+
+                            return '<button class="btn btn-success edit" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal">' + '<i class=icon-pencil></i>' + '</button>';
+                        }
+                    }
                 ], "order": [0, "desc"]
 
             });
-            var table = $('#datatab').DataTable();
-            setInterval(function () {
-                var info = table.page.info();
-                var pageNum = (info.page < info.pages) ? info.page + 1 : 1;
-                table.page(pageNum).draw(false);
-            }, 1200000);
-        }
+        table = $('#datatab').DataTable();
+        setInterval(function () {
+            var info = table.page.info();
+            var pageNum = (info.page < info.pages) ? info.page + 1 : 1;
+            table.page(pageNum).draw(false);
+        }, 1200000);
+    }
 
-
-        $(document).ready(function () {
-
-            GenerateDetailGrid();
-            $('input[name=StartingDate1]').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
-            $('input[name=StartingDate1]').datepicker({ dateFormat: "dd-MM-yy" });
-            $("input[name=StartingDate1]").trigger('change');
-
-            $('input[name=StartingDate2]').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
-            $('input[name=StartingDate2]').datepicker({ dateFormat: "dd-MM-yy" });
-            $("input[name=StartingDate2]").trigger('change');
-        });
-
-
-    $(function () {
-        $("#ApplyFilter").click(function () {
-            var From = $('#StartingDate1').val();
-            var To = $('#StartingDate2').val();
-            var Project = $('#ProjectId').val();
-            var url = "/RetailerOrders/HomeComplaintsDataHandler?To=" + To + "&From=" + From + "&Project=" + Project;
-            $.ajax({
-                type: "GET",
-                url: url,
-                success: function (data) {
-                    var obj = JSON.parse(data);
-                    console.log(data)
-                    debugger
-                    
-
-                   
-                    $("#Prescribe").css('display', 'inline-block');
-                    $("#patientcard").css('display', 'block');
-                    $(".hammad").remove();
-                    if (obj.Prescribtions.length === 0) {
-                        $("#NoData").css('display', 'table-row');
-                    }
-                    else {
-                        console.log(obj);
-                        debugger
-                        var a = 1;
-                        var k = 1;
-                        $.each(obj.Prescribtions, function (i, item) {
-                            $('<tr class="align-center hammad">').html("<td>" + obj.Prescribtions[i].Date + "</td><td>" + obj.Prescribtions[i].Symptoms + "</td><td>" + obj.Prescribtions[i].LabTest + "</td><td>" + obj.Prescribtions[i].Disease + "</td><td id='Med" + k + "'>" + ' ' + "</td><td>" + obj.Prescribtions[i].Precaution + "</td><td id='DownloadReport" + a + "'>" + ' ' + "</td><td><a class='btn btn-center' href='#' id='UploadFile' onclick='UploadFile()' style='background-color:#081f3e; padding:13px 10px; color:white; margin-bottom:12px;'><i class='fa fa-plus-Square'></i>" + 'Upload Report' + "</a></td>").appendTo('#records_table');
-                            k++;
-                            a++;
-                        });
-                        k = 1;
-                        $.each(obj.Prescribtions, function (i, item) {
-                            $.each(obj.Medicines, function (j, item2) {
-                                if (item.Date == item2.Date && item.Patient_Id == item2.Patient_Id) {
-                                    $('<p>').html(item2.Medicine_Name + ' ' + "(" + item2.Time + ")").appendTo('#Med' + k + '');
-                                }
-                            });
-                            k++;
-                        });
-                        a = 1;
-                        $.each(obj.Prescribtions, function (i, item) {
-                            $.each(obj.Reports, function (j, item2) {
-                                if (item.LabTest == item2.ReportName && item.Patient_Id == item2.Patient_Id) {
-                                    $('<a class="btn btn-center" style="background-color:#081f3e; padding:13px 10px; color: white; margin-bottom: 12px;" href="#" onclick="Download(' + item2.Report_Id + ')">' + ' ').html(item2.ReportName).appendTo('#DownloadReport' + a + '');
-                                }
-
-                            });
-                            a++;
-                        });
-
-                        $("#NoData").css('display', 'none');
-                    }
-                }
-            })
-        });
-    });
 </script>
