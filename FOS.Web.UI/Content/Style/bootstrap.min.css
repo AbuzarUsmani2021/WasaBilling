@@ -1688,7 +1688,7 @@ table {
     font-weight: bold
 }
 .table thead th {
-    vertical-align: bottom
+    vertical-align: middle
 }
 .table caption+thead tr:first-child th,
 .table caption+thead tr:first-child td,
@@ -4356,8 +4356,8 @@ position: absolute;
     top: 2%;
     left: 8%;
     z-index: 2001;
-    width:85%;
-    height: 95%;
+    width:auto;
+    height: 500px;
     /* margin-left: -280px; */
     background-color: #fff;
     border: 1px solid #999;

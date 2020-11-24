@@ -559,7 +559,7 @@ namespace FOS.Setup
             }
         }
 
-        public static List<CityData> GetSiteList(int ClientID, int ProjectID, int CityID, int AreaID, int SubDivisionID, string selectText = "Select")
+        public static List<CityData> GetSiteList(int ClientID, int ProjectID, int CityID, int AreaID, int SubDivisionID, string selectText = "--Select Site--")
         {
             List<CityData> cityList;
 

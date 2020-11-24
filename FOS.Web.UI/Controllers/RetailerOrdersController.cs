@@ -2368,10 +2368,19 @@ namespace FOS.Web.UI.Controllers
                     var ProgressID = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault();
                         var dateformat = Convert.ToDateTime(ProgressID.JobDate);
                         itm.UpdatedAt = dateformat.ToString();
+                    if (itm.StatusName == "Resolved")
+                    {
+                        itm.ProgressStatus = db.WorkDones.Where(x => x.ID == ProgressID.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+
+                    }
+                    else 
+                    {
                         itm.ProgressStatus = db.ProgressStatus.Where(x => x.ID == ProgressID.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
-                        if (itm.ProgressStatus == "Other")
+
+                    }
+                    if (itm.ProgressStatus == "Others")
                         {
-                            itm.ProgressStatusOtherRemarks = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusRemarks;
+                            itm.ProgressStatus = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).Select(x=>x.PRemarks).FirstOrDefault();
                         }
                     }
                     int count = ManageJobs.Count12(param.Search.Value, dtsource, columnSearch /*param.SaleOfficer, param.StartingDate1, param.StartingDate2*/);

@@ -104,7 +104,7 @@
 
 
                                     <div class="control-group" style="margin-bottom: 10px">
-                                        <label class="control-label">Select Site: *</label>
+                                        <label class="control-label">Select Site *</label>
                                         <div class="controls" style="margin-left: 0px">
                                             @Html.DropDownListFor(model => model.SiteId, new SelectList(Model.Areas, "ID", "Name"), new { @class = "Areas" })
                                             @Html.HiddenFor(model => model.SiteId)
@@ -113,7 +113,7 @@
                                     <div class="control-group" style="margin-bottom: 10px">
                                         <label class="control-label">Site ID: *</label>
                                         <div class="controls" style="margin-left: 0px">
-                                            @Html.TextBoxFor(model => model.DisableSiteID, new { placeholder = "Selct Site First:" })
+                                            @Html.TextBoxFor(model => model.DisableSiteID, new { placeholder = "Select Site First:" })
                                         </div>
                                     </div>
 
@@ -141,7 +141,7 @@
                                         </div>
                                     </div>
                                     <div class="control-group" style="margin-bottom: 10px">
-                                        <label class="control-label">Select Fault Type Detail: *</label>
+                                        <label class="control-label">Select Fault Type Detail:</label>
                                         <div class="controls" style="margin-left: 0px">
                                             @Html.DropDownListFor(model => model.FaulttypeDetailId, new SelectList(Model.faultTypesDetail, "Id", "Name"), new { @class = "Areas" })
                                             @Html.HiddenFor(model => model.FaulttypeDetailId)
@@ -375,7 +375,6 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-
     function readURL5(input) {
 
         if (input.files && input.files[0]) {

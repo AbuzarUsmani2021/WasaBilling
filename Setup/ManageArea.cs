@@ -289,7 +289,7 @@ namespace FOS.Setup
                     ChooseAreas.Insert(0, new AreaData
                     {
                         ID = 0,
-                        Name = "Select"
+                        Name = "--Select Town--"
                     });
 
                     return ChooseAreas.ToList();
@@ -322,7 +322,7 @@ namespace FOS.Setup
                     ChooseAreas.Insert(0, new AreaData
                     {
                         ID = 0,
-                        Name = "Select"
+                        Name = "--Select Subdivision--"
                     });
 
                     return ChooseAreas.ToList();
