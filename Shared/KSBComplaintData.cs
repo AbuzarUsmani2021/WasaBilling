@@ -11,6 +11,25 @@ namespace FOS.Shared
     {
         public int ID { get; set; }
         public int? ClientId { get; set; }
+        public int? SaleOfficerID { get; set; }
+        public string SaleOfficerName { get; set; }
+        public string SiteCode { get; set; }
+        public string SiteName { get; set; }
+        public string ComplaintType { get; set; }
+
+
+
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? LastUpdated { get; set; }
+        public DateTime? ResolvedAt { get; set; }
+        public int? ReslovedHours { get; set; }
+        public string TicketNo { get; set; }
+        public string FaultTypesDetailName{ get; set; }
+
+
+
+
+
         public int? RegionID { get; set; }
         public string RegionName { get; set; }
         public int ProjectId { get; set; }

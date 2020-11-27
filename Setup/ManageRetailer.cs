@@ -1953,35 +1953,50 @@ namespace FOS.Setup
                     return dbContext.Jobs.Where(u => u.ID == ComplaintId).Select(u => new KSBComplaintData
                     {
                         ID = u.ID,
-                        RegionID = u.RegionID,
-                        RegionName = dbContext.Regions.Where(p => p.ID == u.RegionID).Select(p => p.Name).FirstOrDefault(),
-                        ZoneId = u.ZoneID,
-                        ZoneName = dbContext.Zones.Where(p => p.ID == u.ZoneID).Select(p => p.Name).FirstOrDefault(),
-                        CityID = u.CityID,
-                        CItyName = dbContext.Cities.Where(p => p.ID == u.CityID).Select(p => p.Name).FirstOrDefault(),
-                        AreaID = ConvertID,
-                        //AreaName = dbContext.Zones.Where(p => p.ID == Convert.ToInt32(u.Areas)).Select(p => p.Name).FirstOrDefault(),
-                        RetailerID = u.SiteID,
-                        RetailerName = dbContext.Retailers.Where(p => p.ID == u.SiteID).Select(p => p.Name).FirstOrDefault(),
-                        FaulttypeId = u.FaultTypeId,
+                        SiteCode= dbContext.Retailers.Where(p => p.ID == u.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
+                        SiteName = dbContext.Retailers.Where(p => p.ID ==u.SiteID).Select(p => p.Name).FirstOrDefault(),
+                        TicketNo = u.TicketNo,
+                        CreatedDate = u.CreatedDate,
+                        LaunchedByName = dbContext.SaleOfficers.Where(p => p.ID ==u.SaleOfficerID).Select(p => p.Name).FirstOrDefault(),
+                        ComplaintType= dbContext.ComplaintTypes.Where(p => p.ID ==u.ComplainttypeID).Select(p => p.Name).FirstOrDefault(),
                         FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == u.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
-                        PriorityId = u.PriorityId,
-                        PriorityName = dbContext.ComplaintPriorities.Where(p => p.Id == u.PriorityId).Select(p => p.Name).FirstOrDefault(),
-                        StatusID = u.ComplaintStatusId,
+                        FaultTypesDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == u.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                        Name = u.PersonName,
+                        Remarks = u.InitialRemarks,
                         StatusName = dbContext.ComplaintStatus.Where(p => p.Id == u.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
-                        LaunchedByID = u.LaunchedById,
-                        LaunchedByName = dbContext.ComplaintlaunchedBies.Where(p => p.Id == u.LaunchedById).Select(p => p.Name).FirstOrDefault(),
-                        Remarks= u.InitialRemarks,
-                        Name=u.PersonName,
-                        ComplaintTypeID=u.ComplainttypeID,
-                        SubDivisionID=u.SubDivisionID,
-                        FaulttypeDetailId=u.FaultTypeDetailID,
-                        DisableSiteID=dbContext.Retailers.Where(x=>x.ID==u.SiteID).Select(x=>x.RetailerCode).FirstOrDefault(),
+
+
+
+
+                        //SaleOfficerID = u.SaleOfficerID,
+                        //SaleOfficerName = dbContext.SaleOfficers.Where(p => p.ID == Convert.ToInt32(u.SaleOfficerID)).Select(p => p.Name).FirstOrDefault(),
+
+                        //CityID = u.CityID,
+                        //CItyName = dbContext.Cities.Where(p => p.ID == u.CityID).Select(p => p.Name).FirstOrDefault(),
+                        //AreaID = ConvertID,
+                        //AreaName = dbContext.Zones.Where(p => p.ID == Convert.ToInt32(u.Areas)).Select(p => p.Name).FirstOrDefault(),
+                        //Status=u.Status,
+                        LastUpdated = u.LastUpdated,
+                        //RegionID = u.RegionID,
+                        //RegionName = dbContext.Regions.Where(p => p.ID == u.RegionID).Select(p => p.Name).FirstOrDefault(),
+                        //ZoneId = u.ZoneID,
+                        //ZoneName = dbContext.Zones.Where(p => p.ID == u.ZoneID).Select(p => p.Name).FirstOrDefault(),
+                        //RetailerID = u.SiteID,
+                        //RetailerName = dbContext.Retailers.Where(p => p.ID == u.SiteID).Select(p => p.Name).FirstOrDefault(),
+                        //FaulttypeId = u.FaultTypeId,
+                        //PriorityId = u.PriorityId,
+                        //PriorityName = dbContext.ComplaintPriorities.Where(p => p.Id == u.PriorityId).Select(p => p.Name).FirstOrDefault(),
+                        //StatusID = u.ComplaintStatusId,
+                        //LaunchedByID = u.LaunchedById,
+                        //FaulttypeDetailId = u.FaultTypeDetailID,
+                        //SubDivisionID = u.SubDivisionID,
+                        ComplaintTypeID = u.ComplainttypeID,
+                        ResolvedAt=u.ResolvedAt,
+                        ReslovedHours=u.ResolvedHours,
                         Picture1= dbContext.JobsDetails.Where(p => p.JobID == u.ID).Select(p => p.Picture1).FirstOrDefault(),
                         Picture2 = dbContext.JobsDetails.Where(p => p.JobID == u.ID).Select(p => p.Picture2).FirstOrDefault(),
                         Picture3 = dbContext.JobsDetails.Where(p => p.JobID == u.ID).Select(p => p.Picture3).FirstOrDefault(),
-                        Picture4 = dbContext.JobsDetails.Where(p => p.JobID == u.ID).Select(p => p.Picture4).FirstOrDefault(),
-                        Picture5 = dbContext.JobsDetails.Where(p => p.JobID == u.ID).Select(p => p.Picture5).FirstOrDefault(),
+                        
                     }).First();
                 }
             }
@@ -1990,6 +2005,9 @@ namespace FOS.Setup
                 throw;
             }
         }
+
+
+
 
 
         public static List<SiteEquipmentDetailData> GetResultForSiteDetail(string search, string sortOrder, int start, int length, List<SiteEquipmentDetailData> dtResult, List<string> columnFilters)
