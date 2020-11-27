@@ -22,6 +22,7 @@ namespace FOS.DataLayer
             this.TblReminders = new HashSet<TblReminder>();
             this.JobItems = new HashSet<JobItem>();
             this.JobsDetails = new HashSet<JobsDetail>();
+            this.ComplaintNotifications = new HashSet<ComplaintNotification>();
         }
     
         public int TID { get; set; }
@@ -78,5 +79,7 @@ namespace FOS.DataLayer
         public virtual SaleOfficer SaleOfficer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JobsDetail> JobsDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ComplaintNotification> ComplaintNotifications { get; set; }
     }
 }

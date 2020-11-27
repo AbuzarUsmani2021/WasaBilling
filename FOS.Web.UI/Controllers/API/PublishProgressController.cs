@@ -22,21 +22,27 @@ namespace FOS.Web.UI.Controllers.API
         {
             var jobDetail = new JobsDetail();
             var job = new Job();
+            var jobhistory = new Tbl_ComplaintHistory();
             try
             {
                 
-
+                jobhistory= db.Tbl_ComplaintHistory.Where(u => u.JobDetailID == obj.ID).FirstOrDefault();
+                jobhistory.IsPublished = 1;
 
                 jobDetail = db.JobsDetails.Where(u => u.ID == obj.ID).FirstOrDefault();
-
-               
-                
-               
                 jobDetail.IsPublished = obj.IsPublished;
-            
-              
-            
+                jobDetail.ProgressStatusID = jobhistory.ProgressStatusID;
+                jobDetail.AssignedToSaleOfficer = jobhistory.AssignedToSaleOfficer;
+                jobDetail.ProgressStatusRemarks = jobhistory.ProgressStatusRemarks;
+                jobDetail.ActivityType = jobhistory.FaultTypeDetailRemarks;
+                jobDetail.DateComplete= DateTime.UtcNow.AddHours(5);
+                job = db.Jobs.Where(u => u.ID == jobhistory.JobID).FirstOrDefault();
+                job.FaultTypeId = jobhistory.FaultTypeId;
+                job.FaultTypeDetailID = jobhistory.FaultTypeDetailID;
+                job.ComplaintStatusId = jobhistory.ComplaintStatusId;
                 
+
+
                 db.SaveChanges();
 
 

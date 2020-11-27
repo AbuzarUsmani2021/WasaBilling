@@ -62,7 +62,7 @@ namespace FOS.Web.UI.Controllers.API
                                 comlist.InitialRemarks = item.InitialRemarks;
                                 comlist.FaultTypeDetailOtherRemarks = items.ProgressRemarks;
                                 comlist.FaultTypeDetailName = item.FaultTypeDetailName;
-                                comlist.ComplaintStatusId = item.ComplaintStatusId;
+                                comlist.ComplaintStatusID = item.ComplaintStatusId;
                                 comlist.ComplaintStatusName = item.ComplaintStatusName;
                                 comlist.ComplainttypeID = item.ComplainttypeID;
                                 comlist.ComplainttypeName = item.ComplainttypeName;
@@ -127,7 +127,7 @@ namespace FOS.Web.UI.Controllers.API
         public string SiteCode { get; set; }
         public int? FaultTypeId { get; set; }
         public int? PriorityId { get; set; }
-        public int? ComplaintStatusId { get; set; }
+        public int? ComplaintStatusID { get; set; }
         public int? FaultTypeDetailID { get; set; }
         public int? ComplainttypeID { get; set; }
         public string PriorityName { get; set; }

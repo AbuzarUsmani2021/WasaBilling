@@ -257,7 +257,10 @@
     <Compile Include="Common\Settings.cs" />
     <Compile Include="Common\Token\TokenAttribute.cs" />
     <Compile Include="Common\UserManager.cs" />
+    <Compile Include="Controllers\API\NotificationChildSeenController.cs" />
     <Compile Include="Controllers\API\ClientRemarksController.cs" />
+    <Compile Include="Controllers\API\NotificationsForKSBController.cs" />
+    <Compile Include="Controllers\API\VisitRegistrationController.cs" />
     <Compile Include="Controllers\API\ComplaintSummaryForWasaController.cs" />
     <Compile Include="Controllers\API\PublishProgressController.cs" />
     <Compile Include="Controllers\API\MyComplaintListForWasaController.cs" />
@@ -1087,6 +1090,7 @@
     <Folder Include="Images\ComplaintVideos\" />
     <Folder Include="Images\SchoolPictures\" />
     <Folder Include="Images\ShopPictures\" />
+    <Folder Include="Images\VisitImages\" />
     <Folder Include="Logs\" />
     <Folder Include="PDF\" />
     <Folder Include="Uploads\Jobs\" />

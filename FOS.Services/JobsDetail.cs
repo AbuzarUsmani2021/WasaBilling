@@ -14,6 +14,12 @@ namespace FOS.DataLayer
     
     public partial class JobsDetail
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public JobsDetail()
+        {
+            this.ComplaintNotifications = new HashSet<ComplaintNotification>();
+        }
+    
         public int ID { get; set; }
         public int JobID { get; set; }
         public Nullable<int> RegionalHeadID { get; set; }
@@ -101,5 +107,7 @@ namespace FOS.DataLayer
         public virtual Job Job { get; set; }
         public virtual RegionalHead RegionalHead { get; set; }
         public virtual Retailer Retailer { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ComplaintNotification> ComplaintNotifications { get; set; }
     }
 }

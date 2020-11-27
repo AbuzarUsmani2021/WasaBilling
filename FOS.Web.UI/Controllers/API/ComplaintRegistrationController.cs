@@ -25,8 +25,7 @@ namespace FOS.Web.UI.Controllers.API
             Job retailerObj = new Job();
             try
             {
-                if (FOS.Web.UI.Common.Token.TokenAttribute.IsTokenValid(rm.Token))
-                {
+                
 
                     var dateAndTime = DateTime.Now;
                     int year = dateAndTime.Year;
@@ -97,11 +96,13 @@ namespace FOS.Web.UI.Controllers.API
 
 
                     JobsDetail jobDetail = new JobsDetail();
+                    jobDetail.ID = db.JobsDetails.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
                     jobDetail.JobID = retailerObj.ID;
                     jobDetail.PRemarks = rm.FaultTypeDetailOtherRemarks;
                     jobDetail.ProgressStatusRemarks = rm.ProgressStatusOtherRemarks;
                     jobDetail.ActivityType = rm.FaultTypeDetailOtherRemarks;
                     jobDetail.RetailerID = rm.SiteId;
+                    
                     
                     jobDetail.JobDate = DateTime.UtcNow.AddHours(5);
                     jobDetail.SalesOficerID = rm.SaleOfficerID;
@@ -131,6 +132,48 @@ namespace FOS.Web.UI.Controllers.API
                     }
                     db.JobsDetails.Add(jobDetail);
 
+                    Tbl_ComplaintHistory history = new Tbl_ComplaintHistory();
+
+                    history.JobID = retailerObj.ID;
+                    history.JobDetailID = jobDetail.ID;
+                    history.FaultTypeDetailRemarks = rm.FaultTypeDetailOtherRemarks;
+                    history.ProgressStatusRemarks = rm.ProgressStatusOtherRemarks;
+                    history.FaultTypeId = rm.FaulttypeId;
+                    history.FaultTypeDetailID = rm.FaulttypeDetailId;
+                    history.ComplaintStatusId = 2003;
+                    history.SiteID = rm.SiteId;
+                    history.PriorityId = 0;
+                    history.IsActive = true;
+                    history.IsPublished = 0;
+
+
+                    history.CreatedDate = DateTime.UtcNow.AddHours(5);
+
+                    db.Tbl_ComplaintHistory.Add(history);
+
+
+                    ComplaintNotification notify = new ComplaintNotification();
+                    notify.JobID = retailerObj.ID;
+                    notify.JobDetailID = jobDetail.ID;
+                    notify.ComplaintHistoryID = history.ID;
+                    notify.IsSiteIDChanged = true;
+                    notify.IsSiteCodeChanged = true;
+                    notify.IsFaulttypeIDChanged = true;
+                    notify.IsFaulttypeDetailIDChanged = true;
+                    notify.IsPriorityIDChanged = true;
+                    notify.IsComplaintStatusIDChanged = true;
+                    notify.IsPersonNameChanged = true;
+                    notify.IsPicture1Changed = true;
+                    notify.IsPicture2Changed = true;
+                    notify.IsPicture3Changed = true;
+                    notify.IsProgressStatusIDChanged = false;
+                    notify.IsProgressStatusRemarksChanged = false;
+                    notify.IsFaulttypeDetailRemarksChanged = true;
+                    notify.IsAssignedSaleOfficerChanged = false;
+                    notify.IsUpdateRemarksChanged = false;
+                    notify.IsSeen = false;
+                    notify.CreatedDate= DateTime.UtcNow.AddHours(5);
+                    db.ComplaintNotifications.Add(notify);
 
                     //END
 
@@ -156,19 +199,8 @@ namespace FOS.Web.UI.Controllers.API
                         Exception = null,
                         ValidationErrors = null
                     };
-                }
-                else
-                {
-                    return new Result<SuccessResponse>
-                    {
-                        Data = null,
-                        Message = "Authentication failed in Complaint registration API",
-                        ResultType = ResultType.Failure,
-                        Exception = null,
-                        ValidationErrors = null
-                    };
-
-                }
+               
+            
 
             }
             catch (Exception ex)

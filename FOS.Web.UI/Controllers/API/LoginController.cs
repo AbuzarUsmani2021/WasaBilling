@@ -58,9 +58,10 @@ namespace FOS.Web.UI.Controllers.API
                             LaunchedBy= new CommonController().GetLaunchedBy(),
                             Roles = new CommonController().GetRole(),
                             WorkDoneStatus= new CommonController().GetWorkDoneStatuses(),
+                            VisitTypes = new CommonController().GetvisitTypesStatuses(),
                             //RegionID=db.RegionalHeadRegions.Where(x=>x.RegionHeadID==SO.RegionalHeadID).Select(x=>x.RegionID).FirstOrDefault(),
                             //Region = new CommonController().GetCities(SO.RegionalHeadID),
-
+                            Count = new CommonController().GetNotificationCount(SO.ID,SO.RoleID),
                             //RetailersRelatedtoSO = new CommonController().CustomersRrelatedToSoForCheckin(SO.ID),
                             //DistributorRelatedtoSO = new CommonController().DistributorRrelatedToSoForCheckin(SO.ID),
                             //MainCatg = new CommonController().MainCat(),
@@ -166,7 +167,7 @@ namespace FOS.Web.UI.Controllers.API
         public int? RoleID { get; set; }
         public int? RegionID { get; set; }
         public int Retailers { get; set; }
-      
+        public int Count { get; set; }
         public int RetailersOrders { get; set; }
         public int Distributors { get; set; }
         public int DistributorsOrders { get; set; }
@@ -178,6 +179,7 @@ namespace FOS.Web.UI.Controllers.API
         public List<FaultType> FaultTypes { get; set; }
         public List<Priority> Priorities { get; set; }
         public List<WorkDone> WorkDoneStatus { get; set; }
+        public List<ComplaintType> VisitTypes { get; set; }
         public List<ComplaintStatus> Status { get; set; }
         public List<ComplaintType> Type { get; set; }
         public List<ComplaintType> LaunchedBy { get; set; }

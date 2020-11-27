@@ -69,13 +69,23 @@ namespace FOS.Web.UI.Controllers.API
                                 comlist.ComplaintStatus = items.StatusName;
                                 comlist.FaultType = items.FaulttypeName;
                                 comlist.FaultTypeDetail = items.FaulttypedetailName;
+                              
                                 if (items.FaulttypedetailName == "Others")
                                 {
-                                    var otherremarks = dbContext.JobsDetails.Where(x => x.JobID == items.ComplaintID).Select(x => x.ActivityType).FirstOrDefault();
+                                    var otherremarks = dbContext.JobsDetails.Where(x => x.JobID == items.ComplaintID).OrderByDescending(x => x.ID).Select(x => x.ActivityType).FirstOrDefault();
 
                                     comlist.FaultTypeDetail = items.FaulttypedetailName + "/" + otherremarks;
                                 }
-                                comlist.ProgressRemarks = new CommonController().GetProgressStatusForWasa(items.ComplaintID);
+
+                                if (items.StatusName == "Resolved")
+                                {
+                                    comlist.ProgressRemarks = new CommonController().GetProgressStatusForWasaResolved(items.ComplaintID);
+                                }
+                                else
+                                {
+                                    comlist.ProgressRemarks = new CommonController().GetProgressStatusForWasa(items.ComplaintID);
+                                }
+                                comlist.ClientRemarks = new CommonController().GetClientRemarks(items.ComplaintID);
 
                                 list.Add(comlist);
 

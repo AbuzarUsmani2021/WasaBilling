@@ -159,6 +159,15 @@
         <AssociationConnector Association="FOS_WallCoatModel.FK_SoRetailersJobs_Jobs" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_JobsDetail_RegionalHeads" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_SoRetailersJobs_Retailers" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.Tbl_ComplaintHistory" Width="1.5" PointX="19.375" PointY="16.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.ComplaintNotification" Width="1.5" PointX="27.875" PointY="37.5" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_ComplaintNotification_Jobs" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_ComplaintNotification_JobsDetail" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_ComplaintNotification_Tbl_ComplaintHistory" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.TBL_KsbVisits" Width="1.5" PointX="20.25" PointY="23.375" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.VisitPurpose" Width="1.5" PointX="18" PointY="52.75" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_TBL_KsbVisits_Retailers" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_TBL_KsbVisits_VisitPurpose" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -24,6 +24,7 @@ namespace FOS.Web.UI.Controllers.API
             ClientRemark retailerObj = new ClientRemark();
             try
             {
+                var name = db.SaleOfficers.Where(x => x.UserName == rm.SOName).Select(x => x.Name).FirstOrDefault();
 
                 retailerObj.ComplaintID = rm.ComplaintID;
                 retailerObj.ClientRemarks = rm.Remarks;
@@ -31,7 +32,7 @@ namespace FOS.Web.UI.Controllers.API
                 retailerObj.Isdeleted = true;
                 retailerObj.RemarksDate = DateTime.UtcNow.AddHours(5);
                 retailerObj.RemarksBy = rm.SOID;
-                retailerObj.RemarksByName = rm.SOName;
+                retailerObj.RemarksByName = name;
                 db.ClientRemarks.Add(retailerObj);
                  
                 db.SaveChanges();

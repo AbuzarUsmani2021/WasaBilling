@@ -287,7 +287,7 @@ namespace FOS.Web.UI.Controllers.API
             {
                 if (item.ComplaintID == SOID)
                 {
-                    remarks = item.ProgressStatusName;
+                    remarks = item.ProgressStatusName + " "+ " (" +item.datecomplete + ")";
 
                 }
 
@@ -297,6 +297,31 @@ namespace FOS.Web.UI.Controllers.API
             return remarks;
         }
 
+
+        public string GetProgressStatusForWasaResolved(int SOID)
+        {
+            DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
+
+            DateTime dtFromToday = dtFromTodayUtc.Date;
+            DateTime dtToToday = dtFromToday.AddDays(1);
+            string remarks = "";
+
+
+            var result1 = db.Sp_MyComplaintListRemarks1_2(1, dtFromToday, dtToToday).ToList();
+
+            foreach (var item in result1)
+            {
+                if (item.ComplaintID == SOID)
+                {
+                    remarks = db.WorkDones.Where(x => x.ID == item.ProgressstatusId).Select(x => x.Name).FirstOrDefault() + " " + " (" + item.datecomplete + ")"; 
+
+                }
+
+            }
+
+
+            return remarks;
+        }
 
         public int? GetResolvedHour(int SOID)
         {
@@ -337,11 +362,114 @@ namespace FOS.Web.UI.Controllers.API
                 ComplaintID=x.ComplaintID,
                 LaunchedAt=x.RemarksDate,
 
-            }).ToList();
+            }).OrderByDescending(x=>x.ID).ToList();
 
 
             return dbregions;
         }
+
+
+        //public List<ChildNotifications> GetChildNotifications(int SOID)
+        //{
+        //    List<Projects> cities = new List<Projects>();
+        //    //Regions cty;
+        //    Projects cty;
+
+
+        //    var dbregions = db.ClientRemarks.Where(x => x.ComplaintID == SOID).Select(x => new ClientRemarks
+        //    {
+        //        ID = x.ID,
+
+        //        Remarks = x.ClientRemarks + "/" + x.RemarksByName,
+        //        ComplaintID = x.ComplaintID,
+        //        LaunchedAt = x.RemarksDate,
+
+        //    }).OrderByDescending(x => x.ID).ToList();
+
+
+        //    return dbregions;
+        //}
+
+        public int GetNotificationCount(int SOID, int? roleID)
+        {
+            int Count = 0;
+            DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
+
+            DateTime dtFromToday = dtFromTodayUtc.Date;
+            DateTime dtToToday = dtFromToday.AddDays(1);
+
+            if (roleID != 3)
+            {
+
+                Count = db.Jobs.Where(x => x.CreatedDate >=dtFromToday && x.CreatedDate<=dtToToday).Select(x => x.ID).Count();
+
+            }
+            else
+            {
+                List<MyComplaintList> list = new List<MyComplaintList>();
+                MyComplaintList comlist;
+                var result = db.Sp_MyComplaintList1_3(SOID, dtFromToday, dtToToday).ToList();
+
+
+                var result1 = db.Sp_MyComplaintListRemarks1_2(SOID, dtFromToday, dtToToday).ToList();
+
+
+                foreach (var item in result)
+                {
+                    foreach (var items in result1)
+                    {
+                        if (item.ComplaintID == items.ComplaintID)
+                        {
+                            if (SOID == items.SaleOfficerID)
+                            {
+
+                                comlist = new MyComplaintList();
+                                comlist.ComplaintID = item.ComplaintID;
+                                comlist.SiteCode = item.SiteCode;
+                                comlist.LaunchDate = item.LaunchDate;
+                                comlist.SiteID = item.SiteID;
+                                comlist.SiteName = item.SiteName;
+                                comlist.TicketNo = item.TicketNo;
+                                comlist.LaunchedByName = item.LaunchedByName;
+                                comlist.SaleOfficerName = item.LaunchedByName;
+                                comlist.ProgressRemarks = items.ProgressStatusName + " " + "(" + items.datecomplete + ")";
+                                comlist.InitialRemarks = item.InitialRemarks;
+                                comlist.ComplaintStatus = item.StatusName;
+                                comlist.FaultType = item.FaulttypeName;
+                                comlist.FaultTypeDetail = item.FaulttypedetailName;
+                                if (item.FaulttypedetailName == "Other")
+                                {
+                                    var otherremarks = db.JobsDetails.Where(x => x.JobID == item.ComplaintID).OrderByDescending(x => x.ID).Select(x => x.ActivityType).FirstOrDefault();
+
+                                    comlist.FaultTypeDetail = comlist.FaultTypeDetail + "/" + otherremarks;
+                                }
+
+                                if (items.ProgressStatusName == "Others")
+                                {
+                                    // var otherremarks = db.JobsDetails.Where(x => x.JobID == item.ComplaintID).Select(x => x.ProgressStatusRemarks).FirstOrDefault();
+
+                                    comlist.ProgressRemarks = items.ProgressStatusName + "/" + items.ProgressStatusRemarks + "(" + items.datecomplete + ")";
+                                }
+                                comlist.ClientRemarks = new CommonController().GetClientRemarks(item.ComplaintID);
+                                list.Add(comlist);
+                            }
+                        }
+                    }
+
+                }
+
+                Count = list.Count();
+            }
+
+            
+
+          
+
+            return Count;
+        }
+
+
+
         public List<Projects> GetProjects(int SOID)
         {
             List<Projects> cities = new List<Projects>();
@@ -581,6 +709,28 @@ namespace FOS.Web.UI.Controllers.API
         }
 
 
+        public List<ComplaintType> GetvisitTypesStatuses()
+        {
+          
+
+
+            var dbregions = db.VisitPurposes.Select(x => new ComplaintType
+            {
+                ID = x.ID,
+                Name = x.Name,
+              
+            }).ToList();
+
+
+            dbregions.Insert(0, new ComplaintType
+            {
+                ID = 0,
+                Name = "Select"
+            });
+
+            return dbregions;
+        }
+
         public List<ComplaintStatus> GetComplaintStatus()
         {
             List<ComplaintStatus> cities = new List<ComplaintStatus>();
@@ -727,7 +877,7 @@ namespace FOS.Web.UI.Controllers.API
                 var dbMainCat = db.SaleOfficers.Where(c => c.RegionalHeadID==HeadID && c.RoleID==3  && c.IsActive == true).Select(c => new AllSaleOfficers
                 {
                     ID = c.ID,
-                    Name=c.Name
+                    Name=c.UserName
                     
                 }).ToList();
 

@@ -31,7 +31,7 @@ namespace FOS.Web.UI.Controllers.API
 
                    
 
-                    var result = dbContext.Sp_GetProgressView1_1(ID).ToList();
+                    var result = dbContext.Sp_GetProgressView1_3(ID).ToList();
 
                     var JobId = db.JobsDetails.Where(x => x.ID == ID).FirstOrDefault();
 
@@ -47,17 +47,21 @@ namespace FOS.Web.UI.Controllers.API
                         comlist.LaunchDate = item.JobDate;
                         comlist.ProgressStatusName = item.ProgressStatusName;
                         comlist.ProgressStatusRemarks = item.ProgressStatusOtherRemarks;
-                        comlist.FaultTypeDetailOtherRemarks = item.FaulttypeDetailOtherRemarks;
+                        comlist.FaultTypeDetailOtherRemarks = item.FaultTypeDetailOtherRemarks;
                         comlist.ProgressRemarks = item.PRemarks;
                         comlist.SaleOfficerName = item.SaleofficerName;
-                        comlist.FaultTypeId = jobtblID.FaultTypeId;
+                        comlist.FaultTypeId = item.FaultTypeId;
                         comlist.ResolutionHour = jobtblID.ResolvedHours;
-                        comlist.FaultTypeDetailID = jobtblID.FaultTypeDetailID;
+                        comlist.FaultTypeDetailID = item.FaultTypeDetailID;
                         comlist.PriorityId = jobtblID.PriorityId;
                         comlist.ComplainttypeID = jobtblID.ComplainttypeID;
                         comlist.AssignedSaleOfficerID = JobId.AssignedToSaleOfficer;
                         comlist.PersonName = jobtblID.PersonName;
                         comlist.IsPublished = JobId.IsPublished;
+                        comlist.ComplaintStatusID = item.ComplaintStatusID;
+                        comlist.SiteID = JobId.RetailerID;
+                        comlist.SiteCode = JobId.Retailer.RetailerCode;
+                        comlist.SiteName = JobId.Retailer.Name;
                         //comlist.ComplaintStatusName = db.ComplaintStatus.Where(x => x.Id == jobtblID.ComplaintStatusId).Select(x => x.Name).FirstOrDefault();
                         //// comlist.FaultTypeName = db.FaultTypes.Where(x => x.Id == jobtblID.FaultTypeId).Select(x => x.Name).FirstOrDefault();
                         //comlist.FaultTypeDetailName = db.FaultTypeDetails.Where(x => x.ID == jobtblID.FaultTypeDetailID).Select(x => x.Name).FirstOrDefault();
@@ -119,6 +123,7 @@ namespace FOS.Web.UI.Controllers.API
         public int? ComplaintStatusId { get; set; }
         public int? FaultTypeDetailID { get; set; }
         public int? ComplainttypeID { get; set; }
+        public int? ComplaintStatusID { get; set; }
         public string PriorityName { get; set; }
         public string ComplainttypeName { get; set; }
         public string PersonName { get; set; }

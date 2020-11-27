@@ -60,26 +60,34 @@ namespace FOS.Web.UI.Controllers.API
                                     comlist.TicketNo = item.TicketNo;
                                     comlist.LaunchedByName = item.LaunchedByName;
                                     comlist.SaleOfficerName = item.LaunchedByName;
-                                    comlist.ProgressRemarks = items.ProgressStatusName;
+                                    comlist.ProgressRemarks = items.ProgressStatusName + "("+items.datecomplete+")";
                                     comlist.InitialRemarks = item.InitialRemarks;
                                     comlist.ComplaintStatus = item.StatusName;
                                     comlist.FaultType = item.FaulttypeName;
-                                   
+                                
+
+                                    if (item.ComplaintStatusId == 3)
+                                    {
+                                        comlist.ProgressRemarks = db.WorkDones.Where(x => x.ID == items.ProgressstatusId).Select(x => x.Name).FirstOrDefault() + "(" + items.datecomplete + ")"; 
+                                    }
+
                                     comlist.FaultTypeDetail = item.FaulttypedetailName;
 
                                     if (item.FaulttypedetailName == "Others")
                                     {
-                                        var otherremarks = db.JobsDetails.Where(x => x.JobID == item.ComplaintID).Select(x => x.ActivityType).FirstOrDefault();
+                                        var otherremarks = db.JobsDetails.Where(x => x.JobID == item.ComplaintID).OrderByDescending(x=>x.ID).Select(x => x.ActivityType).FirstOrDefault();
 
                                         comlist.FaultTypeDetail = item.FaulttypedetailName + "/" + otherremarks;
+
                                     }
                                     if (items.ProgressStatusName == "Others")
                                     {
                                        // var otherremarks = db.JobsDetails.Where(x => x.JobID == item.ComplaintID).Select(x => x.ProgressStatusRemarks).FirstOrDefault();
 
-                                        comlist.ProgressRemarks = items.ProgressStatusName + "/" + items.ProgressStatusRemarks;
+                                        comlist.ProgressRemarks = items.ProgressStatusName + "/" + items.ProgressStatusRemarks + "(" + items.datecomplete + ")"; 
                                     }
 
+                                    comlist.ClientRemarks = new CommonController().GetClientRemarks(item.ComplaintID);
 
 
                                     list.Add(comlist);
@@ -109,14 +117,14 @@ namespace FOS.Web.UI.Controllers.API
                                         comlist.TicketNo = item.TicketNo;
                                         comlist.LaunchedByName = item.LaunchedByName;
                                         comlist.SaleOfficerName = item.LaunchedByName;
-                                        comlist.ProgressRemarks = items.ProgressStatusName;
+                                        comlist.ProgressRemarks = items.ProgressStatusName + " " + "(" + items.datecomplete + ")"; 
                                         comlist.InitialRemarks = item.InitialRemarks;
                                         comlist.ComplaintStatus = item.StatusName;
                                         comlist.FaultType = item.FaulttypeName;
                                         comlist.FaultTypeDetail = item.FaulttypedetailName;
                                         if (item.FaulttypedetailName == "Other")
                                         {
-                                            var otherremarks = db.JobsDetails.Where(x => x.JobID == item.ComplaintID).Select(x => x.ActivityType).FirstOrDefault();
+                                            var otherremarks = db.JobsDetails.Where(x => x.JobID == item.ComplaintID).OrderByDescending(x => x.ID).Select(x => x.ActivityType).FirstOrDefault();
 
                                             comlist.FaultTypeDetail = comlist.FaultTypeDetail + "/" + otherremarks;
                                         }
@@ -125,8 +133,9 @@ namespace FOS.Web.UI.Controllers.API
                                         {
                                            // var otherremarks = db.JobsDetails.Where(x => x.JobID == item.ComplaintID).Select(x => x.ProgressStatusRemarks).FirstOrDefault();
 
-                                            comlist.ProgressRemarks = items.ProgressStatusName + "/" + items.ProgressStatusRemarks;
+                                            comlist.ProgressRemarks = items.ProgressStatusName + "/" + items.ProgressStatusRemarks + "(" + items.datecomplete + ")"; 
                                         }
+                                        comlist.ClientRemarks = new CommonController().GetClientRemarks(item.ComplaintID);
                                         list.Add(comlist);
                                     }
                                 }
@@ -169,7 +178,7 @@ namespace FOS.Web.UI.Controllers.API
         public int ComplaintID { get; set; }
         public string TicketNo { get; set; }
         public DateTime? LaunchDate { get; set; }
-
+        public DateTime? LastDate { get; set; }
         public string SiteName { get; set; }
 
         public string LaunchedByName { get; set; }
@@ -184,7 +193,7 @@ namespace FOS.Web.UI.Controllers.API
         public string SaleOfficerName { get; set; }
 
         public string InitialRemarks { get; set; }
-
+        public List<ClientRemarks> ClientRemarks { get; set; }
         public string ProgressRemarks { get; set; }
     }
 }
