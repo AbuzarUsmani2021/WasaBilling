@@ -57,12 +57,7 @@ video {
 audio:not([controls]) {
     display: none
 }
-html {
-        background-color: white;
-    font-size: 100%;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%
-}
+
 a:focus {
     outline: thin dotted #333;
     outline: 5px auto -webkit-focus-ring-color;
@@ -197,14 +192,7 @@ textarea {
         page-break-after: avoid
     }
 }
-body {
-    margin: 0;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    line-height: 20px;
-    color: #333;
-    background-color: #fff
-}
+
 a {
     color: #08c;
     text-decoration: none
@@ -1700,7 +1688,7 @@ table {
     font-weight: bold
 }
 .table thead th {
-    vertical-align: bottom
+    vertical-align: middle
 }
 .table caption+thead tr:first-child th,
 .table caption+thead tr:first-child td,
@@ -3649,7 +3637,7 @@ input[type="submit"].btn.btn-mini {
     margin-bottom: 20px;
     overflow: visible
 }
-.navbar-inner {
+/*.navbar-inner {
     min-height: 40px;
     padding-right: 20px;
     padding-left: 20px;
@@ -3669,7 +3657,7 @@ input[type="submit"].btn.btn-mini {
     -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
     -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065)
-}
+}*/
 .navbar-inner:before,
 .navbar-inner:after {
     display: table;
@@ -3806,17 +3794,17 @@ input[type="submit"].btn.btn-mini {
 .navbar-static-top .navbar-inner {
     border-width: 0 0 1px
 }
-.navbar-fixed-bottom .navbar-inner {
+/*.navbar-fixed-bottom .navbar-inner {
     border-width: 1px 0 0
-}
-.navbar-fixed-top .navbar-inner,
+}*/
+/*.navbar-fixed-top .navbar-inner,
 .navbar-fixed-bottom .navbar-inner {
     padding-right: 0;
     padding-left: 0;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0
-}
+}*/
 .navbar-static-top .container,
 .navbar-fixed-top .container,
 .navbar-fixed-bottom .container {
@@ -3826,25 +3814,24 @@ input[type="submit"].btn.btn-mini {
     top: 0
 }
 .navbar-fixed-top .navbar-inner,
-.navbar-static-top .navbar-inner {
+/*.navbar-static-top .navbar-inner {
     -webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1)
-}
-.navbar-fixed-bottom {
+}*/
+/*.navbar-fixed-bottom {
     bottom: 0
-}
-.navbar-fixed-bottom .navbar-inner {
+}*/
+/*.navbar-fixed-bottom .navbar-inner {
     -webkit-box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
     box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1)
-}
+}*/
 .navbar .nav {
     position: relative;
     left: 0;
     display: block;
-    float: left;
-    margin: 0 10px 0 0
+   
 }
 .navbar .nav.pull-right {
     float: right;
@@ -4012,7 +3999,7 @@ input[type="submit"].btn.btn-mini {
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px
 }
-.navbar-inverse .navbar-inner {
+/*.navbar-inverse .navbar-inner {
     background-color: #1b1b1b;
     background-image: -moz-linear-gradient(top, #222, #111);
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#222), to(#111));
@@ -4022,7 +4009,7 @@ input[type="submit"].btn.btn-mini {
     background-repeat: repeat-x;
     border-color: #252525;
     filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ff222222', endColorstr='#ff111111', GradientType=0)
-}
+}*/
 .navbar-inverse .brand,
 .navbar-inverse .nav>li>a {
     color: #999;
@@ -4369,8 +4356,8 @@ position: absolute;
     top: 2%;
     left: 8%;
     z-index: 2001;
-    width:85%;
-    height: 95%;
+    width:auto;
+    height: 500px;
     /* margin-left: -280px; */
     background-color: #fff;
     border: 1px solid #999;

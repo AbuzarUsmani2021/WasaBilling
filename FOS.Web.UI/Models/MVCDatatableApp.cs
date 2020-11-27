@@ -79,6 +79,8 @@ namespace FOS.Web.UI.Models
         /// </summary>
         public int Draw { get; set; }
         public string SaleOfficer { get; set; }
+        public int ProjectId { get; set; }
+
         public string StartingDate1 { get; set; }
         public string StartingDate2 { get; set; }
 

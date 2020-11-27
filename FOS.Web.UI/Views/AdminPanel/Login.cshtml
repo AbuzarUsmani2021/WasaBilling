@@ -15,7 +15,16 @@
     <link rel="stylesheet" type="text/css" href="~/Content/StyleLogin/normalize.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/Style/font-awesome.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/StyleLogin/set2.css" />
-
+    @*<style>
+        .container-fluid {
+            background-image: url('../../Images/Banner.jpg'); /* The image used */
+            background-color: #cccccc; /* Used if the image is unavailable */
+            height: 500px; /* You must set a specified height */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Do not repeat the image */
+            background-size: cover; /* Resize the background image to cover the entire container */
+        }
+    </style>*@
 </head>
 <body>
     <div class="loader"></div>
@@ -32,7 +41,7 @@
 
                         <div class="span12" style="        background-color: white;
         box-shadow: 0px 0px 15px #4b7930;
-        height: 340px;
+        height: 355px;
         border-radius: 10px;
         margin-top: 15px;
         padding-top: 20px;
@@ -88,7 +97,7 @@
                                 @{
                                     if (@Request["reason"] == "login")
                                     {
-                                        <h6 style="text-align:center">Your Login Information Is Incorrect.</h6>
+                                        <h6 style="text-align:center"></h6>
                                     }
                                     else if (@Request["reason"] == "auth")
                                     {

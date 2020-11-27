@@ -6,6 +6,7 @@ using FOS.Shared;
 using FOS.Web.UI.Common;
 using FOS.Web.UI.Common.CustomAttributes;
 using FOS.Web.UI.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,9 +20,6 @@ namespace FOS.Web.UI.Controllers
     public class ComplaintController : Controller
     {
         FOSDataModel db = new FOSDataModel();
-       
-
-
 
         #region Complaints THINGS
 
@@ -42,7 +40,7 @@ namespace FOS.Web.UI.Controllers
             }
 
             List<SaleOfficerData> SaleOfficerObj = ManageSaleOffice.GetProjectsData();
-            var objSaleOff = SaleOfficerObj.FirstOrDefault();
+            //var objSaleOff = SaleOfficerObj.FirstOrDefault();
 
             List<DealerData> DealerObj = ManageDealer.GetAllDealersListRelatedToRegionalHead(regId);
 
@@ -70,9 +68,20 @@ namespace FOS.Web.UI.Controllers
         // Add Or Update Retailer
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult NewComplaints([Bind(Exclude = "TID,SaleOfficers,Dealers")] KSBComplaintData newRetailer, HttpPostedFileBase file1, HttpPostedFileBase file2, HttpPostedFileBase file3, HttpPostedFileBase file4, HttpPostedFileBase file5, HttpPostedFileBase file6)
+        public ActionResult NewComplaint([Bind(Exclude = "TID,SaleOfficers,Dealers")] KSBComplaintData newRetailer, HttpPostedFileBase file1, HttpPostedFileBase file2, HttpPostedFileBase file3, HttpPostedFileBase file4, HttpPostedFileBase file5, HttpPostedFileBase file6)
         {
+
             Boolean boolFlag = true;
+            FOSDataModel dbContext = new FOSDataModel();
+
+            int id = dbContext.Users.Where(x => x.UserName == User.Identity.Name).Select(x => x.ID).FirstOrDefault();
+            newRetailer.LaunchedByID = id;
+            ////newRetailer.ComplaintTypeID = 0;
+            ////newRetailer.PriorityId = 0;
+            newRetailer.StatusID = 2003;
+
+
+
 
 
             string path1 = "";
@@ -93,11 +102,11 @@ namespace FOS.Web.UI.Controllers
                     //    //boolFlag = results.IsValid;
                     //}
 
-                   
 
-                  
 
-                     if (boolFlag)
+
+
+                    if (boolFlag)
                     {
 
                         if (file1 != null)
@@ -105,14 +114,14 @@ namespace FOS.Web.UI.Controllers
                             var filename = Path.GetFileName(file1.FileName);
                             path1 = Path.Combine(Server.MapPath("/Images/ComplaintImages/"), filename);
                             file1.SaveAs(path1);
-                            path1= "/images/ComplaintImages/" + filename;
+                            path1 = "/images/ComplaintImages/" + filename;
 
                         }
 
                         if (file2 != null)
                         {
                             var filename = Path.GetFileName(file2.FileName);
-                             path2 = Path.Combine(Server.MapPath("~/Images/ComplaintImages/"), filename);
+                            path2 = Path.Combine(Server.MapPath("~/Images/ComplaintImages/"), filename);
                             file2.SaveAs(path2);
                             path2 = "/images/ComplaintImages/" + filename;
 
@@ -120,7 +129,7 @@ namespace FOS.Web.UI.Controllers
                         if (file3 != null)
                         {
                             var filename = Path.GetFileName(file3.FileName);
-                             path3 = Path.Combine(Server.MapPath("~/Images/ComplaintImages/"), filename);
+                            path3 = Path.Combine(Server.MapPath("~/Images/ComplaintImages/"), filename);
                             file3.SaveAs(path3);
                             path3 = "/images/ComplaintImages/" + filename;
 
@@ -128,7 +137,7 @@ namespace FOS.Web.UI.Controllers
                         if (file4 != null)
                         {
                             var filename = Path.GetFileName(file4.FileName);
-                             path4 = Path.Combine(Server.MapPath("~/Images/ComplaintImages/"), filename);
+                            path4 = Path.Combine(Server.MapPath("~/Images/ComplaintImages/"), filename);
                             file4.SaveAs(path4);
                             path4 = "/images/ComplaintImages/" + filename;
 
@@ -136,7 +145,7 @@ namespace FOS.Web.UI.Controllers
                         if (file5 != null)
                         {
                             var filename = Path.GetFileName(file5.FileName);
-                             path5 = Path.Combine(Server.MapPath("~/Images/ComplaintImages/"), filename);
+                            path5 = Path.Combine(Server.MapPath("~/Images/ComplaintImages/"), filename);
                             file5.SaveAs(path5);
                             path5 = "/images/ComplaintImages/" + filename;
 
@@ -150,7 +159,7 @@ namespace FOS.Web.UI.Controllers
 
                         }
 
-                        int Res = ManageRetailer.AddUpdateComplaint(newRetailer,path1, path2, path3,path4,path5,path6);
+                        int Res = ManageRetailer.AddUpdateComplaint(newRetailer, path1, path2, path3, path4, path5, path6);
 
                         if (Res == 1)
                         {
@@ -237,16 +246,16 @@ namespace FOS.Web.UI.Controllers
             return View(objRetailer);
         }
 
-        public JsonResult GetSitesList(int ClientID,int ProjectID, int CityID,int AreaID,int SubDivisionID)
+        public JsonResult GetSitesList(int ClientID, int ProjectID, int CityID, int AreaID, int SubDivisionID)
         {
-            var result = FOS.Setup.ManageCity.GetSiteList(ClientID, ProjectID, CityID, AreaID,SubDivisionID, "Select");
+            var result = FOS.Setup.ManageCity.GetSiteList(ClientID, ProjectID, CityID, AreaID, SubDivisionID, "--Select Site--");
             return Json(result);
         }
 
 
         public JsonResult GetFaultTypeDetailList(int ClientID)
         {
-            var result = FOS.Setup.ManageCity.GetFaulttypedetaileList(ClientID, "Select");
+            var result = FOS.Setup.ManageCity.GetFaulttypedetaileList(ClientID, "--Select Fault Type Detail--");
             return Json(result);
         }
 
@@ -256,22 +265,47 @@ namespace FOS.Web.UI.Controllers
             return Json(result);
         }
 
+      
 
 
         public JsonResult GetSiteId(int ClientID)
         {
             var result = FOS.Setup.ManageCity.GetSiteIDList(ClientID);
-            
+
             return Json(result);
         }
 
+        public JsonResult GetComplaintDetail(int ComplaintId)
+        {
+            var Response = ManageRetailer.GetEditComplaint(ComplaintId);
+
+            var ProgressID = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusID;
+            var name = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusRemarks;
+            Response.ProgressStatusId = ProgressID;
+
+            if (Response.ProgressStatusId == 2018 || Response.ProgressStatusId == 2031 || Response.ProgressStatusId == 2035)
+            {
+                Response.ProgressStatusOtherRemarks = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusRemarks;
+            }
+
+            if (Response.FaulttypeDetailId == 3030 || Response.FaulttypeDetailId == 3042 || Response.FaulttypeDetailId == 3049)
+            {
+                Response.FaultTypeDetailOtherRemarks = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).FirstOrDefault().PRemarks;
+            }
+            //var result = Path.GetFileName(Response.Picture1);
+            //ViewBag.Path = "~/Images/ComplaintImages/"+ result;
+            //ViewBag.result = Path.GetFileName(Response.Picture1);
+
+
+            return Json(Response, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult GetEditComplaint(int ComplaintId)
         {
             var Response = ManageRetailer.GetEditComplaint(ComplaintId);
 
             var ProgressID = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusID;
-            var name= db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusRemarks;
+            var name = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusRemarks;
             Response.ProgressStatusId = ProgressID;
 
             if (Response.ProgressStatusId == 1002 || Response.ProgressStatusId == 1003 || Response.ProgressStatusId == 1004)
@@ -290,6 +324,7 @@ namespace FOS.Web.UI.Controllers
 
             return Json(Response, JsonRequestBehavior.AllowGet);
         }
+
 
 
         [HttpPost]
@@ -460,4 +495,4 @@ namespace FOS.Web.UI.Controllers
 
 
     }
-}   
+}

@@ -733,6 +733,8 @@
     <Content Include="Images\UserImages\12645099_1021983351232757_3982245613306640049_n.jpg" />
     <Content Include="Images\UserImages\12661745_1021983401232752_5329974416226080818_n.jpg" />
     <Content Include="Images\UserImages\1915325_10154491127201840_7287174597877936812_n.jpg" />
+    <Content Include="Images\WASALahoreLogo.png" />
+    <Content Include="Images\WASALahoreLogo2.jpg" />
     <Content Include="Images\WASA_Logo.png" />
     <Content Include="Images\Whitening_REpairing_Cream__10736.1413186187.500.750.jpg" />
     <Content Include="LOGO16.ico" />
@@ -865,6 +867,9 @@
     <Content Include="Scripts\bootstrap-year-calendar.js" />
     <Content Include="Scripts\bootstrap-year-calendar.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Datatables\dataTables.bootstrap4.min.css" />
+    <Content Include="Scripts\Datatables\datatablescripts.bundle.js" />
+    <Content Include="Scripts\Datatables\jquery-datatable.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
