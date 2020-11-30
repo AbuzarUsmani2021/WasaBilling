@@ -33,6 +33,11 @@ namespace FOS.DataLayer
         public System.DateTime LastUpdate { get; set; }
         public string Location { get; set; }
         public string KSBRef { get; set; }
+        public string ContactNo { get; set; }
+        public string Province { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
+        public string Address { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<City> Cities { get; set; }

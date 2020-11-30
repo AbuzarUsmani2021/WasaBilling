@@ -60,7 +60,6 @@ namespace FOS.DataLayer
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<Page> Pages { get; set; }
         public virtual DbSet<RolePage> RolePages { get; set; }
-        public virtual DbSet<Zone> Zones { get; set; }
         public virtual DbSet<SubCtegoryA> SubCtegoryAs { get; set; }
         public virtual DbSet<CompititorInfo> CompititorInfoes { get; set; }
         public virtual DbSet<ActivityPurpose> ActivityPurposes { get; set; }
@@ -103,6 +102,7 @@ namespace FOS.DataLayer
         public virtual DbSet<ComplaintNotification> ComplaintNotifications { get; set; }
         public virtual DbSet<TBL_KsbVisits> TBL_KsbVisits { get; set; }
         public virtual DbSet<VisitPurpose> VisitPurposes { get; set; }
+        public virtual DbSet<Zone> Zones { get; set; }
     
         [DbFunction("FOSDataModel", "fnStringList2Table")]
         public virtual IQueryable<fnStringList2Table_Result> fnStringList2Table(string list)

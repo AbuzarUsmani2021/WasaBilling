@@ -22,6 +22,18 @@ namespace FOS.Shared
         public int? ClientId { get; set; }
         public string SapNo { get; set; }
         public string ClientName { get; set; }
+        public string AONO { get; set; }
+        public string ContractNo { get; set; }
+        public string ContractTitle { get; set; }
+        public string Duration { get; set; }
+        public string AwardDate { get; set; }
+        public string DateFrom { get; set; }
+        public string DateTo { get; set; }
+        public string CreatedOn { get; set; }
+
+
+
+
         public string ShortCode { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

@@ -278,23 +278,34 @@ namespace FOS.Web.UI.Controllers
         public JsonResult GetComplaintDetail(int ComplaintId)
         {
             var Response = ManageRetailer.GetEditComplaint(ComplaintId);
-
-            var ProgressID = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusID;
-            var name = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusRemarks;
-            Response.ProgressStatusId = ProgressID;
-
-            if (Response.ProgressStatusId == 2018 || Response.ProgressStatusId == 2031 || Response.ProgressStatusId == 2035)
-            {
-                Response.ProgressStatusOtherRemarks = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusRemarks;
-            }
-
             if (Response.FaulttypeDetailId == 3030 || Response.FaulttypeDetailId == 3042 || Response.FaulttypeDetailId == 3049)
             {
                 Response.FaultTypeDetailOtherRemarks = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).FirstOrDefault().PRemarks;
             }
-            //var result = Path.GetFileName(Response.Picture1);
-            //ViewBag.Path = "~/Images/ComplaintImages/"+ result;
-            //ViewBag.result = Path.GetFileName(Response.Picture1);
+            Response.ProgressStatusId = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).Select(x => x.ProgressStatusID).FirstOrDefault();
+            Response.ProgressStatusName = db.ProgressStatus.Where(x => x.ID == Response.ProgressStatusId).OrderByDescending(x => x.ID).Select(x => x.Name).FirstOrDefault();
+            if (Response.StatusName == "Resolved")
+            {
+                Response.ProgressStatusName = db.WorkDones.Where(x => x.ID == Response.ProgressStatusId).Select(x => x.Name).FirstOrDefault();
+
+            }
+            else
+            {
+                Response.ProgressStatusName = db.ProgressStatus.Where(x => x.ID == Response.ProgressStatusId).Select(x => x.Name).FirstOrDefault();
+
+            }
+            if (Response.ProgressStatusName == "Others")
+            {
+                Response.ProgressStatusName = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).Select(x => x.PRemarks).FirstOrDefault();
+            }
+            Response.ProgressStatusOtherRemarks = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).Select(x => x.PRemarks).FirstOrDefault();
+
+
+
+
+
+
+
 
 
             return Json(Response, JsonRequestBehavior.AllowGet);
@@ -303,25 +314,7 @@ namespace FOS.Web.UI.Controllers
         public JsonResult GetEditComplaint(int ComplaintId)
         {
             var Response = ManageRetailer.GetEditComplaint(ComplaintId);
-
-            var ProgressID = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusID;
-            var name = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusRemarks;
-            Response.ProgressStatusId = ProgressID;
-
-            if (Response.ProgressStatusId == 1002 || Response.ProgressStatusId == 1003 || Response.ProgressStatusId == 1004)
-            {
-                Response.ProgressStatusOtherRemarks = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).FirstOrDefault().ProgressStatusRemarks;
-            }
-
-            if (Response.FaulttypeDetailId == 2002 || Response.FaulttypeDetailId == 2003 || Response.FaulttypeDetailId == 2004)
-            {
-                Response.FaultTypeDetailOtherRemarks = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).FirstOrDefault().PRemarks;
-            }
-            //var result = Path.GetFileName(Response.Picture1);
-            //ViewBag.Path = "~/Images/ComplaintImages/"+ result;
-            //ViewBag.result = Path.GetFileName(Response.Picture1);
-
-
+            
             return Json(Response, JsonRequestBehavior.AllowGet);
         }
 

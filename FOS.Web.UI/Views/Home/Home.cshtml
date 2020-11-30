@@ -39,7 +39,7 @@
 </style>
 
 
-@*<link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">*@
+<link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
 
 
 <h3 class="page-title"></h3>
@@ -124,71 +124,76 @@
         <div class="modal-content">
             <div class="modal-header" style="background-color: #1969b1;">
                 <button type="button" class="close" style="color:white;" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" style="font-weight: 900;color: white;">View Complaint Detail</h4>
+                <h4 class="modal-title" style="font-weight: 900;color: white;"><strong>View Complaint Detail</strong></h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <div class="span12">
-                        <div class="span4">
+                            <div class="span7">
 
-                            <div class="span4" style="margin-left:0px;"><label>Site Code:</label></div>
-                            <div class="span8" id="SiteCode" style="margin-left:0px;"></div>
+                                <div class="span5" style="margin-left:0px;"><label>Site Code:</label></div>
+                                <div class="span7" id="SiteCode" style="margin-left:0px;margin-bottom: 10px;"></div>
 
-                            <div class="span4" style="margin-left:0px;"><label>Site Name:</label></div>
-                            <div class="span8" id="SiteName" style="margin-left:0px;"></div>
+                                <div class="span5" style="margin-left:0px;"><label>Site Name:</label></div>
+                                <div class="span7" id="SiteName" style="margin-left:0px;margin-bottom: 10px;"></div>
 
-                            <div class="span4" style="margin-left:0px;"><label>Complaint No:</label></div>
-                            <div class="span8" id="ComplaintNo" style="margin-left:0px;"></div>
+                                <div class="span5" style="margin-left:0px;"><label>Complaint No:</label></div>
+                                <div class="span7" id="ComplaintNo" style="margin-left:0px;margin-bottom: 10px;"></div>
 
-                            <div class="span4" style="margin-left:0px;"><label>Launch Time:</label></div>
-                            <div class="span8" id="LaunchTime" style="margin-left:0px;"></div>
+                                <div class="span5" style="margin-left:0px;"><label>Launch Time:</label></div>
+                                <div class="span7" id="LaunchTime" style="margin-left:0px;margin-bottom: 10px;"></div>
 
-                            <div class="span4" style="margin-left:0px;"><label>Launch By:</label></div>
-                            <div class="span8" id="LaunchBy:" style="margin-left:0px;"></div>
+                                <div class="span5" style="margin-left:0px;"><label>Launch By:</label></div>
+                                <div class="span7" id="LaunchBy" style="margin-left:0px;margin-bottom: 10px;"></div>
 
-                            <div class="span4" style="margin-left:0px;"><label>Complaint Type:</label></div>
-                            <div class="span8" id="ComplaintType" style="margin-left:0px;"></div>
+                                <div class="span5" style="margin-left:0px;"><label>Complaint Type:</label></div>
+                                <div class="span7" id="ComplaintType" style="margin-left:0px;margin-bottom: 10px;"></div>
 
-                            <div class="span4" style="margin-left:0px;"><label>Fault Type:</label></div>
-                            <div class="span8" id="FaultType" style="margin-left:0px;"></div>
+                                <div class="span5" style="margin-left:0px;"><label>Fault Type:</label></div>
+                                <div class="span7" id="FaultType" style="margin-left:0px;margin-bottom: 10px;"></div>
 
-                            <div class="span4" style="margin-left:0px;"><label>Fault Type Detail:</label></div>
-                            <div class="span8" id="FaultTypeDetail" style="margin-left:0px;"></div>
+                                <div class="span5" style="margin-left:0px;"><label>Fault Type Detail:</label></div>
+                                <div class="span7" id="FaultTypeDetail" style="margin-left:0px;margin-bottom: 10px;"></div>
 
-                            <div class="span4" style="margin-left:0px;"><label>Contact Person:</label></div>
-                            <div class="span8" id="Name" style="margin-left:0px;"></div>
+                                <div class="span5" style="margin-left:0px;"><label>Contact Person:</label></div>
+                                <div class="span7" id="Name" style="margin-left:0px;margin-bottom: 10px;"></div>
 
-                            <div class="span4" style="margin-left:0px;"><label>Initial Remarks:</label></div>
-                            <div class="span8" id="InitialRemarks" style="margin-left:0px;"></div>
+                                <div class="span5" style="margin-left:0px;"><label>Initial Remarks:</label></div>
+                                <div class="span7" id="InitialRemarks" style="margin-left:0px;margin-bottom: 10px;"></div>
 
-                            <div class="span4" style="margin-left:0px;"><label>Complaint Status:</label></div>
-                            <div class="span8" id="ComplaintStatus" style="margin-left:0px;"></div>
+                                <div class="span5" style="margin-left:0px;"><label>Complaint Status:</label></div>
+                                <div class="span7" id="ComplaintStatus" style="margin-left:0px;margin-bottom: 10px;"></div>
 
-                            <div class="span4" style="margin-left:0px;"><label>Progress Status:</label></div>
-                            <div class="span8" id="ProgressStatus" style="margin-left:0px;"></div>
+                                <div class="span5" style="margin-left:0px;"><label>Progress Status:</label></div>
+                                <div class="span7" id="ProgressStatusName" style="margin-left:0px;margin-bottom: 10px;"></div>
+
+                                <div class="span5" style="margin-left:0px;"><label>Updated At:</label></div>
+                                <div class="span7" id="LastUpdated" style="margin-left:0px;margin-bottom: 10px;"></div>
+
+                                <div class="span5" style="margin-left:0px;"><label>Progress Remarks:</label></div>
+                                <div class="span7" id="ProgressStatusOtherRemarks" style="margin-left:0px;margin-bottom: 10px;"></div>
 
 
 
 
 
 
-
-                        </div>
-                        <div class="span3">
-                            <div class="span12" style="margin-left:0px;">
-                                <img src="~/Content/img/avatar-mini.png" />
                             </div>
-                            <div class="span12" style="margin-left:0px;">
-                                <img src="~/Content/img/avatar-mini.png" />
+                            <div class="span2">
+                                <div class="span12" style="margin-left:0px; margin-bottom:25px;">
+                                    <img src="~/Content/img/avatar-mini.png" style="width:150px;" />
+                                </div>
+                                <div class="span12" style="margin-left:0px; margin-bottom:25px;">
+                                    <img src="~/Content/img/avatar-mini.png" style="width:150px;" />
+                                </div>
+                                <div class="span12" style="margin-left:0px; margin-bottom:25px;">
+                                    <img src="~/Content/img/avatar-mini.png" style="width:150px;" />
+                                </div>
+
+
+
                             </div>
-                            <div class="span12" style="margin-left:0px;">
-                                <img src="~/Content/img/avatar-mini.png" />
-                            </div>
-
-
-
-                        </div>
-                        <div class="span3">
+                            <div class="span3">
                             <div class="span12" style="margin-left:0px;">
                                 <label>Client Remarks</label>
                             </div>
@@ -204,9 +209,9 @@
 
                 </div>
             </div>
-            @*<div class="modal-footer" style="justify-content:center;">
+            <div class="modal-footer" style="justify-content:center;">
                 <button type="button" style="background-color: #081f3e; color: white; " class="btn btn-default btn-round waves-effect" data-dismiss="modal">Close</button>
-            </div>*@
+            </div>
         </div>
     </div>
 </div>
@@ -269,6 +274,10 @@
                         table.clear().draw();
                     });
                 },
+                "fnDrawCallback": function (osetting) {
+                   
+                },
+
                 "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                     $("td:first", nRow).html(iDisplayIndex + 1);
                     if (aData["StatusID"] == "3") {
@@ -332,26 +341,25 @@
                         type: "GET",
                         url: "@Url.Action("GetComplaintDetail", "Complaint")",
                         data: { ComplaintId: Complaint_Id },
-                         success: function (Response) {
-                             var obj = JSON.parse(Response);
-
-                             console.log(data);
-                             $("SiteCode").html(obj.SiteCode);
-                             $("SiteName").html(obj.SiteName);
-                             $("ComplaintNo").html(obj.TicketNo);
-                             $("LaunchTime").html(obj.CreatedDate);
-                             $("LaunchBy").html(obj.LaunchedByName);
-                             $("ComplaintType").html(obj.LaunchedByName);
-                             $("FaultType").html(obj.FaultTypeName);
-                             $("FaultTypeDetail").html(obj.FaultTypesDetailName);
-                             $("Name").html(obj.Remarks);
-                             $("InitialRemarks").html(obj.Remarks);
-                             $("ComplaintStatus").html(obj.StatusName);
-                             $("ProgressStatus").html(obj.ProgressID);
-
-
+             success: function (Response)
+             {
+                            $("#SiteCode").html(Response.SiteCode);
+                            $("#SiteName").html(Response.SiteName);
+                            $("#ComplaintNo").html(Response.TicketNo);
+                            $("#LaunchTime").html(Response.CreatedDate);
+                            $("#LaunchBy").html(Response.LaunchedByName);
+                            $("#ComplaintType").html(Response.ComplaintType);
+                            $("#FaultType").html(Response.FaultTypeName);
+                            $("#FaultTypeDetail").html(Response.FaultTypesDetailName);
+                            $("#Name").html(Response.Name);
+                            $("#InitialRemarks").html(Response.Remarks);
+                            $("#ComplaintStatus").html(Response.StatusName);
+                            $("#ProgressStatusName").html(Response.ProgressStatusName);
+                            $("#LastUpdated").html(Response.LastUpdated);
+                            $("#ProgressStatusOtherRemarks").html(Response.ProgressStatusOtherRemarks);
 
 
+                 LastUpdated
             }
                     });
     }

@@ -469,7 +469,6 @@ namespace FOS.Web.UI.Controllers
             var objCity = new ZoneData();
             int RHID = FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser();
             objCity.Regions = FOS.Setup.ManageRegion.GetRegionList(RHID);
-
             return View(objCity);
         }
 
@@ -537,16 +536,12 @@ namespace FOS.Web.UI.Controllers
             try
             {
                 var dtsource = new List<ZoneData>();
-
                 dtsource = ManageCity.GetProjectsForGrid(RegionID);
-
                 List<String> columnSearch = new List<string>();
-
                 foreach (var col in param.Columns)
                 {
                     columnSearch.Add(col.Search.Value);
                 }
-
                 List<ZoneData> data = ManageCity.GetResultProject(param.Search.Value, param.SortOrder, param.Start, param.Length, dtsource, columnSearch);
                 int count = ManageCity.CountProject(param.Search.Value, dtsource, columnSearch);
                 DTResult<ZoneData> result = new DTResult<ZoneData>
@@ -576,6 +571,8 @@ namespace FOS.Web.UI.Controllers
             var Response = ManageCity.GetEditProjects(CityID);
             return Json(Response, JsonRequestBehavior.AllowGet);
         }
+
+       
 
         #endregion CITY
 

@@ -384,7 +384,7 @@ namespace FOS.Setup
                                 LocationMargin = u.LocationMargin,
                                 LocationName = u.LocationName,
                                 RetailerType = u.RetailerType,
-                                Lattitude = u.Latitude,
+                                Latitude = u.Latitude,
                                 Longitude = u.Longitude,
                                 Address = u.Address == null ? "" : u.Address,
                                 Phone1 = u.Phone1,
@@ -418,7 +418,7 @@ namespace FOS.Setup
                                     LocationMargin = u.LocationMargin,
                                     LocationName = u.LocationName,
                                     RetailerType = u.RetailerType,
-                                    Lattitude = u.Latitude,
+                                    Latitude = u.Latitude,
                                     Longitude = u.Longitude,
                                     Address = u.Address == null ? "" : u.Address,
                                     Phone1 = u.Phone1,
@@ -704,80 +704,60 @@ namespace FOS.Setup
                         if (obj.ID == 0)
                         {
                             retailerObj.ID = dbContext.Retailers.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
-
-
-                            // Client Id is region id in retailers table
                             retailerObj.RegionID = obj.ClientID;
-
-                            // Zone Id is Project id in retailers table
                             retailerObj.ZoneID = obj.SaleOfficerID;
-
-                            retailerObj.Name = obj.Name;
-                            retailerObj.RetailerCode = obj.RetailerCode;
-                            retailerObj.CNIC = obj.CNIC;
-                            retailerObj.Email = obj.Email;
-                            retailerObj.NoOfBranches = obj.NoOfBranches;
-                            retailerObj.NoOfTeachers = obj.NoOfTeachers;
-                            retailerObj.StudentStrength = obj.StudentStrength;
-                           // retailerObj.CardNumber = obj.CardNumber;
-                            retailerObj.SaleOfficerID = obj.SaleOfficerID;
-                            retailerObj.DealerID = obj.DealerID;
-                            retailerObj.Capacity = obj.Capacity;
-                            retailerObj.SubDivisionID = obj.SubDivisionID;
-                     
                             retailerObj.CityID = obj.CityID;
                             retailerObj.AreaID = obj.AreaID;
-
-                            retailerObj.ShopName = obj.ShopName;
-                            retailerObj.Location = obj.Location;
+                            retailerObj.SubDivisionID = obj.SubDivisionID;
+                            retailerObj.Name = obj.Name;
+                            retailerObj.RetailerCode = obj.RetailerCode;
+                            retailerObj.Capacity = obj.Capacity;
+                            retailerObj.SWL = obj.SWL;
+                            retailerObj.Year_of_In = obj.Year_of_In;
+                            retailerObj.Latitude = obj.Latitude;
+                            retailerObj.Longitude = obj.Longitude;
                             retailerObj.Address = obj.Address;
-                            retailerObj.RetailerType = obj.RetailerType;
-                            retailerObj.Phone1 = obj.Phone1 == "" ? null : obj.Phone1;
-                            retailerObj.Phone2 = obj.Phone2 == "" ? null : obj.Phone2;
-                            retailerObj.LandLineNo = obj.ContactPersonCell;
-                            //retailerObj.Market = obj.Market;
-                            retailerObj.IsActive = true;
-                            retailerObj.Status = true;
-                            retailerObj.LastUpdate = DateTime.Now;
+                            retailerObj.Phone1 = obj.Phone1;
                             retailerObj.CreatedDate = DateTime.Now;
+                            retailerObj.LastUpdate = DateTime.Now;
+                            retailerObj.SaleOfficerID = obj.SaleOfficerID;
                             retailerObj.CreatedBy = obj.CreatedBy;
-                            //retailerObj.Type = "WALLCOAT";
+                            retailerObj.UpdatedBy = obj.UpdatedBy;
+                            retailerObj.Status = true;
+                            retailerObj.IsDeleted = false;
+                            retailerObj.IsActive = true;
+                            retailerObj.IsVerified = true;
                             retailerObj.Source = (int)RetSourceEnum.Web;
+                            retailerObj.Picture1 = obj.Picture1;
                             dbContext.Retailers.Add(retailerObj);
                         }
                         else
                         {
                             retailerObj = dbContext.Retailers.Where(u => u.ID == obj.ID).FirstOrDefault();
 
-                            retailerObj.Name = obj.Name;
-                            retailerObj.RetailerCode = obj.RetailerCode;
-                            retailerObj.CNIC = obj.CNIC;
-                            retailerObj.Email = obj.Email;
-                            retailerObj.NoOfBranches = obj.NoOfBranches;
-                            retailerObj.NoOfTeachers = obj.NoOfTeachers;
-                            retailerObj.StudentStrength = obj.StudentStrength;
-                            // retailerObj.CardNumber = obj.CardNumber;
-                            retailerObj.SaleOfficerID = obj.SaleOfficerID;
-                            retailerObj.DealerID = obj.DealerID;
+                            retailerObj.RegionID = obj.ClientID;
+                            retailerObj.ZoneID = obj.SaleOfficerID;
                             retailerObj.CityID = obj.CityID;
                             retailerObj.AreaID = obj.AreaID;
-                            retailerObj.Capacity = obj.Capacity;
                             retailerObj.SubDivisionID = obj.SubDivisionID;
-                            retailerObj.ShopName = obj.ShopName;
-                            retailerObj.Location = obj.Location;
+                            retailerObj.Name = obj.Name;
+                            retailerObj.RetailerCode = obj.RetailerCode;
+                            retailerObj.Capacity = obj.Capacity;
+                            retailerObj.SWL = obj.SWL;
+                            retailerObj.Year_of_In = obj.Year_of_In;
+                            retailerObj.Latitude = obj.Latitude;
+                            retailerObj.Longitude = obj.Longitude;
                             retailerObj.Address = obj.Address;
-                            retailerObj.RetailerType = obj.RetailerType;
                             retailerObj.Phone1 = obj.Phone1 == "" ? null : obj.Phone1;
-                            retailerObj.Phone2 = obj.Phone2 == "" ? null : obj.Phone2;
-                            retailerObj.LandLineNo = obj.ContactPersonCell;
-                            //retailerObj.Market = obj.Market;
-                            retailerObj.IsActive = true;
-                            retailerObj.Status = true;
                             retailerObj.LastUpdate = DateTime.Now;
-                            retailerObj.CreatedBy = obj.CreatedBy;
-                            //retailerObj.Type = "WALLCOAT";
-                            retailerObj.Source = (int)RetSourceEnum.Web;
+                            retailerObj.SaleOfficerID = obj.SaleOfficerID;
                             retailerObj.UpdatedBy = obj.UpdatedBy;
+                            retailerObj.Status = true;
+                            retailerObj.IsDeleted = false;
+                            retailerObj.IsActive = true;
+                            retailerObj.IsVerified = true;
+                            retailerObj.Source = (int)RetSourceEnum.Web;
+                            retailerObj.Picture1 = obj.Picture1;
                         }
 
                         dbContext.SaveChanges();
@@ -1942,41 +1922,38 @@ namespace FOS.Setup
 
         public static KSBComplaintData GetEditComplaint(int ComplaintId)
         {
-           
             try
             {
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                   var AreaIDs = dbContext.Jobs.Where(u => u.ID == ComplaintId).Select(u => u.Areas).FirstOrDefault();
-                    var ConvertID= int.Parse(AreaIDs);
-
                     return dbContext.Jobs.Where(u => u.ID == ComplaintId).Select(u => new KSBComplaintData
                     {
                         ID = u.ID,
-                        SiteCode= dbContext.Retailers.Where(p => p.ID == u.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
-                        SiteName = dbContext.Retailers.Where(p => p.ID ==u.SiteID).Select(p => p.Name).FirstOrDefault(),
+                        SiteCode = dbContext.Retailers.Where(p => p.ID == u.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
+                        SiteName = dbContext.Retailers.Where(p => p.ID == u.SiteID).Select(p => p.Name).FirstOrDefault(),
                         TicketNo = u.TicketNo,
-                        CreatedDate = u.CreatedDate,
-                        LaunchedByName = dbContext.SaleOfficers.Where(p => p.ID ==u.SaleOfficerID).Select(p => p.Name).FirstOrDefault(),
-                        ComplaintType= dbContext.ComplaintTypes.Where(p => p.ID ==u.ComplainttypeID).Select(p => p.Name).FirstOrDefault(),
+                        CreatedDate = u.CreatedDate.ToString(),
+                        LaunchedByName = dbContext.SaleOfficers.Where(p => p.ID == u.SaleOfficerID).Select(p => p.Name).FirstOrDefault(),
+                        ComplaintType = dbContext.ComplaintTypes.Where(p => p.ID == u.ComplainttypeID).Select(p => p.Name).FirstOrDefault(),
                         FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == u.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
                         FaultTypesDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == u.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
                         Name = u.PersonName,
                         Remarks = u.InitialRemarks,
                         StatusName = dbContext.ComplaintStatus.Where(p => p.Id == u.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                        ProgressStatusId = dbContext.JobsDetails.Where(x => x.JobID == u.ID).OrderByDescending(x => x.ID).Select(x => x.ProgressStatusID).FirstOrDefault(),
+                        LastUpdated = dbContext.JobsDetails.Where(x => x.JobID == u.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                        
 
 
 
+                    //SaleOfficerID = u.SaleOfficerID,
+                    //SaleOfficerName = dbContext.SaleOfficers.Where(p => p.ID == Convert.ToInt32(u.SaleOfficerID)).Select(p => p.Name).FirstOrDefault(),
 
-                        //SaleOfficerID = u.SaleOfficerID,
-                        //SaleOfficerName = dbContext.SaleOfficers.Where(p => p.ID == Convert.ToInt32(u.SaleOfficerID)).Select(p => p.Name).FirstOrDefault(),
-
-                        //CityID = u.CityID,
-                        //CItyName = dbContext.Cities.Where(p => p.ID == u.CityID).Select(p => p.Name).FirstOrDefault(),
-                        //AreaID = ConvertID,
-                        //AreaName = dbContext.Zones.Where(p => p.ID == Convert.ToInt32(u.Areas)).Select(p => p.Name).FirstOrDefault(),
-                        //Status=u.Status,
-                        LastUpdated = u.LastUpdated,
+                    //CityID = u.CityID,
+                    //CItyName = dbContext.Cities.Where(p => p.ID == u.CityID).Select(p => p.Name).FirstOrDefault(),
+                    //AreaID = ConvertID,
+                    //AreaName = dbContext.Zones.Where(p => p.ID == Convert.ToInt32(u.Areas)).Select(p => p.Name).FirstOrDefault(),
+                    //Status=u.Status,
                         //RegionID = u.RegionID,
                         //RegionName = dbContext.Regions.Where(p => p.ID == u.RegionID).Select(p => p.Name).FirstOrDefault(),
                         //ZoneId = u.ZoneID,

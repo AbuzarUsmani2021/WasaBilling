@@ -161,7 +161,7 @@ namespace FOS.Setup
 
 
 
-        public static List<ZoneData> GetProjectListRelatedToClients(int RegionHeadID, bool selectOption = false)
+        public static List<ZoneData> GetProjectListRelatedToClients(int RegionHeadID, bool selectOption = true)
         {
             List<ZoneData> saleOfficerData = new List<ZoneData>();
 
@@ -188,7 +188,7 @@ namespace FOS.Setup
                 saleOfficerData.Insert(0, new ZoneData
                 {
                     ID = 0,
-                    Name = "All"
+                    Name = "--Select Project--"
                 });
             }
 

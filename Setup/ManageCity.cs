@@ -149,6 +149,7 @@ namespace FOS.Setup
                 throw;
             }
 
+
             return city;
         }
 
@@ -1138,8 +1139,15 @@ namespace FOS.Setup
                         ID = i.ID,
                         Name = i.Name,
                         ClientId = i.ClientId,
-                        SapNo = i.SapNo
-
+                        SapNo = i.SapNo,
+                        CreatedOn=i.CreatedOn.ToString(),
+                        AONO = i.AONO,
+                        ContractNo = i.ContractNo,
+                        ContractTitle = i.ContractTitle,
+                        Duration = i.Duration,
+                        AwardDate = i.AwardDate,
+                        DateTo = i.DateTo,
+                        DateFrom = i.DateFrom
                     }).First();
                 }
             }
@@ -1434,13 +1442,17 @@ namespace FOS.Setup
                         {
                             ZoneObj.ID = dbContext.Zones.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
                             ZoneObj.Name = obj.Name;
-                            ZoneObj.SapNo = obj.ShortCode;
+                            ZoneObj.SapNo = obj.SapNo;
+                            ZoneObj.AONO = obj.AONO;
+                            ZoneObj.ContractNo = obj.ContractNo;
+                            ZoneObj.ContractTitle = obj.ContractTitle;
+                            ZoneObj.AwardDate = obj.AwardDate;
+                            ZoneObj.Duration = obj.Duration;
+                            ZoneObj.DateFrom = obj.DateFrom;
+                            ZoneObj.DateTo =obj.DateTo;
                             ZoneObj.ClientId = obj.ClientId;
                             ZoneObj.CreatedOn = DateTime.Now;
-                            ZoneObj.StartDate = DateTime.Now;
-                            ZoneObj.EndDate = DateTime.Now;
                             ZoneObj.CreatedBy = 1;
-
                             dbContext.Zones.Add(ZoneObj);
                         }
 
@@ -1450,9 +1462,15 @@ namespace FOS.Setup
                             ZoneObj = dbContext.Zones.Where(u => u.ID == obj.ID).FirstOrDefault();
                             ZoneObj.Name = obj.Name;
                             ZoneObj.SapNo = obj.SapNo;
+                            ZoneObj.AONO = obj.AONO;
+                            ZoneObj.ContractNo = obj.ContractNo;
+                            ZoneObj.ContractTitle = obj.ContractTitle;
+                            ZoneObj.AwardDate = obj.AwardDate;
+                            ZoneObj.Duration = obj.Duration;
+                            ZoneObj.DateFrom = obj.DateFrom;
+                            ZoneObj.DateTo = obj.DateTo;
                             ZoneObj.ClientId = obj.ClientId;
                             ZoneObj.CreatedOn = DateTime.Now;
-                            ZoneObj.SapNo = obj.ShortCode;
                             ZoneObj.CreatedBy = 1;
                         }
 
@@ -1527,7 +1545,6 @@ namespace FOS.Setup
         public static List<ZoneData> GetProjectsForGrid(int intRegionID)
         {
             List<ZoneData> cityData = new List<ZoneData>();
-
             try
             {
                 using (FOSDataModel dbContext = new FOSDataModel())
@@ -1537,16 +1554,24 @@ namespace FOS.Setup
                                 u => new ZoneData
                                 {
                                     ID = u.ID,
-
                                     ClientName = dbContext.Regions.Where(x => x.ID == u.ClientId).Select(x => x.Name).FirstOrDefault(),
                                     Name = u.Name,
-                                    SapNo = u.SapNo
+                                    SapNo = u.SapNo,
+                                    CreatedOn= u.CreatedOn.ToString(),
+                                    ClientId = u.ClientId,
+                                    AONO = u.AONO,
+                                    AwardDate = u.AwardDate,
+                                    ContractNo = u.ContractNo,
+                                    ContractTitle = u.ContractTitle,
+                                    Duration = u.Duration,
+                                    DateFrom = u.DateFrom,
+                                    DateTo = u.DateTo,
                                 }).ToList();
                 }
             }
             catch (Exception exp)
             {
-                Log.Instance.Error(exp, "Load City Grid Failed");
+                Log.Instance.Error(exp, "Load Project Grid Failed");
                 throw;
             }
 

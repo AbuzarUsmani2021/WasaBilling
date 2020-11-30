@@ -21,7 +21,8 @@ namespace FOS.Shared
 
         [DisplayName("Retailer Name *")]
         public string Name { get; set; }
-        
+        public decimal? SWL { get; set; }
+        public string Year_of_In { get; set; }
         public string RetailerCode { get; set; }
         public string ContactPerson { get; set; }
         public string Email { get; set; }
@@ -51,6 +52,8 @@ namespace FOS.Shared
 
         [DisplayName("Sale Officer Name *")]
         public string SaleOfficerName { get; set; }
+        public string Picture1 { get; set; }
+
         public Boolean RetailerJobStatus { get; set; }
         
         
@@ -64,7 +67,7 @@ namespace FOS.Shared
 
         [DisplayName("Location(x,y)")]
         public string Location { get; set; }
-        public decimal? Lattitude { get; set; }
+        public decimal? Latitude { get; set; }
         public decimal? Longitude { get; set; }
        
         public string LocationName { get; set; }

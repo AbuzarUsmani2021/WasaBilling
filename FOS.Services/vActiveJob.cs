@@ -36,5 +36,20 @@ namespace FOS.DataLayer
         public Nullable<bool> IsActive { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
         public Nullable<System.DateTime> LastProcessed { get; set; }
+        public Nullable<int> RegionID { get; set; }
+        public Nullable<int> ZoneID { get; set; }
+        public Nullable<int> SiteID { get; set; }
+        public string TicketNo { get; set; }
+        public Nullable<int> FaultTypeId { get; set; }
+        public Nullable<int> PriorityId { get; set; }
+        public Nullable<int> ComplaintStatusId { get; set; }
+        public Nullable<int> LaunchedById { get; set; }
+        public string PersonName { get; set; }
+        public Nullable<int> FaultTypeDetailID { get; set; }
+        public Nullable<int> SubDivisionID { get; set; }
+        public Nullable<int> ComplainttypeID { get; set; }
+        public string InitialRemarks { get; set; }
+        public Nullable<System.DateTime> ResolvedAt { get; set; }
+        public Nullable<int> ResolvedHours { get; set; }
     }
 }
