@@ -22,6 +22,7 @@ namespace FOS.Web.UI.Controllers.API
         {
             var jobDetail = new JobsDetail();
             var job = new Job();
+            var comHis = new Tbl_ComplaintHistory();
             try
             {
                 
@@ -69,6 +70,21 @@ namespace FOS.Web.UI.Controllers.API
                 job.PriorityId = obj.PriorityId;
                 job.ResolvedHours = obj.ResolvedHour;
                 job.PersonName = obj.Name;
+                job.ComplaintStatusId = obj.StatusID;
+                comHis = db.Tbl_ComplaintHistory.Where(x => x.JobDetailID == jobDetail.ID).FirstOrDefault();
+
+                comHis.SiteID = job.SiteID;
+                comHis.FaultTypeId = obj.FaulttypeId;
+                comHis.PriorityId = obj.PriorityId;
+                comHis.ComplaintStatusId = obj.StatusID;
+                comHis.FaultTypeDetailID = obj.FaulttypeDetailId;
+                comHis.Picture1 = jobDetail.Picture1;
+                comHis.Picture2 = jobDetail.Picture2;
+                comHis.Picture3 = jobDetail.Picture3;
+                comHis.ProgressStatusID = obj.ProgressStatusId;
+                comHis.FaultTypeDetailRemarks = obj.FaultTypeDetailOtherRemarks;
+                comHis.ProgressStatusRemarks = obj.ProgressStatusOtherRemarks;
+                comHis.AssignedToSaleOfficer = obj.AssignedToID;
                 
                 db.SaveChanges();
 

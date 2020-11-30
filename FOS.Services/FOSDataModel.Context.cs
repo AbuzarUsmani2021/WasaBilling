@@ -3549,23 +3549,6 @@ namespace FOS.DataLayer
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_MyComplaintListRemarksGet_Result>("Sp_MyComplaintListRemarksGet", regionIDParameter, dateFromParameter, dateToParameter);
         }
     
-        public virtual ObjectResult<Sp_MyComplaintListRemarksGet1_1_Result> Sp_MyComplaintListRemarksGet1_1(Nullable<int> regionID, Nullable<System.DateTime> dateFrom, Nullable<System.DateTime> dateTo)
-        {
-            var regionIDParameter = regionID.HasValue ?
-                new ObjectParameter("RegionID", regionID) :
-                new ObjectParameter("RegionID", typeof(int));
-    
-            var dateFromParameter = dateFrom.HasValue ?
-                new ObjectParameter("dateFrom", dateFrom) :
-                new ObjectParameter("dateFrom", typeof(System.DateTime));
-    
-            var dateToParameter = dateTo.HasValue ?
-                new ObjectParameter("dateTo", dateTo) :
-                new ObjectParameter("dateTo", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_MyComplaintListRemarksGet1_1_Result>("Sp_MyComplaintListRemarksGet1_1", regionIDParameter, dateFromParameter, dateToParameter);
-        }
-    
         public virtual ObjectResult<Sp_GetProgressListFinal_Result3> Sp_GetProgressListFinal(Nullable<int> stockID)
         {
             var stockIDParameter = stockID.HasValue ?
@@ -3653,6 +3636,32 @@ namespace FOS.DataLayer
                 new ObjectParameter("RegionID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_NotificationDataForFS_Result>("Sp_NotificationDataForFS", regionIDParameter);
+        }
+    
+        public virtual ObjectResult<Sp_GetProgressListFinal1_1_Result> Sp_GetProgressListFinal1_1(Nullable<int> stockID)
+        {
+            var stockIDParameter = stockID.HasValue ?
+                new ObjectParameter("StockID", stockID) :
+                new ObjectParameter("StockID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetProgressListFinal1_1_Result>("Sp_GetProgressListFinal1_1", stockIDParameter);
+        }
+    
+        public virtual ObjectResult<Sp_MyComplaintListRemarksGet1_1_Result1> Sp_MyComplaintListRemarksGet1_1(Nullable<int> regionID, Nullable<System.DateTime> dateFrom, Nullable<System.DateTime> dateTo)
+        {
+            var regionIDParameter = regionID.HasValue ?
+                new ObjectParameter("RegionID", regionID) :
+                new ObjectParameter("RegionID", typeof(int));
+    
+            var dateFromParameter = dateFrom.HasValue ?
+                new ObjectParameter("dateFrom", dateFrom) :
+                new ObjectParameter("dateFrom", typeof(System.DateTime));
+    
+            var dateToParameter = dateTo.HasValue ?
+                new ObjectParameter("dateTo", dateTo) :
+                new ObjectParameter("dateTo", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_MyComplaintListRemarksGet1_1_Result1>("Sp_MyComplaintListRemarksGet1_1", regionIDParameter, dateFromParameter, dateToParameter);
         }
     }
 }

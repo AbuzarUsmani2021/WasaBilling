@@ -35,7 +35,7 @@ namespace FOS.Web.UI.Controllers.API
                     JobObj.ResolvedHours = obj.ResolvedHour;
                     // JobObj.InitialRemarks = obj.Remarks;
                     JobObj.FaultTypeDetailID = obj.FaulttypeDetailId;
-                    JobObj.ComplaintStatusId = obj.StatusID;
+           
                     if (JobObj.ComplaintStatusId == 3)
                     {
                         JobObj.ResolvedAt = DateTime.UtcNow.AddHours(5);
@@ -100,6 +100,9 @@ namespace FOS.Web.UI.Controllers.API
                     history.FaultTypeDetailID = obj.FaulttypeDetailId;
                     history.ProgressStatusID = obj.ProgressStatusId;
                     history.ComplaintStatusId = obj.StatusID;
+                    history.Picture1 = jobDetail.Picture1;
+                    history.Picture2 = jobDetail.Picture2;
+                    history.Picture3 = jobDetail.Picture3;
                     history.SiteID = jobDetail.RetailerID;
                     history.UpdateRemarks = jobDetail.PRemarks;
                     history.PriorityId = obj.PriorityId;
@@ -406,7 +409,7 @@ namespace FOS.Web.UI.Controllers.API
                     }
 
                     db.JobsDetails.Add(jobDetail);
-
+                    db.SaveChanges();
                     Tbl_ComplaintHistory history = new Tbl_ComplaintHistory();
 
                     history.JobID = JobObj.ID;
@@ -418,6 +421,9 @@ namespace FOS.Web.UI.Controllers.API
                     history.ComplaintStatusId = obj.StatusID;
                     history.ProgressStatusID = obj.ProgressStatusId;
                     history.AssignedToSaleOfficer = obj.AssignedToID;
+                    history.Picture1 = jobDetail.Picture1;
+                    history.Picture2 = jobDetail.Picture2;
+                    history.Picture3 = jobDetail.Picture3;
                     history.SiteID = jobDetail.RetailerID;
                     history.PriorityId = obj.PriorityId;
                     history.IsActive = true;
@@ -429,8 +435,232 @@ namespace FOS.Web.UI.Controllers.API
                     db.Tbl_ComplaintHistory.Add(history);
                     db.SaveChanges();
 
+                    var secondLastdata = db.Tbl_ComplaintHistory.OrderByDescending(s => s.ID).FirstOrDefault();
+
+                    if (secondLastdata == null)
+                    {
+                        var data = db.Tbl_ComplaintHistory.FirstOrDefault();
+
+                        ComplaintNotification notify = new ComplaintNotification();
+                        notify.ID = db.ComplaintNotifications.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
+                        notify.JobID = JobObj.ID;
+                        notify.JobDetailID = jobDetail.ID;
+                        notify.ComplaintHistoryID = history.ID;
+
+                        if (data.SiteID == history.SiteID)
+                        {
+                            notify.IsSiteIDChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsSiteIDChanged = true;
+                        }
+                        if (data.FaultTypeId == history.FaultTypeId)
+                        {
+                            notify.IsFaulttypeIDChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsFaulttypeIDChanged = true;
+                        }
+
+                        notify.IsSiteCodeChanged = false;
+                        if (data.FaultTypeDetailID == history.FaultTypeDetailID)
+                        {
+                            notify.IsFaulttypeDetailIDChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsFaulttypeDetailIDChanged = true;
+                        }
+                        if (data.PriorityId == history.PriorityId)
+                        {
+                            notify.IsPriorityIDChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsPriorityIDChanged = true;
+                        }
+                        if (data.ComplaintStatusId == history.ComplaintStatusId)
+                        {
+                            notify.IsComplaintStatusIDChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsComplaintStatusIDChanged = true;
+                        }
+                        if (data.PersonName == history.PersonName)
+                        {
+                            notify.IsPersonNameChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsPersonNameChanged = true;
+                        }
 
 
+                        notify.IsPicture1Changed = false;
+                        notify.IsPicture2Changed = false;
+                        notify.IsPicture3Changed = false;
+
+                        if (data.ProgressStatusID == history.ProgressStatusID)
+                        {
+                            notify.IsProgressStatusIDChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsProgressStatusIDChanged = true;
+                        }
+
+                        if (data.ProgressStatusRemarks == history.ProgressStatusRemarks)
+                        {
+                            notify.IsProgressStatusRemarksChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsProgressStatusRemarksChanged = true;
+                        }
+
+                        if (data.FaultTypeDetailRemarks == history.FaultTypeDetailRemarks)
+                        {
+                            notify.IsFaulttypeDetailRemarksChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsFaulttypeDetailRemarksChanged = true;
+                        }
+                        if (data.AssignedToSaleOfficer == history.AssignedToSaleOfficer)
+                        {
+                            notify.IsAssignedSaleOfficerChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsAssignedSaleOfficerChanged = true;
+                        }
+                        if (data.UpdateRemarks == history.UpdateRemarks)
+                        {
+                            notify.IsUpdateRemarksChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsUpdateRemarksChanged = true;
+                        }
+
+                        notify.CreatedDate = DateTime.UtcNow.AddHours(5);
+                        db.ComplaintNotifications.Add(notify);
+
+                    }
+
+                    else
+                    {
+                        ComplaintNotification notify = new ComplaintNotification();
+                        notify.ID = db.ComplaintNotifications.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
+                        notify.JobID = JobObj.ID;
+                        notify.JobDetailID = jobDetail.ID;
+                        notify.ComplaintHistoryID = history.ID;
+
+                        if (secondLastdata.SiteID == history.SiteID)
+                        {
+                            notify.IsSiteIDChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsSiteIDChanged = true;
+                        }
+                        if (secondLastdata.FaultTypeId == history.FaultTypeId)
+                        {
+                            notify.IsFaulttypeIDChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsFaulttypeIDChanged = true;
+                        }
+
+                        notify.IsSiteCodeChanged = false;
+                        if (secondLastdata.FaultTypeDetailID == history.FaultTypeDetailID)
+                        {
+                            notify.IsFaulttypeDetailIDChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsFaulttypeDetailIDChanged = true;
+                        }
+                        if (secondLastdata.PriorityId == history.PriorityId)
+                        {
+                            notify.IsPriorityIDChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsPriorityIDChanged = true;
+                        }
+                        if (secondLastdata.ComplaintStatusId == history.ComplaintStatusId)
+                        {
+                            notify.IsComplaintStatusIDChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsComplaintStatusIDChanged = true;
+                        }
+                        if (secondLastdata.PersonName == history.PersonName)
+                        {
+                            notify.IsPersonNameChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsPersonNameChanged = true;
+                        }
+
+
+                        notify.IsPicture1Changed = false;
+                        notify.IsPicture2Changed = false;
+                        notify.IsPicture3Changed = false;
+
+                        if (secondLastdata.ProgressStatusID == history.ProgressStatusID)
+                        {
+                            notify.IsProgressStatusIDChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsProgressStatusIDChanged = true;
+                        }
+
+                        if (secondLastdata.ProgressStatusRemarks == history.ProgressStatusRemarks)
+                        {
+                            notify.IsProgressStatusRemarksChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsProgressStatusRemarksChanged = true;
+                        }
+
+                        if (secondLastdata.FaultTypeDetailRemarks == history.FaultTypeDetailRemarks)
+                        {
+                            notify.IsFaulttypeDetailRemarksChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsFaulttypeDetailRemarksChanged = true;
+                        }
+                        if (secondLastdata.AssignedToSaleOfficer == history.AssignedToSaleOfficer)
+                        {
+                            notify.IsAssignedSaleOfficerChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsAssignedSaleOfficerChanged = true;
+                        }
+                        if (secondLastdata.UpdateRemarks == history.UpdateRemarks)
+                        {
+                            notify.IsUpdateRemarksChanged = false;
+                        }
+                        else
+                        {
+                            notify.IsUpdateRemarksChanged = true;
+                        }
+                        notify.IsSeen = false;
+                        notify.CreatedDate = DateTime.UtcNow.AddHours(5);
+                        db.ComplaintNotifications.Add(notify);
+                    }
                 }
                 catch (Exception ex)
                 {

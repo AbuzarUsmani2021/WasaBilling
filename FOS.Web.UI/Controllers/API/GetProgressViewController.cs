@@ -62,6 +62,10 @@ namespace FOS.Web.UI.Controllers.API
                         comlist.SiteID = JobId.RetailerID;
                         comlist.SiteCode = JobId.Retailer.RetailerCode;
                         comlist.SiteName = JobId.Retailer.Name;
+                        if (item.ComplaintStatusID == 3)
+                        {
+                            comlist.ProgressStatusName = db.WorkDones.Where(x => x.ID == item.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+                        }
                         //comlist.ComplaintStatusName = db.ComplaintStatus.Where(x => x.Id == jobtblID.ComplaintStatusId).Select(x => x.Name).FirstOrDefault();
                         //// comlist.FaultTypeName = db.FaultTypes.Where(x => x.Id == jobtblID.FaultTypeId).Select(x => x.Name).FirstOrDefault();
                         //comlist.FaultTypeDetailName = db.FaultTypeDetails.Where(x => x.ID == jobtblID.FaultTypeDetailID).Select(x => x.Name).FirstOrDefault();

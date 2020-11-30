@@ -401,7 +401,7 @@ namespace FOS.Web.UI.Controllers.API
             if (roleID != 3)
             {
 
-                Count = db.Jobs.Where(x => x.CreatedDate >=dtFromToday && x.CreatedDate<=dtToToday).Select(x => x.ID).Count();
+                Count = db.Jobs.Select(x => x.ID).Count();
 
             }
             else

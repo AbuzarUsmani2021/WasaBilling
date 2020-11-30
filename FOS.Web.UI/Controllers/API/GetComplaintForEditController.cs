@@ -60,7 +60,7 @@ namespace FOS.Web.UI.Controllers.API
                                 comlist.SaleOfficerID = item.SaleOfficerID;
                                 comlist.ProgressRemarks = items.ProgressStatusName;
                                 comlist.InitialRemarks = item.InitialRemarks;
-                                comlist.FaultTypeDetailOtherRemarks = items.ProgressRemarks;
+                                comlist.FaultTypeDetailOtherRemarks = items.Activitytype;
                                 comlist.FaultTypeDetailName = item.FaultTypeDetailName;
                                 comlist.ComplaintStatusID = item.ComplaintStatusId;
                                 comlist.ComplaintStatusName = item.ComplaintStatusName;

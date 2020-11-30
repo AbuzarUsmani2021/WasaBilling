@@ -11,6 +11,7 @@ mFOS.Web.UI/Content/themes/base
 mFOS.Web.UI/Content/themes/base/minified
 mFOS.Web.UI/Controllers
 rFOS.Web.UI/Controllers/API
+mFOS.Web.UI/Models
 mFOS.Web.UI/Models/Scripts
 mFOS.Web.UI/Models/Scripts/js
 rFOS.Web.UI/Properties/PublishProfiles

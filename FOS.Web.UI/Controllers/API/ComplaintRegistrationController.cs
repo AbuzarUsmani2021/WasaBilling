@@ -141,7 +141,10 @@ namespace FOS.Web.UI.Controllers.API
                     history.FaultTypeId = rm.FaulttypeId;
                     history.FaultTypeDetailID = rm.FaulttypeDetailId;
                     history.ComplaintStatusId = 2003;
-                    history.SiteID = rm.SiteId;
+                history.Picture1 = jobDetail.Picture1;
+                history.Picture2 = jobDetail.Picture2;
+                history.Picture3 = jobDetail.Picture3;
+                history.SiteID = rm.SiteId;
                     history.PriorityId = 0;
                     history.IsActive = true;
                     history.IsPublished = 0;

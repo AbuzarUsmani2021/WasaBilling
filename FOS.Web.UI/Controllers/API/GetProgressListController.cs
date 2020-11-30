@@ -21,6 +21,8 @@ namespace FOS.Web.UI.Controllers.API
             FOSDataModel dbContext = new FOSDataModel();
             try
             {
+                List<MyProgressView> list = new List<MyProgressView>();
+                MyProgressView comlist;
                 //List<RetailerData> MAinCat = new List<RetailerData>();
                 if (ComplaintID > 0)
                 {
@@ -29,12 +31,48 @@ namespace FOS.Web.UI.Controllers.API
                     if (RoleID == 2)
                     {
 
-                        var result = dbContext.Sp_GetProgressListFinal(ComplaintID).ToList();
-                        if (result != null && result.Count > 0)
+                        var result = dbContext.Sp_GetProgressListFinal1_1(ComplaintID).ToList();
+
+                        foreach (var item in result)
+                        {
+                            comlist = new MyProgressView();
+                            comlist.ID = item.ID;
+                            comlist.ComplaintID = item.ComplaintID;
+                            comlist.ComplaintNo = item.ComplaintNo;
+                            comlist.LaunchDate = item.LaunchDate;
+                            comlist.InitialRemarks = item.InitialRemarks;
+                            comlist.IsPublished = item.IsPublished;
+                            comlist.SiteName = item.SiteName;
+                            comlist.FaultType = item.FaultType;
+                            comlist.FaultTypeDetail = item.FaultTypeDetail;
+                            comlist.SiteCode = item.SiteCode;
+                            comlist.JobDate = item.JobDate;
+                            comlist.ProgressStatusID = item.ProgressStatusID;
+                            comlist.ProgressStatusName = item.ProgressStatusName;
+                            comlist.PRemarks = item.PRemarks;
+                            comlist.SaleofficerName = item.SaleofficerName;
+                            comlist.LaunchedByName = item.LaunchedByName;
+                            comlist.ChildFaultType = item.ChildFaultType;
+                            comlist.ChildFaultTypeDetailID = item.ChildFaultTypeDetailID;
+                            comlist.ChildComplaintStatusID = item.ChildComplaintStatusID;
+                            comlist.ChildFaulttypeName = item.ChildFaulttypeName;
+                            comlist.ChildFaultTypeDetailName = item.ChildFaultTypeDetailName;
+                            comlist.ChildComplaintStatus = item.ChildComplaintStatus;
+
+                            if (item.ChildComplaintStatusID == 3)
+                            {
+                                comlist.ProgressStatusName = db.WorkDones.Where(x => x.ID == item.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+                            }
+
+                            list.Add(comlist);
+
+                        }
+
+                        if (list != null && list.Count > 0)
                         {
                             return Ok(new
                             {
-                                ProgressList = result
+                                ProgressList = list
 
                             });
                         }
@@ -71,5 +109,35 @@ namespace FOS.Web.UI.Controllers.API
         }
 
 
+    }
+
+
+    public class MyProgressView
+    {
+        public int? ID { get; set; }
+        public int? ComplaintID { get; set; }
+   
+        public string ComplaintNo { get; set; }
+        public DateTime? LaunchDate { get; set; }
+        public string InitialRemarks { get; set; }
+        public int? IsPublished { get; set; }
+        public string SiteName { get; set; }
+
+
+        public string FaultType { get; set; }
+        public string FaultTypeDetail { get; set; }
+        public string SiteCode { get; set; }
+        public DateTime? JobDate { get; set; }
+        public int? ProgressStatusID { get; set; }
+        public string ProgressStatusName { get; set; }
+        public string PRemarks { get; set; }
+        public string SaleofficerName { get; set; }
+        public string LaunchedByName { get; set; }
+        public int? ChildFaultType { get; set; }
+        public int? ChildFaultTypeDetailID { get; set; }
+        public int? ChildComplaintStatusID { get; set; }
+        public string ChildFaulttypeName { get; set; }
+        public string ChildFaultTypeDetailName { get; set; }
+        public string ChildComplaintStatus { get; set; }
     }
 }
