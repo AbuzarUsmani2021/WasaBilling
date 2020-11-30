@@ -19,8 +19,8 @@ namespace FOS.Shared
 
 
 
-        public DateTime? CreatedDate { get; set; }
-        public DateTime? LastUpdated { get; set; }
+        public string CreatedDate { get; set; }
+        public string LastUpdated { get; set; }
         public DateTime? ResolvedAt { get; set; }
         public int? ReslovedHours { get; set; }
         public string TicketNo { get; set; }

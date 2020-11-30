@@ -1,0 +1,97 @@
+﻿
+#map-canvas {
+    width: 100%;
+    height: 474px;
+}
+
+
+body {
+}
+
+.fa {
+    font-size: 40px;
+}
+
+.user-profile-image {
+    border: 1px solid #ededed;
+    border-radius: 3px;
+}
+
+    .user-profile-image img {
+        height: 334px;
+        cursor: pointer;
+    }
+
+    .user-profile-image:hover .upload-photo {
+        transform: scaleY(1);
+    }
+
+    .user-profile-image .upload-photo {
+        background: #242424;
+        opacity: 0.4;
+        width: 295px;
+        height: 50px;
+        position: absolute;
+        bottom: 145px;
+        /*            left: 980px;
+*/ cursor: pointer;
+        transform: scaleY(0);
+        transition: 0.3s;
+        transform-origin: bottom;
+    }
+
+        .user-profile-image .upload-photo:before {
+            content: 'Upload Photo';
+            color: #fff;
+            position: absolute;
+            top: 15px;
+            left: 50px;
+            opacity: 1;
+            font-size: 12px;
+        }
+
+        .user-profile-image .upload-photo img {
+            height: 30px;
+            width: 27px;
+            color: #fff;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+    .user-profile-image .remove-photo {
+        position: absolute;
+        top: 143px;
+        right: 75px;
+        padding: 10px;
+        cursor: pointer;
+        transform: scaleY(0);
+        transition: 0.3s;
+        transform-origin: top;
+    }
+
+        .user-profile-image .remove-photo .fa-window.close {
+            color: black;
+        }
+
+
+        .user-profile-image .remove-photo:hover .fa-window.close {
+            color: black;
+        }
+
+    .user-profile-image:hover .remove-photo {
+        transform: scaleY(1);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+

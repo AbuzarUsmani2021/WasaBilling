@@ -632,6 +632,7 @@
     <Content Include="Content\Style\style.css" />
     <Content Include="Content\Style\timepicker.css" />
     <Content Include="Content\Style\uniform.default.css" />
+    <Content Include="Content\Style\UploadPhoto.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -719,6 +720,7 @@
     <Content Include="Content\Font\myriadproregular.eot" />
     <Content Include="Content\Font\myriadproregular.ttf" />
     <Content Include="Content\Font\myriadproregular.woff" />
+    <Content Include="Images\no-image-available.png.jpg" />
     <Content Include="Images\RetailerJobImages\2693ret09-13-2018011308.jpg" />
     <Content Include="Images\RetailerJobImages\2750ret10-05-2018080552.jpg" />
     <Content Include="Images\RetailerJobImages\2753ret10-18-2018071820.jpg" />
@@ -726,6 +728,7 @@
     <Content Include="Images\RetailerJobImages\5020ret09-19-2018011917.jpg" />
     <Content Include="Images\RetailerJobImages\5020ret09-19-2018011919.jpg" />
     <Content Include="Images\shell_large.jpg" />
+    <Content Include="Images\upload.png" />
     <Content Include="Images\UserImages\11059668_10153919969241011_3297493721568984608_n.jpg" />
     <Content Include="Images\UserImages\12418023_1021983467899412_1895152289259641402_n.jpg" />
     <Content Include="Images\UserImages\12528137_1681733318781078_1475179628_n.jpg" />
@@ -1095,6 +1098,7 @@
     <Folder Include="Images\ComplaintVideos\" />
     <Folder Include="Images\SchoolPictures\" />
     <Folder Include="Images\ShopPictures\" />
+    <Folder Include="Images\SitesImages\" />
     <Folder Include="Images\VisitImages\" />
     <Folder Include="Logs\" />
     <Folder Include="PDF\" />

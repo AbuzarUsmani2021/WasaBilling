@@ -620,8 +620,8 @@ a, a:focus, a:hover, a:active {
 .sidebar-scroll {
     position: fixed;
     height: 100%;
-    width: 160px;
-    z-index: 0;
+/*    width: 160px;
+*/    z-index: 0;
     overflow: inherit !important;
 }
 

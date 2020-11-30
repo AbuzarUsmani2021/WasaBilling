@@ -81,9 +81,8 @@ namespace FOS.Setup
                     var Regions = dbContext.RegionalHeadRegions.Where(rhr => rhr.RegionHeadID == RHID).Select(rhr => rhr.RegionID).ToList();
                     region = dbContext.Regions.Where(r => Regions.Contains(r.ID) && r.IsActive == true && r.IsDeleted == false).ToList();
                 }
-
-                
             }
+          
             return region;
         }
         public static List<MainCategory> GetMainCategory()
@@ -398,6 +397,11 @@ namespace FOS.Setup
                         {
                             RegionObj.ID = dbContext.Regions.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
                             RegionObj.Name = obj.Name;
+                            RegionObj.Province = obj.Province;
+                            RegionObj.ContactNo = obj.ContactNo;
+                            RegionObj.Address = obj.Address;
+                            RegionObj.City = obj.City;
+                            RegionObj.Country = obj.Country;
                             RegionObj.ShortCode = obj.ShortCode;
                             RegionObj.IsActive = true;
                             RegionObj.CreatedDate = DateTime.Now;
@@ -408,6 +412,11 @@ namespace FOS.Setup
                         {
                             RegionObj = dbContext.Regions.Where(u => u.ID == obj.RegionID).FirstOrDefault();
                             RegionObj.Name = obj.Name;
+                            RegionObj.Province = obj.Province;
+                            RegionObj.ContactNo = obj.ContactNo;
+                            RegionObj.Address = obj.Address;
+                            RegionObj.City = obj.City;
+                            RegionObj.Country = obj.Country;
                             RegionObj.ShortCode = obj.ShortCode;
                             RegionObj.LastUpdate = DateTime.Now;
                         }
@@ -432,6 +441,9 @@ namespace FOS.Setup
             }
             return Res;
         }
+
+
+
 
 
         // Delete Region ...
@@ -474,7 +486,12 @@ namespace FOS.Setup
                                     RegionID = u.ID,
                                     Name = u.Name,
                                     ShortCode = u.ShortCode,
-                                    LastUpdate = u.LastUpdate
+                                    CreatedDate=u.CreatedDate,
+                                    ContactNo = u.ContactNo,
+                                    Province = u.Province,
+                                    Country = u.Country,
+                                    City = u.City,
+                                    Address = u.Address
                                 }).ToList();
                 }
             }

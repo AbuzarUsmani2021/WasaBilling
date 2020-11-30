@@ -119,10 +119,7 @@ namespace FOS.Setup
                                 u => new RegionData
                                 {
                                     ID = u.ID,
-
-
                                     Name = u.Name,
-
                                     LastUpdate = u.LastUpdate
                                 }).ToList();
                 }
@@ -131,7 +128,12 @@ namespace FOS.Setup
             {
                 throw;
             }
-            
+            regionalHeadData.Insert(0, new RegionData
+            {
+                ID = 0,
+                Name = "--Select Client--"
+            });
+
 
             return regionalHeadData;
         }

@@ -711,7 +711,7 @@ namespace FOS.Setup
 
             {
                 ID = 0,
-                Name = "Select"
+                Name = "--Select Project--"
             });
 
             return saleOfficerData;

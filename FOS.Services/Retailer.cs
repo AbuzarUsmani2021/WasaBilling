@@ -113,7 +113,6 @@ namespace FOS.DataLayer
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RetailerPainter> RetailerPainters { get; set; }
         public virtual Sylabu Sylabu { get; set; }
-        public virtual Zone Zone { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SMSLog> SMSLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -127,5 +126,6 @@ namespace FOS.DataLayer
         public virtual ICollection<JobsDetail> JobsDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_KsbVisits> TBL_KsbVisits { get; set; }
+        public virtual Zone Zone { get; set; }
     }
 }

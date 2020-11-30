@@ -4,14 +4,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+
+
 <!-- BEGIN PAGE HEADER-->
 <div class="row-fluid">
     <div class="span12">
         <!-- BEGIN THEME CUSTOMIZER-->
         <!-- END THEME CUSTOMIZER-->
         <!-- BEGIN PAGE TITLE & BREADCRUMB-->
-        <h3 class="page-title"></h3>
-        <ul class="breadcrumb">
+        @*<h3 class="page-title"></h3>*@
+        @*<ul class="breadcrumb">
             <li>
                 <a href="#">Setup</a>
                 <span class="divider">/</span>
@@ -19,7 +22,7 @@
             <li>
                 <a href="#">Manage Project</a>
             </li>
-        </ul>
+        </ul>*@
         <!-- END PAGE TITLE & BREADCRUMB-->
     </div>
 </div>
@@ -30,56 +33,133 @@
     @Html.ValidationSummary(true)
     <div class="row-fluid">
         <div class="span12">
-            <!-- BEGIN SAMPLE FORMPORTLET-->
             <div class="widget green" style="">
                 <div class="widget-title">
-                    <h4>Manage Project</h4>
-                    <span class="tools">
-                        @*<a href="javascript:;" class="icon-chevron-down"></a>*@
-                        @*<a href="javascript:;" class="icon-remove"></a>*@
-                    </span>
+                    <h4 class="text-center"><strong>Manage Project</strong></h4>
                 </div>
                 <div class="widget-body">
-                    <!-- BEGIN FORM-->
-                    <!--Start Logo -->
-                    <!--End Logo -->
-                    <div class="control-group">
-                        <label class="control-label">Select Client *</label>
-                        <div class="controls">
-                            @Html.DropDownListFor(model => model.ClientId, new SelectList(Model.Regions, "ID", "Name"), new { @class = "" })
-                            @Html.ValidationMessageFor(model => model.ClientId)
+                    <div class="span12">
+                        <div class="span4">
+                            <div class="control-group">
+                                <label class="control-label">Select Client:*</label>
+                                <div class="controls">
+                                    @Html.DropDownListFor(model => model.ClientId, new SelectList(Model.Regions, "ID", "Name"), new { @class = "" })
+                                    @Html.ValidationMessageFor(model => model.ClientId)
+
+                                </div>
+                            </div>
+                        </div>
+                            <div class="control-group hidden">
+                                <label class="control-label">Project ID:*</label>
+                                <div class="controls">
+                                    <input class="text-box single-line" autocomplete="off" id="ID" name="ID" type="text" value="" placeholder="Enter project Name:">
+                                    <span class="field-validation-valid" data-valmsg-for="ID" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <label class="control-label">Project Name:*</label>
+                                <div class="controls">
+                                    <input class="text-box single-line" autocomplete="off" id="Name" name="Name" type="text" value="" placeholder="Enter project Name:">
+                                    <span class="field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <label class="control-label">SAP NO:</label>
+                                <div class="controls">
+                                    <input class="text-box single-line" autocomplete="off" id="SapNo" name="SapNo" type="text" value="" placeholder="Enter Sap No:">
+                                    <span class="field-validation-valid" data-valmsg-for="SapNo" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span12" style="margin-left:0px;">
+                        <div class="span4">
+                            <div class="control-group">
+                                <label class="control-label">AO No:</label>
+                                <div class="controls">
+                                    <input class="text-box single-line" autocomplete="off" id="AONO" name="AONO" type="text" value="" placeholder="Enter AO No:">
+                                    <span class="field-validation-valid" data-valmsg-for="AONO" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <label class="control-label">Contract No:</label>
+                                <div class="controls">
+                                    <input class="text-box single-line" autocomplete="off" id="ContractNo" name="ContractNo" type="text" value="" placeholder="Enter Contract No:">
+                                    <span class="field-validation-valid" data-valmsg-for="ContractNo" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+
+                            <div class="control-group">
+                                <label class="control-label">Contract Title:</label>
+                                <div class="controls">
+                                    <input class="text-box single-line" autocomplete="off" id="ContractTitle" name="ContractTitle" type="text" value="" placeholder="Enter Contract Title:">
+                                    <span class="field-validation-valid" data-valmsg-for="ContractTitle" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span12" style="margin-left:0px;">
+                        <div class="span4">
+                            <div class="control-group">
+                                <label class="control-label">Award Date:</label>
+                                <div class="controls">
+                                    <input class="text-box single-line" autocomplete="off" id="AwardDate" name="AwardDate" type="text" value="" placeholder="Enter Award Date:(DD-MM-YY)">
+                                    <span class="field-validation-valid" data-valmsg-for="AwardDate" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <label class="control-label">Duration:</label>
+                                <div class="controls">
+                                    <input class="text-box single-line" autocomplete="off" id="Duration" name="Duration" type="text" value="" placeholder="Enter Duration:">
+                                    <span class="field-validation-valid" data-valmsg-for="Duration" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <label class="control-label">Date From:</label>
+                                <div class="controls">
+                                    <input class="text-box single-line" autocomplete="off" id="DateFrom" name="DateFrom" type="text" value="" placeholder="Enter Date From:(DD-MM-YY)">
+                                    <span class="field-validation-valid" data-valmsg-for="DateFrom" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span12" style="margin-left:0px;">
+                        <div class="control-group">
+                            <label class="control-label"> Date To:</label>
+                            <div class="controls">
+                                <input class="text-box single-line" id="DateTo" autocomplete="off" name="DateTo" type="text" value="" placeholder="Enter Date To:(DD-MM-YY)">
+                                <span class="field-validation-valid" data-valmsg-for="DateTo" data-valmsg-replace="true"></span>
+                            </div>
                         </div>
                     </div>
 
-                    <!--City Name -->
-                    <div class="control-group">
-                        <label class="control-label">Project Name *</label>
-                        <div class="controls">
-                            @Html.EditorFor(model => model.Name)
-                            @Html.ValidationMessageFor(model => model.Name)
-                            @Html.HiddenFor(model => model.ID)
+
+
+
+
+                    <div class="span12" style="margin-left:0px;">
+                        <div class="control-group" style="border-top: 1px solid #e5e5e5;">
+                            <div class="form-actions text-center" style="padding-left:0px;">
+                                <button type="submit" id="btnNew" class="btn btn-primary">
+                                    <i class="icon-ok icon-white" style="padding-right:8px"></i><span id="create">Create</span>
+                                </button>
+                                <button type="button" id="btnRefresh" class="btn btn-info"><i class="icon-ban-circle icon-white" style="padding-right:8px"></i>Reset</button>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="control-group">
 
-                        <label class="control-label" for="ShortCode">Sap No *</label>
-                        <div class="controls">
-                            @Html.TextBoxFor(model => model.ShortCode, new { @style = "text-transform: uppercase;" })
-                            @Html.ValidationMessageFor(model => model.ShortCode)
-                        </div>
-                    </div>
-
-                    <div class="control-group" style="border-top: 1px solid #e5e5e5;">
-                        <div class="form-actions" style="padding-left: 238px;">
-                            <button type="submit" id="btnNew" class="btn btn-primary">
-                                <i class="icon-ok icon-white" style="padding-right:8px"></i><span id="create">Create</span>
-                            </button>
-                            <button type="button" id="btnRefresh" class="btn btn-info"><i class="icon-ban-circle icon-white" style="padding-right:8px"></i>Reset</button>
-                        </div>
-                    </div>
-
-                    <!-- END FORM-->
                 </div>
             </div>
             <!-- END SAMPLE FORM PORTLET-->
@@ -93,7 +173,7 @@
         <!-- BEGIN EXAMPLE TABLE widget-->
         <div class="widget green">
             <div class="widget-title">
-                <h4>View Detail</h4>
+                <h4 class="text-center"><strong>All Projects Detail</strong></h4>
                 <span class="tools">
                     @*<a href="javascript:;" class="icon-chevron-down"></a>*@
                     @*<a href="javascript:;" class="icon-remove"></a>*@
@@ -112,24 +192,20 @@
                     <div class="space15"></div>
                     <table class="table table-striped table-hover table-bordered" id="datatab" style="width: 100%;">
                         <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ID)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ClientId)
-                                </th>
-                                <th style="width:  10%!important">Sr #</th>
-                                <th>
-                                   Project Name
-                                </th>
-                                <th style="width:40% !important">
-                                    Client
-                                </th>
-                                <th style="width:40% !important">
-                                    Sap No
-                                </th>
-                                <th style="width:10% !important">Actions</th>
+                            <tr class="align-center" style="background-color:#1969b1; color:white;">
+                                <th>Sr No</th>
+                                <th>Client Name</th>
+                                <th>Project Name</th>
+                                <th>Sap No</th>
+                                <th>AO No</th>
+                                <th>Contract No</th>
+                                <th>Contract Title</th>
+                                <th>Created On</th>
+                                <th>Award Date</th>
+                                <th>Date From</th>
+                                <th>Date To</th>
+                                <th>Duration</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -142,7 +218,27 @@
 </div>
 <!-- END EDITABLE TABLE widget-->
 
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
 <script>
+
+
+    $(document).ready(function () {
+
+        $('#DateFrom').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
+        $('#DateFrom').datepicker({ dateFormat: "dd-M-yy" });
+        $('#DateFrom').trigger('change');
+
+        $('#AwardDate').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
+        $('#AwardDate').datepicker({ dateFormat: "dd-M-yy" });
+        $('#AwardDate').trigger('change');
+
+        $('#DateTo').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
+        $('#DateTo').datepicker({ dateFormat: "dd-M-yy" });
+        $('#DateTo').trigger('change');
+
+    });
+
 
     function GenerateDetailGrid() {
 
@@ -195,8 +291,15 @@
                                     if (Response != null) {
                                         $('#ID').val(Response.ID);
                                         $("#Name").val(Response.Name);
-                                     
-                                        $("#ShortCode").val(Response.SapNo);
+                                        $("#SapNo").val(Response.SapNo);
+                                        $("#CreatedOn").val(Response.CreatedOn);
+                                        $("#AONO").val(Response.AONO);
+                                        $("#ContractNo").val(Response.ContractNo);
+                                        $("#ContractTitle").val(Response.ContractTitle);
+                                        $("#Duration").val(Response.Duration);
+                                        $("#AwardDate").val(Response.AwardDate);
+                                        $("#DateTo").val(Response.DateTo);
+                                        $("#DateFrom").val(Response.DateFrom);
 
                                         $('html, body').animate({
                                             scrollTop: $("#main-content").offset().top
@@ -258,12 +361,19 @@
                 "deferRender": true,
                 "bSelect": true,
                 "columns": [
-               { "data": "ID", "bVisible": false },
-               { "data": "ClientId", "bVisible": false },
-               { "data": "Name", "bSortable": false },
-               { "data": "Name" },
-                    { "data": "ClientName" },
-               { "data": "SapNo" },
+               { "data": "ID" , "sClass": "center-align-td"},
+               { "data": "ClientName", "sClass": "center-align-td"},
+               { "data": "Name" ,"sClass": "center-align-td"},
+               { "data": "SapNo", "sClass": "center-align-td" },
+               { "data": "AONO", "sClass": "center-align-td" },
+               { "data": "ContractNo", "sClass": "center-align-td" },
+               { "data": "ContractTitle", "sClass": "center-align-td" },
+               { "data": "CreatedOn", "sClass": "center-align-td" },
+               { "data": "AwardDate", "sClass": "center-align-td" },
+               { "data": "DateFrom", "sClass": "center-align-td" },
+               { "data": "DateTo", "sClass": "center-align-td" },
+               { "data": "Duration", "sClass": "center-align-td" },
+
                {
                    "sClass": "center-align-td",
                    "mData": null,
@@ -273,7 +383,7 @@
                    }
                }
                 ],
-                "order": [3, "asc"]
+                "order": [3, "dec"]
 
             });
 
@@ -315,10 +425,15 @@
 
     function ClearForm() {
         $('#Name').val("");
-        $('#CityCode').val("");
-        $('#ShortCode').val("");
-        $('#ID').val(0);
-        $('#create').text('Create');
+        $('#SapNo').val("");
+        $('#DateFrom').val("");
+        $('#DateTo').val("");
+        $('#Duration').val("");
+        $('#ContractTitle').val("");
+        $('#ContractNo').val("");
+        $('#AONO').val("");
+        $('#AwardDate').val("");
+        $('#Create').text('Create');
     }
 
     function OnSuccess(response) {

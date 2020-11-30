@@ -34,6 +34,13 @@ namespace FOS.DataLayer
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
         public Nullable<int> ProjectCode { get; set; }
+        public string AONO { get; set; }
+        public string ContractNo { get; set; }
+        public string ContractTitle { get; set; }
+        public string AwardDate { get; set; }
+        public string Duration { get; set; }
+        public string DateFrom { get; set; }
+        public string DateTo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CityZone> CityZones { get; set; }

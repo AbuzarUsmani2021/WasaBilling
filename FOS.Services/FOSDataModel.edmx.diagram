@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d4a37a8cf060422ba4d16447284c293e" Name="Diagram1" ZoomLevel="72">
+      <Diagram DiagramId="d4a37a8cf060422ba4d16447284c293e" Name="Diagram1" ZoomLevel="53">
         <EntityTypeShape EntityType="FOS_WallCoatModel.Area" Width="1.5" PointX="5.25" PointY="47.375" />
         <EntityTypeShape EntityType="FOS_WallCoatModel.City" Width="1.5" PointX="3" PointY="40.75" />
         <EntityTypeShape EntityType="FOS_WallCoatModel.CityZone" Width="1.5" PointX="5.25" PointY="42" />
@@ -58,8 +58,6 @@
         <AssociationConnector Association="FOS_WallCoatModel.FK_Pages_Pages" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_RolePages_Pages" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_RolePages_Roles" />
-        <EntityTypeShape EntityType="FOS_WallCoatModel.Zone" Width="1.5" PointX="0.75" PointY="1" />
-        <AssociationConnector Association="FOS_WallCoatModel.FK_CityZone_Zone" />
         <EntityTypeShape EntityType="FOS_WallCoatModel.SubCtegoryA" Width="1.5" PointX="11.875" PointY="17" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_SubCtegoryA_MainCategory" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_SubCtegoryA_SubCategory" />
@@ -84,14 +82,12 @@
         <AssociationConnector Association="FOS_WallCoatModel.FK_DealerCityArea_Dealers" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_Dealers_RegionalHeads" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_Dealers_Regions" />
-        <AssociationConnector Association="FOS_WallCoatModel.FK_Dealers_Zone" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_Retailers_Dealers" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_Retailers_FeeStructure" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_JobsHistory_Retailer" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_QrSODetail_Retailers" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_RetailerPainters_Retailers" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_Retailers_Sylabus" />
-        <AssociationConnector Association="FOS_WallCoatModel.FK_Retailers_Zone" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_SMSLog_Retailers" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_Tbl_MasterStock_Retailers" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_TblReminders_Retailers" />
@@ -134,7 +130,7 @@
         <AssociationConnector Association="FOS_WallCoatModel.FK_SiteEquipmentDetail_Retailers" />
         <EntityTypeShape EntityType="FOS_WallCoatModel.SOZoneAndTown" Width="1.5" PointX="5.375" PointY="18.75" />
         <EntityTypeShape EntityType="FOS_WallCoatModel.SORole" Width="1.5" PointX="18.375" PointY="6.75" />
-        <EntityTypeShape EntityType="FOS_WallCoatModel.SaleOfficer" Width="1.5" PointX="7.5" PointY="41.25" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.SaleOfficer" Width="1.5" PointX="7.5" PointY="41.25" IsExpanded="false" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_AccessLog_SaleOfficers" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_SaleOfficers_Cities" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_CompititorInfo_SaleOfficers" />
@@ -160,14 +156,18 @@
         <AssociationConnector Association="FOS_WallCoatModel.FK_JobsDetail_RegionalHeads" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_SoRetailersJobs_Retailers" />
         <EntityTypeShape EntityType="FOS_WallCoatModel.Tbl_ComplaintHistory" Width="1.5" PointX="19.375" PointY="16.75" />
-        <EntityTypeShape EntityType="FOS_WallCoatModel.ComplaintNotification" Width="1.5" PointX="27.875" PointY="37.5" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.ComplaintNotification" Width="1.5" PointX="24.5" PointY="37.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.TBL_KsbVisits" Width="1.5" PointX="20.25" PointY="23.375" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.VisitPurpose" Width="1.5" PointX="18" PointY="52.75" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_ComplaintNotification_Jobs" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_ComplaintNotification_JobsDetail" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_ComplaintNotification_Tbl_ComplaintHistory" />
-        <EntityTypeShape EntityType="FOS_WallCoatModel.TBL_KsbVisits" Width="1.5" PointX="20.25" PointY="23.375" />
-        <EntityTypeShape EntityType="FOS_WallCoatModel.VisitPurpose" Width="1.5" PointX="18" PointY="52.75" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_TBL_KsbVisits_Retailers" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_TBL_KsbVisits_VisitPurpose" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.Zone" Width="1.5" PointX="21.375" PointY="1.125" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_CityZone_Zone" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_Dealers_Zone" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_Retailers_Zone" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

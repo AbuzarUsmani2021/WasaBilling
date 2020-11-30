@@ -12,23 +12,48 @@ namespace FOS.Shared
     {
         public int TID { get; set; }
 
-        public int ID { get; set; }
         public int RegionID { get; set; }
 
-        [DisplayName("Region Name *")]
-        [Required(ErrorMessage = "* Required")]
-        public string Name { get; set; }
 
         [Required(ErrorMessage = "* Required")]
         public int TerritoryID { get; set; }
 
-        [DisplayName("Region Code *")]
+
+
+
+
+        public int ID { get; set; }
+
+        [DisplayName("Region Name: *")]
+        [Required(ErrorMessage = "* Required")]
+        public string Name { get; set; }
+
+
+
+        [DisplayName("Region Code: *")]
         [Required(ErrorMessage = "* Required")]
         public string ShortCode { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
         public System.DateTime LastUpdate { get; set; }
+
+        [DisplayName("Contact No: *")]
+        public string ContactNo { get; set; }
+
+        [DisplayName("Province: *")]
+        public string Province { get; set; }
+
+        [DisplayName("Country: *")]
+        public string Country { get; set; }
+
+        [DisplayName("City: *")]
+        public string City { get; set; }
+
+        [DisplayName("Address: *")]
+        public string Address { get; set; }
+
+
 
     }
 

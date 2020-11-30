@@ -23,6 +23,7 @@ using FOS.Web.UI.DataSets;
 using CrystalDecisions.CrystalReports.Engine;
 using Shared.Diagnostics.Logging;
 using FOS.Web.UI.Common;
+using System.Web.Hosting;
 using FOS.Web.UI.Controllers.API;
 
 namespace FOS.Web.UI.Controllers
@@ -69,7 +70,7 @@ namespace FOS.Web.UI.Controllers
         // Add Or Update Retailer
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult NewUpdateRetailer([Bind(Exclude = "TID,SaleOfficers,Dealers")] RetailerData newRetailer)
+        public ActionResult NewUpdateRetailer([Bind(Exclude = "TID,SaleOfficers,Dealers")] RetailerData newRetailer, HttpPostedFileBase Picture1)
 
 
         {
@@ -84,6 +85,17 @@ namespace FOS.Web.UI.Controllers
                         RetailerValidator validator = new RetailerValidator();
                         results = validator.Validate(newRetailer);
                         boolFlag = results.IsValid;
+                    }
+
+                    string path1 = "";
+
+                    if (Picture1 != null)
+                    {
+                        var filename = Path.GetFileName(Picture1.FileName);
+                        path1 = Path.Combine(Server.MapPath("/Images/SitesImages/"), filename);
+                        Picture1.SaveAs(path1);
+                        path1 = "/Images/SitesImages/" + filename;
+                        newRetailer.Picture1 = path1;
                     }
 
                     //if (newRetailer.Phone1 != null)
@@ -145,6 +157,7 @@ namespace FOS.Web.UI.Controllers
                         catch { newRetailer.CreatedBy = 1; }
 
                         int Res = ManageRetailer.AddUpdateRetailer(newRetailer);
+
 
                         if (Res == 1)
                         {
