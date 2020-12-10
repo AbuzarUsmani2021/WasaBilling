@@ -474,6 +474,9 @@
     <Compile Include="Sp_GetProgressList1_4_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Sp_GetProgressList1_5Final_Result.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Sp_GetProgressListFinal1_1_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
@@ -594,12 +597,6 @@
     <Compile Include="Sp_KSBChildNotificationsforCC_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Sp_KSBChildNotificationsforCC_Result1.cs">
-      <DependentUpon>FOSDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Sp_KSBChildNotificationsforCC_Result2.cs">
-      <DependentUpon>FOSDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Sp_KSBNotificationsforCC_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
@@ -618,22 +615,7 @@
     <Compile Include="Sp_MyComplaintListForFS1_1_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Sp_MyComplaintListForFS1_1_Result1.cs">
-      <DependentUpon>FOSDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Sp_MyComplaintListForFS1_1_Result2.cs">
-      <DependentUpon>FOSDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Sp_MyComplaintListForFS1_1_Result3.cs">
-      <DependentUpon>FOSDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Sp_MyComplaintListForFS1_1_Result4.cs">
-      <DependentUpon>FOSDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Sp_MyComplaintListForFS_Result.cs">
-      <DependentUpon>FOSDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Sp_MyComplaintListForFS_Result1.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Sp_MyComplaintListForWasa1_1_Result.cs">
@@ -676,6 +658,9 @@
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Sp_MyComplaintList_Result.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_MyOpenComplaintList_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Sp_MyOrderListDetail_Result.cs">
@@ -1038,6 +1023,9 @@
     <Compile Include="Sp__TotalShopVisitSummery_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Student.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SubCategory.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
@@ -1081,6 +1069,9 @@
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Tbl_SchoolException.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tbl_SMSLogs.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Tbl_SOREGIONS.cs">

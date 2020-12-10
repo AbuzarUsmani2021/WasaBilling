@@ -162,7 +162,7 @@ namespace FOS.Web.UI.Controllers.API
         public string ComplaintStatus { get; set; }
 
 
-        public List<Sp_KSBChildNotificationsforCC_Result2> Childs { get; set; }
+        public List<Sp_KSBChildNotificationsforCC_Result> Childs { get; set; }
 
     }
 

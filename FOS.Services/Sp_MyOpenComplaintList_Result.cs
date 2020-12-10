@@ -11,9 +11,9 @@ namespace FOS.DataLayer
 {
     using System;
     
-    public partial class Sp_MyComplaintListForFS1_1_Result1
+    public partial class Sp_MyOpenComplaintList_Result
     {
-        public Nullable<int> ComplaintID { get; set; }
+        public int ComplaintID { get; set; }
         public string TicketNo { get; set; }
         public Nullable<System.DateTime> LaunchDate { get; set; }
         public string SiteName { get; set; }
@@ -25,9 +25,5 @@ namespace FOS.DataLayer
         public string FaulttypeName { get; set; }
         public string FaulttypedetailName { get; set; }
         public string LaunchedByName { get; set; }
-        public string ProgressStatusRemarks { get; set; }
-        public string InitialRemarks1 { get; set; }
-        public string ProgressStatusName { get; set; }
-        public string faulttypedetailremarks { get; set; }
     }
 }
