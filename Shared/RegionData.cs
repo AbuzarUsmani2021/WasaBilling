@@ -11,17 +11,10 @@ namespace FOS.Shared
     public class RegionData
     {
         public int TID { get; set; }
-
         public int RegionID { get; set; }
-
 
         [Required(ErrorMessage = "* Required")]
         public int TerritoryID { get; set; }
-
-
-
-
-
         public int ID { get; set; }
 
         [DisplayName("Region Name: *")]
@@ -29,11 +22,10 @@ namespace FOS.Shared
         public string Name { get; set; }
 
 
-
         [DisplayName("Region Code: *")]
         [Required(ErrorMessage = "* Required")]
         public string ShortCode { get; set; }
-        public System.DateTime CreatedDate { get; set; }
+        public string CreatedDate { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
         public System.DateTime LastUpdate { get; set; }

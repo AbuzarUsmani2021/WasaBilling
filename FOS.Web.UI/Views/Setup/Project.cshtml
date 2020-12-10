@@ -254,11 +254,13 @@
             "bRetrieve": true,
             "bDestroy": true,
             "autoWidth": true,
-            "ajax": {
+            "ajax":
+            {
                 "type": "POST",
                 "url": '@Url.Action("ProjectDataHandler", "Setup")',
                 "contentType": 'application/json; charset=utf-8',
-                'data': function (data) {
+                'data': function (data)
+                {
                     data.RegionID = $('#ClientId').val();
                     return data = JSON.stringify(data);
 

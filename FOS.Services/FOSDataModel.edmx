@@ -10044,6 +10044,71 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
             </Dependent>
           </ReferentialConstraint>
         </Association>
+<<<<<<< HEAD
+        <EntityType Name="Zone">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="TID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="SapNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ClientId" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="ProjectCode" Type="Int32" />
+          <Property Name="AONO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ContractNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ContractTitle" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="AwardDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Duration" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DateFrom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DateTo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CityZones" Relationship="FOS_WallCoatModel.FK_CityZone_Zone" FromRole="Zone" ToRole="CityZone" />
+          <NavigationProperty Name="Dealers" Relationship="FOS_WallCoatModel.FK_Dealers_Zone" FromRole="Zone" ToRole="Dealer" />
+          <NavigationProperty Name="Retailers" Relationship="FOS_WallCoatModel.FK_Retailers_Zone" FromRole="Zone" ToRole="Retailer" />
+        </EntityType>
+        <Association Name="FK_CityZone_Zone">
+          <End Type="FOS_WallCoatModel.Zone" Role="Zone" Multiplicity="1" />
+          <End Type="FOS_WallCoatModel.CityZone" Role="CityZone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zone">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CityZone">
+              <PropertyRef Name="ZoneID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dealers_Zone">
+          <End Type="FOS_WallCoatModel.Zone" Role="Zone" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.Dealer" Role="Dealer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zone">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Dealer">
+              <PropertyRef Name="ZoneID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Retailers_Zone">
+          <End Type="FOS_WallCoatModel.Zone" Role="Zone" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.Retailer" Role="Retailer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zone">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Retailer">
+              <PropertyRef Name="ZoneID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+=======
         <ComplexType Name="Sp_KSBNotificationsforCC_Result">
           <Property Type="Int32" Name="ComplaintID" Nullable="false" />
           <Property Type="String" Name="TicketNo" Nullable="true" MaxLength="100" />

@@ -176,7 +176,7 @@ namespace FOS.Setup
                                      RegionID = Regions.ID,
                                      Name = Regions.Name,
                                      ShortCode = Regions.ShortCode,
-                                     CreatedDate = Regions.CreatedDate,
+                                     //CreatedDate = Regions.CreatedDate,
                                      IsDeleted = Regions.IsDeleted,
                                      IsActive = Regions.IsActive,
                                      LastUpdate = Regions.LastUpdate
@@ -197,7 +197,7 @@ namespace FOS.Setup
                                      RegionID = Regions.ID,
                                      Name = Regions.Name,
                                      ShortCode = Regions.ShortCode,
-                                     CreatedDate = Regions.CreatedDate,
+                                     //CreatedDate = Regions.CreatedDate,
                                      IsDeleted = Regions.IsDeleted,
                                      IsActive = Regions.IsActive,
                                      LastUpdate = Regions.LastUpdate
@@ -486,7 +486,7 @@ namespace FOS.Setup
                                     RegionID = u.ID,
                                     Name = u.Name,
                                     ShortCode = u.ShortCode,
-                                    CreatedDate=u.CreatedDate,
+                                    CreatedDate=u.CreatedDate.ToString(),
                                     ContactNo = u.ContactNo,
                                     Province = u.Province,
                                     Country = u.Country,
@@ -502,6 +502,31 @@ namespace FOS.Setup
             }
 
             return RegionData;
+        }
+        public static RegionData GetEditRegions(int RegionID)
+        {
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    return dbContext.Regions.Where(u => u.ID == RegionID).Select(u => new RegionData
+                    {
+                        RegionID = u.ID,
+                        Name = u.Name,
+                        ShortCode = u.ShortCode,
+                        CreatedDate = u.CreatedDate.ToString(),
+                        ContactNo = u.ContactNo,
+                        Province = u.Province,
+                        Country = u.Country,
+                        City = u.City,
+                        Address = u.Address
+                    }).First();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
 

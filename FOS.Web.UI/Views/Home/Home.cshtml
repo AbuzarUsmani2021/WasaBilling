@@ -12,6 +12,18 @@
         -webkit-overflow-scrolling: touch;
     }
 
+
+    .modal-title {
+        padding-top: 17px;
+        font-size: 21px;
+        font-weight: normal;
+        line-height: 12px;
+        margin: 0;
+        padding-bottom: 17px;
+        font-family: 'MyriadPro-Regular';
+    }
+
+
     .grid-container {
         display: grid;
         grid-template-columns: auto auto auto auto;
@@ -33,90 +45,84 @@
     }
 
     .modal {
-        width: auto;
+        width: 1053px;
         height: auto;
     }
 </style>
 
-
-<link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+<link href="~/Content/Style/Calender.css" rel="stylesheet" />
 
 
 <h3 class="page-title"></h3>
-
-<div class="widget-title text-center" style=" background-color: #1969b1;">
+<div class="widget-title text-center"  style=" background-color: #1969b1;">
     <h4><strong> All Complaints Detail</strong></h4><hr style="margin:13px;" />
 </div>
-
-<div class="grid-container">
-    <div class="grid-item">
-        <label>From Date:</label>
-        <div class="controls">
-            <input class="text-box single-line" id="StartingDate1" autocomplete="off" name="StartingDate1" style="height: 22px; width: 202px; margin-bottom: 0px;" placeholder="DD-MM-YYYY">
+    <div class="grid-container">
+        <div class="grid-item">
+            <label>From Date:</label>
+            <div class="controls">
+                <input class="text-box single-line" id="StartingDate1" autocomplete="off" name="StartingDate1" style="height: 22px; width: 202px; margin-bottom: 0px;" placeholder="DD-MM-YYYY">
+            </div>
         </div>
-    </div>
-    <div class="grid-item">
-        <label>To Date:</label>
-        <div class="controls">
-            <input class="text-box single-line" id="StartingDate2" autocomplete="off" name="StartingDate2" style="height: 22px; width: 202px; margin-bottom: 0px;" placeholder="DD-MM-YYYY">
+        <div class="grid-item">
+            <label>To Date:</label>
+            <div class="controls">
+                <input class="text-box single-line" id="StartingDate2" autocomplete="off" name="StartingDate2" style="height: 22px; width: 202px; margin-bottom: 0px;" placeholder="DD-MM-YYYY">
+            </div>
         </div>
-    </div>
-    <div class="grid-item">
-        <label>Project:</label>
-        <div class="controls" style="margin-left: 0px">
-            <select class="" data-val="true" data-val-number="The field ProjectId must be a number." data-val-required="The ProjectId field is required." id="ProjectId" name="ProjectId">
-                <option selected="selected" value="0">--Select Project--</option>
-                <option value="1">All</option>
-                <option value="9">Contract 1 (6115) North And South</option>
-                <option value="8">Contract 2 (6212)  South</option>
-                <option value="7">Contract 3 (6211)  North</option>
-            </select>
-            <input id="ProjectId" name="ProjectId" type="hidden" value="0">
-            <span class="field-validation-valid" data-valmsg-for="ProjectId" data-valmsg-replace="true"></span>
+        <div class="grid-item">
+            <label>Project:</label>
+            <div class="controls" style="margin-left: 0px">
+                <select class="" data-val="true" data-val-number="The field ProjectId must be a number." data-val-required="The ProjectId field is required." id="ProjectId" name="ProjectId">
+                    <option selected="selected" value="0">--Select Project--</option>
+                    <option value="1">All</option>
+                    <option value="9">Contract 1 (6115) North And South</option>
+                    <option value="8">Contract 2 (6212)  South</option>
+                    <option value="7">Contract 3 (6211)  North</option>
+                </select>
+                <input id="ProjectId" name="ProjectId" type="hidden" value="0">
+                <span class="field-validation-valid" data-valmsg-for="ProjectId" data-valmsg-replace="true"></span>
+            </div>
         </div>
+        <div class="grid-item" style="margin-top: 28px;">
+            <button type="submit" id="ApplyFilter" class="btn btn-primary">
+                <i class="icon-ok icon-white" style="padding-right: 2px"></i><span style="width:50px">Apply Filter</span>
+            </button>
+            <button type="submit" id="Clear" class="btn btn-primary">
+                <i class="icon-remove icon-white" style="padding-right: 2px"></i><span style="width:50px">Clear</span>
+            </button>
+        </div>
+
+
+
     </div>
-    <div class="grid-item" style="margin-top: 28px;">
-        <button type="submit" id="ApplyFilter" class="btn btn-primary">
-            <i class="icon-ok icon-white" style="padding-right: 2px"></i><span style="width:50px">Apply Filter</span>
-        </button>
-        <button type="submit" id="Clear" class="btn btn-primary">
-            <i class="icon-remove icon-white" style="padding-right: 2px"></i><span style="width:50px">Clear</span>
-        </button>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered" id="datatab">
+            <thead>
+                <tr class="align-center" style="background-color:#1969b1; color:white;">
+                    <th>Sr #</th>
+                    <th>Complaint No</th>
+                    <th>Site ID</th>
+                    <th>Site Name</th>
+                    <th>Fault Type/      Fault Type Detail</th>
+                    <th>Complaint Type</th>
+                    <th>Launched By</th>
+                    <th>Launched At</th>
+                    <th>Elapsed Time (HH:MM)</th>
+                    <th id="StatusColumn">Complaint Status</th>
+                    <th id="StatusColumn">Progress Status</th>
+                    <th id="StatusColumn">Updated At </th>
+                    <th>View Detail/ Remarks</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
 
 
 
-</div>
-
-<div class="table-responsive">
-    <table class="table table-striped table-hover table-bordered" id="datatab">
-        <thead>
-            <tr class="align-center" style="background-color:#1969b1; color:white;">
-                <th>Sr #</th>
-                <th>Complaint No</th>
-                <th>Site ID</th>
-                <th>Site Name</th>
-                <th>Fault Type/      Fault Type Detail</th>
-                <th>Complaint Type</th>
-                <th>Launched By</th>
-                <th>Launched At</th>
-                <th>Elapsed Time (HH:MM)</th>
-                <th id="StatusColumn">Complaint Status</th>
-                <th id="StatusColumn">Progress Status</th>
-                <th id="StatusColumn">Updated At </th>
-                <th>View Detail/ Remarks</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
-
-
-
-
-
-
-<div id="myModal" class="modal fade" role="dialog">
+<div id="myModal" class="modal fade" role="dialog" style="top:7%;">
 
     <div class="modal-dialog">
 
@@ -129,49 +135,50 @@
             <div class="modal-body">
                 <div class="form-group">
                     <div class="span12">
-                            <div class="span7">
+                        <div class="span7" style="border-style: double; padding: 10px;margin-bottom: 10px;">
+                            <div class="span8">
 
                                 <div class="span5" style="margin-left:0px;"><label>Site Code:</label></div>
-                                <div class="span7" id="SiteCode" style="margin-left:0px;margin-bottom: 10px;"></div>
+                                <div class="span7" id="SiteCode" style="margin-left:0px;"></div>
 
                                 <div class="span5" style="margin-left:0px;"><label>Site Name:</label></div>
-                                <div class="span7" id="SiteName" style="margin-left:0px;margin-bottom: 10px;"></div>
+                                <div class="span7" id="SiteName" style="margin-left:0px;"></div>
 
                                 <div class="span5" style="margin-left:0px;"><label>Complaint No:</label></div>
-                                <div class="span7" id="ComplaintNo" style="margin-left:0px;margin-bottom: 10px;"></div>
+                                <div class="span7" id="ComplaintNo" style="margin-left:0px;"></div>
 
                                 <div class="span5" style="margin-left:0px;"><label>Launch Time:</label></div>
-                                <div class="span7" id="LaunchTime" style="margin-left:0px;margin-bottom: 10px;"></div>
+                                <div class="span7" id="LaunchTime" style="margin-left:0px;"></div>
 
                                 <div class="span5" style="margin-left:0px;"><label>Launch By:</label></div>
-                                <div class="span7" id="LaunchBy" style="margin-left:0px;margin-bottom: 10px;"></div>
+                                <div class="span7" id="LaunchBy" style="margin-left:0px;"></div>
 
                                 <div class="span5" style="margin-left:0px;"><label>Complaint Type:</label></div>
-                                <div class="span7" id="ComplaintType" style="margin-left:0px;margin-bottom: 10px;"></div>
+                                <div class="span7" id="ComplaintType" style="margin-left:0px;"></div>
 
                                 <div class="span5" style="margin-left:0px;"><label>Fault Type:</label></div>
-                                <div class="span7" id="FaultType" style="margin-left:0px;margin-bottom: 10px;"></div>
+                                <div class="span7" id="FaultType" style="margin-left:0px;"></div>
 
                                 <div class="span5" style="margin-left:0px;"><label>Fault Type Detail:</label></div>
-                                <div class="span7" id="FaultTypeDetail" style="margin-left:0px;margin-bottom: 10px;"></div>
+                                <div class="span7" id="FaultTypeDetail" style="margin-left:0px;"></div>
 
                                 <div class="span5" style="margin-left:0px;"><label>Contact Person:</label></div>
-                                <div class="span7" id="Name" style="margin-left:0px;margin-bottom: 10px;"></div>
+                                <div class="span7" id="Name" style="margin-left:0px;"></div>
 
                                 <div class="span5" style="margin-left:0px;"><label>Initial Remarks:</label></div>
-                                <div class="span7" id="InitialRemarks" style="margin-left:0px;margin-bottom: 10px;"></div>
+                                <div class="span7" id="InitialRemarks" style="margin-left:0px;"></div>
 
                                 <div class="span5" style="margin-left:0px;"><label>Complaint Status:</label></div>
-                                <div class="span7" id="ComplaintStatus" style="margin-left:0px;margin-bottom: 10px;"></div>
+                                <div class="span7" id="ComplaintStatus" style="margin-left:0px;"></div>
 
                                 <div class="span5" style="margin-left:0px;"><label>Progress Status:</label></div>
-                                <div class="span7" id="ProgressStatusName" style="margin-left:0px;margin-bottom: 10px;"></div>
+                                <div class="span7" id="ProgressStatusName" style="margin-left:0px;"></div>
 
                                 <div class="span5" style="margin-left:0px;"><label>Updated At:</label></div>
-                                <div class="span7" id="LastUpdated" style="margin-left:0px;margin-bottom: 10px;"></div>
+                                <div class="span7" id="LastUpdated" style="margin-left:0px;"></div>
 
                                 <div class="span5" style="margin-left:0px;"><label>Progress Remarks:</label></div>
-                                <div class="span7" id="ProgressStatusOtherRemarks" style="margin-left:0px;margin-bottom: 10px;"></div>
+                                <div class="span7" id="ProgressStatusOtherRemarks" style="margin-left:0px;"></div>
 
 
 
@@ -179,39 +186,79 @@
 
 
                             </div>
-                            <div class="span2">
+                            <div class="span4">
                                 <div class="span12" style="margin-left:0px; margin-bottom:25px;">
-                                    <img src="~/Content/img/avatar-mini.png" style="width:150px;" />
+                                    <img src="~/Images/no-image-available.png.jpg" style="width:150px; height:190px;" id="Picture1" />
                                 </div>
-                                <div class="span12" style="margin-left:0px; margin-bottom:25px;">
-                                    <img src="~/Content/img/avatar-mini.png" style="width:150px;" />
-                                </div>
-                                <div class="span12" style="margin-left:0px; margin-bottom:25px;">
-                                    <img src="~/Content/img/avatar-mini.png" style="width:150px;" />
+                                <div class="span12" style="margin-left:0px;">
+                                    <img src="~/Images/no-image-available.png.jpg" style="width:150px; height:190px;" id="Picture2" />
                                 </div>
 
 
 
+
                             </div>
-                            <div class="span3">
-                            <div class="span12" style="margin-left:0px;">
-                                <label>Client Remarks</label>
-                            </div>
-                            <div class="span6" style="margin-left:0px;">
-                                <label>Site Code: 525-04-ST-GP-03</label>
-                            </div>
+                        </div>
+
+                        <div class="span5" style="border-style: solid; padding: 10px;">
+
+                            <div class="span5" style="margin-left:0px;"><label>Site Code:</label></div>
+                            <div class="span7" id="SiteCode" style="margin-left:0px;"></div>
+
+                            <div class="span5" style="margin-left:0px;"><label>Site Name:</label></div>
+                            <div class="span7" id="SiteName" style="margin-left:0px;"></div>
+
+                            <div class="span5" style="margin-left:0px;"><label>Complaint No:</label></div>
+                            <div class="span7" id="ComplaintNo" style="margin-left:0px;"></div>
+
+                            <div class="span5" style="margin-left:0px;"><label>Launch Time:</label></div>
+                            <div class="span7" id="LaunchTime" style="margin-left:0px;"></div>
+
+                            <div class="span5" style="margin-left:0px;"><label>Launch By:</label></div>
+                            <div class="span7" id="LaunchBy" style="margin-left:0px;"></div>
+
+                            <div class="span5" style="margin-left:0px;"><label>Complaint Type:</label></div>
+                            <div class="span7" id="ComplaintType" style="margin-left:0px;"></div>
+
+                            <div class="span5" style="margin-left:0px;"><label>Fault Type:</label></div>
+                            <div class="span7" id="FaultType" style="margin-left:0px;"></div>
+
+                            <div class="span5" style="margin-left:0px;"><label>Fault Type Detail:</label></div>
+                            <div class="span7" id="FaultTypeDetail" style="margin-left:0px;"></div>
+
+                            <div class="span5" style="margin-left:0px;"><label>Contact Person:</label></div>
+                            <div class="span7" id="Name" style="margin-left:0px;"></div>
+
+                            <div class="span5" style="margin-left:0px;"><label>Initial Remarks:</label></div>
+                            <div class="span7" id="InitialRemarks" style="margin-left:0px;"></div>
+
+                            <div class="span5" style="margin-left:0px;"><label>Complaint Status:</label></div>
+                            <div class="span7" id="ComplaintStatus" style="margin-left:0px;"></div>
+
+                            <div class="span5" style="margin-left:0px;"><label>Progress Status:</label></div>
+                            <div class="span7" id="ProgressStatusName" style="margin-left:0px;"></div>
+
+                            <div class="span5" style="margin-left:0px;"><label>Updated At:</label></div>
+                            <div class="span7" id="LastUpdated" style="margin-left:0px;"></div>
+
+                            <div class="span5" style="margin-left:0px;"><label>Progress Remarks:</label></div>
+                            <div class="span7" id="ProgressStatusOtherRemarks" style="margin-left:0px;"></div>
+
+
+
 
 
 
                         </div>
+
                     </div>
 
 
                 </div>
             </div>
-            <div class="modal-footer" style="justify-content:center;">
-                <button type="button" style="background-color: #081f3e; color: white; " class="btn btn-default btn-round waves-effect" data-dismiss="modal">Close</button>
-            </div>
+            @*<div class="modal-footer" style="justify-content:center;">
+                    <button type="button" style="background-color: #081f3e; color: white; " class="btn btn-default btn-round waves-effect" data-dismiss="modal">Close</button>
+                </div>*@
         </div>
     </div>
 </div>
@@ -250,7 +297,7 @@
                 "serverSide": true,
                 "bRetrieve": true,
                 "bDestroy": true,
-                "autoWidth": false,
+                "autoWidth": true,
                 "ajax":
                 {
                     "type": "POST",
@@ -263,7 +310,9 @@
                         return data = JSON.stringify(data);
                     },
                 },
+
                 "fnDrawCallback": function (osetting) {
+
                     $("#Clear").click(function () {
                         From = $('#StartingDate1').val("");
                         To = $('#StartingDate2').val("");
@@ -273,11 +322,140 @@
                     $("#ApplyFilter").click(function () {
                         table.clear().draw();
                     });
-                },
-                "fnDrawCallback": function (osetting) {
-                   
-                },
 
+            var UpdateCheck = "0";
+            var DeleteCheck = "0";
+            if (UpdateCheck == "@HttpContext.Current.Session["UpdateCheck"]") { $(".edit").css("display", "none"); }
+
+                else {
+
+                $(".Detail").on("click", function () {
+                    var Detail = $(this);
+                    var RetailerID = $(this).attr("data-id");
+                             $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("GetComplaintDetail", "Complaint")",
+                        data: { ComplaintId: RetailerID },
+             success: function (Response)
+             {
+                            $("#SiteCode").html(Response.SiteCode);
+                            $("#SiteName").html(Response.SiteName);
+                            $("#ComplaintNo").html(Response.TicketNo);
+                            $("#LaunchTime").html(Response.CreatedDate);
+                            $("#LaunchBy").html(Response.LaunchedByName);
+                            $("#ComplaintType").html(Response.ComplaintType);
+                            $("#FaultType").html(Response.FaultTypeName);
+                            $("#FaultTypeDetail").html(Response.FaultTypesDetailName);
+                            $("#Name").html(Response.Name);
+                            $("#InitialRemarks").html(Response.Remarks);
+                            $("#ComplaintStatus").html(Response.StatusName);
+                            $("#ProgressStatusName").html(Response.ProgressStatusName);
+                            $("#LastUpdated").html(Response.LastUpdated);
+                            $("#ProgressStatusOtherRemarks").html(Response.ProgressStatusOtherRemarks);
+                            if (Response.Picture1 != "")
+                            {
+                                $("#Picture1").attr('src',Response.Picture1);
+                            }
+                            else
+                            {
+                                $("#Picture1").attr('src',"/Images/no-image-available.png.jpg");
+                            }
+                            if (Response.Picture1 != "")
+                            {
+                                $("#Picture2").attr('src',Response.Picture2);
+                             }
+                            else
+                            {
+                                $("#Picture2").attr('src', "/Images/no-image-available.png.jpg");
+                            }
+
+
+
+
+            }
+                    });
+
+
+
+                    $('html, body').animate({
+                        scrollTop: $("#main-content").offset().top
+                    }, 500);
+
+
+                    var JobID = ($(this).attr("data-id"));
+                    debugger;
+                    $.ajax({
+
+                        type: "POST",
+                        data: { JobID: JobID },
+                        url: "@Url.Action("GetComplaintDetailsToID", "Job")",
+
+                        dataType: 'JSON',
+                        success: function (json) {
+                            debugger;
+                            var row = "";
+
+                            $.each(json, function (value, key) {
+
+                                var jsonDate = key.JobDate;
+                                var value = new Date(parseInt(jsonDate.toString().substr(6)));
+                                var finalResult = value.getMonth() + 1 + "/" + value.getDate() + "/" +
+                                    value.getFullYear();
+                                row += "<tr><td style='width:210px'>" + finalResult + "</td><td style='width:200px'>" + key.UpdatedBy + "</td><td style='width:270px'>" + key.ProgressStatus + "</td><td>" + key.ProgressRemarks + "</td><td>  </td></tr>";
+
+                            });
+
+                            $('#tbldetails').append(row);
+
+
+                            $("#tbldetails").html(row);
+                        }
+
+                    });
+                });
+
+
+
+
+
+
+            }
+
+            if (UpdateCheck == "@HttpContext.Current.Session["DeleteCheck"]") { $(".delete").css("display", "none"); }
+                else {
+
+                $(".delete").on("click", function () {
+
+                    var RetailerID = $(this).attr("data-id");
+
+                    // confirm dialog
+                    alertify.confirm("Are You Sure You Want To Delete This Record ?  ", function (e) {
+                        if (e) {
+
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("DeleteRetailer", "Retailer")",
+                                data: { retailerID: RetailerID },
+                                success: function (data) {
+
+                                    if (data == "0") {
+                                        alertify.success('Record Deleted Successfully');
+                                        var table = $('#datatab').DataTable();
+                                        table.row(this).remove().draw(false);
+                                    }
+
+                                    else { alertify.error('An Error Occured, Try Again...'); }
+                                }
+
+                            });
+
+                        } else { }
+                    });
+
+                });
+
+            }
+        },
                 "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                     $("td:first", nRow).html(iDisplayIndex + 1);
                     if (aData["StatusID"] == "3") {
@@ -292,8 +470,8 @@
 
                     }
                     if (aData["ComplaintTypeName"] == "Major") {
-                        $(nRow).find('td:eq(5)').css('background-color', 'red');
-                        $(nRow).find('td:eq(5)').css('color', 'white');
+                        //$(nRow).find('td:eq(5)').css('background-color', 'red');
+                        $(nRow).find('td:eq(5)').css('color', 'red');
                     }
                     return nRow;
                 },
@@ -320,7 +498,8 @@
                         "bSortable": false,
                         "mRender": function (data, type, row)
                         {
-                            return '<button class="btn" style="background-color: #1969b1; color:white;" data-toggle="modal" data-target="#myModal" onclick=GetDetail(' + row.ID + ')>' + 'Detail' + '</button>';
+                            return '<button class="btn Detail" style="background-color: #1969b1; color:white;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal">' + 'Detail' + '</button>';
+
 
                         }
                     }

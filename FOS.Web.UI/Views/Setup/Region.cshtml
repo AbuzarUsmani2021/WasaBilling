@@ -208,20 +208,27 @@
                     $(".edit").on("click", function () {
                         ClearForm();
                         $('#create').text('Update');
-                        $('#RegionID').val($(this).attr("data-id"));
-                        $("#Name").val($(this).attr("data-name"));
-                        $("#ShortCode").val($(this).attr("data-shortcode"));
-                        $("#ContactNo").val($(this).attr("data-ContactNo"));
-                        $("#Province").val($(this).attr("data-Province"));
-                        $("#Country").val($(this).attr("data-Country"));
-                        $("#City").val($(this).attr("data-City"));
-                        $("#Address").val($(this).attr("data-Address"));
-
+                        var RetailerID = $(this).attr("data-id");
+                         $.ajax({
+                        type: "POST",
+                             url: "@Url.Action("GetEditRegions", "Setup")",
+                             data: { RegionID: RetailerID },
+             success: function (Response)
+             {
+                 $("#RegionID").val(Response.RegionID);
+                 $("#Name").val(Response.Name);
+                 $("#ShortCode").val(Response.ShortCode);
+                 $("#ContactNo").val(Response.ContactNo);
+                 $("#Province").val(Response.Province);
+                 $("#Country").val(Response.Country);
+                 $("#City").val(Response.City);
+                 $("#Address").val(Response.Address);
+            }
+                    });
                         $('html, body').animate({
                             scrollTop: $("#main-content").offset().top
                         }, 500);
-                        $("#Name").focus();
-
+                        $("#RegionID").focus();
                     });
                 }
 

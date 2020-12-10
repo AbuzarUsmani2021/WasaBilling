@@ -717,6 +717,41 @@ namespace FOS.Setup
             return saleOfficerData;
         }
 
+        public static List<SaleOfficerData> GetSaleOfficerListByRegionalHeadID()
+        {
+            List<SaleOfficerData> saleOfficerData = new List<SaleOfficerData>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    saleOfficerData = dbContext.Zones.ToList()
+                            .Select(
+                                u => new SaleOfficerData
+                                {
+                                    ID = u.ID,
+                                    Name = u.Name,
+                                }).OrderBy(x => x.Name).ToList();
+
+
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            saleOfficerData.Insert(0, new SaleOfficerData
+
+
+            {
+                ID = 0,
+                Name = "--Select Project--"
+            });
+
+            return saleOfficerData;
+        }
+
+
         public static List<SaleOfficer> GetAllSaleOfficerListRelatedtoregionalHeadIDd()
         {
             List<SaleOfficer> saleOfficerData = new List<SaleOfficer>();

@@ -20,6 +20,242 @@ namespace FOS.Setup
 {
     public class ManageRetailer
     {
+
+
+        //Site Start
+        //table start
+        public static List<RetailerData> AllSitesData()
+        {
+            List<RetailerData> SitesData = new List<RetailerData>();
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    SitesData = dbContext.Retailers.Where(u => u.IsActive==true && u.IsDeleted==false)
+                            .ToList().Select(
+                                u => new RetailerData
+                                {
+                                    ID = u.ID,
+                                    ZoneName = dbContext.Zones.Where(x => x.ID == u.ZoneID).Select(x => x.Name).FirstOrDefault(),
+                                    CItyName = dbContext.Cities.Where(x => x.ID == u.CityID).Select(x => x.Name).FirstOrDefault(),
+                                    AreaName = dbContext.Areas.Where(x => x.ID == u.AreaID).Select(x => x.Name).FirstOrDefault(),
+                                    SubDivisionName = dbContext.SubDivisions.Where(x => x.ID == u.SubDivisionID).Select(x => x.Name).FirstOrDefault(),
+                                    Name = u.Name,
+                                    RetailerCode = u.RetailerCode,
+                                    Latitude = u.Latitude,
+                                    Longitude = u.Longitude
+                                }).OrderByDescending(x=>x.ID).ToList();
+                }
+            }
+            catch (Exception exp)
+            {
+                Log.Instance.Error(exp, "Load Sites Grid Failed");
+                throw;
+            }
+
+            return SitesData;
+        }
+
+        public static List<RetailerData> GetAllSitesResult(string search, string sortOrder, int start, int length, List<RetailerData> dtResult, List<string> columnFilters)
+        {
+            return FilterAllSitesResult(search, dtResult, columnFilters).SortBy(sortOrder).Skip(start).Take(10).ToList();
+        }
+
+        public static int CountAllSites(string search, List<RetailerData> dtResult, List<string> columnFilters)
+        {
+            return FilterAllSitesResult(search, dtResult, columnFilters).Count();
+        }
+
+        private static IQueryable<RetailerData> FilterAllSitesResult(string search, List<RetailerData> dtResult, List<string> columnFilters)
+        {
+
+            IQueryable<RetailerData> results = dtResult.AsQueryable();
+
+            results = results.Where(p => (search == null 
+
+            || (p.ZoneName != null && p.ZoneName.ToLower().Contains(search.ToLower()) 
+            || p.CItyName != null && p.CItyName.ToLower().Contains(search.ToLower()) 
+            || p.AreaName != null && p.AreaName.ToLower().Contains(search.ToLower()) 
+            || p.SubDivisionName != null && p.SubDivisionName.ToLower().Contains(search.ToLower()) 
+            || p.Name != null && p.Name.ToLower().Contains(search.ToLower()) 
+            || p.RetailerCode != null && p.RetailerCode.ToLower().Contains(search.ToLower())))
+
+
+            && (columnFilters[1] == null || (p.ZoneName != null && p.ZoneName.ToLower().Contains(columnFilters[1].ToLower())))
+            && (columnFilters[2] == null || (p.CItyName != null && p.CItyName.ToLower().Contains(columnFilters[2].ToLower())))
+            && (columnFilters[3] == null || (p.AreaName != null && p.AreaName.ToLower().Contains(columnFilters[3].ToLower())))
+            && (columnFilters[4] == null || (p.SubDivisionName != null && p.SubDivisionName.ToLower().Contains(columnFilters[4].ToLower())))
+            && (columnFilters[5] == null || (p.Name != null && p.Name.ToLower().Contains(columnFilters[5].ToLower())))
+            && (columnFilters[6] == null || (p.RetailerCode != null && p.RetailerCode.ToLower().Contains(columnFilters[6].ToLower())))
+            
+               );
+
+            return results;
+
+        }
+        //table end
+
+        public static int AddUpdateRetailer(RetailerData obj)
+        {
+            int Res;
+
+
+            using (TransactionScope scope = new TransactionScope())
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    Retailer retailerObj = new Retailer();
+
+                    if (obj.ID == 0)
+                    {
+                        var IsExist = dbContext.Retailers.Where(x => x.RetailerCode == obj.RetailerCode).Select(x => x.RetailerCode).FirstOrDefault();
+                        if (IsExist == null)
+                        {
+                            retailerObj.ID = dbContext.Retailers.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
+                            retailerObj.RegionID = obj.ClientID;
+                            retailerObj.ZoneID = obj.SaleOfficerID;
+                            retailerObj.CityID = obj.CityID;
+                            retailerObj.AreaID = obj.AreaID;
+                            retailerObj.SubDivisionID = obj.SubDivisionID;
+                            retailerObj.Name = obj.Name;
+                            retailerObj.RetailerCode = obj.RetailerCode;
+                            retailerObj.Capacity = obj.Capacity;
+                            retailerObj.SWL = obj.SWL;
+                            retailerObj.Year_of_In = obj.Year_of_In;
+                            retailerObj.Latitude = obj.Latitude;
+                            retailerObj.Longitude = obj.Longitude;
+                            retailerObj.Address = obj.Address;
+                            retailerObj.Phone1 = obj.Phone1;
+                            retailerObj.CreatedDate = DateTime.Now;
+                            retailerObj.LastUpdate = DateTime.Now;
+                            retailerObj.SaleOfficerID = obj.SaleOfficerID;
+                            retailerObj.CreatedBy = obj.CreatedBy;
+                            retailerObj.UpdatedBy = obj.UpdatedBy;
+                            retailerObj.Status = true;
+                            retailerObj.IsDeleted = false;
+                            retailerObj.IsActive = true;
+                            retailerObj.IsVerified = true;
+                            retailerObj.Source = (int)RetSourceEnum.Web;
+                            retailerObj.Picture1 = obj.Picture1;
+                            dbContext.Retailers.Add(retailerObj);
+                            Res = 7;
+                        }
+                        else
+                        {
+                            Res = 6;
+                        }
+                    }
+                    else
+                    {
+                        retailerObj = dbContext.Retailers.Where(u => u.ID == obj.ID).FirstOrDefault();
+                        retailerObj.RegionID = obj.ClientID;
+                        retailerObj.ZoneID = obj.SaleOfficerID;
+                        retailerObj.CityID = obj.CityID;
+                        retailerObj.AreaID = obj.AreaID;
+                        retailerObj.SubDivisionID = obj.SubDivisionID;
+                        retailerObj.Name = obj.Name;
+                        retailerObj.RetailerCode = obj.RetailerCode;
+                        retailerObj.Capacity = obj.Capacity;
+                        retailerObj.SWL = obj.SWL;
+                        retailerObj.Year_of_In = obj.Year_of_In;
+                        retailerObj.Latitude = obj.Latitude;
+                        retailerObj.Longitude = obj.Longitude;
+                        retailerObj.Address = obj.Address;
+                        retailerObj.Phone1 = obj.Phone1 == "" ? null : obj.Phone1;
+                        retailerObj.LastUpdate = DateTime.Now;
+                        retailerObj.SaleOfficerID = obj.SaleOfficerID;
+                        retailerObj.UpdatedBy = obj.UpdatedBy;
+                        retailerObj.Status = true;
+                        retailerObj.IsDeleted = false;
+                        retailerObj.IsActive = true;
+                        retailerObj.IsVerified = true;
+                        retailerObj.Source = (int)RetSourceEnum.Web;
+                        retailerObj.Picture1 = obj.Picture1;
+                        Res = 8;
+                    }
+                    dbContext.SaveChanges();
+                    scope.Complete();
+                }
+            }
+
+            return Res;
+        }
+
+
+
+        public static RetailerData GetEditSites(int SiteID)
+        {
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    return dbContext.Retailers.Where(u => u.ID == SiteID).Select(u => new RetailerData
+                    {
+                        ID = u.ID,
+                        RegionID=u.RegionID,
+                        ZoneID=u.ZoneID,
+                        CityID=u.CityID,
+                        AreaID = (int)u.AreaID,
+                        SubDivisionID=(int)u.SubDivisionID,
+                        Name = u.Name,
+                        RetailerCode = u.RetailerCode,
+                        Capacity = u.Capacity,
+                        Year_of_In = u.Year_of_In,
+                        SWL = u.SWL,
+                        Latitude = u.Latitude,
+                        Longitude = u.Longitude,
+                        Phone1 = u.Phone1,
+                        Address = u.Address,
+                        Picture1=u.Picture1
+                    }).First();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public static int DeleteSiteData(int SiteID)
+        {
+            int Resp = 0;
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    Retailer obj = dbContext.Retailers.Where(u => u.ID == SiteID).FirstOrDefault();
+                    obj.IsActive = false;
+                    obj.IsDeleted = true;
+                    dbContext.SaveChanges();
+                }
+            }
+            catch (Exception exp)
+            {
+                Log.Instance.Error(exp, "Delete City Failed");
+                Resp = 1;
+            }
+            return Resp;
+        }
+        //Site END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public static List<RetailerData> GetAllRetailersList()
         {
             List<RetailerData> retailerData = new List<RetailerData>();
@@ -152,7 +388,6 @@ namespace FOS.Setup
             }
             return retailerData;
         }
-
 
         public static List<RetailerData> GetDealerRetailers(int DID)
         {
@@ -688,111 +923,9 @@ namespace FOS.Setup
             return boolFlag;
         }
 
+
         // Insert OR Update Retailer ...
-        public static int AddUpdateRetailer(RetailerData obj)
-        {
-            int Res = 0;
-
-            try
-            {
-                using (TransactionScope scope = new TransactionScope())
-                {
-                    using (FOSDataModel dbContext = new FOSDataModel())
-                    {
-                        Retailer retailerObj = new Retailer();
-
-                        if (obj.ID == 0)
-                        {
-                            retailerObj.ID = dbContext.Retailers.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
-                            retailerObj.RegionID = obj.ClientID;
-                            retailerObj.ZoneID = obj.SaleOfficerID;
-                            retailerObj.CityID = obj.CityID;
-                            retailerObj.AreaID = obj.AreaID;
-                            retailerObj.SubDivisionID = obj.SubDivisionID;
-                            retailerObj.Name = obj.Name;
-                            retailerObj.RetailerCode = obj.RetailerCode;
-                            retailerObj.Capacity = obj.Capacity;
-                            retailerObj.SWL = obj.SWL;
-                            retailerObj.Year_of_In = obj.Year_of_In;
-                            retailerObj.Latitude = obj.Latitude;
-                            retailerObj.Longitude = obj.Longitude;
-                            retailerObj.Address = obj.Address;
-                            retailerObj.Phone1 = obj.Phone1;
-                            retailerObj.CreatedDate = DateTime.Now;
-                            retailerObj.LastUpdate = DateTime.Now;
-                            retailerObj.SaleOfficerID = obj.SaleOfficerID;
-                            retailerObj.CreatedBy = obj.CreatedBy;
-                            retailerObj.UpdatedBy = obj.UpdatedBy;
-                            retailerObj.Status = true;
-                            retailerObj.IsDeleted = false;
-                            retailerObj.IsActive = true;
-                            retailerObj.IsVerified = true;
-                            retailerObj.Source = (int)RetSourceEnum.Web;
-                            retailerObj.Picture1 = obj.Picture1;
-                            dbContext.Retailers.Add(retailerObj);
-                        }
-                        else
-                        {
-                            retailerObj = dbContext.Retailers.Where(u => u.ID == obj.ID).FirstOrDefault();
-
-                            retailerObj.RegionID = obj.ClientID;
-                            retailerObj.ZoneID = obj.SaleOfficerID;
-                            retailerObj.CityID = obj.CityID;
-                            retailerObj.AreaID = obj.AreaID;
-                            retailerObj.SubDivisionID = obj.SubDivisionID;
-                            retailerObj.Name = obj.Name;
-                            retailerObj.RetailerCode = obj.RetailerCode;
-                            retailerObj.Capacity = obj.Capacity;
-                            retailerObj.SWL = obj.SWL;
-                            retailerObj.Year_of_In = obj.Year_of_In;
-                            retailerObj.Latitude = obj.Latitude;
-                            retailerObj.Longitude = obj.Longitude;
-                            retailerObj.Address = obj.Address;
-                            retailerObj.Phone1 = obj.Phone1 == "" ? null : obj.Phone1;
-                            retailerObj.LastUpdate = DateTime.Now;
-                            retailerObj.SaleOfficerID = obj.SaleOfficerID;
-                            retailerObj.UpdatedBy = obj.UpdatedBy;
-                            retailerObj.Status = true;
-                            retailerObj.IsDeleted = false;
-                            retailerObj.IsActive = true;
-                            retailerObj.IsVerified = true;
-                            retailerObj.Source = (int)RetSourceEnum.Web;
-                            retailerObj.Picture1 = obj.Picture1;
-                        }
-
-                        dbContext.SaveChanges();
-                        Res = 1;
-                        scope.Complete();
-                    }
-                }
-            }
-            catch (Exception exp)
-            {
-                Log.Instance.Error(exp, "Add Customer Failed");
-                if (exp.InnerException.InnerException.Message.Contains("CNIC"))
-                {
-                    // Res = 2 Is For Unique Constraint Error...
-                    Res = 3;
-                    return Res;
-                }
-
-                if (exp.InnerException.InnerException.Message.Contains("AccountNo"))
-                {
-                    // Res = 2 Is For Unique Constraint Error...
-                    Res = 4;
-                    return Res;
-                }
-
-                if (exp.InnerException.InnerException.Message.Contains("CardNo"))
-                {
-                    // Res = 2 Is For Unique Constraint Error...
-                    Res = 5;
-                    return Res;
-                }
-                Res = 0;
-            }
-            return Res;
-        }
+        
 
         public static int UndoRetailer(int RetailerID)
         {
@@ -1942,37 +2075,11 @@ namespace FOS.Setup
                         StatusName = dbContext.ComplaintStatus.Where(p => p.Id == u.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
                         ProgressStatusId = dbContext.JobsDetails.Where(x => x.JobID == u.ID).OrderByDescending(x => x.ID).Select(x => x.ProgressStatusID).FirstOrDefault(),
                         LastUpdated = dbContext.JobsDetails.Where(x => x.JobID == u.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
-                        
-
-
-
-                    //SaleOfficerID = u.SaleOfficerID,
-                    //SaleOfficerName = dbContext.SaleOfficers.Where(p => p.ID == Convert.ToInt32(u.SaleOfficerID)).Select(p => p.Name).FirstOrDefault(),
-
-                    //CityID = u.CityID,
-                    //CItyName = dbContext.Cities.Where(p => p.ID == u.CityID).Select(p => p.Name).FirstOrDefault(),
-                    //AreaID = ConvertID,
-                    //AreaName = dbContext.Zones.Where(p => p.ID == Convert.ToInt32(u.Areas)).Select(p => p.Name).FirstOrDefault(),
-                    //Status=u.Status,
-                        //RegionID = u.RegionID,
-                        //RegionName = dbContext.Regions.Where(p => p.ID == u.RegionID).Select(p => p.Name).FirstOrDefault(),
-                        //ZoneId = u.ZoneID,
-                        //ZoneName = dbContext.Zones.Where(p => p.ID == u.ZoneID).Select(p => p.Name).FirstOrDefault(),
-                        //RetailerID = u.SiteID,
-                        //RetailerName = dbContext.Retailers.Where(p => p.ID == u.SiteID).Select(p => p.Name).FirstOrDefault(),
-                        //FaulttypeId = u.FaultTypeId,
-                        //PriorityId = u.PriorityId,
-                        //PriorityName = dbContext.ComplaintPriorities.Where(p => p.Id == u.PriorityId).Select(p => p.Name).FirstOrDefault(),
-                        //StatusID = u.ComplaintStatusId,
-                        //LaunchedByID = u.LaunchedById,
-                        //FaulttypeDetailId = u.FaultTypeDetailID,
-                        //SubDivisionID = u.SubDivisionID,
                         ComplaintTypeID = u.ComplainttypeID,
                         ResolvedAt=u.ResolvedAt,
                         ReslovedHours=u.ResolvedHours,
-                        Picture1= dbContext.JobsDetails.Where(p => p.JobID == u.ID).Select(p => p.Picture1).FirstOrDefault(),
-                        Picture2 = dbContext.JobsDetails.Where(p => p.JobID == u.ID).Select(p => p.Picture2).FirstOrDefault(),
-                        Picture3 = dbContext.JobsDetails.Where(p => p.JobID == u.ID).Select(p => p.Picture3).FirstOrDefault(),
+                        Picture1= dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.Picture1).FirstOrDefault(),
+                        Picture2 = dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.Picture2).FirstOrDefault(),
                         
                     }).First();
                 }

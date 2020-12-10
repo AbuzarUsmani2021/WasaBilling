@@ -45,7 +45,7 @@
             position: 'bottom-right'
         },
         glossary: {
-            title: 'Golden Peart Alert',
+            title: 'WASA Lahore Alert',
             ok: 'OK',
             cancel: 'Cancel',
             acccpt: 'Accept',
