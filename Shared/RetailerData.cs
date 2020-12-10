@@ -84,6 +84,8 @@ namespace FOS.Shared
         public string ContactPersonCell { get; set; }
         public string LandLineNo { get; set; }
         public string Market { get; set; }
+        public string ZoneName { get; set; }
+
         public int ClientID { get; set; }
         public int? RegionID { get; set; }
         public int? ZoneID { get; set; }
@@ -97,12 +99,20 @@ namespace FOS.Shared
 
         [DisplayName("Area *")]
         public int AreaID { get; set; }
+        //public int? AreaId { get; set; }
+
 
         [DisplayName("Area *")]
         public string AreaName { get; set; }
+        public string CreatedAt { get; set; }
+        public string UpdatedAt { get; set; }
+
+
         public int AreaNameID { get; set; }
 
         public int SubDivisionID { get; set; }
+        //public int? SubdivisionID { get; set; }
+
 
         public string SubDivisionName { get; set; }
         public int? Capacity { get; set; }

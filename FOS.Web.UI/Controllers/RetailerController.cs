@@ -60,6 +60,123 @@ namespace FOS.Web.UI.Controllers
         }
 
 
+        // Sites Start
+
+        public JsonResult AllSitesData(DTParameters param)
+        {
+            try
+            {
+                var dtsource = new List<RetailerData>();
+                dtsource = ManageRetailer.AllSitesData();
+                List<String> columnSearch = new List<string>();
+                foreach (var col in param.Columns)
+                {
+                    columnSearch.Add(col.Search.Value);
+                }
+                List<RetailerData> data = ManageRetailer.GetAllSitesResult(param.Search.Value, param.SortOrder, param.Start, param.Length, dtsource, columnSearch);
+                int count = ManageRetailer.CountAllSites(param.Search.Value, dtsource, columnSearch);
+                DTResult<RetailerData> result = new DTResult<RetailerData>
+                {
+                    draw = param.Draw,
+                    data = data,
+                    recordsFiltered = count,
+                    recordsTotal = count
+                };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message });
+            }
+        }
+
+        public ActionResult NewRetailer()
+        {
+
+            List<RegionData> regionalHeadData = new List<RegionData>();
+            regionalHeadData = FOS.Setup.ManageRegionalHead.GetRegionalList();
+            int regId = 0;
+            if (FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser() == 0)
+            {
+                regId = regionalHeadData.Select(r => r.ID).FirstOrDefault();
+            }
+            else
+            {
+                regId = FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser();
+            }
+
+            List<SaleOfficerData> SaleOfficerObj = ManageSaleOffice.GetSaleOfficerListByRegionalHeadID(regId);
+            var objSaleOff = SaleOfficerObj.FirstOrDefault();
+
+            List<DealerData> DealerObj = ManageDealer.GetAllDealersListRelatedToRegionalHead(regId);
+
+            FOSDataModel dbContext = new FOSDataModel();
+            var objRetailer = new RetailerData();
+            objRetailer.Client = regionalHeadData;
+            objRetailer.SaleOfficers = ManageSaleOffice.GetSaleOfficerListByRegionalHeadID();
+            objRetailer.Dealers = DealerObj;
+            objRetailer.Cities = FOS.Setup.ManageCity.GetCityList();
+            objRetailer.Areas = FOS.Setup.ManageArea.GetAreaList();
+            objRetailer.SubDivisions = ManageRetailer.GetSubDivisionsList();
+
+            return View(objRetailer);
+        }
+       
+        [HttpPost]
+        public JsonResult NewUpdateRetailer([Bind(Exclude = "TID,SaleOfficers,Dealers")] RetailerData newRetailer)
+        {
+            int result = 0;
+            if (Request.Files["Picture1"] != null)
+            {
+                var file = Request.Files["Picture1"];
+                if (file.FileName != null)
+                {
+                    string filename = Path.GetFileName(file.FileName);
+                    var extension = System.IO.Path.GetExtension(filename).ToLower();
+                    var path = HostingEnvironment.MapPath(Path.Combine("/Images/SitesImages/", filename));
+                    file.SaveAs(path);
+                    newRetailer.Picture1 = "/Images/SitesImages/" + filename;
+                }
+            }
+            if (newRetailer.ClientID != 0 && newRetailer.SaleOfficerID != 0 && newRetailer.AreaID != 0 && newRetailer.CityID != 0 && newRetailer.SubDivisionID != 0 && newRetailer.Name != null && newRetailer.RetailerCode != null)
+            {
+
+                newRetailer.CreatedBy = SessionManager.Get<int>("UserID");
+                newRetailer.UpdatedBy = SessionManager.Get<int>("UserID");
+                result = ManageRetailer.AddUpdateRetailer(newRetailer);
+                if (result == 6)
+                {
+                    result = 6;
+                }
+                else if (result == 7)
+                {
+                    result = 7;
+                }
+                else if (result == 8)
+                {
+                    result = 8;
+                }
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetEditSites(int SiteID)
+        {
+            var Response = ManageRetailer.GetEditSites(SiteID);
+            return Json(Response, JsonRequestBehavior.AllowGet);
+        }
+
+        public int DeleteSiteData(int SiteID)
+        {
+            return FOS.Setup.ManageRetailer.DeleteSiteData(SiteID);
+        }
+
+
+
+
+
+
+
         // Get One City For Edit
         public JsonResult GetEditRetailer(int RetailerID)
         {
@@ -67,140 +184,7 @@ namespace FOS.Web.UI.Controllers
             return Json(Response, JsonRequestBehavior.AllowGet);
         }
 
-        // Add Or Update Retailer
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult NewUpdateRetailer([Bind(Exclude = "TID,SaleOfficers,Dealers")] RetailerData newRetailer, HttpPostedFileBase Picture1)
-
-
-        {
-            Boolean boolFlag = true;
-            ValidationResult results = new ValidationResult();
-            try
-            {
-                if (newRetailer != null)
-                {
-                    if (newRetailer.ID == 0)
-                    {
-                        RetailerValidator validator = new RetailerValidator();
-                        results = validator.Validate(newRetailer);
-                        boolFlag = results.IsValid;
-                    }
-
-                    string path1 = "";
-
-                    if (Picture1 != null)
-                    {
-                        var filename = Path.GetFileName(Picture1.FileName);
-                        path1 = Path.Combine(Server.MapPath("/Images/SitesImages/"), filename);
-                        Picture1.SaveAs(path1);
-                        path1 = "/Images/SitesImages/" + filename;
-                        newRetailer.Picture1 = path1;
-                    }
-
-                    //if (newRetailer.Phone1 != null)
-                    //{
-                    //    if (FOS.Web.UI.Common.NumberCheck.CheckRetailerNumber1Exist(newRetailer.ID, newRetailer.Phone1 == null ? "" : newRetailer.Phone1) == 1)
-                    //    {
-                    //        return Content("2");
-                    //    }
-                    //}
-
-                    //if (newRetailer.Phone2 != null)
-                    //{
-                    //    if (FOS.Web.UI.Common.NumberCheck.CheckRetailerNumber2Exist(newRetailer.ID, newRetailer.Phone2 == null ? "" : newRetailer.Phone2) == 1)
-                    //    {
-                    //        return Content("2");
-                    //    }
-                    //}
-
-                    //if (newRetailer.Phone1 != null && newRetailer.Phone2 != null)
-                    //{
-                    //    if (FOS.Web.UI.Common.NumberCheck.CheckRetailerNumberExist(newRetailer.ID, newRetailer.Phone1 == null ? "" : newRetailer.Phone1, newRetailer.Phone2 == null ? "" : newRetailer.Phone2) == 1)
-                    //    {
-                    //        return Content("2");
-                    //    }
-                    //}
-
-                    //if (FOS.Web.UI.Common.RetailerChecks.CheckCNICExist(newRetailer.CNIC, newRetailer.ID) == 1)
-                    //{
-                    //    return Content("3");
-                    //}
-                    //else
-                    //{
-                    //}
-
-                    //if (FOS.Web.UI.Common.RetailerChecks.CheckAccountNoExist(newRetailer.AccountNo, newRetailer.ID) == 1)
-                    //{
-                    //    return Content("4");
-                    //}
-                    //else
-                    //{
-                    //}
-
-                    //if (FOS.Web.UI.Common.RetailerChecks.CheckCardNoExist(newRetailer.CardNumber, newRetailer.ID) == 1)
-                    //{
-                    //    return Content("5");
-                    //}
-                    //else
-                    //{
-                    //}
-
-                    if (boolFlag)
-                    {
-                        try {
-
-                            newRetailer.CreatedBy = SessionManager.Get<int>("UserID");
-                            newRetailer.UpdatedBy = SessionManager.Get<int>("UserID");
-
-                        }
-                        catch { newRetailer.CreatedBy = 1; }
-
-                        int Res = ManageRetailer.AddUpdateRetailer(newRetailer);
-
-
-                        if (Res == 1)
-                        {
-                            return Content("1");
-                        }
-                        else if (Res == 3)
-                        {
-                            return Content("3");
-                        }
-                        else if (Res == 4)
-                        {
-                            return Content("4");
-                        }
-                        else if (Res == 5)
-                        {
-                            return Content("5");
-                        }
-                        else
-                        {
-                            return Content("0");
-                        }
-                    }
-                    else
-                    {
-                        IList<ValidationFailure> failures = results.Errors;
-                        StringBuilder sb = new StringBuilder();
-                        sb.Append(String.Format("{0}:{1}", "*** Error ***", "<br/>"));
-                        foreach (ValidationFailure failer in results.Errors)
-                        {
-                            sb.AppendLine(String.Format("{0}:{1}{2}", failer.PropertyName, failer.ErrorMessage, "<br/>"));
-                            Response.StatusCode = 422;
-                            return Json(new { errors = sb.ToString() });
-                        }
-                    }
-
-                }
-                return Content("0");
-            }
-            catch (Exception exp)
-            {
-                return Content("Exception : " + exp.Message);
-            }
-        }
+        
 
 
         // RetailerData Handler
@@ -612,36 +596,7 @@ namespace FOS.Web.UI.Controllers
 
         [CustomAuthorize]
         // View
-        public ActionResult NewRetailer()
-        {
-
-            List<RegionData> regionalHeadData = new List<RegionData>();
-            regionalHeadData = FOS.Setup.ManageRegionalHead.GetRegionalList();
-            int regId = 0;
-            if (FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser() == 0)
-            {
-                regId = regionalHeadData.Select(r => r.ID).FirstOrDefault();
-            }
-            else
-            {
-                regId = FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser();
-            }
-
-            List<SaleOfficerData> SaleOfficerObj = ManageSaleOffice.GetSaleOfficerListByRegionalHeadID(regId);
-            var objSaleOff = SaleOfficerObj.FirstOrDefault();
-
-            List<DealerData> DealerObj = ManageDealer.GetAllDealersListRelatedToRegionalHead(regId);
-
-            var objRetailer = new RetailerData();
-            objRetailer.Client = regionalHeadData;
-            objRetailer.SaleOfficers = SaleOfficerObj;
-            objRetailer.Dealers = DealerObj;
-            objRetailer.Cities = FOS.Setup.ManageCity.GetCityList();
-            objRetailer.Areas = FOS.Setup.ManageArea.GetAreaList();
-            objRetailer.SubDivisions = ManageRetailer.GetSubDivisionsList();
-
-            return View(objRetailer);
-        }
+       
 
 
         #endregion

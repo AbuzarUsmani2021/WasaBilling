@@ -1,0 +1,771 @@
+﻿@model FOS.Shared.DropdownData
+
+@{
+    ViewBag.Title = "AllDropdowns";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/GridSystem.css" rel="stylesheet" />
+
+
+<br />
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="widget green" style="min-height: 0px !important;margin-bottom: 0px;">
+            <div class="widget-title" data-toggle="collapse" data-target="#demo">
+                <h4 class="text-center"><strong>Fault Type Detail</strong></h4>
+            </div>
+            <div id="demo" class="collapse">
+                <div class="widget-body">
+                    @using (Ajax.BeginForm("AddUpdateFaulttypedetail", "Dropdowns", new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @class = "form-horizontal", @style = "margin: 21px 0 -3px" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <input class="text-box single-line" style="display:none;" autocomplete="off" id="FaultyTypeDetailID" name="FaultyTypeDetailID" type="text" value="" placeholder="Enter project Name:">
+
+
+                        <div class="row">
+                            <div class="col-md-4 col-lg-4 col-sm-6 col-xs-4">
+                                <div class="control-group">
+                                    <label class="control-label">Fault Type:*</label>
+                                    @Html.DropDownList("FId", new SelectList(ViewBag.FaultTypes, "FaulttypeID", "FaulttypeName"))
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+                                <div class="control-group">
+                                    <label class="control-label">Fault Type Detail Name:*</label>
+                                    <div class="controls">
+                                        <input class="text-box single-line" autocomplete="off" id="FaultyTypeDetailName" name="FaultyTypeDetailName" type="text" value="" placeholder="Enter Fault Type Detail Name:">
+                                        <span class="field-validation-valid" data-valmsg-for="FaultTypeDetail" data-valmsg-replace="true"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 col-sm-4 col-xs-4">
+                                <div class="control-group text-center" style="margin-top: 4px;">
+                                    <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i><span id="create"> Create</span></button>
+                                    <button type="button" id="btnRefresh" class="btn btn-info"><i class="icon-ban-circle icon-white"></i><span></span>Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+                <div style="padding: 0px 18px 18px 18px;">
+                    <div class="widget green">
+                        <div class="widget-title">
+                            <h4 class="text-center"><strong>All Clients Detail</strong></h4>
+                            <span class="tools">
+                                @*<a href="javascript:;" class="icon-chevron-down"></a>*@
+                                @*<a href="javascript:;" class="icon-remove"></a>*@
+                            </span>
+                        </div>
+                        <div class="widget-body">
+                            <div>
+                                <div class="clearfix">
+                                    @*<div class="btn-group">
+                                            <button id="editable-sample_new" class="btn green">
+                                                Add New <i class="icon-plus"></i>
+                                            </button>
+                                        </div>*@
+                                    <div class="btn-group pull-right"></div>
+                                </div>
+                                <div class="space15"></div>
+                                <table class="table table-striped table-hover table-bordered" id="datatab" style="width: 100%;">
+                                    <thead>
+                                        <tr class="align-center" style="background-color:#1969b1; color:white;">
+                                            <th>Sr #</th>
+                                            <th>Fault Type</th>
+                                            <th>Fault Type Detail</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="widget green" style="min-height: 0px !important;margin-bottom: 0px;">
+            <div class="widget-title" data-toggle="collapse" data-target="#ProgressStatus">
+                <h4 class="text-center"><strong>Progress Status</strong></h4>
+            </div>
+            <div id="ProgressStatus" class="collapse">
+                <div class="widget-body">
+                    @using (Ajax.BeginForm("AddUpdateProgressStatus", "Dropdowns", new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @class = "form-horizontal", @style = "margin: 21px 0 -3px" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <input class="text-box single-line" style="display:none;" autocomplete="off" id="ProgressStatusID" name="ProgressStatusID" type="text" value="">
+
+
+                        <div class="row">
+                            <div class="col-md-4 col-lg-4 col-sm-6 col-xs-4">
+                                <div class="control-group">
+                                    <label class="control-label">Fault Type:*</label>
+                                    @Html.DropDownList("ProgressStatusFaultTypeID", new SelectList(ViewBag.FaultTypes, "FaulttypeID", "FaulttypeName"))
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+                                <div class="control-group">
+                                    <label class="control-label">Progress Status Name:*</label>
+                                    <div class="controls">
+                                        <input class="text-box single-line" autocomplete="off" id="ProgressStatusName" name="ProgressStatusName" type="text" value="" placeholder="Enter Progress Status Name:">
+                                        <span class="field-validation-valid" data-valmsg-for="ProgressStatusName" data-valmsg-replace="true"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 col-sm-4 col-xs-4">
+                                <div class="control-group text-center" style="margin-top: 4px;">
+                                    <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i><span id="ProgressStatuscreate"> Create</span></button>
+                                    <button type="button" id="ProgressStatusBtnRefresh" class="btn btn-info"><i class="icon-ban-circle icon-white"></i><span></span>Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+                <div style="padding: 0px 18px 18px 18px;">
+                    <div class="widget green">
+                        <div class="widget-title">
+                            <h4 class="text-center"><strong>All Progress Status</strong></h4>
+                        </div>
+                        <div class="widget-body">
+                            <div>
+                                <div class="space15"></div>
+                                <table class="table table-striped table-hover table-bordered" id="ProgressStatusTable" style="width: 100%;">
+                                    <thead>
+                                        <tr class="align-center" style="background-color:#1969b1; color:white;">
+                                            <th>Sr #</th>
+                                            <th>Fault Type</th>
+                                            <th>Progress Status Name</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="widget green" style="min-height: 0px !important;margin-bottom: 0px;">
+            <div class="widget-title" data-toggle="collapse" data-target="#WorkDone">
+                <h4 class="text-center"><strong>Resolved Status</strong></h4>
+            </div>
+            <div id="WorkDone" class="collapse">
+                <div class="widget-body">
+                    @using (Ajax.BeginForm("AddUpdateWorkDone", "Dropdowns", new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @class = "form-horizontal", @style = "margin: 21px 0 -3px" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <input class="text-box single-line" style="display:none;" autocomplete="off" id="WorkDoneID" name="WorkDoneID" type="text" value="">
+
+
+                        <div class="row">
+                            <div class="col-md-4 col-lg-4 col-sm-6 col-xs-4">
+                                <div class="control-group">
+                                    <label class="control-label">Fault Type:*</label>
+                                    @Html.DropDownList("WorkDoneFaulttypeID", new SelectList(ViewBag.FaultTypes, "FaulttypeID", "FaulttypeName"))
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+                                <div class="control-group">
+                                    <label class="control-label">Resolved Status:*</label>
+                                    <div class="controls">
+                                        <input class="text-box single-line" autocomplete="off" id="WorkDoneName" name="WorkDoneName" type="text" value="" placeholder="Enter Resolved Status Name:">
+                                        <span class="field-validation-valid" data-valmsg-for="WorkDoneName" data-valmsg-replace="true"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 col-sm-4 col-xs-4">
+                                <div class="control-group text-center" style="margin-top: 4px;">
+                                    <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i><span id="WorkDoneCreate"> Create</span></button>
+                                    <button type="button" id="WorkDonebtnRefresh" class="btn btn-info"><i class="icon-ban-circle icon-white"></i><span></span>Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+                <div style="padding: 0px 18px 18px 18px;">
+                    <div class="widget green">
+                        <div class="widget-title">
+                            <h4 class="text-center"><strong>All Resolved Status</strong></h4>
+                        </div>
+                        <div class="widget-body">
+                            <div>
+                                <div class="space15"></div>
+                                <table class="table table-striped table-hover table-bordered" id="WorkDoneTable" style="width: 100%;">
+                                    <thead>
+                                        <tr class="align-center" style="background-color:#1969b1; color:white;">
+                                            <th>Sr #</th>
+                                            <th>Fault Type</th>
+                                            <th>Resolved Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+ 
+
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+<script>
+
+    $(document).ready(function ()
+    {
+        GenerateDetailGrid();
+        ProgressStatusTable();
+        WorkDoneTable();
+
+    });
+
+    //Fault Type Detail Start
+    function GenerateDetailGrid() {
+        var table = $('#datatab').DataTable
+            ({
+                "aLengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
+                "iDisplayLength": 10,
+                "lengthChange": true,
+                "pagingType": "full_numbers",
+                "info": true,
+                "serverSide": true,
+                "bRetrieve": true,
+                "bDestroy": true,
+                "autoWidth": true,
+                "ajax":
+                {
+                    "type": "POST",
+                    "url": '@Url.Action("GetFaulttypedetail", "Dropdowns")',
+                    "contentType": 'application/json; charset=utf-8',
+                    'data': function (data)
+                    {
+                        data.FaultType = $("#FId").val();
+                        return data = JSON.stringify(data);
+                    },
+                },
+                 "fnDrawCallback": function (osetting) {
+
+                var UpdateCheck = "0";
+                var DeleteCheck = "0";
+
+                if (UpdateCheck == "@HttpContext.Current.Session["UpdateCheck"]") { $(".edit").css("display", "none"); }
+                else {
+                    $(".edit").on("click", function () {
+                        ClearFaultTypeDetailForm();
+                        $('#create').text('Update');
+
+                        var faultTypeDetailID = $(this).attr("data-id");
+
+                        try
+                        {
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("GetEditFaulttypedetail", "Dropdowns")",
+                                data: { ftd: faultTypeDetailID },
+
+
+                                success: function (Response) {
+                                    debugger;
+                                    if (Response != null) {
+                                        $('#FaultyTypeDetailID').val(Response.FaultyTypeDetailID);
+                                        $('#FId').val(Response.ProgressStatusFaultTypeID);
+                                        $("#FaultyTypeDetailName").val(Response.FaultyTypeDetailName);
+
+                                        $('html, body').animate({
+                                            scrollTop: $("#main-content").offset().top
+                                        }, 500);
+
+                                        $("#FId").focus();
+                                        $("#FaultyTypeDetailName").focus();
+
+
+                                    }
+                                    else { alertify.error('Server Is Not Responding.'); }
+                                }
+                            });
+                        }
+                        catch (ex) { }
+
+                    });
+                }
+
+                if (UpdateCheck == "@HttpContext.Current.Session["DeleteCheck"]") { $(".delete").css("display", "none"); }
+                    else {
+                        $(".delete").on("click", function () {
+
+                            var faultTypeDetailID = $(this).attr("data-id");
+                            alertify.confirm("Are You Sure You Want To Delete This Record ?  ", function (e) {
+                                if (e) {
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "@Url.Action("DeleteFaulttypedetail", "Dropdowns")",
+                                        data: { ftd: faultTypeDetailID },
+                                        success: function (data) {
+                                            if (data == "0")
+                                            {
+                                                alertify.success('Record Deleted Successfully');
+                                                var table = $('#datatab').DataTable();
+                                                table.row(this).remove().draw(false);
+                                            }
+
+                                            else { alertify.error('This Fault Type Detail Assign To Someone, First Delete That Then You Can Able To Delete This Fault Type Detail.'); }
+                                        }
+
+                                    });
+
+                                } else { }
+                            });
+
+                        });
+                    }
+
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                    $("td:first", nRow).html(iDisplayIndex + 1);
+                    return nRow;
+                },
+                "oLanguage": { "sSearch": "Search Fault Type Or Fault Type Detail : " },
+                "sDom": 'lftipr',
+                // "searching":true,
+                "processing": true,
+                "deferRender": true,
+                "bSelect": true,
+                "columns": [
+                    { "data": "FaultyTypeDetailID", "sClass": "center-align-td" },
+                    { "data": "FaulttypeName", "sClass": "center-align-td" },
+                    { "data": "FaultyTypeDetailName", "sClass": "center-align-td"},
+                    {
+                        "sClass": "center-align-td",
+                        "mData": null,
+                        "bSortable": false,
+                        "mRender": function (data, type, row) {
+                            return '<button class="btn btn-success edit" data-id=' + row.FaultyTypeDetailID + '>' + '<i class=icon-pencil></i>' + '</button>&nbsp;<button class="btn btn-info delete" data-id=' + row.FaultyTypeDetailID + '>' + '<i class=icon-trash></i>' + '</button>';
+                        }
+                    }
+                ], "order": [1, "asc"]
+
+            });
+
+    }
+    $("#btnRefresh").click(function ()
+    {
+        ClearFaultTypeDetailForm();
+        $('#create').text('Create');
+        var dt = $('#datatab').DataTable();
+        dt.ajax.reload();
+    });
+    $("#FId").change(function () {
+
+        var dt = $('#datatab').DataTable();
+        dt.ajax.reload();
+
+    });
+    function ClearFaultTypeDetailForm() {
+        $('#FId').val("0");
+        $('#FaultyTypeDetailID').val("0");
+        $('#FaultyTypeDetailName').val("");
+        $('#Create').text('Create');
+    }
+    //Fault Type Detail End
+
+    //Progress Status Start
+    $("#ProgressStatusFaultTypeID").change(function () {
+
+        var dt = $('#ProgressStatusTable').DataTable();
+        dt.ajax.reload();
+
+    });
+    function ClearProgressStatusForm() {
+        $('#ProgressStatusFaultTypeID').val("0");
+        $('#ProgressStatusID').val("0");
+        $('#ProgressStatusName').val("");
+        $('#ProgressStatuscreate').text('Create');
+    }
+    $("#ProgressStatusBtnRefresh").click(function () {
+        ClearProgressStatusForm();
+        $('#create').text('Create');
+        var dt = $('#ProgressStatusTable').DataTable();
+        dt.ajax.reload();
+    });
+    function ProgressStatusTable() {
+        var table = $('#ProgressStatusTable').DataTable
+            ({
+                "aLengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
+                "iDisplayLength": 10,
+                "lengthChange": true,
+                "pagingType": "full_numbers",
+                "info": true,
+                "serverSide": true,
+                "bRetrieve": true,
+                "bDestroy": true,
+                "autoWidth": true,
+                "ajax":
+                {
+                    "type": "POST",
+                    "url": '@Url.Action("GetProgressStatusData", "Dropdowns")',
+                    "contentType": 'application/json; charset=utf-8',
+                    'data': function (data)
+                    {
+                        data.FaultType = $("#ProgressStatusFaultTypeID").val();
+                        return data = JSON.stringify(data);
+                    },
+                },
+                "fnDrawCallback": function (osetting) {
+                var UpdateCheck = "0";
+                var DeleteCheck = "0";
+
+                if (UpdateCheck == "@HttpContext.Current.Session["UpdateCheck"]") { $(".edit").css("display", "none"); }
+                else
+                {
+                    $(".ProgressStatusEdit").on("click", function () {
+                        ClearProgressStatusForm();
+                        $('#ProgressStatuscreate').text('Update');
+                        var ProgressStatusID = $(this).attr("data-id");
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("GetEditProgressStatus", "Dropdowns")",
+                                data: { ProgressStatusID: ProgressStatusID },
+                                success: function (Response) {
+                                    if (Response != null) {
+                                        $('#ProgressStatusID').val(Response.ProgressStatusID);
+                                        $('#ProgressStatusFaultTypeID').val(Response.FaulttypeID);
+                                        $("#ProgressStatusName").val(Response.ProgressStatusName);
+                                        $('html, body').animate({
+                                            scrollTop: $("#main-content").offset().top
+                                        }, 500);
+                                        $("#ProgressStatusFaultTypeID").focus();
+                                        $("#ProgressStatusName").focus();
+                                    }
+                                    else { alertify.error('Server Is Not Responding.'); }
+                                }
+                            });
+                    });
+                }
+
+                if (UpdateCheck == "@HttpContext.Current.Session["DeleteCheck"]") { $(".delete").css("display", "none"); }
+                    else {
+                    $(".ProgressStatusDelete").on("click", function () {
+
+                        var ProgressStatusID = $(this).attr("data-id");
+                            alertify.confirm("Are You Sure You Want To Delete This Record ?  ", function (e) {
+                                if (e) {
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "@Url.Action("DeleteProgressStatus", "Dropdowns")",
+                                        data: { ProgressStatusID: ProgressStatusID },
+                                        success: function (data) {
+                                            if (data == "0")
+                                            {
+                                                alertify.success('Record Deleted Successfully');
+                                                var table = $('#ProgressStatusTable').DataTable();
+                                                table.row(this).remove().draw(false);
+                                            }
+
+                                            else { alertify.error('This Progress Status To Someone, First Delete That Then You Can Able To Delete This Progress Status.'); }
+                                        }
+
+                                    });
+
+                                } else { }
+                            });
+
+                        });
+                    }
+
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                    $("td:first", nRow).html(iDisplayIndex + 1);
+                    return nRow;
+                },
+                "oLanguage": { "sSearch": "Search Fault Type Or Progress Status : " },
+                "sDom": 'lftipr',
+                // "searching":true,
+                "processing": true,
+                "deferRender": true,
+                "bSelect": true,
+                "columns": [
+                    { "data": "ProgressStatusID", "sClass": "center-align-td" },
+                    { "data": "FaulttypeName", "sClass": "center-align-td" },
+                    { "data": "ProgressStatusName", "sClass": "center-align-td"},
+                    {
+                        "sClass": "center-align-td",
+                        "mData": null,
+                        "bSortable": false,
+                        "mRender": function (data, type, row) {
+                            return '<button class="btn btn-success ProgressStatusEdit" data-id=' + row.ProgressStatusID + '>' + '<i class=icon-pencil></i>' + '</button>&nbsp;<button class="btn btn-info ProgressStatusDelete"  data-id=' + row.ProgressStatusID + '>' + '<i class=icon-trash></i>' + '</button>';
+                        }
+                    }
+                ], "order": [1, "asc"]
+            });
+
+    }
+    //Progress Status END
+
+
+     //Work Done Start
+
+    $("#WorkDoneFaulttypeID").change(function ()
+    {
+        var dt = $('#WorkDoneTable').DataTable();
+        dt.ajax.reload();
+
+    });
+    function ClearWorkDoneForm() {
+        $('#WorkDoneID').val("0");
+        $('#WorkDoneFaulttypeID').val("0");
+        $('#WorkDoneName').val("");
+        $('#WorkDoneCreate').text('Create');
+    }
+    $("#WorkDonebtnRefresh").click(function () {
+        ClearWorkDoneForm();
+        $('#WorkDoneCreate').text('Create');
+        var dt = $('#WorkDoneTable').DataTable();
+        dt.ajax.reload();
+    });
+    function WorkDoneTable() {
+        var table = $('#WorkDoneTable').DataTable
+            ({
+                "aLengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
+                "iDisplayLength": 10,
+                "lengthChange": true,
+                "pagingType": "full_numbers",
+                "info": true,
+                "serverSide": true,
+                "bRetrieve": true,
+                "bDestroy": true,
+                "autoWidth": true,
+                "ajax":
+                {
+                    "type": "POST",
+                    "url": '@Url.Action("GetWorkDoneTable", "Dropdowns")',
+                    "contentType": 'application/json; charset=utf-8',
+                    'data': function (data)
+                    {
+                        data.WorkDoneFaulttypeID = $("#WorkDoneFaulttypeID").val();
+                        return data = JSON.stringify(data);
+                    },
+                },
+                 "fnDrawCallback": function (osetting) {
+
+                var UpdateCheck = "0";
+                var DeleteCheck = "0";
+
+                if (UpdateCheck == "@HttpContext.Current.Session["UpdateCheck"]") { $(".edit").css("display", "none"); }
+                else {
+                    $(".WorkDoneEdit").on("click", function () {
+                        ClearWorkDoneForm();
+                        $('#WorkDoneCreate').text('Update');
+                        var WorkDoneID = $(this).attr("data-id");
+                        try
+                        {
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("GetEditWorkDoneData", "Dropdowns")",
+                                data: { WorkDoneID: WorkDoneID },
+                                success: function (Response) {
+                                    if (Response != null) {
+                                        $('#WorkDoneID').val(Response.WorkDoneID);
+                                        $('#WorkDoneFaulttypeID').val(Response.WorkDoneFaulttypeID);
+                                        $("#WorkDoneName").val(Response.WorkDoneName);
+                                        $('html, body').animate({
+                                            scrollTop: $("#main-content").offset().top
+                                        }, 500);
+                                        $("#WorkDoneFaulttypeID").focus();
+                                        $("#WorkDoneName").focus();
+                                    }
+                                    else { alertify.error('Server Is Not Responding.'); }
+                                }
+                            });
+                        }
+                        catch (ex) { }
+
+                    });
+                }
+
+                if (UpdateCheck == "@HttpContext.Current.Session["DeleteCheck"]") { $(".delete").css("display", "none"); }
+                    else {
+                    $(".WorkDoneDelete").on("click", function () {
+
+                        var WorkDoneID = $(this).attr("data-id");
+                            alertify.confirm("Are You Sure You Want To Delete This Record ?  ", function (e) {
+                                if (e) {
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "@Url.Action("DeleteWorkDoneData", "Dropdowns")",
+                                        data: { WorkDoneID: WorkDoneID },
+                                        success: function (data) {
+                                            if (data == "0")
+                                            {
+                                                alertify.success('Record Deleted Successfully');
+                                                var table = $('#WorkDoneTable').DataTable();
+                                                table.row(this).remove().draw(false);
+                                            }
+
+                                            else { alertify.error('This Work Done Status Assign To Someone, First Delete That Then You Can Able To Delete This Work Done Status.'); }
+                                        }
+
+                                    });
+
+                                } else { }
+                            });
+
+                        });
+                    }
+
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                    $("td:first", nRow).html(iDisplayIndex + 1);
+                    return nRow;
+                },
+                "oLanguage": { "sSearch": "Search Fault Type Or Resolved Status : " },
+                "sDom": 'lftipr',
+                // "searching":true,
+                "processing": true,
+                "deferRender": true,
+                "bSelect": true,
+                "columns": [
+                    { "data": "WorkDoneID", "sClass": "center-align-td" },
+                    { "data": "WorkDoneFaulttypeName", "sClass": "center-align-td" },
+                    { "data": "WorkDoneName", "sClass": "center-align-td"},
+                    {
+                        "sClass": "center-align-td",
+                        "mData": null,
+                        "bSortable": false,
+                        "mRender": function (data, type, row) {
+                            return '<button class="btn btn-success WorkDoneEdit" data-id=' + row.WorkDoneID + '>' + '<i class=icon-pencil></i>' + '</button>&nbsp;<button class="btn btn-info WorkDoneDelete" data-id=' + row.WorkDoneID + '>' + '<i class=icon-trash></i>' + '</button>';
+                        }
+                    }
+                ], "order": [1, "asc"]
+
+            });
+
+    }
+  
+     //Work Done End
+
+
+
+
+
+
+    function OnSuccess(response) {
+         if (response == "0")
+         {
+            alertify.error("Unable To Add Data");
+         }
+         else if (response == "1")
+         {
+             alertify.error("Select Fault Type First!");
+
+         }
+        else if (response == "2")
+        {
+            alertify.success("Fault Type Detail Added Successfully.");
+            $('#create').text('Create');
+            ClearFaultTypeDetailForm();
+            var dt = $('#datatab').DataTable();
+            dt.ajax.reload();
+        }
+        else if (response == "3")
+        {
+            alertify.error("Fault Type Detail Already Exist!");
+        }
+         else if (response == "4") {
+             alertify.success("Fault Type Detail Updated Successfully!");
+             $('#create').text('Create');
+             ClearFaultTypeDetailForm();
+             var dt = $('#datatab').DataTable();
+             dt.ajax.reload();
+         }
+         else if (response == "5") {
+             alertify.success("Progress Status Added Successfully!");
+             $('#ProgressStatuscreate').text('Create');
+             ClearProgressStatusForm();
+             var dt = $('#ProgressStatusTable').DataTable();
+             dt.ajax.reload();
+         }
+         else if (response == "6")
+         {
+
+             alertify.error("Progress Status Already Exist!");
+
+         }
+         else if (response == "7")
+         {
+             alertify.success("Progress Status Updated Successfully!");
+             $('#ProgressStatuscreate').text('Create');
+             ClearProgressStatusForm();
+             var dt = $('#ProgressStatusTable').DataTable();
+             dt.ajax.reload();
+         }
+         else if (response == "8") {
+             alertify.success("Work Done Status Added Successfully!");
+             $('#WorkDoneCreate').text('Create');
+             ClearWorkDoneForm();
+             var dt = $('#WorkDoneTable').DataTable();
+             dt.ajax.reload();
+         }
+         else if (response == "9")
+         {
+             alertify.error("This Work Done Status Already Exist!");
+         }
+         else if (response == "10") {
+             alertify.success("Work Done Status Updated Successfully!");
+             $('#WorkDoneCreate').text('Create');
+             ClearWorkDoneForm();
+             var dt = $('#WorkDoneTable').DataTable();
+             dt.ajax.reload();
+         }
+        else
+        {
+            alertify.error(response);
+        }
+    }
+
+    function OnFailure(response) {
+        if (response.status == 422) {
+            var errors = JSON.parse(response.responseText);
+            alertify.error(errors.errors);
+        }
+        else {
+            alertify.error(response);
+        }
+    }
+
+
+
+</script>
+
+

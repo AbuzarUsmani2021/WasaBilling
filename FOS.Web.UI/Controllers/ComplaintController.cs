@@ -305,9 +305,6 @@ namespace FOS.Web.UI.Controllers
 
 
 
-
-
-
             return Json(Response, JsonRequestBehavior.AllowGet);
         }
 

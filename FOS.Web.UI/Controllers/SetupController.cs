@@ -202,6 +202,21 @@ namespace FOS.Web.UI.Controllers
             }
         }
 
+        public JsonResult GetEditProjects(int CityID)
+        {
+            var Response = ManageCity.GetEditProjects(CityID);
+            return Json(Response, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetEditRegions(int RegionID)
+        {
+            FOSDataModel db = new FOSDataModel();
+            var Response = ManageRegion.GetEditRegions(RegionID);
+            return Json(Response, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
         //Delete Region Method...
         public int DeleteRegion(int RegionID)
         {
@@ -566,11 +581,7 @@ namespace FOS.Web.UI.Controllers
         }
 
         // Get One City For Edit
-        public JsonResult GetEditProjects(int CityID)
-        {
-            var Response = ManageCity.GetEditProjects(CityID);
-            return Json(Response, JsonRequestBehavior.AllowGet);
-        }
+       
 
        
 

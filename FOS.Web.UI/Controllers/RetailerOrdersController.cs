@@ -2262,6 +2262,8 @@ namespace FOS.Web.UI.Controllers
 
 
 
+
+
         //public JsonResult HomeComplaintsDataHandler(DTParameters param)
         //{
         //    try
@@ -2364,14 +2366,16 @@ namespace FOS.Web.UI.Controllers
                             var format = itm.ElapseTime;
                             itm.VisitDateFormatted = format.ToString(@"hh\:mm");
                         }
+
                     }
+                   
                     if (itm.FaultTypeDetailID == 3030 || itm.FaultTypeDetailID == 3042 || itm.FaultTypeDetailID == 3049)
                     {
                         itm.FaultTypeDetailName = db.JobsDetails.Where(x => x.JobID == itm.ID).OrderByDescending(x => x.ID).FirstOrDefault().PRemarks;
                     }
                     var ProgressID = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault();
-                        var dateformat = Convert.ToDateTime(ProgressID.JobDate);
-                        itm.UpdatedAt = dateformat.ToString();
+                    //    var dateformat = Convert.ToDateTime(ProgressID.JobDate);
+                    //    itm.UpdatedAt = dateformat.ToString();
                     if (itm.StatusName == "Resolved")
                     {
                         itm.ProgressStatus = db.WorkDones.Where(x => x.ID == ProgressID.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
