@@ -595,7 +595,7 @@ namespace FOS.Setup
         }
 
 
-        public static List<CityData> GetFaulttypedetaileList(int ClientID, string selectText = "--Select Fault Type Detail--")
+        public static List<CityData> GetFaulttypedetaileList(int ClientID, string selectText = "Select")
         {
             List<CityData> cityList;
 

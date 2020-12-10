@@ -553,9 +553,7 @@ namespace FOS.Web.UI.Controllers.API
         public List<FaultType> GetFaultTypes()
         {
             List<FaultType> cities = new List<FaultType>();
-            //Regions cty;
-
-            //var dbCities = db.RegionalHeadRegions.Where(c => c.RegionHeadID == ID).ToList();
+        
 
 
             var dbregions = db.FaultTypes.Select(x => new FaultType
@@ -563,18 +561,13 @@ namespace FOS.Web.UI.Controllers.API
                 ID = x.Id,
                 Name = x.Name
             }).ToList();
-          
 
-            // var dbRegions=db.Regions.Where(x=>dbCities.Contains())
-
-            //foreach (var dbCty in dbCities)
-            //{
-            //    cty = new Regions();
-            //    cty.ID = dbCty.ID;
-            //    cty.Name = dbCty.Name;
-
-            //    cities.Add(cty);
-            //}
+            dbregions.Insert(0, new FaultType
+            {
+                ID = 0,
+                Name = "Select"
+            });
+         
 
             return dbregions;
         }

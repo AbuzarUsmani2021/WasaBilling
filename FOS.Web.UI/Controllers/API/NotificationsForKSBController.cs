@@ -45,7 +45,7 @@ namespace FOS.Web.UI.Controllers.API
                                     comlist.SiteID = item.SiteID;
                                     comlist.SiteName = item.SiteName;
                                     comlist.ComplaintStatus = item.StatusName;
-                                    comlist.Childs = db.Sp_KSBChildNotificationsforCC(item.ComplaintID).ToList();
+                                    comlist.Childs = db.Sp_KSBChildNotificationsforCC(item.ComplaintID, SOID).ToList();
                                     list.Add(comlist);
 
                         }
@@ -67,7 +67,7 @@ namespace FOS.Web.UI.Controllers.API
                             comlist.SiteID = data.SiteID;
                             comlist.SiteName = data.SiteName;
                             comlist.ComplaintStatus = data.StatusName;
-                            comlist.Childs = db.Sp_KSBChildNotificationsforCC(item).ToList();
+                            comlist.Childs = db.Sp_KSBChildNotificationsforCC(item,SOID).ToList();
                             list.Add(comlist);
 
                         }
@@ -162,7 +162,7 @@ namespace FOS.Web.UI.Controllers.API
         public string ComplaintStatus { get; set; }
 
 
-        public List<Sp_KSBChildNotificationsforCC_Result> Childs { get; set; }
+        public List<Sp_KSBChildNotificationsforCC_Result2> Childs { get; set; }
 
     }
 

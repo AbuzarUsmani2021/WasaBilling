@@ -48,6 +48,10 @@ namespace FOS.Web.UI.Controllers.API
                         comlist.ProgressStatusName = item.ProgressStatusName;
                         comlist.ProgressStatusRemarks = item.ProgressStatusOtherRemarks;
                         comlist.FaultTypeDetailOtherRemarks = item.FaultTypeDetailOtherRemarks;
+                        if (comlist.FaultTypeDetailOtherRemarks == "Others")
+                        {
+                            comlist.FaultTypeDetailOtherRemarks = comlist.FaultTypeDetailOtherRemarks + " /" + item.faultTypeDetailRemarks;
+                        }
                         comlist.ProgressRemarks = item.PRemarks;
                         comlist.SaleOfficerName = item.SaleofficerName;
                         comlist.FaultTypeId = item.FaultTypeId;

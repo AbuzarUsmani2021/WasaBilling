@@ -55,8 +55,15 @@ namespace FOS.Web.UI.Controllers.API
                             comlist.ChildFaultType = item.ChildFaultType;
                             comlist.ChildFaultTypeDetailID = item.ChildFaultTypeDetailID;
                             comlist.ChildComplaintStatusID = item.ChildComplaintStatusID;
-                            comlist.ChildFaulttypeName = item.ChildFaulttypeName;
-                            comlist.ChildFaultTypeDetailName = item.ChildFaultTypeDetailName;
+                            comlist.ChildFaulttypeName =  db.FaultTypes.Where(x => x.Id == item.ChildFaultType).Select(x => x.Name).FirstOrDefault();
+                            comlist.ChildFaultTypeDetailName =  db.FaultTypeDetails.Where(x => x.ID == item.ChildFaultTypeDetailID ).Select(x => x.Name).FirstOrDefault();
+
+
+                            if (comlist.ChildFaultTypeDetailID == 3042 || comlist.ChildFaultTypeDetailID == 3030 || comlist.ChildFaultTypeDetailID == 3049)
+                            {
+                                comlist.ChildFaultTypeDetailName = comlist.ChildFaultTypeDetailName + " /" + item.faultTypeDetailRemarks;
+                            }
+
                             comlist.ChildComplaintStatus = item.ChildComplaintStatus;
 
                             if (item.ChildComplaintStatusID == 3)
@@ -80,11 +87,53 @@ namespace FOS.Web.UI.Controllers.API
                     else
                     {
                         var result = dbContext.Sp_GetProgressList1_4Final(ComplaintID).ToList();
-                        if (result != null && result.Count > 0)
+                        foreach (var item in result)
+                        {
+                            comlist = new MyProgressView();
+                            comlist.ID = item.ID;
+                            comlist.ComplaintID = item.ComplaintID;
+                            comlist.ComplaintNo = item.ComplaintNo;
+                            comlist.LaunchDate = item.LaunchDate;
+                            comlist.InitialRemarks = item.InitialRemarks;
+                            comlist.IsPublished = item.IsPublished;
+                            comlist.SiteName = item.SiteName;
+                            comlist.FaultType = item.FaultType;
+                            comlist.FaultTypeDetail = item.FaultTypeDetail;
+                            comlist.SiteCode = item.SiteCode;
+                            comlist.JobDate = item.JobDate;
+                            comlist.ProgressStatusID = item.ProgressStatusID;
+                            comlist.ProgressStatusName = item.ProgressStatusName;
+                            comlist.PRemarks = item.PRemarks;
+                            comlist.SaleofficerName = item.SaleofficerName;
+                            comlist.LaunchedByName = item.LaunchedByName;
+                            comlist.ChildFaultType = item.ChildFaultType;
+                            comlist.ChildFaultTypeDetailID = item.ChildFaultTypeDetailID;
+                            comlist.ChildComplaintStatusID = item.ChildComplaintStatusID;
+                            comlist.ChildFaulttypeName = db.FaultTypes.Where(x => x.Id == item.ChildFaultType).Select(x => x.Name).FirstOrDefault();
+                            comlist.ChildFaultTypeDetailName = db.FaultTypeDetails.Where(x => x.ID == item.ChildFaultTypeDetailID).Select(x => x.Name).FirstOrDefault();
+
+
+                            if (comlist.ChildFaultTypeDetailID == 3042 || comlist.ChildFaultTypeDetailID == 3030 || comlist.ChildFaultTypeDetailID == 3049)
+                            {
+                                comlist.ChildFaultTypeDetailName = comlist.ChildFaultTypeDetailName + " /" + item.faultTypeDetailRemarks;
+                            }
+
+                            comlist.ChildComplaintStatus = item.ChildComplaintStatus;
+
+                            if (item.ChildComplaintStatusID == 3)
+                            {
+                                comlist.ProgressStatusName = db.WorkDones.Where(x => x.ID == item.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+                            }
+
+                            list.Add(comlist);
+
+                        }
+
+                        if (list != null && list.Count > 0)
                         {
                             return Ok(new
                             {
-                                ProgressList = result
+                                ProgressList = list
 
                             });
                         }

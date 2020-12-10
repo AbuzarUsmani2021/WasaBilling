@@ -23,6 +23,8 @@ namespace FOS.DataLayer
             this.JobItems = new HashSet<JobItem>();
             this.JobsDetails = new HashSet<JobsDetail>();
             this.ComplaintNotifications = new HashSet<ComplaintNotification>();
+            this.NotificationSeens = new HashSet<NotificationSeen>();
+            this.ChatBoxes = new HashSet<ChatBox>();
         }
     
         public int TID { get; set; }
@@ -81,5 +83,9 @@ namespace FOS.DataLayer
         public virtual ICollection<JobsDetail> JobsDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ComplaintNotification> ComplaintNotifications { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NotificationSeen> NotificationSeens { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChatBox> ChatBoxes { get; set; }
     }
 }

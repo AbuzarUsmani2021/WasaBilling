@@ -257,9 +257,13 @@
     <Compile Include="Common\Settings.cs" />
     <Compile Include="Common\Token\TokenAttribute.cs" />
     <Compile Include="Common\UserManager.cs" />
+    <Compile Include="Controllers\API\ChatBoxController.cs" />
+    <Compile Include="Controllers\API\GetSMSController.cs" />
+    <Compile Include="Controllers\API\PreviousComplaintListForWasaController.cs" />
     <Compile Include="Controllers\API\NotificationChildSeenController.cs" />
     <Compile Include="Controllers\API\ClientRemarksController.cs" />
     <Compile Include="Controllers\API\NotificationsForKSBController.cs" />
+    <Compile Include="Controllers\API\PreviousOpenComplaintController.cs" />
     <Compile Include="Controllers\API\VisitRegistrationController.cs" />
     <Compile Include="Controllers\API\ComplaintSummaryForWasaController.cs" />
     <Compile Include="Controllers\API\PublishProgressController.cs" />

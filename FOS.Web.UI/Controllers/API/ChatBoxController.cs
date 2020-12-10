@@ -15,29 +15,31 @@ using System.Web.Http;
 
 namespace FOS.Web.UI.Controllers.API
 {
-    public class NotificationChildSeenController : ApiController
+    public class ChatBoxController : ApiController
     {
         FOSDataModel db = new FOSDataModel();
 
-        public Result<SuccessResponse> Post(ClientRemarksmodel rm)
+        public Result<SuccessResponse> Post(ChatBoxmodel rm)
         {
-            ClientRemark retailerObj = new ClientRemark();
+            ChatBox retailerObj = new ChatBox();
             try
             {
-                var name = db.NotificationSeens.Where(x => x.JobID == rm.ComplaintID && x.SOID==rm.SOID).ToList();
+               
 
-                foreach (var item in name)
-                {
-                    item.IsSeen = true;
-                    db.SaveChanges();
-                }
-                 
+                retailerObj.ComplaintID = rm.ComplaintID;
+                retailerObj.Remarks = rm.Remarks;
+               
+                retailerObj.DateInstall = DateTime.UtcNow.AddHours(5);
+                retailerObj.SOID = rm.SOID;
                 
+                db.ChatBoxes.Add(retailerObj);
+                 
+                db.SaveChanges();
 
                     return new Result<SuccessResponse>
                     {
                         Data = null,
-                        Message = "Notification Seened Successfully",
+                        Message = "Remarks Added Successfully",
                         ResultType = ResultType.Success,
                         Exception = null,
                         ValidationErrors = null
@@ -48,11 +50,11 @@ namespace FOS.Web.UI.Controllers.API
             }
             catch (Exception ex)
             {
-                Log.Instance.Error(ex, "Notification Seened API Failed");
+                Log.Instance.Error(ex, "SMS  Added API Failed");
                 return new Result<SuccessResponse>
                 {
                     Data = null,
-                    Message = "Client Remarks Added API Failed",
+                    Message = "SMS Remarks Added API Failed",
                     ResultType = ResultType.Exception,
                     Exception = ex,
                     ValidationErrors = null
@@ -69,11 +71,12 @@ namespace FOS.Web.UI.Controllers.API
         {
 
         }
-        public class ClientRemarksmodel
+        public class ChatBoxmodel
         {
             public int ComplaintID { get; set; }
             public int SOID { get; set; }
-
+            public string Remarks { get; set; }
+           
 
 
         }

@@ -12,13 +12,16 @@ namespace FOS.Shared
     public class CityData
     {
         public int ID { get; set; }
+        public int? ComplaintID { get; set; }
+
+        public int? SOID { get; set; }
 
         [DisplayName("City Name *")]
         [Required(ErrorMessage = "* Required")]
         public string Name { get; set; }
-
+        public string SaleOfficerName { get; set; }
         public string ShopName { get; set; }
-
+        public string Remarks { get; set; }
 
         [DisplayName("Region *")]
         [Required(ErrorMessage = "* Required")]
@@ -34,7 +37,7 @@ namespace FOS.Shared
 
         [DisplayName("Short Code *")]
         public string ShortCode { get; set; }
-
+        public DateTime? LaunchAt { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime LastUpdate { get; set; }
 

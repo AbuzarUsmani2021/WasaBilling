@@ -61,6 +61,7 @@ namespace FOS.Web.UI.Controllers.API
                     jobDetail.SalesOficerID = obj.SaleOfficerID;
                     jobDetail.ChildFaultTypeDetailID = obj.FaulttypeDetailId;
                     jobDetail.ChildFaultTypeID = obj.FaulttypeId;
+                    jobDetail.SalesOficerID = JobObj.SaleOfficerID;
                     jobDetail.ChildStatusID = obj.StatusID;
                     jobDetail.ChildAssignedSaleOfficerID = obj.AssignedToID;
                     if (obj.Picture1 == "" || obj.Picture1 == null)
@@ -99,13 +100,18 @@ namespace FOS.Web.UI.Controllers.API
                     history.FaultTypeId = obj.FaulttypeId;
                     history.FaultTypeDetailID = obj.FaulttypeDetailId;
                     history.ProgressStatusID = obj.ProgressStatusId;
+                    history.TicketNo = JobObj.TicketNo;
+                    history.InitialRemarks = JobObj.InitialRemarks;
                     history.ComplaintStatusId = obj.StatusID;
                     history.Picture1 = jobDetail.Picture1;
                     history.Picture2 = jobDetail.Picture2;
                     history.Picture3 = jobDetail.Picture3;
                     history.SiteID = jobDetail.RetailerID;
+                    history.LaunchedById = JobObj.SaleOfficerID;
                     history.UpdateRemarks = jobDetail.PRemarks;
                     history.PriorityId = obj.PriorityId;
+                    history.AssignedToSaleOfficer = obj.AssignedToID;
+                    history.FirstAssignedSO = obj.AssignedToID;
                     history.IsActive = true;
                     history.IsPublished = 1;
 
@@ -227,7 +233,24 @@ namespace FOS.Web.UI.Controllers.API
                         
                         notify.CreatedDate = DateTime.UtcNow.AddHours(5);
                         db.ComplaintNotifications.Add(notify);
-                       
+                        var UID = int.Parse(JobObj.Areas);
+                        var IDs = db.SOZoneAndTowns.Where(x => x.CityID == JobObj.CityID && x.AreaID == UID).Select(x => x.SOID).Distinct().ToList();
+                        foreach (var item in IDs)
+                        {
+
+                            NotificationSeen seen = new NotificationSeen();
+
+                            seen.JobID = JobObj.ID;
+                            seen.JobDetailID = jobDetail.ID;
+                            seen.ComplainthistoryID = history.ID;
+                            seen.ComplaintNotificationID = notify.ID;
+                            seen.IsSeen = false;
+                            seen.SOID = item;
+
+                            db.NotificationSeens.Add(seen);
+                            db.SaveChanges();
+                        }
+
                     }
                     else
                     {
@@ -338,6 +361,25 @@ namespace FOS.Web.UI.Controllers.API
                         notify.IsSeen = false;
                         notify.CreatedDate = DateTime.UtcNow.AddHours(5);
                         db.ComplaintNotifications.Add(notify);
+
+                        var UID = int.Parse(JobObj.Areas);
+                        var IDs = db.SOZoneAndTowns.Where(x => x.CityID == JobObj.CityID && x.AreaID == UID).Select(x => x.SOID).Distinct().ToList();
+
+                        foreach (var item in IDs)
+                        {
+
+                            NotificationSeen seen = new NotificationSeen();
+
+                            seen.JobID = JobObj.ID;
+                            seen.JobDetailID = jobDetail.ID;
+                            seen.ComplainthistoryID = history.ID;
+                            seen.ComplaintNotificationID = notify.ID;
+                            seen.IsSeen = false;
+                            seen.SOID = item;
+
+                            db.NotificationSeens.Add(seen);
+                            db.SaveChanges();
+                        }
                     }
 
 
@@ -377,6 +419,7 @@ namespace FOS.Web.UI.Controllers.API
                     jobDetail.ProgressStatusID = JobDet.ProgressStatusID;
                     jobDetail.ProgressStatusRemarks = obj.ProgressStatusOtherRemarks;
                     jobDetail.WorkDoneID = obj.WorkDoneID;
+                    jobDetail.SalesOficerID = JobObj.SaleOfficerID;
                     jobDetail.JobDate = DateTime.UtcNow.AddHours(5);
                     jobDetail.SalesOficerID = obj.SaleOfficerID;
                     jobDetail.ChildFaultTypeDetailID = obj.FaulttypeDetailId;
@@ -421,10 +464,13 @@ namespace FOS.Web.UI.Controllers.API
                     history.ComplaintStatusId = obj.StatusID;
                     history.ProgressStatusID = obj.ProgressStatusId;
                     history.AssignedToSaleOfficer = obj.AssignedToID;
+                    history.LaunchedById = JobObj.SaleOfficerID;
                     history.Picture1 = jobDetail.Picture1;
                     history.Picture2 = jobDetail.Picture2;
                     history.Picture3 = jobDetail.Picture3;
                     history.SiteID = jobDetail.RetailerID;
+                    history.TicketNo = JobObj.TicketNo;
+                    history.InitialRemarks = JobObj.InitialRemarks;
                     history.PriorityId = obj.PriorityId;
                     history.IsActive = true;
                     history.IsPublished = 0;
@@ -548,7 +594,23 @@ namespace FOS.Web.UI.Controllers.API
 
                         notify.CreatedDate = DateTime.UtcNow.AddHours(5);
                         db.ComplaintNotifications.Add(notify);
+                        var UID = int.Parse(JobObj.Areas);
+                        var IDs = db.SOZoneAndTowns.Where(x => x.CityID == JobObj.CityID && x.AreaID == UID).Select(x => x.SOID).Distinct().ToList();
+                        foreach (var item in IDs)
+                        {
 
+                            NotificationSeen seen = new NotificationSeen();
+
+                            seen.JobID = JobObj.ID;
+                            seen.JobDetailID = jobDetail.ID;
+                            seen.ComplainthistoryID = history.ID;
+                            seen.ComplaintNotificationID = notify.ID;
+                            seen.IsSeen = false;
+                            seen.SOID = item;
+
+                            db.NotificationSeens.Add(seen);
+                            db.SaveChanges();
+                        }
                     }
 
                     else
@@ -660,6 +722,23 @@ namespace FOS.Web.UI.Controllers.API
                         notify.IsSeen = false;
                         notify.CreatedDate = DateTime.UtcNow.AddHours(5);
                         db.ComplaintNotifications.Add(notify);
+                        var UID = int.Parse(JobObj.Areas);
+                        var IDs = db.SOZoneAndTowns.Where(x => x.CityID == JobObj.CityID && x.AreaID == UID).Select(x => x.SOID).Distinct().ToList();
+                        foreach (var item in IDs)
+                        {
+
+                            NotificationSeen seen = new NotificationSeen();
+
+                            seen.JobID = JobObj.ID;
+                            seen.JobDetailID = jobDetail.ID;
+                            seen.ComplainthistoryID = history.ID;
+                            seen.ComplaintNotificationID = notify.ID;
+                            seen.IsSeen = false;
+                            seen.SOID = item;
+
+                            db.NotificationSeens.Add(seen);
+                            db.SaveChanges();
+                        }
                     }
                 }
                 catch (Exception ex)

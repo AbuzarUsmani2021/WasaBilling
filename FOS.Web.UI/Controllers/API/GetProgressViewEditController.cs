@@ -38,8 +38,13 @@ namespace FOS.Web.UI.Controllers.API
                 jobDetail.ProgressStatusID = obj.ProgressStatusId;
                 jobDetail.ProgressStatusRemarks = obj.ProgressStatusOtherRemarks;
                 jobDetail.JobDate = DateTime.UtcNow.AddHours(5);
-                jobDetail.IsPublished = obj.IsPublished;
-            
+                jobDetail.IsPublished = 1;
+                jobDetail.ChildFaultTypeDetailID = obj.FaulttypeDetailId;
+                jobDetail.ChildFaultTypeID = obj.FaulttypeId;
+                jobDetail.ChildStatusID = obj.StatusID;
+                jobDetail.ChildAssignedSaleOfficerID = obj.AssignedToID;
+
+
                 if (obj.Picture1 == "" || obj.Picture1 == null)
                 {
                     jobDetail.Picture1 = null;
@@ -82,6 +87,7 @@ namespace FOS.Web.UI.Controllers.API
                 comHis.Picture2 = jobDetail.Picture2;
                 comHis.Picture3 = jobDetail.Picture3;
                 comHis.ProgressStatusID = obj.ProgressStatusId;
+                comHis.IsPublished = 1;
                 comHis.FaultTypeDetailRemarks = obj.FaultTypeDetailOtherRemarks;
                 comHis.ProgressStatusRemarks = obj.ProgressStatusOtherRemarks;
                 comHis.AssignedToSaleOfficer = obj.AssignedToID;

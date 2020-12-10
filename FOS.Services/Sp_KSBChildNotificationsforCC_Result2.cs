@@ -10,42 +10,38 @@
 namespace FOS.DataLayer
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class ComplaintNotification
+    public partial class Sp_KSBChildNotificationsforCC_Result2
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ComplaintNotification()
-        {
-            this.NotificationSeens = new HashSet<NotificationSeen>();
-        }
-    
-        public int ID { get; set; }
-        public Nullable<int> JobID { get; set; }
-        public Nullable<int> JobDetailID { get; set; }
-        public Nullable<int> ComplaintHistoryID { get; set; }
+        public Nullable<int> ComplaintID { get; set; }
+        public string SiteName { get; set; }
         public Nullable<bool> IsSiteIDChanged { get; set; }
+        public string SiteCode { get; set; }
         public Nullable<bool> IsSiteCodeChanged { get; set; }
+        public string FaultType { get; set; }
         public Nullable<bool> IsFaulttypeIDChanged { get; set; }
-        public Nullable<bool> IsFaulttypeDetailIDChanged { get; set; }
-        public Nullable<bool> IsPriorityIDChanged { get; set; }
+        public string FaultTypeDetail { get; set; }
+        public Nullable<bool> isFaultTypeDetailIDChanged { get; set; }
+        public Nullable<System.DateTime> createddate { get; set; }
+        public string ComplaintStatusName { get; set; }
         public Nullable<bool> IsComplaintStatusIDChanged { get; set; }
+        public string PersonName { get; set; }
         public Nullable<bool> IsPersonNameChanged { get; set; }
+        public string Picture1 { get; set; }
         public Nullable<bool> IsPicture1Changed { get; set; }
+        public string Picture2 { get; set; }
         public Nullable<bool> IsPicture2Changed { get; set; }
+        public string Picture3 { get; set; }
         public Nullable<bool> IsPicture3Changed { get; set; }
+        public string ProgressStatusName { get; set; }
         public Nullable<bool> IsProgressStatusIDChanged { get; set; }
-        public Nullable<bool> IsFaulttypeDetailRemarksChanged { get; set; }
+        public string FaultTypeDetailRemarks { get; set; }
+        public Nullable<bool> IsFaultTypeDetailRemarksChanged { get; set; }
+        public string ProgressStatusRemarks { get; set; }
         public Nullable<bool> IsProgressStatusRemarksChanged { get; set; }
+        public string AssignedSaleOfficerName { get; set; }
         public Nullable<bool> IsAssignedSaleOfficerChanged { get; set; }
+        public string UpdateRemarks { get; set; }
         public Nullable<bool> IsUpdateRemarksChanged { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<bool> IsSeen { get; set; }
-    
-        public virtual Job Job { get; set; }
-        public virtual JobsDetail JobsDetail { get; set; }
-        public virtual Tbl_ComplaintHistory Tbl_ComplaintHistory { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NotificationSeen> NotificationSeens { get; set; }
     }
 }

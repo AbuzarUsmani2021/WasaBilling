@@ -58,11 +58,11 @@ namespace FOS.DataLayer
         public virtual ICollection<DealerCityArea> DealerCityAreas { get; set; }
         public virtual RegionalHead RegionalHead { get; set; }
         public virtual Region Region { get; set; }
+        public virtual Zone Zone { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Retailer> Retailers { get; set; }
         public virtual SaleOfficer SaleOfficer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JobsDetail> JobsDetails { get; set; }
-        public virtual Zone Zone { get; set; }
     }
 }

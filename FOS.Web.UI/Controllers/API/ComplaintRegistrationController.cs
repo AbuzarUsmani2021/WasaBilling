@@ -87,7 +87,7 @@ namespace FOS.Web.UI.Controllers.API
                     retailerObj.IsActive = true;
                     retailerObj.Status = true;  
                     retailerObj.InitialRemarks = rm.Remarks;
-                    retailerObj.ComplainttypeID = rm.ComplaintTypeID;
+                    retailerObj.ComplainttypeID = 2;
                     retailerObj.CreatedDate = DateTime.UtcNow.AddHours(5);
                     retailerObj.SaleOfficerID = rm.SaleOfficerID;
                     db.Jobs.Add(retailerObj);
@@ -140,7 +140,10 @@ namespace FOS.Web.UI.Controllers.API
                     history.ProgressStatusRemarks = rm.ProgressStatusOtherRemarks;
                     history.FaultTypeId = rm.FaulttypeId;
                     history.FaultTypeDetailID = rm.FaulttypeDetailId;
-                    history.ComplaintStatusId = 2003;
+                history.TicketNo = retailerObj.TicketNo;
+                history.ComplaintStatusId = 2003;
+                history.InitialRemarks = rm.Remarks;
+                history.LaunchedById= rm.SaleOfficerID;
                 history.Picture1 = jobDetail.Picture1;
                 history.Picture2 = jobDetail.Picture2;
                 history.Picture3 = jobDetail.Picture3;
@@ -156,7 +159,8 @@ namespace FOS.Web.UI.Controllers.API
 
 
                     ComplaintNotification notify = new ComplaintNotification();
-                    notify.JobID = retailerObj.ID;
+                notify.ID = db.ComplaintNotifications.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
+                notify.JobID = retailerObj.ID;
                     notify.JobDetailID = jobDetail.ID;
                     notify.ComplaintHistoryID = history.ID;
                     notify.IsSiteIDChanged = true;
@@ -178,7 +182,29 @@ namespace FOS.Web.UI.Controllers.API
                     notify.CreatedDate= DateTime.UtcNow.AddHours(5);
                     db.ComplaintNotifications.Add(notify);
 
-                    //END
+
+
+                var IDs = db.SOZoneAndTowns.Where(x => x.CityID == data.CityID && x.AreaID == data.AreaID).Select(x => x.SOID).Distinct().ToList();
+
+                foreach (var item in IDs)
+                {
+
+                    NotificationSeen seen = new NotificationSeen();
+
+                    seen.JobID= retailerObj.ID;
+                    seen.JobDetailID= jobDetail.ID;
+                    seen.ComplainthistoryID= history.ID;
+                    seen.ComplaintNotificationID = notify.ID;
+                    seen.IsSeen = false;
+                    seen.SOID = item;
+
+                    db.NotificationSeens.Add(seen);
+                    db.SaveChanges();
+                }
+
+
+
+
 
                     // Add Token Detail ...
                     TokenDetail tokenDetail = new TokenDetail();

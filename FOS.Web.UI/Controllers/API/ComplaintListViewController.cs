@@ -31,19 +31,17 @@ namespace FOS.Web.UI.Controllers.API
                     object[] param = { ComplaintID };
                     List<MyComplaintListView> list = new List<MyComplaintListView>();
                     MyComplaintListView comlist;
-                    var result = dbContext.Sp_MyComplaintListView1_1(ComplaintID, dtFromToday,dtToToday).ToList();
+                    var result = dbContext.Sp_MyComplaintListViewFinal(ComplaintID, dtFromToday,dtToToday).ToList();
 
 
-                    var result1= dbContext.Sp_MyComplaintListViewPictures(ComplaintID, dtFromToday, dtToToday).ToList();
+                   // var result1= dbContext.Sp_MyComplaintListViewPictures(ComplaintID, dtFromToday, dtToToday).ToList();
                     
 
 
                     foreach (var item in result)
                     {
-                        foreach (var items in result1)
-                        {
-                            if (item.ComplaintID == items.ComplaintID)
-                            {
+                        
+                          
                                 comlist = new MyComplaintListView();
 
 
@@ -57,24 +55,24 @@ namespace FOS.Web.UI.Controllers.API
                                 comlist.FaultTypeDetail = item.FaultTypeDetail;
                                 if (item.FaultTypeDetail == "Others")
                                 {
-                                    var otherremarks = db.JobsDetails.Where(x => x.JobID == item.ComplaintID).Select(x => x.ActivityType).FirstOrDefault();
+                                    
 
-                                    comlist.FaultTypeDetail = comlist.FaultTypeDetail + "/" + otherremarks;
+                                    comlist.FaultTypeDetail = comlist.FaultTypeDetail + "/" + item.faulttypedetailremarks;
                                 }
                                 comlist.TicketNo = item.TicketNo;
                                 comlist.InitialRemarks = item.InitialRemarks;
                                 comlist.ComplaintStatus = item.StatusName;
-                                comlist.Picture1 = items.Picture1;
-                                comlist.Picture2 = items.Picture2;
-                                comlist.Picture3 = items.Picture3;
+                                comlist.Picture1 = item.Picture1;
+                                comlist.Picture2 = item.Picture2;
+                                comlist.Picture3 = item.Picture3;
 
-                                comlist.ClientRemarks = new CommonController().GetClientRemarks(item.ComplaintID);
+                                comlist.ClientRemarks = new CommonController().GetClientRemarks((int)item.ComplaintID);
 
 
                                 list.Add(comlist);
 
-                            }
-                        }
+                           
+                      
                        
                     }
                     
@@ -107,7 +105,7 @@ namespace FOS.Web.UI.Controllers.API
 
     public class MyComplaintListView
     {
-        public int ComplaintID { get; set; }
+        public int? ComplaintID { get; set; }
         public string TicketNo { get; set; }
         public DateTime? LaunchDate { get; set; }
 

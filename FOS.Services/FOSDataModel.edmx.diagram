@@ -168,6 +168,13 @@
         <AssociationConnector Association="FOS_WallCoatModel.FK_CityZone_Zone" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_Dealers_Zone" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_Retailers_Zone" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.NotificationSeen" Width="1.5" PointX="26.75" PointY="39" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_NotificationSeen_ComplaintNotification" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_NotificationSeen_Jobs" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_NotificationSeen_JobsDetail" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_NotificationSeen_Tbl_ComplaintHistory" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.ChatBox" Width="1.5" PointX="12" PointY="60.25" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_ChatBox_Jobs" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

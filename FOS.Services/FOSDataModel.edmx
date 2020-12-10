@@ -42,6 +42,16 @@
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="ChatBox">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ComplaintID" Type="int" />
+          <Property Name="Remarks" Type="varchar" MaxLength="500" />
+          <Property Name="SOID" Type="int" />
+          <Property Name="DateInstall" Type="datetime" />
+        </EntityType>
         <EntityType Name="Cities">
           <Key>
             <PropertyRef Name="ID" />
@@ -613,6 +623,18 @@
           <Property Name="UpdatedOn" Type="datetime" />
           <Property Name="UpdatedBy" Type="int" />
         </EntityType>
+        <EntityType Name="NotificationSeen">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobID" Type="int" />
+          <Property Name="JobDetailID" Type="int" />
+          <Property Name="ComplainthistoryID" Type="int" />
+          <Property Name="ComplaintNotificationID" Type="int" />
+          <Property Name="SOID" Type="int" />
+          <Property Name="IsSeen" Type="bit" />
+        </EntityType>
         <EntityType Name="Pages">
           <Key>
             <PropertyRef Name="PageID" />
@@ -720,6 +742,11 @@
           <Property Name="LastUpdate" Type="datetime" Nullable="false" />
           <Property Name="Location" Type="nvarchar" MaxLength="50" />
           <Property Name="KSBRef" Type="nvarchar" MaxLength="500" />
+          <Property Name="ContactNo" Type="varchar" MaxLength="50" />
+          <Property Name="Province" Type="varchar" MaxLength="50" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="RetailerPainters">
           <Key>
@@ -1073,6 +1100,8 @@
           <Property Name="AssignedToSaleOfficer" Type="int" />
           <Property Name="IsPublished" Type="int" />
           <Property Name="UpdateRemarks" Type="varchar" MaxLength="500" />
+          <Property Name="InitialRemarks" Type="varchar" MaxLength="255" />
+          <Property Name="FirstAssignedSO" Type="int" />
         </EntityType>
         <EntityType Name="Tbl_FollowupReasons">
           <Key>
@@ -1312,6 +1341,13 @@
           <Property Name="StartDate" Type="datetime" />
           <Property Name="EndDate" Type="datetime" />
           <Property Name="ProjectCode" Type="int" />
+          <Property Name="AONO" Type="varchar" MaxLength="50" />
+          <Property Name="ContractNo" Type="varchar" MaxLength="50" />
+          <Property Name="ContractTitle" Type="varchar" MaxLength="50" />
+          <Property Name="AwardDate" Type="varchar" MaxLength="50" />
+          <Property Name="Duration" Type="varchar" MaxLength="50" />
+          <Property Name="DateFrom" Type="varchar" MaxLength="50" />
+          <Property Name="DateTo" Type="varchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1365,6 +1401,18 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
             </Principal>
             <Dependent Role="Areas">
               <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChatBox_Jobs">
+          <End Role="Jobs" Type="Self.Jobs" Multiplicity="0..1" />
+          <End Role="ChatBox" Type="Self.ChatBox" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jobs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ChatBox">
+              <PropertyRef Name="ComplaintID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1773,6 +1821,54 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
             </Principal>
             <Dependent Role="JobsHistory">
               <PropertyRef Name="JobID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationSeen_ComplaintNotification">
+          <End Role="ComplaintNotification" Type="Self.ComplaintNotification" Multiplicity="0..1" />
+          <End Role="NotificationSeen" Type="Self.NotificationSeen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComplaintNotification">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NotificationSeen">
+              <PropertyRef Name="ComplaintNotificationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationSeen_Jobs">
+          <End Role="Jobs" Type="Self.Jobs" Multiplicity="0..1" />
+          <End Role="NotificationSeen" Type="Self.NotificationSeen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jobs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NotificationSeen">
+              <PropertyRef Name="JobID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationSeen_JobsDetail">
+          <End Role="JobsDetail" Type="Self.JobsDetail" Multiplicity="0..1" />
+          <End Role="NotificationSeen" Type="Self.NotificationSeen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobsDetail">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NotificationSeen">
+              <PropertyRef Name="JobDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationSeen_Tbl_ComplaintHistory">
+          <End Role="Tbl_ComplaintHistory" Type="Self.Tbl_ComplaintHistory" Multiplicity="0..1" />
+          <End Role="NotificationSeen" Type="Self.NotificationSeen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_ComplaintHistory">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NotificationSeen">
+              <PropertyRef Name="ComplainthistoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2828,6 +2924,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
         </Function>
         <Function Name="Sp_KSBChildNotificationsforCC" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ComplaintID" Type="int" Mode="In" />
+          <Parameter Name="SOID" Type="int" Mode="In" />
         </Function>
         <Function Name="Sp_KSBNotificationsforCC" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RegionID" Type="int" Mode="In" />
@@ -2858,6 +2955,18 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Parameter Name="RegionID" Type="int" Mode="In" />
           <Parameter Name="dateFrom" Type="date" Mode="In" />
           <Parameter Name="dateTo" Type="date" Mode="In" />
+        </Function>
+        <Function Name="Sp_MyComplaintListForFS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RegionID" Type="int" Mode="In" />
+          <Parameter Name="dateFrom" Type="date" Mode="In" />
+          <Parameter Name="dateTo" Type="date" Mode="In" />
+          <Parameter Name="SOID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Sp_MyComplaintListForFS1_1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="Sp_MyComplaintListForFS1.1">
+          <Parameter Name="RegionID" Type="int" Mode="In" />
+          <Parameter Name="dateFrom" Type="date" Mode="In" />
+          <Parameter Name="dateTo" Type="date" Mode="In" />
+          <Parameter Name="SOID" Type="int" Mode="In" />
         </Function>
         <Function Name="Sp_MyComplaintListForWasa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RegionID" Type="int" Mode="In" />
@@ -2895,6 +3004,11 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Parameter Name="dateTo" Type="date" Mode="In" />
         </Function>
         <Function Name="Sp_MyComplaintListView1_1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="Sp_MyComplaintListView1.1">
+          <Parameter Name="RegionID" Type="int" Mode="In" />
+          <Parameter Name="dateFrom" Type="date" Mode="In" />
+          <Parameter Name="dateTo" Type="date" Mode="In" />
+        </Function>
+        <Function Name="Sp_MyComplaintListViewFinal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RegionID" Type="int" Mode="In" />
           <Parameter Name="dateFrom" Type="date" Mode="In" />
           <Parameter Name="dateTo" Type="date" Mode="In" />
@@ -3343,6 +3457,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySet Name="AccessLog" EntityType="Self.AccessLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ActivityPurpose" EntityType="Self.ActivityPurpose" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Areas" EntityType="Self.Areas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChatBox" EntityType="Self.ChatBox" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CityZone" EntityType="Self.CityZone" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClientRemarks" EntityType="Self.ClientRemarks" Schema="dbo" store:Type="Tables" />
@@ -3370,6 +3485,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySet Name="JobsHistory" EntityType="Self.JobsHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoginHistories" EntityType="Self.LoginHistories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MainCategory" EntityType="Self.MainCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NotificationSeen" EntityType="Self.NotificationSeen" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pages" EntityType="Self.Pages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProgressStatus" EntityType="Self.ProgressStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QrActivity" EntityType="Self.QrActivity" Schema="dbo" store:Type="Tables" />
@@ -3451,6 +3567,10 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <AssociationSet Name="FK_Areas_Cities" Association="Self.FK_Areas_Cities">
             <End Role="Cities" EntitySet="Cities" />
             <End Role="Areas" EntitySet="Areas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChatBox_Jobs" Association="Self.FK_ChatBox_Jobs">
+            <End Role="Jobs" EntitySet="Jobs" />
+            <End Role="ChatBox" EntitySet="ChatBox" />
           </AssociationSet>
           <AssociationSet Name="FK_Cities_Regions" Association="Self.FK_Cities_Regions">
             <End Role="Regions" EntitySet="Regions" />
@@ -3587,6 +3707,22 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <AssociationSet Name="FK_JobsInquiries_Jobs" Association="Self.FK_JobsInquiries_Jobs">
             <End Role="Jobs" EntitySet="Jobs" />
             <End Role="JobsHistory" EntitySet="JobsHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationSeen_ComplaintNotification" Association="Self.FK_NotificationSeen_ComplaintNotification">
+            <End Role="ComplaintNotification" EntitySet="ComplaintNotification" />
+            <End Role="NotificationSeen" EntitySet="NotificationSeen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationSeen_Jobs" Association="Self.FK_NotificationSeen_Jobs">
+            <End Role="Jobs" EntitySet="Jobs" />
+            <End Role="NotificationSeen" EntitySet="NotificationSeen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationSeen_JobsDetail" Association="Self.FK_NotificationSeen_JobsDetail">
+            <End Role="JobsDetail" EntitySet="JobsDetail" />
+            <End Role="NotificationSeen" EntitySet="NotificationSeen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationSeen_Tbl_ComplaintHistory" Association="Self.FK_NotificationSeen_Tbl_ComplaintHistory">
+            <End Role="Tbl_ComplaintHistory" EntitySet="Tbl_ComplaintHistory" />
+            <End Role="NotificationSeen" EntitySet="NotificationSeen" />
           </AssociationSet>
           <AssociationSet Name="FK_Pages_Pages" Association="Self.FK_Pages_Pages">
             <End Role="Pages" EntitySet="Pages" />
@@ -5244,9 +5380,6 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <FunctionImport Name="Sp_GetProgressListFinal" ReturnType="Collection(FOS_WallCoatModel.Sp_GetProgressListFinal_Result3)">
           <Parameter Name="StockID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="Sp_GetProgressList1_4Final" ReturnType="Collection(FOS_WallCoatModel.Sp_GetProgressList1_4Final_Result1)">
-          <Parameter Name="StockID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="Sp_MyComplaintListRemarks1_2" ReturnType="Collection(FOS_WallCoatModel.Sp_MyComplaintListRemarks1_2_Result2)">
             <Parameter Name="RegionID" Mode="In" Type="Int32" />
             <Parameter Name="dateFrom" Mode="In" Type="DateTime" />
@@ -5256,9 +5389,6 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Parameter Name="StockID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Sp_GetProgressView1_2" ReturnType="Collection(FOS_WallCoatModel.Sp_GetProgressView1_2_Result)">
-          <Parameter Name="StockID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="Sp_GetProgressView1_3" ReturnType="Collection(FOS_WallCoatModel.Sp_GetProgressView1_3_Result)">
           <Parameter Name="StockID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="ComplaintNotifications" EntityType="FOS_WallCoatModel.ComplaintNotification" />
@@ -5287,19 +5417,65 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <FunctionImport Name="Sp_KSBNotificationsforCC" ReturnType="Collection(FOS_WallCoatModel.Sp_KSBNotificationsforCC_Result)">
           <Parameter Name="RegionID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="Sp_KSBChildNotificationsforCC" ReturnType="Collection(FOS_WallCoatModel.Sp_KSBChildNotificationsforCC_Result)">
-          <Parameter Name="ComplaintID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="Sp_NotificationDataForFS" ReturnType="Collection(FOS_WallCoatModel.Sp_NotificationDataForFS_Result)">
           <Parameter Name="RegionID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="Sp_GetProgressListFinal1_1" ReturnType="Collection(FOS_WallCoatModel.Sp_GetProgressListFinal1_1_Result)">
-          <Parameter Name="StockID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Sp_MyComplaintListRemarksGet1_1" ReturnType="Collection(FOS_WallCoatModel.Sp_MyComplaintListRemarksGet1_1_Result1)">
             <Parameter Name="RegionID" Mode="In" Type="Int32" />
             <Parameter Name="dateFrom" Mode="In" Type="DateTime" />
             <Parameter Name="dateTo" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_MyComplaintListViewFinal" ReturnType="Collection(FOS_WallCoatModel.Sp_MyComplaintListViewFinal_Result)">
+            <Parameter Name="RegionID" Mode="In" Type="Int32" />
+            <Parameter Name="dateFrom" Mode="In" Type="DateTime" />
+            <Parameter Name="dateTo" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_MyComplaintListForFS" ReturnType="Collection(FOS_WallCoatModel.Sp_MyComplaintListForFS_Result1)">
+            <Parameter Name="RegionID" Mode="In" Type="Int32" />
+            <Parameter Name="dateFrom" Mode="In" Type="DateTime" />
+            <Parameter Name="dateTo" Mode="In" Type="DateTime" />
+            <Parameter Name="SOID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_GetProgressListFinal1_1" ReturnType="Collection(FOS_WallCoatModel.Sp_GetProgressListFinal1_1_Result1)">
+          <Parameter Name="StockID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_GetProgressView1_3" ReturnType="Collection(FOS_WallCoatModel.Sp_GetProgressView1_3_Result1)">
+          <Parameter Name="StockID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_GetProgressList1_4Final" ReturnType="Collection(FOS_WallCoatModel.Sp_GetProgressList1_4Final_Result2)">
+          <Parameter Name="StockID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_MyComplaintListForFS1_1" ReturnType="Collection(FOS_WallCoatModel.Sp_MyComplaintListForFS1_1_Result4)">
+            <Parameter Name="RegionID" Mode="In" Type="Int32" />
+            <Parameter Name="dateFrom" Mode="In" Type="DateTime" />
+            <Parameter Name="dateTo" Mode="In" Type="DateTime" />
+            <Parameter Name="SOID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="NotificationSeens" EntityType="FOS_WallCoatModel.NotificationSeen" />
+          <AssociationSet Name="FK_NotificationSeen_ComplaintNotification" Association="FOS_WallCoatModel.FK_NotificationSeen_ComplaintNotification">
+            <End Role="ComplaintNotification" EntitySet="ComplaintNotifications" />
+            <End Role="NotificationSeen" EntitySet="NotificationSeens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationSeen_Jobs" Association="FOS_WallCoatModel.FK_NotificationSeen_Jobs">
+            <End Role="Job" EntitySet="Jobs" />
+            <End Role="NotificationSeen" EntitySet="NotificationSeens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationSeen_JobsDetail" Association="FOS_WallCoatModel.FK_NotificationSeen_JobsDetail">
+            <End Role="JobsDetail" EntitySet="JobsDetails" />
+            <End Role="NotificationSeen" EntitySet="NotificationSeens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationSeen_Tbl_ComplaintHistory" Association="FOS_WallCoatModel.FK_NotificationSeen_Tbl_ComplaintHistory">
+            <End Role="Tbl_ComplaintHistory" EntitySet="Tbl_ComplaintHistory" />
+            <End Role="NotificationSeen" EntitySet="NotificationSeens" />
+          </AssociationSet>
+          <EntitySet Name="ChatBoxes" EntityType="FOS_WallCoatModel.ChatBox" />
+          <AssociationSet Name="FK_ChatBox_Jobs" Association="FOS_WallCoatModel.FK_ChatBox_Jobs">
+            <End Role="Job" EntitySet="Jobs" />
+            <End Role="ChatBox" EntitySet="ChatBoxes" />
+          </AssociationSet>
+          <FunctionImport Name="Sp_KSBChildNotificationsforCC" ReturnType="Collection(FOS_WallCoatModel.Sp_KSBChildNotificationsforCC_Result2)">
+            <Parameter Name="ComplaintID" Mode="In" Type="Int32" />
+            <Parameter Name="SOID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="AreasRelatedtoCities_Result">
@@ -5803,6 +5979,8 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <NavigationProperty Name="JobsDetails" Relationship="FOS_WallCoatModel.FK_SoRetailersJobs_Jobs" FromRole="Job" ToRole="JobsDetail" />
           <Property Name="ResolvedHours" Type="Int32" />
           <NavigationProperty Name="ComplaintNotifications" Relationship="FOS_WallCoatModel.FK_ComplaintNotification_Jobs" FromRole="Job" ToRole="ComplaintNotification" />
+          <NavigationProperty Name="NotificationSeens" Relationship="FOS_WallCoatModel.FK_NotificationSeen_Jobs" FromRole="Job" ToRole="NotificationSeen" />
+          <NavigationProperty Name="ChatBoxes" Relationship="FOS_WallCoatModel.FK_ChatBox_Jobs" FromRole="Job" ToRole="ChatBox" />
         </EntityType>
         <EntityType Name="Jobs_HTR">
           <Key>
@@ -6054,6 +6232,11 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <NavigationProperty Name="Tbl_Access" Relationship="FOS_WallCoatModel.FK_Tbl_Access_Regions" FromRole="Region" ToRole="Tbl_Access" />
           <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="KSBRef" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Province" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="RetailerPainter">
           <Key>
@@ -6573,6 +6756,13 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Property Name="StartDate" Type="DateTime" Precision="3" />
           <Property Name="EndDate" Type="DateTime" Precision="3" />
           <Property Name="ProjectCode" Type="Int32" />
+          <Property Name="AONO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ContractNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ContractTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AwardDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Duration" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DateFrom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DateTo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_CityZone_Zone">
           <End Type="FOS_WallCoatModel.Zone" Role="Zone" Multiplicity="1" />
@@ -9365,6 +9555,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Property Name="ChildStatusID" Type="Int32" />
           <Property Name="ChildAssignedSaleOfficerID" Type="Int32" />
           <NavigationProperty Name="ComplaintNotifications" Relationship="FOS_WallCoatModel.FK_ComplaintNotification_JobsDetail" FromRole="JobsDetail" ToRole="ComplaintNotification" />
+          <NavigationProperty Name="NotificationSeens" Relationship="FOS_WallCoatModel.FK_NotificationSeen_JobsDetail" FromRole="JobsDetail" ToRole="NotificationSeen" />
         </EntityType>
         <Association Name="FK_JobsDetail_Areas">
           <End Type="FOS_WallCoatModel.Area" Role="Area" Multiplicity="0..1" />
@@ -9596,6 +9787,9 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Property Name="IsPublished" Type="Int32" />
           <Property Name="UpdateRemarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ComplaintNotifications" Relationship="FOS_WallCoatModel.FK_ComplaintNotification_Tbl_ComplaintHistory" FromRole="Tbl_ComplaintHistory" ToRole="ComplaintNotification" />
+          <Property Name="InitialRemarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FirstAssignedSO" Type="Int32" />
+          <NavigationProperty Name="NotificationSeens" Relationship="FOS_WallCoatModel.FK_NotificationSeen_Tbl_ComplaintHistory" FromRole="Tbl_ComplaintHistory" ToRole="NotificationSeen" />
         </EntityType>
         <ComplexType Name="Sp_GetProgressListFinal_Result2">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -9765,6 +9959,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <NavigationProperty Name="JobsDetail" Relationship="FOS_WallCoatModel.FK_ComplaintNotification_JobsDetail" FromRole="ComplaintNotification" ToRole="JobsDetail" />
           <NavigationProperty Name="Tbl_ComplaintHistory" Relationship="FOS_WallCoatModel.FK_ComplaintNotification_Tbl_ComplaintHistory" FromRole="ComplaintNotification" ToRole="Tbl_ComplaintHistory" />
           <Property Name="IsSeen" Type="Boolean" />
+          <NavigationProperty Name="NotificationSeens" Relationship="FOS_WallCoatModel.FK_NotificationSeen_ComplaintNotification" FromRole="ComplaintNotification" ToRole="NotificationSeen" />
         </EntityType>
         <Association Name="FK_ComplaintNotification_Jobs">
           <End Type="FOS_WallCoatModel.Job" Role="Job" Multiplicity="0..1" />
@@ -9946,6 +10141,370 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Property Type="String" Name="Picture3" Nullable="true" MaxLength="200" />
           <Property Type="Int32" Name="AssignedSaleOfficerID" Nullable="true" />
           <Property Type="String" Name="Activitytype" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="Sp_MyComplaintListViewFinal_Result">
+          <Property Type="Int32" Name="ComplaintID" Nullable="true" />
+          <Property Type="String" Name="TicketNo" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="LaunchDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="SiteID" Nullable="true" />
+          <Property Type="String" Name="SiteCode" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ComplaintStatusId" Nullable="true" />
+          <Property Type="String" Name="StatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="InitialRemarks" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="FaultType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LaunchedByName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FaultTypeDetail" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ContactPerson" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="faulttypedetailremarks" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Picture1" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Picture2" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Picture3" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="Sp_MyComplaintListForFS_Result">
+          <Property Type="Int32" Name="ComplaintID" Nullable="true" />
+          <Property Type="String" Name="TicketNo" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="LaunchDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="SiteID" Nullable="true" />
+          <Property Type="String" Name="SiteCode" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ComplaintStatusId" Nullable="true" />
+          <Property Type="String" Name="StatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="InitialRemarks" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="FaulttypeName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FaulttypedetailName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LaunchedByName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProgressStatusRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="initialremarks1" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ProgressStatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="faulttypedetailremarks" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="Sp_MyComplaintListForFS_Result1">
+          <Property Type="Int32" Name="ComplaintID" Nullable="true" />
+          <Property Type="String" Name="TicketNo" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="LaunchDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="SiteID" Nullable="true" />
+          <Property Type="String" Name="SiteCode" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ComplaintStatusId" Nullable="true" />
+          <Property Type="String" Name="StatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="InitialRemarks" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="FaulttypeName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FaulttypedetailName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LaunchedByName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProgressStatusRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="initialremarks1" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ProgressStatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="faulttypedetailremarks" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="Sp_MyComplaintListForFS1_1_Result">
+          <Property Type="Int32" Name="ComplaintID" Nullable="true" />
+          <Property Type="String" Name="TicketNo" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="LaunchDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="SiteID" Nullable="true" />
+          <Property Type="String" Name="SiteCode" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ComplaintStatusId" Nullable="true" />
+          <Property Type="String" Name="StatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="InitialRemarks" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="FaulttypeName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FaulttypedetailName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LaunchedByName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProgressStatusRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="initialremarks1" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ProgressStatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="faulttypedetailremarks" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="Sp_MyComplaintListForFS1_1_Result1">
+          <Property Type="Int32" Name="ComplaintID" Nullable="true" />
+          <Property Type="String" Name="TicketNo" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="LaunchDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="SiteID" Nullable="true" />
+          <Property Type="String" Name="SiteCode" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ComplaintStatusId" Nullable="true" />
+          <Property Type="String" Name="StatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="InitialRemarks" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="FaulttypeName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FaulttypedetailName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LaunchedByName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProgressStatusRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="InitialRemarks1" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ProgressStatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="faulttypedetailremarks" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="Sp_MyComplaintListForFS1_1_Result2">
+          <Property Type="Int32" Name="ComplaintID" Nullable="true" />
+          <Property Type="String" Name="TicketNo" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="LaunchDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="SiteID" Nullable="true" />
+          <Property Type="String" Name="SiteCode" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ComplaintStatusId" Nullable="true" />
+          <Property Type="String" Name="StatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="InitialRemarks" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="FaulttypeName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FaulttypedetailName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LaunchedByName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProgressStatusRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ProgressStatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="faulttypedetailremarks" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="Sp_GetProgressListFinal1_1_Result1">
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="Int32" Name="ComplaintID" Nullable="true" />
+          <Property Type="String" Name="ComplaintNo" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="LaunchDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="InitialRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="IsPublished" Nullable="true" />
+          <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="FaultType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FaultTypeDetail" Nullable="true" MaxLength="551" />
+          <Property Type="String" Name="SiteCode" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="JobDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="ProgressStatusID" Nullable="true" />
+          <Property Type="String" Name="ProgressStatusName" Nullable="true" MaxLength="551" />
+          <Property Type="String" Name="PRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="SaleofficerName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LaunchedByName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ChildFaultType" Nullable="true" />
+          <Property Type="Int32" Name="ChildFaultTypeDetailID" Nullable="true" />
+          <Property Type="Int32" Name="ChildComplaintStatusID" Nullable="true" />
+          <Property Type="String" Name="ChildFaulttypeName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ChildFaultTypeDetailName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ChildComplaintStatus" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="faultTypeDetailRemarks" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="Sp_GetProgressView1_3_Result1">
+          <Property Type="String" Name="Picture1" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Picture2" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Picture3" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="JobDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="ProgressStatusID" Nullable="true" />
+          <Property Type="String" Name="ProgressStatusName" Nullable="true" MaxLength="551" />
+          <Property Type="String" Name="ProgressStatusOtherRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="PRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="SaleofficerName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="FaultTypeId" Nullable="true" />
+          <Property Type="Int32" Name="FaultTypeDetailID" Nullable="true" />
+          <Property Type="Int32" Name="ComplaintStatusID" Nullable="true" />
+          <Property Type="String" Name="FaultTypeDetailOtherRemarks" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="faultTypeDetailRemarks" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="Sp_GetProgressList1_4Final_Result2">
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="Int32" Name="ComplaintID" Nullable="true" />
+          <Property Type="String" Name="ComplaintNo" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="LaunchDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="InitialRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="IsPublished" Nullable="true" />
+          <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="FaultType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FaultTypeDetail" Nullable="true" MaxLength="551" />
+          <Property Type="String" Name="SiteCode" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="JobDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="ProgressStatusID" Nullable="true" />
+          <Property Type="String" Name="ProgressStatusName" Nullable="true" MaxLength="551" />
+          <Property Type="String" Name="PRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="SaleofficerName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LaunchedByName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ChildFaultType" Nullable="true" />
+          <Property Type="Int32" Name="ChildFaultTypeDetailID" Nullable="true" />
+          <Property Type="Int32" Name="ChildComplaintStatusID" Nullable="true" />
+          <Property Type="String" Name="ChildFaulttypeName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ChildFaultTypeDetailName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ChildComplaintStatus" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="faultTypeDetailRemarks" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="Sp_MyComplaintListForFS1_1_Result3">
+          <Property Type="Int32" Name="ComplaintID" Nullable="true" />
+          <Property Type="String" Name="TicketNo" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="LaunchDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="SiteID" Nullable="true" />
+          <Property Type="String" Name="SiteCode" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ComplaintStatusId" Nullable="true" />
+          <Property Type="String" Name="StatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="InitialRemarks" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="FaulttypeName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FaulttypedetailName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LaunchedByName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProgressStatusRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ProgressStatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="faulttypedetailremarks" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="LaunchedById" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Sp_MyComplaintListForFS1_1_Result4">
+          <Property Type="Int32" Name="ComplaintID" Nullable="true" />
+          <Property Type="String" Name="TicketNo" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="LaunchDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="SiteID" Nullable="true" />
+          <Property Type="String" Name="SiteCode" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ComplaintStatusId" Nullable="true" />
+          <Property Type="String" Name="StatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="InitialRemarks" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="FaulttypeName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FaulttypedetailName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LaunchedByName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProgressStatusRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ProgressStatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="faulttypedetailremarks" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="LaunchedById" Nullable="true" />
+          <Property Type="Int32" Name="progressstatusid" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="NotificationSeen">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobID" Type="Int32" />
+          <Property Name="JobDetailID" Type="Int32" />
+          <Property Name="ComplainthistoryID" Type="Int32" />
+          <Property Name="ComplaintNotificationID" Type="Int32" />
+          <Property Name="SOID" Type="Int32" />
+          <Property Name="IsSeen" Type="Boolean" />
+          <NavigationProperty Name="ComplaintNotification" Relationship="FOS_WallCoatModel.FK_NotificationSeen_ComplaintNotification" FromRole="NotificationSeen" ToRole="ComplaintNotification" />
+          <NavigationProperty Name="Job" Relationship="FOS_WallCoatModel.FK_NotificationSeen_Jobs" FromRole="NotificationSeen" ToRole="Job" />
+          <NavigationProperty Name="JobsDetail" Relationship="FOS_WallCoatModel.FK_NotificationSeen_JobsDetail" FromRole="NotificationSeen" ToRole="JobsDetail" />
+          <NavigationProperty Name="Tbl_ComplaintHistory" Relationship="FOS_WallCoatModel.FK_NotificationSeen_Tbl_ComplaintHistory" FromRole="NotificationSeen" ToRole="Tbl_ComplaintHistory" />
+        </EntityType>
+        <Association Name="FK_NotificationSeen_ComplaintNotification">
+          <End Type="FOS_WallCoatModel.ComplaintNotification" Role="ComplaintNotification" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.NotificationSeen" Role="NotificationSeen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComplaintNotification">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NotificationSeen">
+              <PropertyRef Name="ComplaintNotificationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationSeen_Jobs">
+          <End Type="FOS_WallCoatModel.Job" Role="Job" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.NotificationSeen" Role="NotificationSeen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Job">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NotificationSeen">
+              <PropertyRef Name="JobID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationSeen_JobsDetail">
+          <End Type="FOS_WallCoatModel.JobsDetail" Role="JobsDetail" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.NotificationSeen" Role="NotificationSeen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobsDetail">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NotificationSeen">
+              <PropertyRef Name="JobDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationSeen_Tbl_ComplaintHistory">
+          <End Type="FOS_WallCoatModel.Tbl_ComplaintHistory" Role="Tbl_ComplaintHistory" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.NotificationSeen" Role="NotificationSeen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_ComplaintHistory">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NotificationSeen">
+              <PropertyRef Name="ComplainthistoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="Sp_KSBChildNotificationsforCC_Result1">
+          <Property Type="Int32" Name="ComplaintID" Nullable="true" />
+          <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="IsSiteIDChanged" Nullable="true" />
+          <Property Type="String" Name="SiteCode" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsSiteCodeChanged" Nullable="true" />
+          <Property Type="String" Name="FaultType" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsFaulttypeIDChanged" Nullable="true" />
+          <Property Type="String" Name="FaultTypeDetail" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="isFaultTypeDetailIDChanged" Nullable="true" />
+          <Property Type="String" Name="ComplaintStatusName" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsComplaintStatusIDChanged" Nullable="true" />
+          <Property Type="String" Name="PersonName" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsPersonNameChanged" Nullable="true" />
+          <Property Type="String" Name="Picture1" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsPicture1Changed" Nullable="true" />
+          <Property Type="String" Name="Picture2" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsPicture2Changed" Nullable="true" />
+          <Property Type="String" Name="Picture3" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsPicture3Changed" Nullable="true" />
+          <Property Type="String" Name="ProgressStatusName" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsProgressStatusIDChanged" Nullable="true" />
+          <Property Type="String" Name="FaultTypeDetailRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsFaultTypeDetailRemarksChanged" Nullable="true" />
+          <Property Type="String" Name="ProgressStatusRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsProgressStatusRemarksChanged" Nullable="true" />
+          <Property Type="String" Name="AssignedSaleOfficerName" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsAssignedSaleOfficerChanged" Nullable="true" />
+          <Property Type="String" Name="UpdateRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsUpdateRemarksChanged" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="ChatBox">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ComplaintID" Type="Int32" />
+          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SOID" Type="Int32" />
+          <Property Name="DateInstall" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Job" Relationship="FOS_WallCoatModel.FK_ChatBox_Jobs" FromRole="ChatBox" ToRole="Job" />
+        </EntityType>
+        <Association Name="FK_ChatBox_Jobs">
+          <End Type="FOS_WallCoatModel.Job" Role="Job" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.ChatBox" Role="ChatBox" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Job">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ChatBox">
+              <PropertyRef Name="ComplaintID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="Sp_KSBChildNotificationsforCC_Result2">
+          <Property Type="Int32" Name="ComplaintID" Nullable="true" />
+          <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="IsSiteIDChanged" Nullable="true" />
+          <Property Type="String" Name="SiteCode" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsSiteCodeChanged" Nullable="true" />
+          <Property Type="String" Name="FaultType" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsFaulttypeIDChanged" Nullable="true" />
+          <Property Type="String" Name="FaultTypeDetail" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="isFaultTypeDetailIDChanged" Nullable="true" />
+          <Property Type="DateTime" Name="createddate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ComplaintStatusName" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsComplaintStatusIDChanged" Nullable="true" />
+          <Property Type="String" Name="PersonName" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsPersonNameChanged" Nullable="true" />
+          <Property Type="String" Name="Picture1" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsPicture1Changed" Nullable="true" />
+          <Property Type="String" Name="Picture2" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsPicture2Changed" Nullable="true" />
+          <Property Type="String" Name="Picture3" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsPicture3Changed" Nullable="true" />
+          <Property Type="String" Name="ProgressStatusName" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsProgressStatusIDChanged" Nullable="true" />
+          <Property Type="String" Name="FaultTypeDetailRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsFaultTypeDetailRemarksChanged" Nullable="true" />
+          <Property Type="String" Name="ProgressStatusRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsProgressStatusRemarksChanged" Nullable="true" />
+          <Property Type="String" Name="AssignedSaleOfficerName" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsAssignedSaleOfficerChanged" Nullable="true" />
+          <Property Type="String" Name="UpdateRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsUpdateRemarksChanged" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -10626,6 +11185,11 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySetMapping Name="Regions">
             <EntityTypeMapping TypeName="FOS_WallCoatModel.Region">
               <MappingFragment StoreEntitySet="Regions">
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
                 <ScalarProperty Name="KSBRef" ColumnName="KSBRef" />
                 <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
@@ -10921,6 +11485,13 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySetMapping Name="Zones">
             <EntityTypeMapping TypeName="FOS_WallCoatModel.Zone">
               <MappingFragment StoreEntitySet="Zone">
+                <ScalarProperty Name="DateTo" ColumnName="DateTo" />
+                <ScalarProperty Name="DateFrom" ColumnName="DateFrom" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="AwardDate" ColumnName="AwardDate" />
+                <ScalarProperty Name="ContractTitle" ColumnName="ContractTitle" />
+                <ScalarProperty Name="ContractNo" ColumnName="ContractNo" />
+                <ScalarProperty Name="AONO" ColumnName="AONO" />
                 <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
@@ -13645,6 +14216,8 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySetMapping Name="Tbl_ComplaintHistory">
             <EntityTypeMapping TypeName="FOS_WallCoatModel.Tbl_ComplaintHistory">
               <MappingFragment StoreEntitySet="Tbl_ComplaintHistory">
+                <ScalarProperty Name="FirstAssignedSO" ColumnName="FirstAssignedSO" />
+                <ScalarProperty Name="InitialRemarks" ColumnName="InitialRemarks" />
                 <ScalarProperty Name="UpdateRemarks" ColumnName="UpdateRemarks" />
                 <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
                 <ScalarProperty Name="AssignedToSaleOfficer" ColumnName="AssignedToSaleOfficer" />
@@ -13692,28 +14265,6 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
                 <ScalarProperty Name="LaunchedByName" ColumnName="LaunchedByName" />
                 <ScalarProperty Name="ChildFaultType" ColumnName="ChildFaultType" />
                 <ScalarProperty Name="ChildFaultTypeDetailID" ColumnName="ChildFaultTypeDetailID" />
-                <ScalarProperty Name="ChildComplaintStatusID" ColumnName="ChildComplaintStatusID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Sp_GetProgressList1_4Final" FunctionName="FOS_WallCoatModel.Store.Sp_GetProgressList1_4Final">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_GetProgressList1_4Final_Result1">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
-                <ScalarProperty Name="ComplaintNo" ColumnName="ComplaintNo" />
-                <ScalarProperty Name="InitialRemarks" ColumnName="InitialRemarks" />
-                <ScalarProperty Name="LaunchDate" ColumnName="LaunchDate" />
-                <ScalarProperty Name="FaultType" ColumnName="FaultType" />
-                <ScalarProperty Name="FaultTypeDetail" ColumnName="FaultTypeDetail" />
-                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
-                <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
-                <ScalarProperty Name="JobDate" ColumnName="JobDate" />
-                <ScalarProperty Name="ProgressStatusID" ColumnName="ProgressStatusID" />
-                <ScalarProperty Name="ProgressStatusName" ColumnName="ProgressStatusName" />
-                <ScalarProperty Name="PRemarks" ColumnName="PRemarks" />
-                <ScalarProperty Name="SaleofficerName" ColumnName="SaleofficerName" />
-                <ScalarProperty Name="LaunchedByName" ColumnName="LaunchedByName" />
                 <ScalarProperty Name="ChildComplaintStatusID" ColumnName="ChildComplaintStatusID" />
               </ComplexTypeMapping>
             </ResultMapping>
@@ -13769,25 +14320,6 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
                 <ScalarProperty Name="FaultTypeDetailID" ColumnName="FaultTypeDetailID" />
                 <ScalarProperty Name="ComplaintStatusID" ColumnName="ComplaintStatusID" />
                 <ScalarProperty Name="FaultTypeDetailOtherRemarks1" ColumnName="FaultTypeDetailOtherRemarks1" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Sp_GetProgressView1_3" FunctionName="FOS_WallCoatModel.Store.Sp_GetProgressView1_3">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_GetProgressView1_3_Result">
-                <ScalarProperty Name="Picture1" ColumnName="Picture1" />
-                <ScalarProperty Name="Picture2" ColumnName="Picture2" />
-                <ScalarProperty Name="Picture3" ColumnName="Picture3" />
-                <ScalarProperty Name="JobDate" ColumnName="JobDate" />
-                <ScalarProperty Name="ProgressStatusID" ColumnName="ProgressStatusID" />
-                <ScalarProperty Name="ProgressStatusName" ColumnName="ProgressStatusName" />
-                <ScalarProperty Name="ProgressStatusOtherRemarks" ColumnName="ProgressStatusOtherRemarks" />
-                <ScalarProperty Name="PRemarks" ColumnName="PRemarks" />
-                <ScalarProperty Name="SaleofficerName" ColumnName="SaleofficerName" />
-                <ScalarProperty Name="FaultTypeId" ColumnName="FaultTypeId" />
-                <ScalarProperty Name="FaultTypeDetailID" ColumnName="FaultTypeDetailID" />
-                <ScalarProperty Name="ComplaintStatusID" ColumnName="ComplaintStatusID" />
-                <ScalarProperty Name="FaultTypeDetailOtherRemarks" ColumnName="FaultTypeDetailOtherRemarks" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -13858,41 +14390,6 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Sp_KSBChildNotificationsforCC" FunctionName="FOS_WallCoatModel.Store.Sp_KSBChildNotificationsforCC">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_KSBChildNotificationsforCC_Result">
-                <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
-                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
-                <ScalarProperty Name="IsSiteIDChanged" ColumnName="IsSiteIDChanged" />
-                <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
-                <ScalarProperty Name="IsSiteCodeChanged" ColumnName="IsSiteCodeChanged" />
-                <ScalarProperty Name="FaultType" ColumnName="FaultType" />
-                <ScalarProperty Name="IsFaulttypeIDChanged" ColumnName="IsFaulttypeIDChanged" />
-                <ScalarProperty Name="FaultTypeDetail" ColumnName="FaultTypeDetail" />
-                <ScalarProperty Name="isFaultTypeDetailIDChanged" ColumnName="isFaultTypeDetailIDChanged" />
-                <ScalarProperty Name="ComplaintStatusName" ColumnName="ComplaintStatusName" />
-                <ScalarProperty Name="IsComplaintStatusIDChanged" ColumnName="IsComplaintStatusIDChanged" />
-                <ScalarProperty Name="PersonName" ColumnName="PersonName" />
-                <ScalarProperty Name="IsPersonNameChanged" ColumnName="IsPersonNameChanged" />
-                <ScalarProperty Name="Picture1" ColumnName="Picture1" />
-                <ScalarProperty Name="IsPicture1Changed" ColumnName="IsPicture1Changed" />
-                <ScalarProperty Name="Picture2" ColumnName="Picture2" />
-                <ScalarProperty Name="IsPicture2Changed" ColumnName="IsPicture2Changed" />
-                <ScalarProperty Name="Picture3" ColumnName="Picture3" />
-                <ScalarProperty Name="IsPicture3Changed" ColumnName="IsPicture3Changed" />
-                <ScalarProperty Name="ProgressStatusName" ColumnName="ProgressStatusName" />
-                <ScalarProperty Name="IsProgressStatusIDChanged" ColumnName="IsProgressStatusIDChanged" />
-                <ScalarProperty Name="FaultTypeDetailRemarks" ColumnName="FaultTypeDetailRemarks" />
-                <ScalarProperty Name="IsFaultTypeDetailRemarksChanged" ColumnName="IsFaultTypeDetailRemarksChanged" />
-                <ScalarProperty Name="ProgressStatusRemarks" ColumnName="ProgressStatusRemarks" />
-                <ScalarProperty Name="IsProgressStatusRemarksChanged" ColumnName="IsProgressStatusRemarksChanged" />
-                <ScalarProperty Name="AssignedSaleOfficerName" ColumnName="AssignedSaleOfficerName" />
-                <ScalarProperty Name="IsAssignedSaleOfficerChanged" ColumnName="IsAssignedSaleOfficerChanged" />
-                <ScalarProperty Name="UpdateRemarks" ColumnName="UpdateRemarks" />
-                <ScalarProperty Name="IsUpdateRemarksChanged" ColumnName="IsUpdateRemarksChanged" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="Sp_NotificationDataForFS" FunctionName="FOS_WallCoatModel.Store.Sp_NotificationDataForFS">
             <ResultMapping>
               <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_NotificationDataForFS_Result">
@@ -13911,9 +14408,73 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_MyComplaintListRemarksGet1_1" FunctionName="FOS_WallCoatModel.Store.Sp_MyComplaintListRemarksGet1_1">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_MyComplaintListRemarksGet1_1_Result1">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
+                <ScalarProperty Name="ProgressRemarks" ColumnName="ProgressRemarks" />
+                <ScalarProperty Name="ProgressStatusID" ColumnName="ProgressStatusID" />
+                <ScalarProperty Name="SaleOfficerName" ColumnName="SaleOfficerName" />
+                <ScalarProperty Name="ProgressStatusName" ColumnName="ProgressStatusName" />
+                <ScalarProperty Name="ProgressStatusRemarks" ColumnName="ProgressStatusRemarks" />
+                <ScalarProperty Name="JobDate" ColumnName="JobDate" />
+                <ScalarProperty Name="Picture1" ColumnName="Picture1" />
+                <ScalarProperty Name="Picture2" ColumnName="Picture2" />
+                <ScalarProperty Name="Picture3" ColumnName="Picture3" />
+                <ScalarProperty Name="AssignedSaleOfficerID" ColumnName="AssignedSaleOfficerID" />
+                <ScalarProperty Name="Activitytype" ColumnName="Activitytype" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_MyComplaintListViewFinal" FunctionName="FOS_WallCoatModel.Store.Sp_MyComplaintListViewFinal">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_MyComplaintListViewFinal_Result">
+                <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
+                <ScalarProperty Name="TicketNo" ColumnName="TicketNo" />
+                <ScalarProperty Name="LaunchDate" ColumnName="LaunchDate" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+                <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
+                <ScalarProperty Name="ComplaintStatusId" ColumnName="ComplaintStatusId" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="InitialRemarks" ColumnName="InitialRemarks" />
+                <ScalarProperty Name="FaultType" ColumnName="FaultType" />
+                <ScalarProperty Name="LaunchedByName" ColumnName="LaunchedByName" />
+                <ScalarProperty Name="FaultTypeDetail" ColumnName="FaultTypeDetail" />
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="faulttypedetailremarks" ColumnName="faulttypedetailremarks" />
+                <ScalarProperty Name="Picture1" ColumnName="Picture1" />
+                <ScalarProperty Name="Picture2" ColumnName="Picture2" />
+                <ScalarProperty Name="Picture3" ColumnName="Picture3" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_MyComplaintListForFS" FunctionName="FOS_WallCoatModel.Store.Sp_MyComplaintListForFS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_MyComplaintListForFS_Result1">
+                <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
+                <ScalarProperty Name="TicketNo" ColumnName="TicketNo" />
+                <ScalarProperty Name="LaunchDate" ColumnName="LaunchDate" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+                <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
+                <ScalarProperty Name="ComplaintStatusId" ColumnName="ComplaintStatusId" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="InitialRemarks" ColumnName="InitialRemarks" />
+                <ScalarProperty Name="FaulttypeName" ColumnName="FaulttypeName" />
+                <ScalarProperty Name="FaulttypedetailName" ColumnName="FaulttypedetailName" />
+                <ScalarProperty Name="LaunchedByName" ColumnName="LaunchedByName" />
+                <ScalarProperty Name="ProgressStatusRemarks" ColumnName="ProgressStatusRemarks" />
+                <ScalarProperty Name="initialremarks1" ColumnName="initialremarks1" />
+                <ScalarProperty Name="ProgressStatusName" ColumnName="ProgressStatusName" />
+                <ScalarProperty Name="faulttypedetailremarks" ColumnName="faulttypedetailremarks" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="Sp_GetProgressListFinal1_1" FunctionName="FOS_WallCoatModel.Store.Sp_GetProgressListFinal1_1">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_GetProgressListFinal1_1_Result">
+              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_GetProgressListFinal1_1_Result1">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
                 <ScalarProperty Name="ComplaintNo" ColumnName="ComplaintNo" />
@@ -13936,25 +14497,140 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
                 <ScalarProperty Name="ChildFaulttypeName" ColumnName="ChildFaulttypeName" />
                 <ScalarProperty Name="ChildFaultTypeDetailName" ColumnName="ChildFaultTypeDetailName" />
                 <ScalarProperty Name="ChildComplaintStatus" ColumnName="ChildComplaintStatus" />
+                <ScalarProperty Name="faultTypeDetailRemarks" ColumnName="faultTypeDetailRemarks" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Sp_MyComplaintListRemarksGet1_1" FunctionName="FOS_WallCoatModel.Store.Sp_MyComplaintListRemarksGet1_1">
+          <FunctionImportMapping FunctionImportName="Sp_GetProgressView1_3" FunctionName="FOS_WallCoatModel.Store.Sp_GetProgressView1_3">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_MyComplaintListRemarksGet1_1_Result1">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
-                <ScalarProperty Name="ProgressRemarks" ColumnName="ProgressRemarks" />
-                <ScalarProperty Name="ProgressStatusID" ColumnName="ProgressStatusID" />
-                <ScalarProperty Name="SaleOfficerName" ColumnName="SaleOfficerName" />
-                <ScalarProperty Name="ProgressStatusName" ColumnName="ProgressStatusName" />
-                <ScalarProperty Name="ProgressStatusRemarks" ColumnName="ProgressStatusRemarks" />
-                <ScalarProperty Name="JobDate" ColumnName="JobDate" />
+              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_GetProgressView1_3_Result1">
                 <ScalarProperty Name="Picture1" ColumnName="Picture1" />
                 <ScalarProperty Name="Picture2" ColumnName="Picture2" />
                 <ScalarProperty Name="Picture3" ColumnName="Picture3" />
-                <ScalarProperty Name="AssignedSaleOfficerID" ColumnName="AssignedSaleOfficerID" />
-                <ScalarProperty Name="Activitytype" ColumnName="Activitytype" />
+                <ScalarProperty Name="JobDate" ColumnName="JobDate" />
+                <ScalarProperty Name="ProgressStatusID" ColumnName="ProgressStatusID" />
+                <ScalarProperty Name="ProgressStatusName" ColumnName="ProgressStatusName" />
+                <ScalarProperty Name="ProgressStatusOtherRemarks" ColumnName="ProgressStatusOtherRemarks" />
+                <ScalarProperty Name="PRemarks" ColumnName="PRemarks" />
+                <ScalarProperty Name="SaleofficerName" ColumnName="SaleofficerName" />
+                <ScalarProperty Name="FaultTypeId" ColumnName="FaultTypeId" />
+                <ScalarProperty Name="FaultTypeDetailID" ColumnName="FaultTypeDetailID" />
+                <ScalarProperty Name="ComplaintStatusID" ColumnName="ComplaintStatusID" />
+                <ScalarProperty Name="FaultTypeDetailOtherRemarks" ColumnName="FaultTypeDetailOtherRemarks" />
+                <ScalarProperty Name="faultTypeDetailRemarks" ColumnName="faultTypeDetailRemarks" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_GetProgressList1_4Final" FunctionName="FOS_WallCoatModel.Store.Sp_GetProgressList1_4Final">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_GetProgressList1_4Final_Result2">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
+                <ScalarProperty Name="ComplaintNo" ColumnName="ComplaintNo" />
+                <ScalarProperty Name="LaunchDate" ColumnName="LaunchDate" />
+                <ScalarProperty Name="InitialRemarks" ColumnName="InitialRemarks" />
+                <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="FaultType" ColumnName="FaultType" />
+                <ScalarProperty Name="FaultTypeDetail" ColumnName="FaultTypeDetail" />
+                <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
+                <ScalarProperty Name="JobDate" ColumnName="JobDate" />
+                <ScalarProperty Name="ProgressStatusID" ColumnName="ProgressStatusID" />
+                <ScalarProperty Name="ProgressStatusName" ColumnName="ProgressStatusName" />
+                <ScalarProperty Name="PRemarks" ColumnName="PRemarks" />
+                <ScalarProperty Name="SaleofficerName" ColumnName="SaleofficerName" />
+                <ScalarProperty Name="LaunchedByName" ColumnName="LaunchedByName" />
+                <ScalarProperty Name="ChildFaultType" ColumnName="ChildFaultType" />
+                <ScalarProperty Name="ChildFaultTypeDetailID" ColumnName="ChildFaultTypeDetailID" />
+                <ScalarProperty Name="ChildComplaintStatusID" ColumnName="ChildComplaintStatusID" />
+                <ScalarProperty Name="ChildFaulttypeName" ColumnName="ChildFaulttypeName" />
+                <ScalarProperty Name="ChildFaultTypeDetailName" ColumnName="ChildFaultTypeDetailName" />
+                <ScalarProperty Name="ChildComplaintStatus" ColumnName="ChildComplaintStatus" />
+                <ScalarProperty Name="faultTypeDetailRemarks" ColumnName="faultTypeDetailRemarks" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_MyComplaintListForFS1_1" FunctionName="FOS_WallCoatModel.Store.Sp_MyComplaintListForFS1_1">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_MyComplaintListForFS1_1_Result4">
+                <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
+                <ScalarProperty Name="TicketNo" ColumnName="TicketNo" />
+                <ScalarProperty Name="LaunchDate" ColumnName="LaunchDate" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+                <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
+                <ScalarProperty Name="ComplaintStatusId" ColumnName="ComplaintStatusId" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="InitialRemarks" ColumnName="InitialRemarks" />
+                <ScalarProperty Name="FaulttypeName" ColumnName="FaulttypeName" />
+                <ScalarProperty Name="FaulttypedetailName" ColumnName="FaulttypedetailName" />
+                <ScalarProperty Name="LaunchedByName" ColumnName="LaunchedByName" />
+                <ScalarProperty Name="ProgressStatusRemarks" ColumnName="ProgressStatusRemarks" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ProgressStatusName" ColumnName="ProgressStatusName" />
+                <ScalarProperty Name="faulttypedetailremarks" ColumnName="faulttypedetailremarks" />
+                <ScalarProperty Name="LaunchedById" ColumnName="LaunchedById" />
+                <ScalarProperty Name="progressstatusid" ColumnName="progressstatusid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="NotificationSeens">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.NotificationSeen">
+              <MappingFragment StoreEntitySet="NotificationSeen">
+                <ScalarProperty Name="IsSeen" ColumnName="IsSeen" />
+                <ScalarProperty Name="SOID" ColumnName="SOID" />
+                <ScalarProperty Name="ComplaintNotificationID" ColumnName="ComplaintNotificationID" />
+                <ScalarProperty Name="ComplainthistoryID" ColumnName="ComplainthistoryID" />
+                <ScalarProperty Name="JobDetailID" ColumnName="JobDetailID" />
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChatBoxes">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.ChatBox">
+              <MappingFragment StoreEntitySet="ChatBox">
+                <ScalarProperty Name="DateInstall" ColumnName="DateInstall" />
+                <ScalarProperty Name="SOID" ColumnName="SOID" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_KSBChildNotificationsforCC" FunctionName="FOS_WallCoatModel.Store.Sp_KSBChildNotificationsforCC">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_KSBChildNotificationsforCC_Result2">
+                <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="IsSiteIDChanged" ColumnName="IsSiteIDChanged" />
+                <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
+                <ScalarProperty Name="IsSiteCodeChanged" ColumnName="IsSiteCodeChanged" />
+                <ScalarProperty Name="FaultType" ColumnName="FaultType" />
+                <ScalarProperty Name="IsFaulttypeIDChanged" ColumnName="IsFaulttypeIDChanged" />
+                <ScalarProperty Name="FaultTypeDetail" ColumnName="FaultTypeDetail" />
+                <ScalarProperty Name="isFaultTypeDetailIDChanged" ColumnName="isFaultTypeDetailIDChanged" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="ComplaintStatusName" ColumnName="ComplaintStatusName" />
+                <ScalarProperty Name="IsComplaintStatusIDChanged" ColumnName="IsComplaintStatusIDChanged" />
+                <ScalarProperty Name="PersonName" ColumnName="PersonName" />
+                <ScalarProperty Name="IsPersonNameChanged" ColumnName="IsPersonNameChanged" />
+                <ScalarProperty Name="Picture1" ColumnName="Picture1" />
+                <ScalarProperty Name="IsPicture1Changed" ColumnName="IsPicture1Changed" />
+                <ScalarProperty Name="Picture2" ColumnName="Picture2" />
+                <ScalarProperty Name="IsPicture2Changed" ColumnName="IsPicture2Changed" />
+                <ScalarProperty Name="Picture3" ColumnName="Picture3" />
+                <ScalarProperty Name="IsPicture3Changed" ColumnName="IsPicture3Changed" />
+                <ScalarProperty Name="ProgressStatusName" ColumnName="ProgressStatusName" />
+                <ScalarProperty Name="IsProgressStatusIDChanged" ColumnName="IsProgressStatusIDChanged" />
+                <ScalarProperty Name="FaultTypeDetailRemarks" ColumnName="FaultTypeDetailRemarks" />
+                <ScalarProperty Name="IsFaultTypeDetailRemarksChanged" ColumnName="IsFaultTypeDetailRemarksChanged" />
+                <ScalarProperty Name="ProgressStatusRemarks" ColumnName="ProgressStatusRemarks" />
+                <ScalarProperty Name="IsProgressStatusRemarksChanged" ColumnName="IsProgressStatusRemarksChanged" />
+                <ScalarProperty Name="AssignedSaleOfficerName" ColumnName="AssignedSaleOfficerName" />
+                <ScalarProperty Name="IsAssignedSaleOfficerChanged" ColumnName="IsAssignedSaleOfficerChanged" />
+                <ScalarProperty Name="UpdateRemarks" ColumnName="UpdateRemarks" />
+                <ScalarProperty Name="IsUpdateRemarksChanged" ColumnName="IsUpdateRemarksChanged" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

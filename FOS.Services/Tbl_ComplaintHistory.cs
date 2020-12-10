@@ -18,6 +18,7 @@ namespace FOS.DataLayer
         public Tbl_ComplaintHistory()
         {
             this.ComplaintNotifications = new HashSet<ComplaintNotification>();
+            this.NotificationSeens = new HashSet<NotificationSeen>();
         }
     
         public int ID { get; set; }
@@ -43,8 +44,12 @@ namespace FOS.DataLayer
         public Nullable<int> AssignedToSaleOfficer { get; set; }
         public Nullable<int> IsPublished { get; set; }
         public string UpdateRemarks { get; set; }
+        public string InitialRemarks { get; set; }
+        public Nullable<int> FirstAssignedSO { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ComplaintNotification> ComplaintNotifications { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NotificationSeen> NotificationSeens { get; set; }
     }
 }

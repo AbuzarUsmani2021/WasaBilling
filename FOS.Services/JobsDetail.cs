@@ -18,6 +18,7 @@ namespace FOS.DataLayer
         public JobsDetail()
         {
             this.ComplaintNotifications = new HashSet<ComplaintNotification>();
+            this.NotificationSeens = new HashSet<NotificationSeen>();
         }
     
         public int ID { get; set; }
@@ -109,5 +110,7 @@ namespace FOS.DataLayer
         public virtual Retailer Retailer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ComplaintNotification> ComplaintNotifications { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NotificationSeen> NotificationSeens { get; set; }
     }
 }

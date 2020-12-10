@@ -729,6 +729,36 @@ namespace FOS.Setup
         }
 
 
+        public static List<CityData> GetSMSForAPI(int RegionID)
+        {
+            try
+            {
+                List<CityData> cityList = null;
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    //var CITY = dbContext.Cities.Where(s => s.ID == CityID).FirstOrDefault();
+
+                    cityList = dbContext.ChatBoxes.Where(a => a.ComplaintID == RegionID).Select(a => new CityData
+                    {
+                        ID = a.ID,
+                        Remarks = a.Remarks,
+                        ComplaintID = a.ComplaintID,
+                       LaunchAt=a.DateInstall,
+                       SOID=a.SOID,
+                       SaleOfficerName=dbContext.SaleOfficers.Where(x=>x.ID==a.SOID).Select(x=>x.Name).FirstOrDefault()
+
+                    }).ToList();
+                   
+
+
+                    return cityList.ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
 
         public static List<CityData> GetRetailersForAPI(int RegionID, int CityID)
