@@ -1534,6 +1534,8 @@ namespace FOS.Setup
             List<JobsDetailData> doneJobData = new List<JobsDetailData>();
             try
             {
+                var date= DateTime.UtcNow.AddHours(5);
+
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
                     if (From != null && To != null && Project!=0)
@@ -1562,8 +1564,8 @@ namespace FOS.Setup
                                                dateformat = job.CreatedDate.ToString(),
                                                UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
-                                               d1 = DateTime.Now,
-                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : DateTime.Now),
+                                               d1 = date,
+                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = job.ResolvedAt
                                            }).OrderByDescending(x => x.ID).ToList();
 
@@ -1592,8 +1594,8 @@ namespace FOS.Setup
                                                dateformat = job.CreatedDate.ToString(),
                                                UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
-                                               d1 = DateTime.Now,
-                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : DateTime.Now),
+                                               d1 = date,
+                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = job.ResolvedAt
                                            }).OrderByDescending(x => x.ID).ToList();
                         }
@@ -1623,8 +1625,8 @@ namespace FOS.Setup
                                                dateformat = job.CreatedDate.ToString(),
                                                UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
-                                               d1 = DateTime.Now,
-                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : DateTime.Now),
+                                               d1 = date,
+                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = job.ResolvedAt
                                            }).OrderByDescending(x => x.ID).ToList();
                         }
@@ -1650,8 +1652,8 @@ namespace FOS.Setup
                                                dateformat = job.CreatedDate.ToString(),
                                                UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
-                                               d1 = DateTime.Now,
-                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : DateTime.Now),
+                                               d1 = date,
+                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = job.ResolvedAt
                                            }).OrderByDescending(x => x.ID).ToList();
                         }
@@ -1680,8 +1682,8 @@ namespace FOS.Setup
                                        dateformat = job.CreatedDate.ToString(),
                                        UpdatedAt= dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                        ComplaintTypeName = job.ComplaintType.Name,
-                                       d1 = DateTime.Now,
-                                       d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : DateTime.Now),
+                                       d1 = date,
+                                       d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                        ResolvedAt = job.ResolvedAt
                                    }).OrderByDescending(x => x.ID).ToList();
                     }

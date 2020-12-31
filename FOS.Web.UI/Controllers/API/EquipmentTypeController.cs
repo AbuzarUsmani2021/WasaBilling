@@ -11,22 +11,22 @@ using System.Web.Http;
 
 namespace FOS.Web.UI.Controllers.API
 {
-    public class FaultTypeDetailController : ApiController
+    public class EquipmentTypeController : ApiController
     {
         FOSDataModel db = new FOSDataModel();
 
-        public IHttpActionResult Get(int FaultTypeID)
+        public IHttpActionResult Get(int EquipmentCatID)
         {
             try
             {
-                if (FaultTypeID > 0 )
+                if (EquipmentCatID > 0 )
                 {
-                    var Item = FOS.Setup.ManageCity.GetFaulttypedetaileList(FaultTypeID);
+                    var Item = FOS.Setup.ManageCity.GetEquipmenttypedetaileList(EquipmentCatID);
                     if (Item != null && Item.Count > 0)
                     {
                         return Ok(new
                         {
-                            FaultTypeDetail = Item.Where(s => s.IsDeleted==false).Select(d => new
+                            EquipmentTypeDetail = Item.Where(s => s.IsDeleted==false).Select(d => new
                             {
                                 d.ID,
                                 d.Name
@@ -42,7 +42,7 @@ namespace FOS.Web.UI.Controllers.API
             object[] param = { };
             return Ok(new
             {
-                FaultTypeDetail = param
+                EquipmentTypeDetail = param
             });
         }
     }

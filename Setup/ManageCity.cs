@@ -629,6 +629,41 @@ namespace FOS.Setup
             }
         }
 
+
+        public static List<CityData> GetEquipmenttypedetaileList(int ClientID, string selectText = "Select")
+        {
+            List<CityData> cityList;
+
+            try
+            {
+
+
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    cityList = dbContext.EquipmentTypes.Where(c => c.EquipmentCategoryID == ClientID && c.IsDeleted == false).OrderBy(c => c.Name)
+                                .Select(
+                                    u => new CityData
+                                    {
+                                        ID = u.ID,
+                                        Name = u.Name,
+
+                                    }).ToList();
+                }
+                var ctyList = cityList.OrderBy(x => x.Name).ToList();
+                ctyList.Insert(0, new CityData
+                {
+                    ID = 0,
+                    Name = selectText
+                });
+                return ctyList;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public static List<CityData> GetWorkDoneDropdown(int ClientID, string selectText = "Select")
         {
             List<CityData> cityList;

@@ -239,6 +239,9 @@
     <Compile Include="NotificationSeen.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="OneSignalUser.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Page.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
@@ -597,7 +600,16 @@
     <Compile Include="Sp_KSBChildNotificationsforCC_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Sp_KSBChildNotificationsforCC_Result1.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_KSBChildNotificationsforCC_Result2.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Sp_KSBNotificationsforCC_Result.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_KSBNotificationsforCC_Result1.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_MarketInformation_Result.cs">
@@ -631,6 +643,9 @@
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Sp_MyComplaintListRemarks1_2_Result2.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_MyComplaintListRemarksFinal_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Sp_MyComplaintListRemarksGet1_1_Result.cs">
@@ -985,6 +1000,9 @@
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Sp_Total_RetailerInformation_Result.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_WasaChildNotifications_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Sp_WeeklyOrderSummeryReportInExcelRangeWise_Result.cs">

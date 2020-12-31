@@ -35,8 +35,28 @@ namespace FOS.Web.UI.Controllers.API
                 db.ChatBoxes.Add(retailerObj);
                  
                 db.SaveChanges();
+                string type = "SMS";
+                string message = "There is a new message in Complaint No  " + rm.ComplaintID + " Kindly Visit it ";
+                var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5).Select(x => x.ID).ToList();
+                List<string> list = new List<string>();
+               
+                foreach (var item in SOIds)
+                {
+                    var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                    if (id != null)
+                    {
+                        foreach (var items in id)
+                        {
+                            list.Add(items);
+                        }
+                    }
+                }
 
-                    return new Result<SuccessResponse>
+                var result = new CommonController().PushNotification(message, list, rm.ComplaintID,type);
+
+
+
+                return new Result<SuccessResponse>
                     {
                         Data = null,
                         Message = "Remarks Added Successfully",

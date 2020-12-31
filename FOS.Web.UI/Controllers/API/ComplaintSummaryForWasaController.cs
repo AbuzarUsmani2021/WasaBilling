@@ -29,50 +29,154 @@ namespace FOS.Web.UI.Controllers.API
                 DateTime dtFromToday = dtFromTodayUtc.Date;
                 DateTime dtToToday = dtFromToday.AddDays(1);
 
-                var IDS = dbContext.SOZoneAndTowns.Where(x => x.SOID == SOID).Distinct().ToList();
-
-                foreach (var item in IDS)
+                var RoleID = db.SaleOfficers.Where(x => x.ID == SOID).Select(x => x.RoleID).FirstOrDefault();
+                if (RoleID != 3)
                 {
-                    
-                    var result = db.Jobs.Where(x => x.ZoneID == ProjectID && x.CityID==item.CityID && x.Areas==item.AreaID.ToString() && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).ToList();
 
-                    if (result.Count!=0)
+
+                    var IDS = dbContext.SOZoneAndTowns.Where(x => x.SOID == SOID).Distinct().ToList();
+
+                    foreach (var item in IDS)
                     {
-                        foreach (var items in result)
+
+                        var result = db.Jobs.Where(x => x.ZoneID == ProjectID && x.CityID == item.CityID && x.Areas == item.AreaID.ToString() && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).ToList();
+
+                        if (result.Count != 0)
+                        {
+                            foreach (var items in result)
+                            {
+                                comlist = new MyComplaintSummary();
+                                comlist.TotalComplaints += 1;
+                                comlist.Resolved += db.Jobs.Where(x => x.ComplaintStatusId == 3 && x.ID == items.ID && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).Count();
+                                comlist.InProgress += db.Jobs.Where(x => x.ComplaintStatusId == 4 && x.ID == items.ID && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).Count();
+                                comlist.PassOn += db.Jobs.Where(x => x.ComplaintStatusId == 1003 && x.ID == items.ID && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).Count();
+                                comlist.NewComplaints += db.Jobs.Where(x => x.ComplaintStatusId == 2003 && x.ID == items.ID && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).Count();
+                                var open = db.Jobs.Where(x => x.ComplaintStatusId == 4 && x.ZoneID == ProjectID && x.CreatedDate <= dtFromToday).Count();
+                                var inprogress = db.Jobs.Where(x => x.ComplaintStatusId == 2003 && x.ZoneID == ProjectID && x.CreatedDate <= dtFromToday).Count();
+                                comlist.OpenComplaints = open + inprogress;
+                                comlist.OpenComplaintsToday += comlist.InProgress + comlist.NewComplaints;
+                                list.Add(comlist);
+                            }
+
+                        }
+                        else
                         {
                             comlist = new MyComplaintSummary();
-                            comlist.TotalComplaints += 1;
-                            comlist.Resolved += db.Jobs.Where(x => x.ComplaintStatusId == 3 && x.ID == items.ID).Count();
-                            comlist.InProgress += db.Jobs.Where(x => x.ComplaintStatusId == 4 && x.ID == items.ID).Count();
-                            comlist.PassOn += db.Jobs.Where(x => x.ComplaintStatusId == 1003 && x.ID == items.ID).Count();
-                            comlist.NewComplaints += db.Jobs.Where(x => x.ComplaintStatusId == 2003 && x.ID == items.ID).Count();
-                            comlist.OpenComplaints += db.Jobs.Where(x => x.ComplaintStatusId == 4 && x.CreatedDate <= dtFromToday).Count();
+                            comlist.TotalComplaints += 0;
+                            comlist.Resolved += 0;
+                            comlist.InProgress += 0;
+                            comlist.PassOn += 0;
+                            comlist.NewComplaints += 0;
+                            if (ProjectID == 0)
+                            {
+                                comlist.OpenComplaints += 0;
+                            }
+                            else
+                            {
+                                var open = db.Jobs.Where(x => x.ComplaintStatusId == 4 && x.ZoneID == ProjectID && x.CreatedDate <= dtFromToday).Count();
+                                var inprogress = db.Jobs.Where(x => x.ComplaintStatusId == 2003 && x.ZoneID == ProjectID && x.CreatedDate <= dtFromToday).Count();
+                                comlist.OpenComplaints = open + inprogress;
+                            }
                             comlist.OpenComplaintsToday += comlist.InProgress + comlist.NewComplaints;
                             list.Add(comlist);
                         }
 
                     }
 
+
+
+                }
+                else
+                {
+                    var inprogress = 0;
+                    var results = db.Sp_MyComplaintListForFS1_1(ProjectID, dtFromToday, dtToToday, SOID).ToList();
+
+                    var query = results.GroupBy(d => d.ComplaintID)
+                                    .SelectMany(g => g.OrderByDescending(d => d.LaunchDate)
+                                  .Take(1));
+
+                    foreach (var items in query)
+                    {
+                        comlist = new MyComplaintSummary();
+                        comlist.TotalComplaints += 1;
+                        comlist.Resolved += db.Jobs.Where(x => x.ComplaintStatusId == 3 && x.ID == items.ComplaintID && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).Count();
+                        comlist.InProgress += db.Jobs.Where(x => x.ComplaintStatusId == 4 && x.ID == items.ComplaintID && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).Count();
+                        comlist.PassOn += db.Jobs.Where(x => x.ComplaintStatusId == 1003 && x.ID == items.ComplaintID && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).Count();
+                        comlist.NewComplaints += db.Jobs.Where(x => x.ComplaintStatusId == 2003 && x.ID == items.ComplaintID && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).Count();
+                        // var open = db.Jobs.Where(x => x.ComplaintStatusId == 4 && x.ZoneID == ProjectID && x.CreatedDate <= dtFromToday).Count();
+                        if (items.StatusName == "InProgress")
+                        {
+
+                            inprogress += inprogress + 1;
+                            comlist.OpenComplaints = inprogress;
+                            comlist.OpenComplaintsToday += comlist.InProgress + comlist.NewComplaints;
+                            list.Add(comlist);
+                        }
+
+                        //var IDS = dbContext.SOZoneAndTowns.Where(x => x.SOID == SOID).Distinct().ToList();
+
+                        //foreach (var item in IDS)
+                        //{
+
+                        //    var result = db.Jobs.Where(x => x.ZoneID == ProjectID && x.CityID == item.CityID && x.Areas == item.AreaID.ToString() && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).ToList();
+
+                        //    if (result.Count != 0)
+                        //    {
+                        //        foreach (var items in result)
+                        //        {
+                        //            comlist = new MyComplaintSummary();
+                        //            comlist.TotalComplaints += 1;
+                        //            comlist.Resolved += db.Jobs.Where(x => x.ComplaintStatusId == 3 && x.ID == items.ID && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).Count();
+                        //            comlist.InProgress += db.Jobs.Where(x => x.ComplaintStatusId == 4 && x.ID == items.ID && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).Count();
+                        //            comlist.PassOn += db.Jobs.Where(x => x.ComplaintStatusId == 1003 && x.ID == items.ID && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).Count();
+                        //            comlist.NewComplaints += db.Jobs.Where(x => x.ComplaintStatusId == 2003 && x.ID == items.ID && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).Count();
+                        //            var open = db.Jobs.Where(x => x.ComplaintStatusId == 4 && x.ZoneID == ProjectID && x.CreatedDate <= dtFromToday).Count();
+                        //            var inprogress = db.Jobs.Where(x => x.ComplaintStatusId == 2003 && x.ZoneID == ProjectID && x.CreatedDate <= dtFromToday).Count();
+                        //            comlist.OpenComplaints = open + inprogress;
+                        //            comlist.OpenComplaintsToday += comlist.InProgress + comlist.NewComplaints;
+                        //            list.Add(comlist);
+                        //        }
+
+                        //    }
+                        //    else
+                        //    {
+                        //        comlist = new MyComplaintSummary();
+                        //        comlist.TotalComplaints += 0;
+                        //        comlist.Resolved += 0;
+                        //        comlist.InProgress += 0;
+                        //        comlist.PassOn += 0;
+                        //        comlist.NewComplaints += 0;
+                        //        if (ProjectID == 0)
+                        //        {
+                        //            comlist.OpenComplaints += 0;
+                        //        }
+                        //        else
+                        //        {
+                        //            var open = db.Jobs.Where(x => x.ComplaintStatusId == 4 && x.ZoneID == ProjectID && x.CreatedDate <= dtFromToday).Count();
+                        //            var inprogress = db.Jobs.Where(x => x.ComplaintStatusId == 2003 && x.ZoneID == ProjectID && x.CreatedDate <= dtFromToday).Count();
+                        //            comlist.OpenComplaints = open + inprogress;
+                        //        }
+                        //        comlist.OpenComplaintsToday += comlist.InProgress + comlist.NewComplaints;
+                        //        list.Add(comlist);
+                        //    }
+
+                        //}
+                    }
+
                 }
 
 
 
-
-
-               
-              
-
-
-                if (list != null )
+                if (list != null)
+                {
+                    return Ok(new
                     {
-                        return Ok(new
-                        {
-                            MyComplaintSummary = list
+                        MyComplaintSummary = list
 
-                        });
-                    }
-                 
-                
+                    });
+                }
+
+
             }
             catch (Exception ex)
             {

@@ -16,30 +16,27 @@ namespace FOS.Web.UI.Controllers.API
     {
         FOSDataModel db = new FOSDataModel();
 
-        public IHttpActionResult Get(int SOID,string DateFrom,string DateTo, int SaleOfficerID)
+        public IHttpActionResult Get(int SOID, int SaleOfficerID)
         {
 
-            DateTime Todate = DateTime.Parse(DateTo);
-            DateTime newDate = Todate.AddDays(1);
-            DateTime FromDate = DateTime.Parse(DateFrom);
+            
             FOSDataModel dbContext = new FOSDataModel();
             try
             {
                 DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
+                DateTime previous = dtFromTodayUtc.AddMonths(-2);
 
                 var RoleID = dbContext.SaleOfficers.Where(x => x.ID == SaleOfficerID).Select(x => x.RoleID).FirstOrDefault();
 
 
-                if (SOID > 0)
-                {
-                    object[] param = { SOID };
+                
                     List<MyComplaintList> list = new List<MyComplaintList>();
                     MyComplaintList comlist;
 
-                    var result = dbContext.Sp_MyComplaintList1_3(SOID, FromDate, newDate).ToList();
+                    var result = dbContext.Sp_MyOpenComplaintList(SOID, previous, dtFromTodayUtc).ToList();
 
 
-                    var result1 = dbContext.Sp_MyComplaintListRemarks1_2(SOID, FromDate, newDate).ToList();
+                    var result1 = dbContext.Sp_MyComplaintListRemarksFinal(SOID, previous, dtFromTodayUtc).ToList();
 
 
                     if (RoleID != 3)
@@ -157,7 +154,7 @@ namespace FOS.Web.UI.Controllers.API
                         });
                     }
 
-                }
+               
             }
             catch (Exception ex)
             {

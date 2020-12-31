@@ -2343,7 +2343,9 @@ namespace FOS.Web.UI.Controllers
         {
             try
             {
-                    DTResult<JobsDetailData> result = null;
+                List<JobsDetailData> list = new List<JobsDetailData>();
+                JobsDetailData comlist;
+                DTResult<JobsDetailData> result = null;
                     var dtsource = new List<JobsDetailData>();
                     dtsource = ManageJobs.AllFilteredComplaints(param.StartingDate1, param.StartingDate2, param.ProjectId);
                     List<String> columnSearch = new List<String>();
@@ -2354,50 +2356,150 @@ namespace FOS.Web.UI.Controllers
                     List<JobsDetailData> data = ManageJobs.GetResult12(param.Search.Value, param.SortOrder, param.Start, param.Length, dtsource, columnSearch/*param.SaleOfficer,param.StartingDate1,param.StartingDate2*/);
                     foreach (var itm in data)
                     {
-                    if (itm.ElapseTime != null)
-                    {   
-                        if (itm.StatusID == 3)
+
+                    if (itm.StatusID == 3)
+                    {
+                        DateTime time =  itm.ResolvedAt?? DateTime.UtcNow.AddHours(5);
+                        var sixhourstime = time.AddHours(6);
+                        var current= DateTime.UtcNow.AddHours(5);
+
+                        if (current < sixhourstime)
                         {
-                            var format = itm.ResolveTime;
-                            itm.VisitDateFormatted = format.ToString(@"hh\:mm");
+                            comlist = new JobsDetailData();
+                            comlist.ID = itm.ID;
+                            comlist.JobID = itm.ID;
+
+                            comlist.RetailerName = itm.RetailerName;
+                            comlist.FaultTypeID = itm.FaultTypeID;
+                            comlist.FaultTypeName = itm.FaultTypeName;
+                            comlist.FaultTypeDetailID = itm.FaultTypeDetailID;
+                            comlist.FaultTypeDetailName = itm.FaultTypeDetailName;
+                            comlist.StatusID = itm.StatusID;
+                            comlist.StatusName = itm.StatusName;
+                            comlist.SaleOfficerName = itm.SaleOfficerName;
+                            comlist.TicketNo = itm.TicketNo;
+                            comlist.SiteCode = itm.SiteCode;
+                            comlist.dateformat = itm.dateformat;
+                            comlist.UpdatedAt = itm.UpdatedAt;
+                            comlist.ComplaintTypeName = itm.ComplaintTypeName;
+
+                            comlist.ResolvedAt = itm.ResolvedAt;
+                            if (itm.ElapseTime != null)
+                            {
+                                if (itm.StatusID == 3)
+                                {
+
+                                    var format = itm.ResolveTime;
+                                    comlist.VisitDateFormatted = format.ToString(@"hh\:mm");
+
+                                }
+                                else
+                                {
+                                    var format = itm.ElapseTime;
+                                    comlist.VisitDateFormatted = format.ToString(@"hh\:mm");
+                                }
+
+                            }
+
+                            if (itm.FaultTypeDetailID == 3030 || itm.FaultTypeDetailID == 3042 || itm.FaultTypeDetailID == 3049)
+                            {
+                                comlist.FaultTypeDetailName = db.JobsDetails.Where(x => x.JobID == itm.ID).OrderByDescending(x => x.ID).FirstOrDefault().PRemarks;
+                            }
+                            var ProgressID = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault();
+                            //    var dateformat = Convert.ToDateTime(ProgressID.JobDate);
+                            //    itm.UpdatedAt = dateformat.ToString();
+                            if (itm.StatusName == "Resolved")
+                            {
+                                comlist.ProgressStatus = db.WorkDones.Where(x => x.ID == ProgressID.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+
+                            }
+                            else
+                            {
+                                comlist.ProgressStatus = db.ProgressStatus.Where(x => x.ID == ProgressID.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+
+                            }
+                            if (itm.ProgressStatus == "Others")
+                            {
+                                comlist.ProgressStatus = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).Select(x => x.PRemarks).FirstOrDefault();
+                            }
+                            list.Add(comlist);
+                        }
+                      
+                     
+
+                        }
+                    else
+                    {
+                        comlist = new JobsDetailData();
+                        comlist.ID = itm.ID;
+                        comlist.JobID = itm.ID;
+
+                        comlist.RetailerName = itm.RetailerName;
+                        comlist.FaultTypeID = itm.FaultTypeID;
+                        comlist.FaultTypeName = itm.FaultTypeName;
+                        comlist.FaultTypeDetailID = itm.FaultTypeDetailID;
+                        comlist.FaultTypeDetailName = itm.FaultTypeDetailName;
+                        comlist.StatusID = itm.StatusID;
+                        comlist.StatusName = itm.StatusName;
+                        comlist.SaleOfficerName = itm.SaleOfficerName;
+                        comlist.TicketNo = itm.TicketNo;
+                        comlist.SiteCode = itm.SiteCode;
+                        comlist.dateformat = itm.dateformat;
+                        comlist.UpdatedAt = itm.UpdatedAt;
+                        comlist.ComplaintTypeName = itm.ComplaintTypeName;
+
+                        comlist.ResolvedAt = itm.ResolvedAt;
+                        if (itm.ElapseTime != null)
+                        {
+                            if (itm.StatusID == 3)
+                            {
+
+                                var format = itm.ResolveTime;
+                                comlist.VisitDateFormatted = format.ToString(@"hh\:mm");
+
+                            }
+                            else
+                            {
+                                var format = itm.ElapseTime;
+                                comlist.VisitDateFormatted = format.ToString(@"hh\:mm");
+                            }
+
+                        }
+
+                        if (itm.FaultTypeDetailID == 3030 || itm.FaultTypeDetailID == 3042 || itm.FaultTypeDetailID == 3049)
+                        {
+                            comlist.FaultTypeDetailName = db.JobsDetails.Where(x => x.JobID == itm.ID).OrderByDescending(x => x.ID).FirstOrDefault().PRemarks;
+                        }
+                        var ProgressID = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault();
+                        //    var dateformat = Convert.ToDateTime(ProgressID.JobDate);
+                        //    itm.UpdatedAt = dateformat.ToString();
+                        if (itm.StatusName == "Resolved")
+                        {
+                            comlist.ProgressStatus = db.WorkDones.Where(x => x.ID == ProgressID.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+
                         }
                         else
                         {
-                            var format = itm.ElapseTime;
-                            itm.VisitDateFormatted = format.ToString(@"hh\:mm");
+                            comlist.ProgressStatus = db.ProgressStatus.Where(x => x.ID == ProgressID.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+
                         }
-
-                    }
-                   
-                    if (itm.FaultTypeDetailID == 3030 || itm.FaultTypeDetailID == 3042 || itm.FaultTypeDetailID == 3049)
-                    {
-                        itm.FaultTypeDetailName = db.JobsDetails.Where(x => x.JobID == itm.ID).OrderByDescending(x => x.ID).FirstOrDefault().PRemarks;
-                    }
-                    var ProgressID = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault();
-                    //    var dateformat = Convert.ToDateTime(ProgressID.JobDate);
-                    //    itm.UpdatedAt = dateformat.ToString();
-                    if (itm.StatusName == "Resolved")
-                    {
-                        itm.ProgressStatus = db.WorkDones.Where(x => x.ID == ProgressID.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
-
-                    }
-                    else 
-                    {
-                        itm.ProgressStatus = db.ProgressStatus.Where(x => x.ID == ProgressID.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
-
-                    }
-                    if (itm.ProgressStatus == "Others")
+                        if (itm.ProgressStatus == "Others")
                         {
-                            itm.ProgressStatus = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).Select(x=>x.PRemarks).FirstOrDefault();
+                            comlist.ProgressStatus = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).Select(x => x.PRemarks).FirstOrDefault();
                         }
+                        list.Add(comlist);
                     }
+
+                }
+
+                    
                     int count = ManageJobs.Count12(param.Search.Value, dtsource, columnSearch /*param.SaleOfficer, param.StartingDate1, param.StartingDate2*/);
                     result = new DTResult<JobsDetailData>
                     {
                         draw = param.Draw,
-                        data = data,
+                        data = list,
                         recordsFiltered = count,
-                        recordsTotal = count
+                        recordsTotal = list.Count()
                     };
                     return Json(result);
             }

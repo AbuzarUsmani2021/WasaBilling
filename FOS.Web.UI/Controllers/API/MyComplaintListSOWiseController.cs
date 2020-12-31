@@ -37,7 +37,7 @@ namespace FOS.Web.UI.Controllers.API
                     var result = dbContext.Sp_MyComplaintList1_3(SOID,dtFromToday,dtToToday).ToList();
 
 
-                    var result1= dbContext.Sp_MyComplaintListRemarks1_2(SOID, dtFromToday, dtToToday).ToList();
+                    var result1= dbContext.Sp_MyComplaintListRemarksFinal(SOID, dtFromToday, dtToToday).ToList();
 
 
                     if (RoleID != 3)
@@ -60,7 +60,15 @@ namespace FOS.Web.UI.Controllers.API
                                     comlist.TicketNo = item.TicketNo;
                                     comlist.LaunchedByName = item.LaunchedByName;
                                     comlist.SaleOfficerName = item.LaunchedByName;
-                                    comlist.ProgressRemarks = items.ProgressStatusName + "("+items.datecomplete+")";
+                                    if (items.ProgressStatusName == null)
+                                    {
+                                        comlist.ProgressRemarks = " ";
+                                    }
+                                    else
+                                    {
+
+                                        comlist.ProgressRemarks = items.ProgressStatusName + "(" + items.datecomplete + ")";
+                                    }
                                     comlist.InitialRemarks = item.InitialRemarks;
                                     comlist.ComplaintStatus = item.StatusName;
                                     comlist.FaultType = item.FaulttypeName;
@@ -144,49 +152,7 @@ namespace FOS.Web.UI.Controllers.API
 
 
 
-                        //foreach (var item in result)
-                        //{
-                        //    foreach (var items in result1)
-                        //    {
-                        //        if (item.ComplaintID == items.ComplaintID)
-                        //        {
-                        //            if (SaleOfficerID == items.SaleOfficerID)
-                        //            {
-
-                        //                comlist = new MyComplaintList();
-                        //                comlist.ComplaintID = item.ComplaintID;
-                        //                comlist.SiteCode = item.SiteCode;
-                        //                comlist.LaunchDate = item.LaunchDate;
-                        //                comlist.SiteID = item.SiteID;
-                        //                comlist.SiteName = item.SiteName;
-                        //                comlist.TicketNo = item.TicketNo;
-                        //                comlist.LaunchedByName = item.LaunchedByName;
-                        //                comlist.SaleOfficerName = item.LaunchedByName;
-                        //                comlist.ProgressRemarks = items.ProgressStatusName + " " + "(" + items.datecomplete + ")"; 
-                        //                comlist.InitialRemarks = item.InitialRemarks;
-                        //                comlist.ComplaintStatus = item.StatusName;
-                        //                comlist.FaultType = item.FaulttypeName;
-                        //                comlist.FaultTypeDetail = item.FaulttypedetailName;
-                        //                if (item.FaulttypedetailName == "Other")
-                        //                {
-                        //                    var otherremarks = db.JobsDetails.Where(x => x.JobID == item.ComplaintID).OrderByDescending(x => x.ID).Select(x => x.ActivityType).FirstOrDefault();
-
-                        //                    comlist.FaultTypeDetail = comlist.FaultTypeDetail + "/" + otherremarks;
-                        //                }
-
-                        //                if (items.ProgressStatusName == "Others")
-                        //                {
-                        //                   // var otherremarks = db.JobsDetails.Where(x => x.JobID == item.ComplaintID).Select(x => x.ProgressStatusRemarks).FirstOrDefault();
-
-                        //                    comlist.ProgressRemarks = items.ProgressStatusName + "/" + items.ProgressStatusRemarks + "(" + items.datecomplete + ")"; 
-                        //                }
-                        //                comlist.ClientRemarks = new CommonController().GetClientRemarks(item.ComplaintID);
-                        //                list.Add(comlist);
-                        //            }
-                        //        }
-                        //    }
-
-                        //}
+                       
 
                     }
 

@@ -42,11 +42,11 @@ namespace FOS.Web.UI.Controllers.API
                         {
                             comlist = new MyComplaintSummary();
                             comlist.TotalComplaints += 1;
-                            comlist.Resolved += db.Jobs.Where(x => x.ComplaintStatusId == 3 && x.ID == items.ID).Count();
-                            comlist.InProgress += db.Jobs.Where(x => x.ComplaintStatusId == 4 && x.ID == items.ID).Count();
-                            comlist.PassOn += db.Jobs.Where(x => x.ComplaintStatusId == 1003 && x.ID == items.ID).Count();
-                            comlist.NewComplaints += db.Jobs.Where(x => x.ComplaintStatusId == 2003 && x.ID == items.ID).Count();
-                            comlist.OpenComplaints += db.Jobs.Where(x => x.ComplaintStatusId == 4 && x.CreatedDate <= dtFromToday).Count();
+                            comlist.Resolved += db.Jobs.Where(x => x.ComplaintStatusId == 3 && x.ID == items.ID && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).Count();
+                            comlist.InProgress += db.Jobs.Where(x => x.ComplaintStatusId == 4 && x.ID == items.ID && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).Count();
+                            comlist.PassOn += db.Jobs.Where(x => x.ComplaintStatusId == 1003 && x.ID == items.ID && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).Count();
+                            comlist.NewComplaints += db.Jobs.Where(x => x.ComplaintStatusId == 2003 && x.ID == items.ID && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).Count();
+                            comlist.OpenComplaints += db.Jobs.Where(x => x.ComplaintStatusId == 4 && x.ZoneID == ProjectID && x.CreatedDate <= dtFromToday).Count();
                             comlist.OpenComplaintsToday += comlist.InProgress + comlist.NewComplaints;
                             list.Add(comlist);
                         }

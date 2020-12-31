@@ -15,7 +15,7 @@ mFOS.Web.UI/Models
 mFOS.Web.UI/Models/Scripts
 mFOS.Web.UI/Models/Scripts/js
 rFOS.Web.UI/Properties/PublishProfiles
-mFOS.Web.UI/Scripts
+rFOS.Web.UI/Scripts
 mFOS.Web.UI/Scripts/js
 mFOS.Web.UI/Scripts/lib
 mFOS.Web.UI/Scripts/lib/cupertino
@@ -31,3 +31,4 @@ mFOS.Web.UI/Views/Shared
 mSetup
 mSetup/Validation
 mShared
+mUsers

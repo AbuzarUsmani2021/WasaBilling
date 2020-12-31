@@ -25,9 +25,9 @@ namespace FOS.Web.UI.Controllers.API
             Job retailerObj = new Job();
             try
             {
-                
+                var data = db.Retailers.Where(x => x.ID == rm.SiteId).FirstOrDefault();
 
-                    var dateAndTime = DateTime.Now;
+                var dateAndTime = DateTime.Now;
                     int year = dateAndTime.Year;
                     int month = dateAndTime.Month;
                     string finalMonth = month.ToString().PadLeft(2, '0');
@@ -38,31 +38,79 @@ namespace FOS.Web.UI.Controllers.API
 
                     DateTime dtFromToday = dtFromTodayUtc.Date;
                     DateTime dtToToday = dtFromToday.AddDays(1);
-                    var counter = db.Jobs.Where(x => x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).OrderByDescending(u => u.ID).Select(u => u.TicketNo).FirstOrDefault();
+
+                if (data.ZoneID == 7)
+                {
+                    var Id1 = "O3";
+
+                    var counter = db.Jobs.Where(x => x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday && x.RegionID == data.RegionID && x.ZoneID == data.ZoneID).OrderByDescending(u => u.ID).Select(u => u.TicketNo).FirstOrDefault();
 
 
                     if (counter == null)
                     {
                         var ticketCount = 1;
                         string s = ticketCount.ToString().PadLeft(3, '0');
-                        retailerObj.TicketNo = datein + "-" + s;
+                        retailerObj.TicketNo = datein + "-"+ Id1+ "-" + s;
                     }
                     else
                     {
-
-
-
                         var splittedcounter = counter.Split('-');
+                        var val = splittedcounter[2];
+                     int value = Convert.ToInt32(val) + 1;
+                       string s = value.ToString().PadLeft(3, '0');
+                        retailerObj.TicketNo = datein + "-" + Id1 + "-" + s;
+                    }
+                }
+                else if (data.ZoneID == 8)
+                {
+                    var Id2 = "O2";
+
+                    var counter = db.Jobs.Where(x => x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday && x.RegionID == data.RegionID && x.ZoneID == data.ZoneID).OrderByDescending(u => u.ID).Select(u => u.TicketNo).FirstOrDefault();
 
 
-                        var val = Convert.ToInt32(splittedcounter[1]);
-                        int value = val + 1;
+                    if (counter == null)
+                    {
+                        var ticketCount = 1;
+                        string s = ticketCount.ToString().PadLeft(3, '0');
+                        retailerObj.TicketNo = datein + "-" + Id2 + "-" + s;
+                    }
+                    else
+                    {
+                        var splittedcounter = counter.Split('-');
+                        var val = splittedcounter[2];
+                        int value = Convert.ToInt32(val) + 1;
                         string s = value.ToString().PadLeft(3, '0');
 
-                        retailerObj.TicketNo = datein + "-" + s;
+                        retailerObj.TicketNo = datein + "-" + Id2 + "-" + s;
                     }
-                    //ADD New Retailer 
-                    retailerObj.ID = db.Jobs.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
+
+                }
+                else if (data.ZoneID == 9)
+                {
+                    var Id3 = "O1";
+
+                    var counter = db.Jobs.Where(x => x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday && x.RegionID == data.RegionID && x.ZoneID == data.ZoneID).OrderByDescending(u => u.ID).Select(u => u.TicketNo).FirstOrDefault();
+
+
+                    if (counter == null)
+                    {
+                        var ticketCount = 1;
+                        string s = ticketCount.ToString().PadLeft(3, '0');
+                        retailerObj.TicketNo = datein + "-" + Id3 + "-" + s;
+                    }
+                    else
+                    {
+                        var splittedcounter = counter.Split('-');
+                        var val = splittedcounter[2];
+                        int value = Convert.ToInt32(val) + 1;
+                        string s = value.ToString().PadLeft(3, '0');
+
+                        retailerObj.TicketNo = datein + "-" + Id3 + "-" + s;
+                    }
+
+                }
+                //ADD New Retailer 
+                retailerObj.ID = db.Jobs.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
                  
 
                     retailerObj.PersonName = rm.Name;
@@ -70,7 +118,7 @@ namespace FOS.Web.UI.Controllers.API
 
                     retailerObj.SiteID = rm.SiteId;
 
-                    var data = db.Retailers.Where(x => x.ID == rm.SiteId).FirstOrDefault();
+                   
                     retailerObj.RegionID = data.RegionID;
                     retailerObj.ZoneID = data.ZoneID;
                     retailerObj.CityID = data.CityID;
@@ -150,7 +198,7 @@ namespace FOS.Web.UI.Controllers.API
                 history.SiteID = rm.SiteId;
                     history.PriorityId = 0;
                     history.IsActive = true;
-                    history.IsPublished = 0;
+                    history.IsPublished = 1;
 
 
                     history.CreatedDate = DateTime.UtcNow.AddHours(5);
@@ -201,13 +249,52 @@ namespace FOS.Web.UI.Controllers.API
                     db.NotificationSeens.Add(seen);
                     db.SaveChanges();
                 }
+                string type = "Registraion";
+                string message = "Complaint registered Successfully and ComplaintID is " + retailerObj.TicketNo+ " Which is launched at:" +retailerObj.CreatedDate;
+                var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 2).Select(x => x.ID).ToList();
+                List<string> list = new List<string>();
+                foreach (var item in SOIds)
+                {
+                    var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                    if (id != null)
+                    {
+                        foreach (var items in id)
+                        {
+                            list.Add(items);
+                        }
+                    }
+                }
+
+                if (list != null)
+                {
+                    var result = new CommonController().PushNotificationForRegistration(message, list, retailerObj.ID,type, data.ZoneID);
+                }
+
+                // Notification Send to Wasa
+
+                var AreaID = Convert.ToInt32(data.AreaID);
+
+                var IdsforWasa = db.SOZoneAndTowns.Where(x => x.CityID == data.CityID && x.AreaID == AreaID).Select(x => x.SOID).Distinct().ToList();
+                List<string> list2 = new List<string>();
+                foreach (var item in IdsforWasa)
+                {
+                    var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
+                    if (id != null)
+                    {
+                        foreach (var items in id)
+                        {
+                            list2.Add(items);   
+                        }
+                    }
+                }
+                if (list2 != null)
+                {
+                    var result2 = new CommonController().PushNotificationForWasa(message, list2, retailerObj.ID, type);
+                }
 
 
-
-
-
-                    // Add Token Detail ...
-                    TokenDetail tokenDetail = new TokenDetail();
+                // Add Token Detail ...
+                TokenDetail tokenDetail = new TokenDetail();
                     tokenDetail.TokenName = rm.Token;
                     tokenDetail.Action = "Add New Retailer";
                     tokenDetail.ProcessedDateTime = DateTime.Now;

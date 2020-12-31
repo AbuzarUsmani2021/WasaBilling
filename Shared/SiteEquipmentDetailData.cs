@@ -10,8 +10,6 @@ namespace FOS.Shared
     {
      
         public int ID { get; set; }
-
-
         public int ClientID { get; set; }
         public int? RegionID { get; set; }
         public int? ZoneID { get; set; }

@@ -52,7 +52,9 @@ namespace FOS.Web.UI.Controllers.API
                            Token = Token,
                             Projects= new CommonController().GetProjects(SO.ID),
                             FaultTypes= new CommonController().GetFaultTypes(),
-                            Priorities= new CommonController().GetPriorities(),
+                            EquipmentCategory = new CommonController().GetEquipmentCategory(),
+                            EquipmentBrand = new CommonController().GetEquipmentBrands(),
+                            Priorities = new CommonController().GetPriorities(),
                             Status= new CommonController().GetComplaintStatus(),
                             Type= new CommonController().GetComplaintTypes(),
                             LaunchedBy= new CommonController().GetLaunchedBy(),
@@ -90,22 +92,29 @@ namespace FOS.Web.UI.Controllers.API
 
                         DateTime dtFromToday = dtFromTodayUtc.Date;
                         DateTime dtToToday = dtFromToday.AddDays(1);
-                        AccessLog Ac = new AccessLog();
-                        if (SO != null)
+                        OneSignalUser Ac = new OneSignalUser();
+
+                        if (inModel.OneSignalUserID != null)
                         {
-                            
-                            var result = db.AccessLogs.Any(x => x.SaleOfficerID == SO.ID && x.LoginDate >= dtFromToday && x.LoginDate <= dtFromTodayUtc);
-                            if (result == false)
+
+                            var result = db.OneSignalUsers.Where(x => x.OneSidnalUserID == inModel.OneSignalUserID && x.UserID==SO.ID).FirstOrDefault();
+                          
+                            if (result == null)
                             {
 
-                                Ac.SaleOfficerID = SO.ID;
-
-                                Ac.LoginDate = dtFromTodayUtc;
-                                Ac.Status = 1;
-                                db.AccessLogs.Add(Ac);
+                                Ac.UserID = SO.ID;
+                                Ac.CreatedAt = dtFromTodayUtc;
+                                Ac.OneSidnalUserID = inModel.OneSignalUserID;
+                                Ac.RoleID = SO.RoleID;
+                                Ac.HeadID = SO.RegionalHeadID;
+                                db.OneSignalUsers.Add(Ac);
                                 db.SaveChanges();
                             }
-                            else { }
+                            //else { }
+
+
+
+
                         }
 
                         return new Result<LoginResponse>
@@ -177,6 +186,8 @@ namespace FOS.Web.UI.Controllers.API
 
         public List<Projects> RegionalHeadType { get; set; }
         public List<FaultType> FaultTypes { get; set; }
+        public List<FaultType> EquipmentCategory { get; set; }
+        public List<FaultType> EquipmentBrand { get; set; }
         public List<Priority> Priorities { get; set; }
         public List<WorkDone> WorkDoneStatus { get; set; }
         public List<ComplaintType> VisitTypes { get; set; }
@@ -203,6 +214,7 @@ namespace FOS.Web.UI.Controllers.API
     {
         public string UserName { get; set; }
         public string Password { get; set; }
+        public string OneSignalUserID { get; set; }
     }
 
     public class City

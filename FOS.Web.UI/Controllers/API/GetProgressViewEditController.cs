@@ -91,7 +91,7 @@ namespace FOS.Web.UI.Controllers.API
                 comHis.FaultTypeDetailRemarks = obj.FaultTypeDetailOtherRemarks;
                 comHis.ProgressStatusRemarks = obj.ProgressStatusOtherRemarks;
                 comHis.AssignedToSaleOfficer = obj.AssignedToID;
-                
+                comHis.UpdateRemarks = obj.Remarks;
                 db.SaveChanges();
 
 

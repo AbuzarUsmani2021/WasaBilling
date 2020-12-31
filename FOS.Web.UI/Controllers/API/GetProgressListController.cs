@@ -28,6 +28,8 @@ namespace FOS.Web.UI.Controllers.API
                 {
                     object[] param = { ComplaintID };
 
+
+                    var ID = db.Jobs.Where(x => x.ID == ComplaintID).Select(x => x.SaleOfficerID).FirstOrDefault();
                     if (RoleID == 2)
                     {
 
@@ -51,7 +53,7 @@ namespace FOS.Web.UI.Controllers.API
                             comlist.ProgressStatusName = item.ProgressStatusName;
                             comlist.PRemarks = item.PRemarks;
                             comlist.SaleofficerName = item.SaleofficerName;
-                            comlist.LaunchedByName = item.LaunchedByName;
+                            comlist.LaunchedByName = db.SaleOfficers.Where(x=>x.ID==ID).Select(x=>x.Name).FirstOrDefault();
                             comlist.ChildFaultType = item.ChildFaultType;
                             comlist.ChildFaultTypeDetailID = item.ChildFaultTypeDetailID;
                             comlist.ChildComplaintStatusID = item.ChildComplaintStatusID;
@@ -105,7 +107,7 @@ namespace FOS.Web.UI.Controllers.API
                             comlist.ProgressStatusName = item.ProgressStatusName;
                             comlist.PRemarks = item.PRemarks;
                             comlist.SaleofficerName = item.SaleofficerName;
-                            comlist.LaunchedByName = item.LaunchedByName;
+                            comlist.LaunchedByName = db.SaleOfficers.Where(x => x.ID == ID).Select(x => x.Name).FirstOrDefault();
                             comlist.ChildFaultType = item.ChildFaultType;
                             comlist.ChildFaultTypeDetailID = item.ChildFaultTypeDetailID;
                             comlist.ChildComplaintStatusID = item.ChildComplaintStatusID;

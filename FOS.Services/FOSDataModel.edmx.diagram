@@ -177,11 +177,8 @@
         <AssociationConnector Association="FOS_WallCoatModel.FK_ChatBox_Jobs" />
         <EntityTypeShape EntityType="FOS_WallCoatModel.Tbl_SMSLogs" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="FOS_WallCoatModel.Student" Width="1.5" PointX="5.75" PointY="21.75" />
-        <AssociationConnector Association="FOS_WallCoatModel.FK_ChatBox_Jobs" />
-        <AssociationConnector Association="FOS_WallCoatModel.FK_NotificationSeen_ComplaintNotification" />
-        <AssociationConnector Association="FOS_WallCoatModel.FK_NotificationSeen_Jobs" />
-        <AssociationConnector Association="FOS_WallCoatModel.FK_NotificationSeen_JobsDetail" />
-        <AssociationConnector Association="FOS_WallCoatModel.FK_NotificationSeen_Tbl_ComplaintHistory" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.OneSignalUser" Width="1.5" PointX="9.75" PointY="30.5" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_OneSignalUsers_SaleOfficers" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

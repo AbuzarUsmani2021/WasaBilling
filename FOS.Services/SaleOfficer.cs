@@ -30,6 +30,7 @@ namespace FOS.DataLayer
             this.Tbl_SchoolException = new HashSet<Tbl_SchoolException>();
             this.TblReminders = new HashSet<TblReminder>();
             this.Areas = new HashSet<Area>();
+            this.OneSignalUsers = new HashSet<OneSignalUser>();
         }
     
         public int TID { get; set; }
@@ -77,5 +78,7 @@ namespace FOS.DataLayer
         public virtual ICollection<TblReminder> TblReminders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Area> Areas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OneSignalUser> OneSignalUsers { get; set; }
     }
 }

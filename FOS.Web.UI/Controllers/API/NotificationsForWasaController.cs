@@ -12,7 +12,7 @@ using System.Web.Http;
 
 namespace FOS.Web.UI.Controllers.API
 {
-    public class NotificationsForKSBController : ApiController
+    public class NotificationsForWasaController : ApiController
     {
         FOSDataModel db = new FOSDataModel();
 
@@ -25,58 +25,34 @@ namespace FOS.Web.UI.Controllers.API
                 if (RoleID > 0)
                 {
                     object[] param = { RoleID };
-                    List<Notifications> list = new List<Notifications>();
-                    Notifications comlist;
+                    List<NotificationsForWasa> list = new List<NotificationsForWasa>();
+                    NotificationsForWasa comlist;
 
                     var result = db.Sp_KSBNotificationsforCC(ProjectID).ToList();
 
+                    var IDS = dbContext.SOZoneAndTowns.Where(x => x.SOID == SOID).Select(x => x.AreaID).ToList();
 
 
-                    if (RoleID != 3)
+                    foreach (var items in IDS)
                     {
-
                         foreach (var item in result)
                         {
-                           
-                                    comlist = new Notifications();
-                                    comlist.ComplaintID = item.ComplaintID;
-                                    comlist.SiteCode = item.SiteCode;
-                                    comlist.LaunchDate = item.LaunchDate;
-                                    comlist.SiteID = item.SiteID;
-                                    comlist.SiteName = item.SiteName;
-                                    comlist.ComplaintStatus = item.StatusName;
-                                    comlist.Childs = db.Sp_KSBChildNotificationsforCC(item.ComplaintID, SOID).ToList();
-                                    list.Add(comlist);
+                            if (items == Convert.ToInt32(item.areas))
+                            {
 
+                                comlist = new NotificationsForWasa();
+                                comlist.ComplaintID = item.ComplaintID;
+                                comlist.SiteCode = item.SiteCode;
+                                comlist.LaunchDate = item.LaunchDate;
+                                comlist.SiteID = item.SiteID;
+                                comlist.SiteName = item.SiteName;
+                                comlist.ComplaintStatus = item.StatusName;
+                                comlist.Childs = db.Sp_WasaChildNotifications(item.ComplaintID, SOID).ToList();
+                                list.Add(comlist);
+
+                            }
                         }
-                    }
-                    else
-                    {
-
-                        var IDs = db.JobsDetails.Where(x => x.AssignedToSaleOfficer == SOID && x.IsPublished == 1).OrderByDescending(x =>x.ID).Select(x => x.JobID).Distinct().ToList();
-
-
-                        foreach (var item in IDs)
-                        {
-                            comlist = new Notifications();
-
-                            var data = db.Sp_NotificationDataForFS(item).FirstOrDefault();
-                            comlist.ComplaintID =data.ComplaintID;
-                            comlist.SiteCode = data.SiteCode;
-                            comlist.LaunchDate = data.LaunchDate;
-                            comlist.SiteID = data.SiteID;
-                            comlist.SiteName = data.SiteName;
-                            comlist.ComplaintStatus = data.StatusName;
-                            comlist.Childs = db.Sp_KSBChildNotificationsforCC(item,SOID).ToList();
-                            list.Add(comlist);
-
                         }
-
-                       
-
-                    }
-
-
                     if (list != null && list.Count > 0)
                     {
                         return Ok(new
@@ -85,44 +61,49 @@ namespace FOS.Web.UI.Controllers.API
 
                         });
                     }
+
+                }
+                   
+                   
+                    
+
+
+                  
                  
                 }
-            }
             catch (Exception ex)
             {
                 Log.Instance.Error(ex, "MyComplaintList GET API Failed");
             }
-            object[] paramm = {};
+            object[] paramm = { };
             return Ok(new
             {
                 MyComplaintList = paramm
             });
+        }
+            
 
         }
 
-
-    }
-
-
-    public class Notifications
+    public class NotificationsForWasa
     {
         public int ComplaintID { get; set; }
-     
+
         public DateTime? LaunchDate { get; set; }
- 
+
         public string SiteName { get; set; }
         public int? SiteID { get; set; }
         public string SiteCode { get; set; }
         public string ComplaintStatus { get; set; }
 
 
-        public List<Sp_KSBChildNotificationsforCC_Result2> Childs { get; set; }
+        public List<Sp_WasaChildNotifications_Result> Childs { get; set; }
 
 
     }
 
 
-    public class ChildNotifications
+    public class ChildNotificationsForWasa
     {
         public int ComplaintID { get; set; }
         public string TicketNo { get; set; }
@@ -132,7 +113,7 @@ namespace FOS.Web.UI.Controllers.API
 
         public string LaunchedByName { get; set; }
         public int? SiteID { get; set; }
-    
+
         public bool IsSiteIDChanged { get; set; }
         public int? PriorityID { get; set; }
         public bool IsPriorityIDChanged { get; set; }
@@ -166,7 +147,11 @@ namespace FOS.Web.UI.Controllers.API
     }
 
 
-
-
-
 }
+
+
+
+
+
+
+

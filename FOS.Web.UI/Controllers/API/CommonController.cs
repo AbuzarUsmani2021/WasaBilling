@@ -3,11 +3,14 @@ using FOS.Setup;
 using Shared.Diagnostics.Logging;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web.Http;
-
+using System.Web.Script.Serialization;
 
 namespace FOS.Web.UI.Controllers.API
 {
@@ -281,7 +284,7 @@ namespace FOS.Web.UI.Controllers.API
             string remarks = "";
             
 
-            var result1 = db.Sp_MyComplaintListRemarks1_2(1, dtFromToday, dtToToday).ToList();
+            var result1 = db.Sp_MyComplaintListRemarksFinal(1, dtFromToday, dtToToday).ToList();
 
             foreach (var item in result1)
             {
@@ -307,7 +310,7 @@ namespace FOS.Web.UI.Controllers.API
             string remarks = "";
 
 
-            var result1 = db.Sp_MyComplaintListRemarks1_2(1, dtFromToday, dtToToday).ToList();
+            var result1 = db.Sp_MyComplaintListRemarksFinal(1, dtFromToday, dtToToday).ToList();
 
             foreach (var item in result1)
             {
@@ -358,7 +361,7 @@ namespace FOS.Web.UI.Controllers.API
             {
                 ID = x.ID,
                 
-                Remarks = x.ClientRemarks+"/"+x.RemarksByName,
+                Remarks = x.ClientRemarks+"/"+x.RemarksByName + "/" + x.RemarksDate,
                 ComplaintID=x.ComplaintID,
                 LaunchedAt=x.RemarksDate,
 
@@ -411,7 +414,7 @@ namespace FOS.Web.UI.Controllers.API
                 var result = db.Sp_MyComplaintList1_3(SOID, dtFromToday, dtToToday).ToList();
 
 
-                var result1 = db.Sp_MyComplaintListRemarks1_2(SOID, dtFromToday, dtToToday).ToList();
+                var result1 = db.Sp_MyComplaintListRemarksFinal(SOID, dtFromToday, dtToToday).ToList();
 
 
                 foreach (var item in result)
@@ -493,7 +496,7 @@ namespace FOS.Web.UI.Controllers.API
             cities.Insert(0, new Projects
             {
                 ID = 0,
-                Name = "Select"
+                Name = "All"
             });
 
             // var dbRegions=db.Regions.Where(x=>dbCities.Contains())
@@ -572,6 +575,48 @@ namespace FOS.Web.UI.Controllers.API
             return dbregions;
         }
 
+        public List<FaultType> GetEquipmentCategory()
+        {
+            List<FaultType> cities = new List<FaultType>();
+
+
+
+            var dbregions = db.EquipmentCategories.Select(x => new FaultType
+            {
+                ID = x.ID,
+                Name = x.Name
+            }).ToList();
+
+            dbregions.Insert(0, new FaultType
+            {
+                ID = 0,
+                Name = "Select"
+            });
+
+
+            return dbregions;
+        }
+        public List<FaultType> GetEquipmentBrands()
+        {
+            List<FaultType> cities = new List<FaultType>();
+
+
+
+            var dbregions = db.EquipmentBrands.Select(x => new FaultType
+            {
+                ID = x.ID,
+                Name = x.Name
+            }).ToList();
+
+            dbregions.Insert(0, new FaultType
+            {
+                ID = 0,
+                Name = "Select"
+            });
+
+
+            return dbregions;
+        }
 
         public List<Priority> GetPriorities()
         {
@@ -1027,6 +1072,196 @@ namespace FOS.Web.UI.Controllers.API
             return MAinCat;
         }
 
+
+
+        public bool PushNotification(string Message, List<string> deviceIDs , int ID, string type)
+        {
+            var AppId = ConfigurationManager.AppSettings["OneSignalAppID"];
+
+            var DevIDs = deviceIDs;
+            foreach (var item in DevIDs)
+            {
+                var request = WebRequest.Create("https://onesignal.com/api/v1/notifications") as HttpWebRequest;
+
+                request.KeepAlive = true;
+                request.Method = "POST";
+                request.ContentType = "application/json; charset=utf-8";
+
+                var serializer = new JavaScriptSerializer();
+                var obj = new
+                {
+                    app_id = AppId,
+                    contents = new { en = Message },
+                    data = new { ComplaintID = ID , PushType= type },
+                    include_player_ids = new string[] { item }
+                };
+
+
+
+                var param = serializer.Serialize(obj);
+                byte[] byteArray = Encoding.UTF8.GetBytes(param);
+
+                string responseContent = null;
+
+                try
+                {
+                    using (var writer = request.GetRequestStream())
+                    {
+                        writer.Write(byteArray, 0, byteArray.Length);
+                    }
+
+                    using (var response = request.GetResponse() as HttpWebResponse)
+                    {
+                        using (var reader = new StreamReader(response.GetResponseStream()))
+                        {
+                            responseContent = reader.ReadToEnd();
+                        }
+                    }
+                }
+                catch (WebException ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                    System.Diagnostics.Debug.WriteLine(new StreamReader(ex.Response.GetResponseStream()).ReadToEnd());
+
+                    return false;
+                }
+
+                System.Diagnostics.Debug.WriteLine(responseContent);
+
+
+                
+            }
+
+            return true;
+
+        }
+
+
+        public bool PushNotificationForWasa(string Message, List<string> deviceIDs, int ID, string type)
+        {
+            var AppId = ConfigurationManager.AppSettings["OneSignalAppIDForWasa"];
+
+            var DevIDs = deviceIDs;
+            foreach (var item in DevIDs)
+            {
+                var request = WebRequest.Create("https://onesignal.com/api/v1/notifications") as HttpWebRequest;
+
+                request.KeepAlive = true;
+                request.Method = "POST";
+                request.ContentType = "application/json; charset=utf-8";
+
+                var serializer = new JavaScriptSerializer();
+                var obj = new
+                {
+                    app_id = AppId,
+                    contents = new { en = Message },
+                    data = new { ComplaintID = ID, PushType = type },
+                    include_player_ids = new string[] { item }
+                };
+
+
+
+                var param = serializer.Serialize(obj);
+                byte[] byteArray = Encoding.UTF8.GetBytes(param);
+
+                string responseContent = null;
+
+                try
+                {
+                    using (var writer = request.GetRequestStream())
+                    {
+                        writer.Write(byteArray, 0, byteArray.Length);
+                    }
+
+                    using (var response = request.GetResponse() as HttpWebResponse)
+                    {
+                        using (var reader = new StreamReader(response.GetResponseStream()))
+                        {
+                            responseContent = reader.ReadToEnd();
+                        }
+                    }
+                }
+                catch (WebException ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                    System.Diagnostics.Debug.WriteLine(new StreamReader(ex.Response.GetResponseStream()).ReadToEnd());
+
+                    return false;
+                }
+
+                System.Diagnostics.Debug.WriteLine(responseContent);
+
+
+
+            }
+
+            return true;
+
+        }
+
+
+
+        public bool PushNotificationForRegistration(string Message, List<string> deviceIDs, int ID, string type , int? ProjectID)
+        {
+            var AppId = ConfigurationManager.AppSettings["OneSignalAppID"];
+
+            var DevIDs = deviceIDs;
+            foreach (var item in DevIDs)
+            {
+                var request = WebRequest.Create("https://onesignal.com/api/v1/notifications") as HttpWebRequest;
+
+                request.KeepAlive = true;
+                request.Method = "POST";
+                request.ContentType = "application/json; charset=utf-8";
+
+                var serializer = new JavaScriptSerializer();
+                var obj = new
+                {
+                    app_id = AppId,
+                    contents = new { en = Message },
+                    data = new { ComplaintID = ID, PushType = type ,ProjectID = ProjectID},
+                    include_player_ids = new string[] { item }
+                };
+
+
+
+                var param = serializer.Serialize(obj);
+                byte[] byteArray = Encoding.UTF8.GetBytes(param);
+
+                string responseContent = null;
+
+                try
+                {
+                    using (var writer = request.GetRequestStream())
+                    {
+                        writer.Write(byteArray, 0, byteArray.Length);
+                    }
+
+                    using (var response = request.GetResponse() as HttpWebResponse)
+                    {
+                        using (var reader = new StreamReader(response.GetResponseStream()))
+                        {
+                            responseContent = reader.ReadToEnd();
+                        }
+                    }
+                }
+                catch (WebException ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                    System.Diagnostics.Debug.WriteLine(new StreamReader(ex.Response.GetResponseStream()).ReadToEnd());
+
+                    return false;
+                }
+
+                System.Diagnostics.Debug.WriteLine(responseContent);
+
+
+
+            }
+
+            return true;
+
+        }
 
 
     }

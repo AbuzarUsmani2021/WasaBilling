@@ -39,7 +39,7 @@ namespace FOS.Web.UI.Controllers.API
                     var result = dbContext.Sp_MyComplaintList1_3(SOID, FromDate, newDate).ToList();
 
 
-                    var result1 = dbContext.Sp_MyComplaintListRemarks1_2(SOID, FromDate, newDate).ToList();
+                    var result1 = dbContext.Sp_MyComplaintListRemarksFinal(SOID, FromDate, newDate).ToList();
 
 
                     if (RoleID != 3)

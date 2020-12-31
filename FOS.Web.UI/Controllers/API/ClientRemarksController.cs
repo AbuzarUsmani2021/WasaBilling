@@ -37,7 +37,58 @@ namespace FOS.Web.UI.Controllers.API
                  
                 db.SaveChanges();
 
-                    return new Result<SuccessResponse>
+                var data = db.Jobs.Where(x => x.ID == rm.ComplaintID).FirstOrDefault();
+               //// var AreaID = Convert.ToInt32(data.Areas);
+
+                //var IDs = db.SOZoneAndTowns.Where(x => x.CityID == data.CityID && x.AreaID == AreaID).Select(x => x.SOID).Distinct().ToList();
+
+            
+                string type = "Registraion";
+                string message = "Complaint Remarks against ComplaintNo " + data.TicketNo + " is punched by client. Kindly Visit it:";
+                var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 2).Select(x => x.ID).ToList();
+                List<string> list = new List<string>();
+                foreach (var item in SOIds)
+                {
+                    var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                    if (id != null)
+                    {
+                        foreach (var items in id)
+                        {
+                            list.Add(items);
+                        }
+                    }
+                }
+
+                if (list != null)
+                {
+                    var result = new CommonController().PushNotificationForRegistration(message, list, retailerObj.ID, type, data.ZoneID);
+                }
+
+                // Notification Send to Wasa
+
+                var AreaID = Convert.ToInt32(data.Areas);
+
+                var IdsforWasa = db.SOZoneAndTowns.Where(x => x.CityID == data.CityID && x.AreaID == AreaID).Select(x => x.SOID).Distinct().ToList();
+                List<string> list2 = new List<string>();
+                foreach (var item in IdsforWasa)
+                {
+                    var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
+                    if (id != null)
+                    {
+                        foreach (var items in id)
+                        {
+                            list2.Add(items);
+                        }
+                    }
+                }
+                if (list2 != null)
+                {
+                    var result2 = new CommonController().PushNotificationForWasa(message, list2, retailerObj.ID, type);
+                }
+
+
+
+                return new Result<SuccessResponse>
                     {
                         Data = null,
                         Message = "Client Remarks Added Successfully",
