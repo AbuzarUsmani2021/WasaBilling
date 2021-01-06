@@ -659,6 +659,29 @@ namespace FOS.Setup
             return regionalHeadData;
         }
 
+        public static List<SaleOfficerData> GetFS(int RegionalHeadType)
+        {
+            List<SaleOfficerData> FSUserName = new List<SaleOfficerData>();
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    FSUserName = dbContext.SaleOfficers.Where(u => u.RegionalHeadID == RegionalHeadType && u.IsDeleted == false).ToList()
+                            .Select(
+                                u => new SaleOfficerData
+                                {
+                                    ID = u.ID,
+                                    UserName = u.UserName,
+                                }).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return FSUserName;
+        }
+
 
         public static List<RegionalHeadData> GetRegionsofSO(int RegionalHeadType)
         {

@@ -36,6 +36,16 @@ namespace FOS.Shared
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
         public int CreatedBy { get; set; }
+        public List<RegionalHeadData> RegionalHead { get; set; }
+        public List<SaleOfficerData> FieldOfficers { get; set; }
+        public IEnumerable<RegionalHeadTypeData> RegionalHeadTypeData { get; set; }
+
+        public int RegionalHeadID { get; set; }
+        public int Type { get; set; }
+
+        public int FSID { get; set; }
+
+
 
         public List<FOS.Shared.Role> Roles { get; set; }
     }

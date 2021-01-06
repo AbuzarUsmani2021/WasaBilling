@@ -6,13 +6,13 @@
 }
 
 <!-- BEGIN PAGE HEADER-->
-<div class="row-fluid">
-    <div class="span12">
+<!--<div class="row-fluid">
+    <div class="span12">-->
         <!-- BEGIN THEME CUSTOMIZER-->
 
         <!-- END THEME CUSTOMIZER-->
         <!-- BEGIN PAGE TITLE & BREADCRUMB-->
-        <h3 class="page-title"></h3>
+        <!--<h3 class="page-title"></h3>
         <ul class="breadcrumb">
             <li>
                 <a href="#">Admin Panel</a>
@@ -22,18 +22,18 @@
                 <a href="#">Manage Users</a>
             </li>
 
-        </ul>
+        </ul>-->
         <!-- END PAGE TITLE & BREADCRUMB-->
-    </div>
-</div>
-
+    <!--</div>
+</div>-->
+<br /> 
 
 <div class="row-fluid">
     <div class="span12">
         <!-- BEGIN SAMPLE FORMPORTLET-->
         <div class="widget green" style="">
             <div class="widget-title">
-                <h4>Manage User</h4>
+                <h4 class="text-center"><strong>Manage Users</strong></h4>
                 <span class="tools">
                     @*<a href="javascript:;" class="icon-chevron-down"></a>*@
                     @*<a href="javascript:;" class="icon-remove"></a>*@
@@ -51,11 +51,11 @@
 
                     <div class="span12">
                     
-                        <div class="span6">    
-                    
+                        <div class="span6">
+
                             <!-- User Name -->
                             <div class="control-group">
-                                <label class="control-label">User Name *</label>
+                                <label class="control-label">User Name:*</label>
                                 <div class="controls">
 
                                     @Html.EditorFor(model => model.UserName, new { @class = "input-xlarge", @id = "txtUserName" })
@@ -65,7 +65,7 @@
 
                             <!-- Password -->
                             <div class="control-group">
-                                <label class="control-label">Password *</label>
+                                <label class="control-label">Password:*</label>
                                 <div class="controls">
                                     @Html.EditorFor(model => model.Password, new { @class = "input-xlarge", @id = "txtPassword" })
                                 </div>
@@ -73,47 +73,66 @@
 
                             <!-- Select Role Name -->
                             <div class="control-group">
-                                <label class="control-label">Select Role *</label>
+                                <label class="control-label">Select Role:*</label>
                                 <div class="controls">
 
-                                    @Html.DropDownListFor(model => model.RoleID , new SelectList(Model.Roles, "RoleID", "RoleName") , new { @class = "input-xlarge", @style="width: 212px;" })                                               
+                                    @Html.DropDownListFor(model => model.RoleID, new SelectList(Model.Roles, "RoleID", "RoleName"), new { @class = "input-xlarge", @style = "width: 212px;" })
 
                                 </div>
                             </div>
-                    
+                            <div class="control-group">
+                                <label class="control-label"> Select Head:*</label>
+                                <div class="controls">
+                                    @Html.DropDownListFor(model => model.Type, new SelectList(Model.RegionalHeadTypeData, "ID", "Type"), new { @class = "", style = "220px" })
+                                </div>
+                            </div>
+                            <div class="control-group hidden">
+                                <label class="control-label">Select Head Type:*</label>
+                                <div class="controls">
+                                    @Html.DropDownListFor(model => model.RegionalHeadID, new SelectList(Model.RegionalHead, "ID", "Name"), new { @class = "" })
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Select Field Officer:*</label>
+                                <div class="controls">
+                                    @Html.DropDownListFor(model => model.FSID, new SelectList(Model.FieldOfficers, "ID", "UserName"), new { @class = "" })
+                                </div>
+                            </div>
+
                         </div>
 
-                        <div class="span6"> 
+                        <div class="span6">
 
+                           
                             <!-- EmailID -->
                             <div class="control-group">
-                                <label class="control-label">Email *</label>
+                                <label class="control-label">Email:*</label>
                                 <div class="controls">
                                     @Html.EditorFor(model => model.EmailID, new { @class = "input-xlarge", @id = "" })
                                 </div>
                             </div>
-                    
+
                             <!-- PhoneNo -->
                             <div class="control-group">
-                                <label class="control-label">Phone No *</label>
+                                <label class="control-label">Phone No:*</label>
                                 <div class="controls">
                                     @Html.EditorFor(model => model.PhoneNo, new { @class = "input-xlarge", @id = "" })
                                 </div>
                             </div>
-                    
+
                             <!-- Address -->
                             <div class="control-group">
-                                <label class="control-label">Address *</label>
+                                <label class="control-label">Address:*</label>
                                 <div class="controls">
                                     @Html.EditorFor(model => model.Address, new { @class = "input-xlarge", @id = "" })
                                 </div>
                             </div>
-                   
+
                             <!-- Is Active -->
                             <div class="control-group">
                                 <label class="control-label"></label>
                                 <div class="controls">
-                                    @Html.CheckBoxFor(model => model.IsActive , new { @style = "width: 18px; height: 18px", @id="cbIsActive" }) <span style="margin-left: 7px; font-weight: bold; color: blue;border-bottom: 3px solid;">Is Active</span>
+                                    @Html.CheckBoxFor(model => model.IsActive, new { @style = "width: 18px; height: 18px", @id = "cbIsActive" }) <span style="margin-left: 7px; font-weight: bold; color: blue;border-bottom: 3px solid;">Is Active</span>
                                 </div>
                             </div>
 
@@ -123,7 +142,7 @@
                                 <button type="button" class="btn btn-small btn-info" id="btnRefresh" onclick="Refresh()"><i class="icon-ban-circle icon-white" style="padding-right:8px"></i>Reset</button>
                             </div>
 
-                            </div>
+                        </div>
 
 
 
@@ -201,6 +220,60 @@
         }
 
         GenerateDetailGrid();
+
+        $("#Type").change(function () {
+            LoadRegionalHead();
+        });
+        $("#RegionalHeadID").change(function () {
+            LoadFS();
+        });
+        function LoadFS() {
+
+            var RegionalHeadType = $("#RegionalHeadID").val();
+
+            $.ajax({
+                type: "POST",
+                data: { RegionalHeadType: RegionalHeadType },
+                url: "@Url.Action("GetFS", "AdminPanel")",
+                dataType: 'json',
+                success: function (json) {
+
+                    var $el = $("#FSID");
+                    $el.empty(); // remove old options
+                    $.each(json, function (value, key) {
+
+                        $el.append($("<option></option>")
+                                .attr("value", key.ID).text(key.UserName));
+                    });
+                    $("#FSID").trigger("change");
+                }
+
+            });
+        }
+
+        function LoadRegionalHead() {
+
+            var RegionalHeadType = $("#Type").val();
+
+            $.ajax({
+                type: "POST",
+                data: { RegionalHeadType: RegionalHeadType },
+                url: "@Url.Action("GetRegionalHeadAccordingToType", "SaleOfficer")",
+                dataType: 'json',
+                success: function (json) {
+
+                    var $el = $("#RegionalHeadID");
+                    $el.empty(); // remove old options
+                    $.each(json, function (value, key) {
+
+                        $el.append($("<option></option>")
+                                .attr("value", key.ID).text(key.Name));
+                    });
+                    $("#RegionalHeadID").trigger("change");
+                }
+
+            });
+        }
 
         $("#liAdminPanel,#liUsers").addClass("active");
 
