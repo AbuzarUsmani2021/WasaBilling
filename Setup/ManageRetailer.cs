@@ -24,14 +24,14 @@ namespace FOS.Setup
 
         //Site Start
         //table start
-        public static List<RetailerData> AllSitesData()
+        public static List<RetailerData> AllSitesData(int ProjectId)
         {
             List<RetailerData> SitesData = new List<RetailerData>();
             try
             {
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                    SitesData = dbContext.Retailers.Where(u => u.IsActive==true && u.IsDeleted==false)
+                    SitesData = dbContext.Retailers.Where(u => u.IsActive==true && u.IsDeleted==false && u.ZoneID==ProjectId)
                             .ToList().Select(
                                 u => new RetailerData
                                 {
@@ -44,7 +44,7 @@ namespace FOS.Setup
                                     RetailerCode = u.RetailerCode,
                                     Latitude = u.Latitude,
                                     Longitude = u.Longitude
-                                }).OrderByDescending(x=>x.ID).ToList();
+                                }).ToList();
                 }
             }
             catch (Exception exp)

@@ -42,6 +42,7 @@ namespace FOS.Web.UI.Controllers
         //Session Create/Login Method...
         public JsonResult UserAuth(string userName, string password, string returnUrl)
         {
+            string pageUrl = "";
             Log.Instance.Info("A new user is trying to sign in");
             int userId = 0;
             userId = FOS.AdminPanel.ManageLogin.UserAuth(userName, password);
@@ -67,7 +68,17 @@ namespace FOS.Web.UI.Controllers
                 SessionManager.Destroy("UserName");
             }
 
-            string pageUrl = string.IsNullOrEmpty(returnUrl) ? string.Format("{0}/Home/Home", Settings.AppPath) : returnUrl;
+            if(userId == 1025|| userId==1026|| userId == 1027)
+            {
+                pageUrl = string.IsNullOrEmpty(returnUrl) ? string.Format("{0}/Home/WasaDashboard", Settings.AppPath) : returnUrl;
+            }
+            else
+            {
+                 pageUrl = string.IsNullOrEmpty(returnUrl) ? string.Format("{0}/Home/Home", Settings.AppPath) : returnUrl;
+            }
+            
+
+           
             //return Json(new { status = userId, url =pageUrl }, JsonRequestBehavior.AllowGet);
             return Json(new { status = response, url = pageUrl }, JsonRequestBehavior.AllowGet);
             //New Home Page Logic

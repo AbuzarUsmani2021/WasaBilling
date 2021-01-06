@@ -134,6 +134,7 @@ namespace FOS.Shared
         public List<CityData> Cities { get; set; }
         public List<RegionData> Regions { get; set; }
         public List<AreaData> Areas { get; set; }
+        public List<ComplaintStatus> Projects { get; set; }
         public List<SubDivisionData> SubDivisions { get; set; }
       
         public List<Fees> FeeStructure { get; set; }

@@ -733,9 +733,12 @@ namespace FOS.Setup
         {
             try
             {
+              
+
                 List<CityData> cityList = null;
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
+                    var SiteName = dbContext.Retailers.Where(x => x.ID == RegionID).FirstOrDefault();
                     //var CITY = dbContext.Cities.Where(s => s.ID == CityID).FirstOrDefault();
 
                     cityList = dbContext.ChatBoxes.Where(a => a.ComplaintID == RegionID).Select(a => new CityData
@@ -745,8 +748,9 @@ namespace FOS.Setup
                         ComplaintID = a.ComplaintID,
                        LaunchAt=a.DateInstall,
                        SOID=a.SOID,
-                       SaleOfficerName=dbContext.SaleOfficers.Where(x=>x.ID==a.SOID).Select(x=>x.Name).FirstOrDefault()
-
+                       SaleOfficerName=dbContext.SaleOfficers.Where(x=>x.ID==a.SOID).Select(x=>x.Name).FirstOrDefault(),
+                       SiteName= SiteName.Name+"("+SiteName.RetailerCode + ")",
+                       
                     }).ToList();
                    
 

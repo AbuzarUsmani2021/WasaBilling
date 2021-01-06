@@ -270,6 +270,26 @@ namespace FOS.Web.UI.Controllers.API
                     var result = new CommonController().PushNotificationForRegistration(message, list, retailerObj.ID,type, data.ZoneID);
                 }
 
+                // Notification For KSB Management
+                var SOIdss = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 1).Select(x => x.ID).ToList();
+                List<string> list1 = new List<string>();
+                foreach (var item in SOIdss)
+                {
+                    var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                    if (id != null)
+                    {
+                        foreach (var items in id)
+                        {
+                            list1.Add(items);
+                        }
+                    }
+                }
+
+                if (list1 != null)
+                {
+                    var result = new CommonController().PushNotificationForRegistration(message, list1, retailerObj.ID, type, data.ZoneID);
+                }
+
                 // Notification Send to Wasa
 
                 var AreaID = Convert.ToInt32(data.AreaID);

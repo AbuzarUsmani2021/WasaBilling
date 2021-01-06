@@ -82,16 +82,12 @@
     </div>
     <div class="grid-item">
         <label>Project:</label>
-        <div class="controls" style="margin-left: 0px">
-            <select class="" data-val="true" data-val-number="The field ProjectId must be a number." data-val-required="The ProjectId field is required." id="ProjectId" name="ProjectId">
-                <option selected="selected" value="0">--Select Project--</option>
-                <option value="1">All</option>
-                <option value="9">Contract 1 (6115) North And South</option>
-                <option value="8">Contract 2 (6212)  South</option>
-                <option value="7">Contract 3 (6211)  North</option>
-            </select>
-            <input id="ProjectId" name="ProjectId" type="hidden" value="0">
-            <span class="field-validation-valid" data-valmsg-for="ProjectId" data-valmsg-replace="true"></span>
+        <div class="control-group">
+            <div class="controls">
+                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects, "ID", "Name"), new { @class = "" })
+                @Html.ValidationMessageFor(model => model.ProjectId)
+                @Html.HiddenFor(model => model.ProjectId)
+            </div>
         </div>
     </div>
     <div class="grid-item" style="margin-top: 28px;">
@@ -226,7 +222,7 @@
                                     <th style="text-align: center;">Date Time</th>
                                     <th style="text-align: center;">Fault Type/Fault Type Detail</th>
                                     <th style="text-align: center;">Complaint Status</th>
-                                    <th style="text-align: center;">Assigned FS</th>
+                                    @*<th style="text-align: center;">Assigned FS</th>*@
                                     <th style="text-align: center;">Progress Status</th>
                                     <th style="text-align: center;">Progress Remarks</th>
                                     <th style="text-align: center;">Actions</th>
@@ -241,25 +237,26 @@
     </div>
 </div>
 <div id="AddRemarks" class="modal fade" role="dialog" style="top:35%; -webkit-border-radius: 0px; left:35%; width:430px; display:none;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color: #1969b1;">
-                <button type="button" class="close" style="color:white;" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" style="font-weight: 900;color: white;"><strong>Add Remarks</strong></h4>
-            </div>
-            <div class="modal-body" style="padding: 12px 23px 40px;">
-                <div class="form-group">
-                    <div class="control-group">
-                        <label class="control-label">Remarks:*</label>
-                        <div class="controls">
-                            <div class="span12">
-                                <div class="span6">
-                                    <input class="text-box single-line" autocomplete="off" id="AddRemark" name="AddRemark" type="text" value="" placeholder="Enter Remarks:">
-                                </div>
-                                <div class="span6">
-                                    <div class="control-group text-center" style="margin-top: 4px; margin-left:42px;">
-                                        <button class="btn btn-primary"><i class="icon-ok icon-white"></i><span id="AddRemarksCreate"> Add</span></button>
-                                        <button type="button" id="ResetRemarks" class="btn btn-info"><i class="icon-ban-circle icon-white"></i><span></span>Reset</button>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #1969b1;">
+                    <button type="button" class="close" style="color:white;" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="font-weight: 900;color: white;"><strong>Add Remarks</strong></h4>
+                </div>
+                <div class="modal-body" style="padding: 12px 23px 40px;">
+                    <div class="form-group">
+                        <div class="control-group">
+                            <label class="control-label">Remarks:*</label>
+                            <div class="controls">
+                                <div class="span12">
+                                    <div class="span6">
+                                        <input class="text-box single-line" autocomplete="off" id="AddRemark" name="AddRemark" type="text" value="" placeholder="Enter Remarks:">
+                                    </div>
+                                    <div class="span6">
+                                        <div class="control-group text-center" style="margin-top: 4px; margin-left:42px;">
+                                            <button class="btn btn-primary"><i class="icon-ok icon-white"></i><span id="AddRemarksCreate"> Add</span></button>
+                                            <button type="button" id="ResetRemarks" class="btn btn-info"><i class="icon-ban-circle icon-white"></i><span></span>Reset</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -269,7 +266,6 @@
             </div>
         </div>
     </div>
-</div>
 <div id="ViewChildRecord" class="modal fade" role="dialog" style="top:7%; display:none; width: 828px; display:none;">
 
     <div class="modal-dialog">
@@ -735,7 +731,7 @@
                 "ajax":
                 {
                     "type": "POST",
-                    "url": '@Url.Action("HomeComplaintsDataHandler", "RetailerOrders")',
+                    "url": '@Url.Action("WasaDashboardDataHandler", "RetailerOrders")',
                     "contentType": 'application/json; charset=utf-8',
                     'data': function (data) {
                         data.StartingDate1 = $('#StartingDate1').val();
@@ -843,9 +839,9 @@
                         {
                             $("#ChildStatus").empty();
                             $.each(Response, function (i, item) {
-                                var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.AssignedFS + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; color:white;margin-bottom:5px; ' onclick='ChildEdit(" + item.ProgressID + ")' ><b>Edit</b></a>" + "</td>");
+                                //var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.AssignedFS + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; color:white;margin-bottom:5px; ' onclick='ChildEdit(" + item.ProgressID + ")' ><b>Edit</b></a>" + "</td>");
 
-                                //var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a>" + "</td>");
+                                var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a>" + "</td>");
                                     $("#ChildStatus").append(divHtml);
                                 });
 
@@ -939,9 +935,9 @@
                         "bSortable": false,
                         "mRender": function (data, type, row)
                         {
-                            //return '<button class="btn Detail" style="background-color: #1969b1; color:white; margin-bottom: 5px;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" >' + 'Detail' + '</button>';
+                           // return '<button class="btn Detail" style="background-color: #1969b1; color:white; margin-bottom: 5px;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" >' + 'Detail' + '</button>';
 
-                            return '<button class="btn Detail" style="background-color: #1969b1; color:white; margin-bottom: 5px;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" >' + 'Detail' + '</button>&nbsp;<button class="btn AddRemarks" style="background-color: #1969b1; color:white; margin-bottom: 5px;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#AddRemarks" >' + 'Add Remarks' + '</button>&nbsp;<button class="btn Update" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=UpdateComplaint(' + row.ID + ') >' + 'Update' + '</button>';
+                            return '<button class="btn Detail" style="background-color: #1969b1; color:white; margin-bottom: 5px;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" >' + 'Detail' + '</button>&nbsp;<button class="btn AddRemarks" style="background-color: #1969b1; color:white; margin-bottom: 5px;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#AddRemarks" >' + 'Add Remarks' + '</button>';
 
                         }
                     }

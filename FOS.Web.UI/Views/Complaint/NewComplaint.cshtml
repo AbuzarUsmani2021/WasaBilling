@@ -71,7 +71,7 @@
                                     <div class="control-group" style="margin-bottom: 10px">
                                         <label class="control-label">Select Project:*</label>
                                         <div class="controls" style="margin-left: 0px">
-                                            @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.SaleOfficers, "ID", "Name"), new { @class = "" })
+                                            @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects, "ID", "Name"), new { @class = "" })
                                             @Html.HiddenFor(model => model.ProjectId)
                                             @Html.ValidationMessageFor(model => model.ProjectId)
                                         </div>

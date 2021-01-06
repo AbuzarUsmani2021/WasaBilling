@@ -1362,6 +1362,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.Student' does not have a primary 
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="int" />
+          <Property Name="SOIDRelation" Type="int" />
         </EntityType>
         <EntityType Name="UsersRegionalHead">
           <Key>
@@ -6580,6 +6581,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Property Name="CreatedBy" Type="Int32" />
           <NavigationProperty Name="Roles" Relationship="FOS_WallCoatModel.UserRoles" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="RegionalHeads" Relationship="FOS_WallCoatModel.UsersRegionalHead" FromRole="User" ToRole="RegionalHead" />
+          <Property Name="SOIDRelation" Type="Int32" />
         </EntityType>
         <EntityType Name="VisitPlan">
           <Key>
@@ -11618,6 +11620,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="FOS_WallCoatModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="SOIDRelation" ColumnName="SOIDRelation" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />

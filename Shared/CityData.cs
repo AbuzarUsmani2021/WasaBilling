@@ -41,6 +41,7 @@ namespace FOS.Shared
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime LastUpdate { get; set; }
 
+        public string SiteName { get; set; }
         public List<Region> Regions { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }

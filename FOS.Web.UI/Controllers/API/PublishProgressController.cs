@@ -48,7 +48,7 @@ namespace FOS.Web.UI.Controllers.API
                 // Notification Send to KSB
                 string type = "Progress";
                 string message = "There is an Update in Complaint No" + job.TicketNo + " Kindly Visit it.";
-                var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 1 || x.RoleID == 2).Select(x => x.ID).ToList();
+                var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 2).Select(x => x.ID).ToList();
                 List<string> list = new List<string>();
                 foreach (var item in SOIds)
                 {
@@ -63,7 +63,27 @@ namespace FOS.Web.UI.Controllers.API
                 }
                 if (list != null)
                 {
-                    var result = new CommonController().PushNotification(message, list, obj.ID, type);
+                    var result = new CommonController().PushNotification(message, list, jobDetail.JobID, type);
+                }
+
+                // Notification For KSB Management
+
+                var SOIdss = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 1).Select(x => x.ID).ToList();
+                List<string> list1 = new List<string>();
+                foreach (var item in SOIdss)
+                {
+                    var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                    if (id != null)
+                    {
+                        foreach (var items in id)
+                        {
+                            list1.Add(items);
+                        }
+                    }
+                }
+                if (list1 != null)
+                {
+                    var result = new CommonController().PushNotification(message, list1, jobDetail.JobID, type);
                 }
 
 
@@ -86,7 +106,7 @@ namespace FOS.Web.UI.Controllers.API
                 }
                 if (list2 != null)
                 {
-                    var result2 = new CommonController().PushNotificationForWasa(message, list2, job.ID, type);
+                    var result2 = new CommonController().PushNotificationForWasa(message, list2, jobDetail.JobID, type);
                 }
                 
 

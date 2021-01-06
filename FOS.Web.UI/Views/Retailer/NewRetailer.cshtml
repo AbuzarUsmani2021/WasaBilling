@@ -42,7 +42,7 @@
                                     <div class="control-group" style="margin-bottom: 10px">
                                         <label class="control-label">Select Project:*</label>
                                         <div class="controls" style="margin-left: 0px">
-                                            @Html.DropDownListFor(model => model.SaleOfficerID, new SelectList(Model.SaleOfficers, "ID", "Name"), new { @class = "" })
+                                            @Html.DropDownListFor(model => model.SaleOfficerID, new SelectList(Model.Projects, "ID", "Name"), new { @class = "" })
                                         </div>
                                     </div>
                                     <div class="control-group" style="margin-bottom: 10px">
@@ -286,6 +286,7 @@
                 "contentType": 'application/json; charset=utf-8',
                 'data': function (data)
                 {
+                    data.ProjectId = $('#SaleOfficerID').val();
                     return data = JSON.stringify(data);
                 },
             },    
@@ -539,6 +540,7 @@
         });
         $("#SaleOfficerID").change(function () {
             LoadCities($(this).val());
+            GenerateDetailGrid();
         });
         $("#CityID").change(function () {
             LoadAreas($(this).val());
