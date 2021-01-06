@@ -435,7 +435,7 @@ namespace FOS.Web.UI.Controllers.API
                         }
                         if (lists != null)
                         {
-                            var result1 = new CommonController().PushNotification(messages, lists, obj.ID, type);
+                            var result1 = new CommonController().PushNotification(messages, lists, JobObj.ID, type);
                         }
 
 
@@ -480,7 +480,7 @@ namespace FOS.Web.UI.Controllers.API
                     }
                     if (list != null)
                     {
-                        var result = new CommonController().PushNotification(message, list, obj.ID, type);
+                        var result = new CommonController().PushNotification(message, list, JobObj.ID, type);
                     }
                 }
 

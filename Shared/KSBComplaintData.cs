@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace FOS.Shared
 {
-   public class KSBComplaintData
+    public class KSBComplaintData
     {
         public int ID { get; set; }
         public int? ClientId { get; set; }
         public int? SaleOfficerID { get; set; }
+        public string Token { get; set; }
+
         public string SaleOfficerName { get; set; }
         public string SiteCode { get; set; }
         public string SiteName { get; set; }
@@ -24,7 +26,7 @@ namespace FOS.Shared
         public DateTime? ResolvedAt { get; set; }
         public int? ReslovedHours { get; set; }
         public string TicketNo { get; set; }
-        public string FaultTypesDetailName{ get; set; }
+        public string FaultTypesDetailName { get; set; }
 
 
 
@@ -39,43 +41,68 @@ namespace FOS.Shared
         public string CItyName { get; set; }
         [DisplayName("Retailer Name *")]
         public string RetailerName { get; set; }
-   
+
         public string FaultTypeName { get; set; }
         public int? ComplaintTypeID { get; set; }
+        public int? UpdateComplaintTypeID { get; set; }
+
         public string PriorityName { get; set; }
 
         public string FaultTypeDetailOtherRemarks { get; set; }
-        public string  ProgressStatusOtherRemarks { get; set; }
+        public string UpdateFaultTypeDetailOtherRemarks { get; set; }
+        public string UpdateProgressStatusOtherRemarks { get; set; }
+
+        public string ProgressStatusOtherRemarks { get; set; }
         public Nullable<int> LaunchedByID { get; set; }
         public string LaunchedByName { get; set; }
+        public string Name { get; set; }
+
 
         public string DisableSiteID { get; set; }
 
         public Nullable<int> StatusID { get; set; }
+        public Nullable<int> UpdateStatusID { get; set; }
+
         public string StatusName { get; set; }
         public Nullable<int> RetailerID { get; set; }
         public int? SubDivisionID { get; set; }
+        public int UpdateComplaintID { get; set; }
+        public int? UpdateTime { get; set; }
+
 
         public string SubDivisionName { get; set; }
         public int AreaID { get; set; }
         public int SiteId { get; set; }
         public int? FaulttypeId { get; set; }
-       
+        public int? UpdateFaulttypeId { get; set; }
+        public int? SalesOficerID { get; set; }
+        public int? UpdateSalesOficerID { get; set; }
+
         public int? PriorityId { get; set; }
-       
+        public int? UpdatePriorityId { get; set; }
+
+
         public int? ProgressStatusId { get; set; }
+        public int? UpdateProgressStatusId { get; set; }
+
         public string ProgressStatusName { get; set; }
         public int? FaulttypeDetailId { get; set; }
-       
+        public int? UpdateFaulttypeDetailId { get; set; }
+
+
         public string Picture1 { get; set; }
         public string Picture2 { get; set; }
+        public string UpdatePicture1 { get; set; }
+        public string UpdatePicture2 { get; set; }
         public string Picture3 { get; set; }
         public string Picture4 { get; set; }
 
         public string Picture5 { get; set; }
-        public string Name { get; set; }
+        public string UpdatePerson { get; set; }
 
         public string Remarks { get; set; }
+        public string UpdateProgressRemarks { get; set; }
+
 
         public List<CityData> Cities { get; set; }
         public List<RegionData> Regions { get; set; }
@@ -83,9 +110,13 @@ namespace FOS.Shared
         public List<RegionData> Client { get; set; }
         public List<FaultTypeData> faultTypes { get; set; }
         public List<PriorityData> priorityDatas { get; set; }
+        public List<SaleOfficerData> FieldOfficers { get; set; }
+
         public List<ComplaintStatus> complaintStatuses { get; set; }
         public List<ComplaintStatus> ProgressStatus { get; set; }
         public List<ComplaintStatus> ComplaintTypes { get; set; }
+
+        public List<ComplaintStatus> Projects { get; set; }
         public List<FaultTypeData> faultTypesDetail { get; set; }
         public List<ComplaintLaunchedBy> LaunchedBy { get; set; }
         public List<SubDivisionData> SubDivisions { get; set; }

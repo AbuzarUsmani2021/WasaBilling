@@ -84,6 +84,38 @@ namespace FOS.Setup
 
             return so;
         }
+
+        public static List<SaleOfficerData> GetFieldOfficersList()
+        {
+            List<SaleOfficerData> city = new List<SaleOfficerData>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    city = dbContext.SaleOfficers.Where(x => x.RoleID == 3)
+                            .Select
+                            (
+                                u => new SaleOfficerData
+                                {
+                                    ID = u.ID,
+                                    Name = u.Name,
+
+                                }).OrderBy(x => x.Name).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            city.Insert(0, new SaleOfficerData
+            {
+                ID = 0,
+                Name = "--Select Field Officer--"
+            });
+
+            return city;
+        }
         // Get All Region Method ...
         public static List<CityData> GetCityList()
         {
@@ -362,6 +394,72 @@ namespace FOS.Setup
             return city;
         }
 
+
+        public static List<ComplaintStatus> GetProjectsList()
+        {
+            List<ComplaintStatus> city = new List<ComplaintStatus>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    city = dbContext.Zones
+                            .Select
+                            (
+                                u => new ComplaintStatus
+                                {
+                                    ID = u.ID,
+                                    Name = u.Name,
+
+                                }).OrderBy(x => x.Name).ToList();
+                }
+                city.Insert(0, new ComplaintStatus
+                {
+                    ID = 0,
+                    Name = "All"
+                });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return city;
+        }
+
+
+        public static List<ComplaintStatus> GetProjectsListForUsers(List<int?> list)
+        {
+            List<ComplaintStatus> city = new List<ComplaintStatus>();
+            ComplaintStatus comlist;
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+
+                    foreach (var item in list)
+                    {
+                        comlist = new ComplaintStatus();
+                        comlist.ID = item;
+                        comlist.Name = dbContext.Zones.Where(x => x.ID == item).Select(x => x.Name).FirstOrDefault();
+                        city.Add(comlist);
+                    }
+                  
+                }
+                city.Insert(0, new ComplaintStatus
+                {
+                    ID = 0,
+                    Name = "All"
+                });
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return city;
+        }
 
         public static List<CityData> GetCityListCombo()
         {

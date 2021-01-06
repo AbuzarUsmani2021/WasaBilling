@@ -30,7 +30,7 @@ namespace FOS.Web.UI.Controllers
 {
     public class RetailerController : Controller
     {
-
+        private FOSDataModel db = new FOSDataModel();
         #region Retailer 
 
         [CustomAuthorize]
@@ -67,7 +67,7 @@ namespace FOS.Web.UI.Controllers
             try
             {
                 var dtsource = new List<RetailerData>();
-                dtsource = ManageRetailer.AllSitesData();
+                dtsource = ManageRetailer.AllSitesData(param.ProjectId);
                 List<String> columnSearch = new List<string>();
                 foreach (var col in param.Columns)
                 {
@@ -104,6 +104,7 @@ namespace FOS.Web.UI.Controllers
             {
                 regId = FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser();
             }
+         
 
             List<SaleOfficerData> SaleOfficerObj = ManageSaleOffice.GetSaleOfficerListByRegionalHeadID(regId);
             var objSaleOff = SaleOfficerObj.FirstOrDefault();
@@ -113,7 +114,27 @@ namespace FOS.Web.UI.Controllers
             FOSDataModel dbContext = new FOSDataModel();
             var objRetailer = new RetailerData();
             objRetailer.Client = regionalHeadData;
-            objRetailer.SaleOfficers = ManageSaleOffice.GetSaleOfficerListByRegionalHeadID();
+            var userID = Convert.ToInt32(Session["UserID"]);
+
+            if (userID == 1025)
+            {
+                objRetailer.Projects = FOS.Setup.ManageCity.GetProjectsList();
+            }
+            else if(userID==1026|| userID == 1027)
+            {
+                var soid = db.Users.Where(x => x.ID == userID).Select(x => x.SOIDRelation).FirstOrDefault();
+
+                var list = db.SOProjects.Where(x => x.SaleOfficerID == soid).Select(x => x.ProjectID).Distinct().ToList();
+
+                var Projectlist = FOS.Setup.ManageCity.GetProjectsListForUsers(list);
+                objRetailer.Projects = Projectlist;
+            }
+            else
+            {
+                objRetailer.Projects = FOS.Setup.ManageCity.GetProjectsList();
+            }
+
+           // objRetailer.SaleOfficers = ManageSaleOffice.GetSaleOfficerListByRegionalHeadID();
             objRetailer.Dealers = DealerObj;
             objRetailer.Cities = FOS.Setup.ManageCity.GetCityList();
             objRetailer.Areas = FOS.Setup.ManageArea.GetAreaList();

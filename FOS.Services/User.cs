@@ -33,6 +33,7 @@ namespace FOS.DataLayer
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
         public Nullable<int> CreatedBy { get; set; }
+        public Nullable<int> SOIDRelation { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Role> Roles { get; set; }

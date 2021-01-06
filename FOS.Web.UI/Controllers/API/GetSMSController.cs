@@ -33,7 +33,8 @@ namespace FOS.Web.UI.Controllers.API
                                 d.LaunchAt,
                                 d.ComplaintID,
                                 d.SOID,
-                                d.SaleOfficerName
+                                d.SaleOfficerName,
+                                d.SiteName
                             }).OrderByDescending(d => d.ID)
                         });
                     }

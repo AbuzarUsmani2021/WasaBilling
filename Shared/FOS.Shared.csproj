@@ -92,6 +92,7 @@
     <Compile Include="BeatPlanData.cs" />
     <Compile Include="CategoryData.cs" />
     <Compile Include="ComplaintLaunchedBy.cs" />
+    <Compile Include="ComplaintProgress.cs" />
     <Compile Include="ComplaintStatus.cs" />
     <Compile Include="DealerCityData.cs" />
     <Compile Include="DropdownData.cs" />

@@ -46,7 +46,25 @@ namespace FOS.Web.UI.Controllers
 
             var objRetailer = new KSBComplaintData();
             objRetailer.Client = regionalHeadData;
-            objRetailer.SaleOfficers = SaleOfficerObj;
+            var userID = Convert.ToInt32(Session["UserID"]);
+
+            if (userID == 1025)
+            {
+                objRetailer.Projects = FOS.Setup.ManageCity.GetProjectsList();
+            }
+            else if (userID == 1026 || userID == 1027)
+            {
+                var soid = db.Users.Where(x => x.ID == userID).Select(x => x.SOIDRelation).FirstOrDefault();
+
+                var list = db.SOProjects.Where(x => x.SaleOfficerID == soid).Select(x => x.ProjectID).Distinct().ToList();
+
+                var Projectlist = FOS.Setup.ManageCity.GetProjectsListForUsers(list);
+                objRetailer.Projects = Projectlist;
+            }
+            else
+            {
+                objRetailer.Projects = FOS.Setup.ManageCity.GetProjectsList();
+            }
             objRetailer.Cities = FOS.Setup.ManageCity.GetCityList();
             objRetailer.priorityDatas = FOS.Setup.ManageCity.GetPrioritiesList();
             objRetailer.faultTypes = FOS.Setup.ManageCity.GetFaultTypesList();
@@ -265,14 +283,89 @@ namespace FOS.Web.UI.Controllers
             return Json(result);
         }
 
-      
+        public JsonResult GetUpdateComplaint(int ComplaintID)
+        {
+            var Response = ManageJobs.GetUpdateComplaint(ComplaintID);
+            return Json(Response, JsonRequestBehavior.AllowGet);
+        }
 
 
         public JsonResult GetSiteId(int ClientID)
-        {
+        {   
             var result = FOS.Setup.ManageCity.GetSiteIDList(ClientID);
 
             return Json(result);
+        }
+
+        public JsonResult GetComplaintProgressData(DTParameters param, int ComplaintId)
+        {
+            var dtsource = new List<ComplaintProgress>();
+            dtsource = ManageJobs.GetComplaintProgressData(ComplaintId);
+            foreach (var itm in dtsource)
+            {
+                if (itm.FaultTypeDetailID == 3030 || itm.FaultTypeDetailID == 3042 || itm.FaultTypeDetailID == 3049)
+                {
+                    itm.FaultTypeDetailName = db.JobsDetails.Where(x => x.JobID == itm.ComplaintID).Select(x => x.PRemarks).FirstOrDefault();
+                }
+                else if (itm.FaultTypeDetailID == null && itm.FaultTypeID == null)
+                {
+                    itm.FaultTypeID = db.Jobs.Where(x => x.ID == itm.ComplaintID).Select(x => x.FaultTypeId).FirstOrDefault();
+                    itm.FaultTypeName = db.FaultTypes.Where(x => x.Id == itm.FaultTypeID).Select(x => x.Name).FirstOrDefault();
+                    itm.FaultTypeDetailID = db.Jobs.Where(x => x.ID == itm.ComplaintID).Select(x => x.FaultTypeDetailID).FirstOrDefault();
+                    itm.FaultTypeDetailName = db.FaultTypeDetails.Where(x => x.ID == itm.FaultTypeDetailID).Select(x => x.Name).FirstOrDefault();
+                }
+                if (itm.ComplaintStatus == "Resolved")
+                {
+                    itm.ProgressStatusName = db.WorkDones.Where(x => x.ID == itm.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+                }
+                else if (itm.ComplaintStatus == null)
+                {
+                    itm.ComplaintStatus = "New Complaint";
+                }
+                else
+                {
+                    itm.ProgressStatusName = db.ProgressStatus.Where(x => x.ID == itm.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+                }
+                if (itm.ProgressStatusName == "Others")
+                {
+                    itm.ProgressStatusName = db.JobsDetails.Where(x => x.JobID == itm.ComplaintID).Select(x => x.PRemarks).FirstOrDefault();
+                }
+            }
+            return Json(dtsource);
+
+        }
+
+        public JsonResult GetProgressIDData(int ProgressID)
+        {
+            var Response = ManageJobs.GetProgressIDData(ProgressID);
+            if (Response.FaultTypeDetailID == 3030 || Response.FaultTypeDetailID == 3042 || Response.FaultTypeDetailID == 3049)
+            {
+                Response.FaultTypeDetailName = db.JobsDetails.Where(x => x.JobID == Response.ComplaintID).Select(x => x.PRemarks).FirstOrDefault();
+            }
+            else if (Response.FaultTypeDetailID == null && Response.FaultTypeID == null)
+            {
+                Response.FaultTypeID = db.Jobs.Where(x => x.ID == Response.ComplaintID).Select(x => x.FaultTypeId).FirstOrDefault();
+                Response.FaultTypeName = db.FaultTypes.Where(x => x.Id == Response.FaultTypeID).Select(x => x.Name).FirstOrDefault();
+                Response.FaultTypeDetailID = db.Jobs.Where(x => x.ID == Response.ComplaintID).Select(x => x.FaultTypeDetailID).FirstOrDefault();
+                Response.FaultTypeDetailName = db.FaultTypeDetails.Where(x => x.ID == Response.FaultTypeDetailID).Select(x => x.Name).FirstOrDefault();
+            }
+            if (Response.ComplaintStatus == "Resolved")
+            {
+                Response.ProgressStatusName = db.WorkDones.Where(x => x.ID == Response.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+            }
+            else if (Response.ComplaintStatus == null)
+            {
+                Response.ComplaintStatus = "New Complaint";
+            }
+            else
+            {
+                Response.ProgressStatusName = db.ProgressStatus.Where(x => x.ID == Response.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+            }
+            if (Response.ProgressStatusName == "Others")
+            {
+                Response.ProgressStatusName = db.JobsDetails.Where(x => x.JobID == Response.ComplaintID).Select(x => x.PRemarks).FirstOrDefault();
+            }
+            return Json(Response, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetComplaintDetail(int ComplaintId)
