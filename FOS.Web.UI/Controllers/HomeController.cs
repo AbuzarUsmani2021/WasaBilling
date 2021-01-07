@@ -172,6 +172,15 @@ namespace FOS.Web.UI.Controllers
             return Json(result);
         }
 
+        public JsonResult GetActualComplaintDetail(int ComplaintId)
+        {
+            var Response = ManageRetailer.GetActualComplaintDetail(ComplaintId);
+            if (Response.FaulttypeDetailId == 3030 || Response.FaulttypeDetailId == 3042 || Response.FaulttypeDetailId == 3049)
+            {
+                Response.FaultTypeDetailOtherRemarks = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).FirstOrDefault().PRemarks;
+            }
+            return Json(Response, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult SaveClientRemarks(ClientRemark model)
         {
             ClientRemark CR = new ClientRemark();

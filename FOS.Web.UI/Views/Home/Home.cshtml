@@ -141,10 +141,65 @@
             <div class="modal-body">
                 <div class="form-group">
                     <div class="span12">
+                        <div class="span6" style="border-style: solid; padding: 10px;margin-bottom: 10px;">
+                            <div class="span12">
+                                <h4 class="modal-title text-center" style="font-weight: 900;color: black; padding-bottom: 0px;"><strong>Actual Complaint</strong></h4>
+                                <hr />
+                            </div>
+                            <div class="span12">
+
+                                <div class="span5" style="margin-left:0px;"><label>Site Code:</label></div>
+                                <div class="span7" id="ActualSiteCode" style="margin-left:0px;"></div>
+
+                                <div class="span5" style="margin-left:0px;"><label>Site Name:</label></div>
+                                <div class="span7" id="ActualSiteName" style="margin-left:0px;"></div>
+
+                                <div class="span5" style="margin-left:0px;"><label>Complaint No:</label></div>
+                                <div class="span7" id="ActualComplaintNo" style="margin-left:0px;"></div>
+
+                                <div class="span5" style="margin-left:0px;"><label>Launch Time:</label></div>
+                                <div class="span7" id="ActualLaunchTime" style="margin-left:0px;"></div>
+
+                                <div class="span5" style="margin-left:0px;"><label>Launch By:</label></div>
+                                <div class="span7" id="ActualLaunchBy" style="margin-left:0px;"></div>
 
 
-                        <div class="span7" style="border-style: solid; padding: 10px;margin-bottom: 10px;">
-                            <div class="span8">
+
+                                <div class="span5" style="margin-left:0px;"><label>Fault Type:</label></div>
+                                <div class="span7" id="ActualFaultType" style="margin-left:0px;"></div>
+
+                                <div class="span5" style="margin-left:0px;"><label>Fault Type Detail:</label></div>
+                                <div class="span7" id="ActualFaultTypeDetail" style="margin-left:0px;"></div>
+
+                                <div class="span5" style="margin-left:0px;"><label>Complaint Status:</label></div>
+                                <div class="span7" id="ActualComplaintStatus" style="margin-left:0px;"></div>
+
+                                <div class="span5" style="margin-left:0px;"><label>Initial Remarks:</label></div>
+                                <div class="span7" id="ActualInitialRemarks" style="margin-left:0px;"></div>
+
+
+
+
+                            </div>
+                            <div class="span12">
+                                <div class="span6" style="margin-left:0px; margin-bottom:0px; border-style: solid;">
+                                    <img src="~/Images/no-image-available.png.jpg" style="width:221px; height:215px;" id="ActualPicture1" />
+                                </div>
+                                <div class="span6" style="margin-left:6px; border-style: solid;">
+                                    <img src="~/Images/no-image-available.png.jpg" style="width:221px; height:215px;" id="ActualPicture2" />
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                        <div class="span6" style="border-style: solid; padding: 10px;margin-bottom: 10px;">
+                            <div class="span12">
+                                <h4 class="modal-title text-center" style="font-weight: 900;color: black; padding-bottom: 0px;"><strong>Complaint's Current Status</strong></h4>
+                                <hr />
+                            </div>
+                            <div class="span12">
 
                                 <div class="span5" style="margin-left:0px;"><label>Site Code:</label></div>
                                 <div class="span7" id="SiteCode" style="margin-left:0px;"></div>
@@ -194,30 +249,30 @@
 
 
                             </div>
-                            <div class="span4">
-                                <div class="span12" style="margin-left:0px; margin-bottom:25px; border-style: solid;">
-                                    <img src="~/Images/no-image-available.png.jpg" style="width:169px; height:190px;" id="Picture1" />
-                                </div>
-                                <div class="span12" style="margin-left:0px; border-style: solid;">
-                                    <img src="~/Images/no-image-available.png.jpg" style="width:169px; height:190px;" id="Picture2" />
-                                </div>
-
-
-
-
-                            </div>
-                        </div>
-
-                        <div class="span5" style="border-style: solid; padding: 10px;">
                             <div class="span12">
-                                <h4 class="modal-title text-center" style="font-weight: 900;color: black; padding-bottom: 0px;"><strong>Client Remarks</strong></h4>
-                                <hr />
-                            </div>
-                            <div class="span12" id="RemarksData" style="margin-left: 1px;">
-                            </div>
+                                <div class="span6" style="margin-left:0px; margin-bottom:0px; border-style: solid;">
+                                    <img src="~/Images/no-image-available.png.jpg" style="width:221px; height:215px;" id="Picture1" />
+                                </div>
+                                <div class="span6" style="margin-left:6px; border-style: solid;">
+                                    <img src="~/Images/no-image-available.png.jpg" style="width:221px; height:215px;" id="Picture2" />
+                                </div>
 
 
+
+
+                            </div>
                         </div>
+
+                        @*<div class="span6" style="border-style: solid; padding: 10px;">
+                                <div class="span12">
+                                    <h4 class="modal-title text-center" style="font-weight: 900;color: black; padding-bottom: 0px;"><strong>Client Remarks</strong></h4>
+                                    <hr />
+                                </div>
+                                <div class="span12" id="RemarksData" style="margin-left: 1px;">
+                                </div>
+
+
+                            </div>*@
                     </div>
                     <div class="span12" style=" margin-left: 0px; border-style: solid;margin-bottom: 20px;">
                         <table class="table table-striped table-hover table-bordered">
@@ -765,6 +820,46 @@
 
                 $(".Detail").on("click", function () {
                     var RetailerID = $(this).attr("data-id");
+                    var ComplaintID = ($(this).attr("data-id"));
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("GetActualComplaintDetail", "Home")",
+                        data: { ComplaintId: RetailerID },
+                        success: function (Response)
+                       {
+                            $("#myModal").css("display", "block");
+                            $("#ActualSiteCode").html(Response.SiteCode);
+                            $("#ActualSiteName").html(Response.SiteName);
+                            $("#ActualComplaintNo").html(Response.TicketNo);
+                            $("#ActualLaunchTime").html(Response.CreatedDate);
+                            $("#ActualLaunchBy").html(Response.LaunchedByName);
+                            $("#ActualComplaintType").html(Response.ComplaintType);
+                            $("#ActualFaultType").html(Response.FaultTypeName);
+                            $("#ActualFaultTypeDetail").html(Response.FaultTypesDetailName);
+                            $("#ActualName").html(Response.Name);
+                            $("#ActualInitialRemarks").html(Response.Remarks);
+                            $("#ActualComplaintStatus").html(Response.StatusName);
+                            $("#ActualProgressStatusName").html(Response.ProgressStatusName);
+                            $("#ActualLastUpdated").html(Response.LastUpdated);
+                            $("#ActualProgressStatusOtherRemarks").html(Response.ProgressStatusOtherRemarks);
+                            if (Response.Picture1 != "")
+                            {
+                                $("#ActualPicture1").attr('src',Response.Picture1);
+                            }
+                            else
+                            {
+                                $("#ActualPicture1").attr('src',"/Images/no-image-available.png.jpg");
+                            }
+                            if (Response.Picture2 != "")
+                            {
+                                $("#ActualPicture2").attr('src',Response.Picture2);
+                             }
+                            else
+                            {
+                                $("#ActualPicture2").attr('src', "/Images/no-image-available.png.jpg");
+                            }
+            }
+                    });
                     $.ajax({
                         type: "GET",
                         url: "@Url.Action("GetComplaintDetail", "Complaint")",
@@ -804,11 +899,6 @@
                             }
             }
                     });
-                    $('html, body').animate({
-                        scrollTop: $("#main-content").offset().top
-                    }, 500);
-
-                    var ComplaintID = ($(this).attr("data-id"));
                     $.ajax({
                         type: "POST",
                         data: { ComplaintId: ComplaintID },
@@ -833,7 +923,6 @@
                         }
 
                     });
-
                     $.ajax({
                         type: "POST",
                         data: { ComplaintId: ComplaintID },
@@ -852,13 +941,9 @@
                         }
 
                     });
-
-
-
-
-
-
-
+                    $('html, body').animate({
+                        scrollTop: $("#main-content").offset().top
+                    }, 500);
                 });
             }
 
@@ -900,14 +985,14 @@
                 "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                     //$("td:first", nRow).html(iDisplayIndex + 1);
                     if (aData["StatusID"] == "3") {
-                        $(nRow).find('td:eq(8)').css('background-color', '#A0B978');
-                        $(nRow).find('td:eq(8)').css('color', 'white');
+                        $(nRow).find('td:eq(9)').css('background-color', '#A0B978');
+                        $(nRow).find('td:eq(9)').css('color', 'white');
 
                         // $('td', nRow).css('background-color', 'Green');
                     }
                     if (aData["StatusID"] == "4") {
-                        $(nRow).find('td:eq(8)').css('background-color', '#F0E801');
-                        $(nRow).find('td:eq(8)').css('color', 'black');
+                        $(nRow).find('td:eq(9)').css('background-color', '#F0E801');
+                        $(nRow).find('td:eq(9)').css('color', 'black');
 
                     }
                     if (aData["ComplaintTypeName"] == "Major") {
