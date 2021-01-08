@@ -24,6 +24,7 @@ namespace FOS.Web.UI.Controllers.API
             ChatBox retailerObj = new ChatBox();
             try
             {
+                var job = db.Jobs.Where(x => x.ID == rm.ComplaintID).FirstOrDefault();
                
 
                 retailerObj.ComplaintID = rm.ComplaintID;
@@ -36,25 +37,50 @@ namespace FOS.Web.UI.Controllers.API
                  
                 db.SaveChanges();
                 string type = "SMS";
-                string message = "There is a new message in Complaint No  " + rm.ComplaintID + " Kindly Visit it ";
-                var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5).Select(x => x.ID).ToList();
-                List<string> list = new List<string>();
-               
-                foreach (var item in SOIds)
+                string message = "There is a new message in Complaint No  " + job.TicketNo + " Kindly Visit it ";
+
+                if (job.ZoneID != 9)
                 {
-                    var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
-                    if (id != null)
+
+                    var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID ==2).Select(x => x.ID).ToList();
+                    List<string> list = new List<string>();
+
+                    foreach (var item in SOIds)
                     {
-                        foreach (var items in id)
+                        var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                        if (id != null)
                         {
-                            list.Add(items);
+                            foreach (var items in id)
+                            {
+                                list.Add(items);
+                            }
+                        }
+                    }
+
+                    var result = new CommonController().PushNotification(message, list, rm.ComplaintID, type);
+
+                }
+                else
+                {
+                    // Notification For Progressive Management
+                    var SOIdss = db.SaleOfficers.Where(x => x.RegionalHeadID == 6 && x.RoleID == 2).Select(x => x.ID).ToList();
+                    List<string> list1 = new List<string>();
+                    foreach (var item in SOIdss)
+                    {
+                        var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                        if (id != null)
+                        {
+                            foreach (var items in id)
+                            {
+                                list1.Add(items);
+                            }
+                        }
+                        if (list1 != null)
+                        {
+                            var result = new CommonController().PushNotification(message, list1, rm.ComplaintID, type);
                         }
                     }
                 }
-
-                var result = new CommonController().PushNotification(message, list, rm.ComplaintID,type);
-
-
 
                 return new Result<SuccessResponse>
                     {
