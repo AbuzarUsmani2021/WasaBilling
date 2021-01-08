@@ -257,7 +257,7 @@ namespace FOS.Web.UI.Controllers.API
                     foreach (var item in SOIds)
                     {
                         var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
-                        if (id != null)
+                        if (id .Count > 0)
                         {
                             foreach (var items in id)
                             {
@@ -277,7 +277,7 @@ namespace FOS.Web.UI.Controllers.API
                     foreach (var item in SOIdss)
                     {
                         var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
-                        if (id != null)
+                        if (id.Count > 0)
                         {
                             foreach (var items in id)
                             {
@@ -300,7 +300,7 @@ namespace FOS.Web.UI.Controllers.API
                     foreach (var item in IdsforWasa)
                     {
                         var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
-                        if (id != null)
+                        if (id.Count > 0)
                         {
                             foreach (var items in id)
                             {
@@ -321,7 +321,7 @@ namespace FOS.Web.UI.Controllers.API
                     foreach (var item in SOIdss)
                     {
                         var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
-                        if (id != null)
+                        if (id.Count > 0)
                         {
                             foreach (var items in id)
                             {
@@ -342,7 +342,7 @@ namespace FOS.Web.UI.Controllers.API
                     foreach (var item in IdsforWasa)
                     {
                         var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
-                        if (id != null)
+                        if (id.Count > 0)
                         {
                             foreach (var items in id)
                             {
