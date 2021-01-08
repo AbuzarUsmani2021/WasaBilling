@@ -47,6 +47,30 @@ namespace FOS.Setup
 
             return regionalHeadData;
         }
+        public static List<SaleOfficerData> SaleOfficersNames()
+        {
+            List<SaleOfficerData> SO = new List<SaleOfficerData>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    SO = dbContext.SaleOfficers.Where(u => u.IsDeleted == false)
+                            .ToList().Select(
+                                u => new SaleOfficerData
+                                {
+                                    ID = u.ID,
+                                   UserName=u.UserName
+                                }).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return SO;
+        }
 
         public static List<CityData> GetCities()
         {

@@ -32,7 +32,8 @@ namespace FOS.AdminPanel
                             UserObj.UserName = obj.UserName;
                             UserObj.Password = obj.Password;
                             UserObj.EmailID = obj.EmailID;
-                            UserObj.PhoneNo = obj.PhoneNo;
+                        UserObj.SOIDRelation = obj.FSID;
+                        UserObj.PhoneNo = obj.PhoneNo;
                             UserObj.Address = obj.Address;
                             UserObj.DOB = obj.DOB;
                             UserObj.IsActive = obj.IsActive;
@@ -54,6 +55,7 @@ namespace FOS.AdminPanel
                             UserObj.UserName = obj.UserName;
                             UserObj.Password = obj.Password;
                             UserObj.EmailID = obj.EmailID;
+                            UserObj.SOIDRelation = obj.FSID;
                             UserObj.PhoneNo = obj.PhoneNo;
                             UserObj.Address = obj.Address;
                             UserObj.DOB = obj.DOB;

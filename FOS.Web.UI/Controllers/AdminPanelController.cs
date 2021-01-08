@@ -119,7 +119,10 @@ namespace FOS.Web.UI.Controllers
         [CustomAuthorize]
         public ActionResult Users()
         {
-            var objUser = new UserData();
+            var objUser = new UserData(); 
+            objUser.RegionalHead = FOS.Setup.ManageRegionalHead.GetRegionalHeadList();
+            objUser.RegionalHeadTypeData = FOS.Setup.ManageRegion.GetRegionalHeadsType();
+            objUser.FieldOfficers = FOS.Setup.ManageRegionalHead.SaleOfficersNames();
             objUser.Roles = new List<Shared.Role>();
             objUser.Roles = FOS.AdminPanel.ManageUserRoles.GetRolesList(); ;
 
@@ -158,6 +161,12 @@ namespace FOS.Web.UI.Controllers
             }
         }
 
+
+        public JsonResult GetFS(int RegionalHeadType)
+        {
+            var result = FOS.Setup.ManageSaleOffice.GetFS(RegionalHeadType);
+            return Json(result);
+        }
         //Get All Users...
         public JsonResult UserDataHandler(DTParameters param)
         {

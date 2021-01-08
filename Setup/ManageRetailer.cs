@@ -24,6 +24,35 @@ namespace FOS.Setup
 
         //Site Start
         //table start
+
+        public static KSBComplaintData GetActualComplaintDetail(int ComplaintId)
+        {
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    return dbContext.Tbl_ComplaintHistory.Where(u => u.JobID == ComplaintId && u.ComplaintStatusId == 2003).Select(u => new KSBComplaintData
+                    {
+                        ID = u.ID,
+                        SiteCode = dbContext.Retailers.Where(p => p.ID == u.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
+                        SiteName = dbContext.Retailers.Where(p => p.ID == u.SiteID).Select(p => p.Name).FirstOrDefault(),
+                        TicketNo = u.TicketNo,
+                        CreatedDate = u.CreatedDate.ToString(),
+                        LaunchedByName = dbContext.SaleOfficers.Where(p => p.ID == u.LaunchedById).Select(p => p.Name).FirstOrDefault(),
+                        FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == u.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                        FaultTypesDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == u.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                        StatusName = dbContext.ComplaintStatus.Where(p => p.Id == u.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                        Remarks = u.InitialRemarks,
+                        Picture1 = dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.Picture1).FirstOrDefault(),
+                        Picture2 = dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.Picture2).FirstOrDefault(),
+                    }).First();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public static List<RetailerData> AllSitesData(int ProjectId)
         {
             List<RetailerData> SitesData = new List<RetailerData>();
