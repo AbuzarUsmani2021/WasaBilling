@@ -36,7 +36,7 @@ namespace FOS.Web.UI.Controllers.API
                     // JobObj.InitialRemarks = obj.Remarks;
                     JobObj.FaultTypeDetailID = obj.FaulttypeDetailId;
            
-                    if (JobObj.ComplaintStatusId == 3)
+                    if (obj.StatusID == 3)
                     {
                         JobObj.ResolvedAt = DateTime.UtcNow.AddHours(5);
                     }
