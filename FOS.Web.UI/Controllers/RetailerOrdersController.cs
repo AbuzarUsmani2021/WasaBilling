@@ -2369,8 +2369,6 @@ namespace FOS.Web.UI.Controllers
         }
 
 
-
-
         public JsonResult WasaDashboardDataHandler(DTParameters param)
         {
             try
