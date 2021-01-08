@@ -1956,7 +1956,7 @@ namespace FOS.Setup
                         {
                             var FromDate = DateTime.Today;
                             doneJobData = (from job in dbContext.Jobs
-                                           where job.CreatedDate >= FromDate && (job.ZoneID == 8 || job.ZoneID == 9 || job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4)
+                                           where ((job.ZoneID == 8 || job.ZoneID == 9) && job.CreatedDate >= FromDate) || ((job.ZoneID == 8 || job.ZoneID == 9)  && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
                                            select new JobsDetailData
                                            {
                                                ID = job.ID,
@@ -2086,7 +2086,7 @@ namespace FOS.Setup
                             var FromDate = DateTime.Today;
 
                             doneJobData = (from job in dbContext.Jobs
-                                           where (job.CreatedDate >= FromDate && (job.ZoneID == 7 || job.ZoneID == 9)) || (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4)
+                                           where ((job.ZoneID == 7 || job.ZoneID == 9) && job.CreatedDate >= FromDate) || ((job.ZoneID == 7 || job.ZoneID == 9) && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
                                            select new JobsDetailData
                                            {
                                                ID = job.ID,
