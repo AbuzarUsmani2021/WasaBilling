@@ -35,7 +35,7 @@ namespace FOS.Web.UI.Controllers.API
                     JobObj.ResolvedHours = obj.ResolvedHour;
                     // JobObj.InitialRemarks = obj.Remarks;
                     JobObj.FaultTypeDetailID = obj.FaulttypeDetailId;
-           
+
                     if (obj.StatusID == 3)
                     {
                         JobObj.ResolvedAt = DateTime.UtcNow.AddHours(5);
@@ -148,7 +148,7 @@ namespace FOS.Web.UI.Controllers.API
                         {
                             notify.IsFaulttypeIDChanged = true;
                         }
-                       
+
                         notify.IsSiteCodeChanged = false;
                         if (data.FaultTypeDetailID == history.FaultTypeDetailID)
                         {
@@ -183,7 +183,7 @@ namespace FOS.Web.UI.Controllers.API
                             notify.IsPersonNameChanged = true;
                         }
 
-                       
+
                         notify.IsPicture1Changed = false;
                         notify.IsPicture2Changed = false;
                         notify.IsPicture3Changed = false;
@@ -230,7 +230,7 @@ namespace FOS.Web.UI.Controllers.API
                         {
                             notify.IsUpdateRemarksChanged = true;
                         }
-                        
+
                         notify.CreatedDate = DateTime.UtcNow.AddHours(5);
                         db.ComplaintNotifications.Add(notify);
                         var UID = int.Parse(JobObj.Areas);
@@ -386,7 +386,7 @@ namespace FOS.Web.UI.Controllers.API
                     db.SaveChanges();
 
 
-                   
+
 
                 }
                 catch (Exception ex)
@@ -403,24 +403,137 @@ namespace FOS.Web.UI.Controllers.API
                 }
 
                 if (obj.AssignedToID != 0)
-                { 
+                {
 
-                string message = "Complaint Is Assigned and Complaint No is "+JobObj.TicketNo;
+                    string message = "Complaint Is Assigned and Complaint No is " + JobObj.TicketNo;
                     string type = "Progress";
                     List<string> list = new List<string>();
-                    var SOIDS = db.OneSignalUsers.Where(x => x.UserID == obj.AssignedToID).Select(x => x.OneSidnalUserID).ToList();
-                    foreach (var item in SOIDS)
-                    {
-                        list.Add(item);
 
+                    if (JobObj.ZoneID != 9)
+                    {
+                        var SOIDS = db.OneSignalUsers.Where(x => x.UserID == obj.AssignedToID).Select(x => x.OneSidnalUserID).ToList();
+                        foreach (var item in SOIDS)
+                        {
+                            list.Add(item);
+
+                        }
+
+                        if (list != null)
+                        {
+                            var result = new CommonController().PushNotification(message, list, obj.ID, type);
+
+                            string messages = "There is an Update in Complaint No" + JobObj.TicketNo + " Kindly Visit it.";
+                            var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 1).Select(x => x.ID).ToList();
+                            List<string> lists = new List<string>();
+                            foreach (var item in SOIds)
+                            {
+                                var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                                if (id != null)
+                                {
+                                    foreach (var items in id)
+                                    {
+                                        list.Add(items);
+                                    }
+                                }
+                            }
+                            if (lists != null)
+                            {
+                                var result1 = new CommonController().PushNotification(messages, lists, JobObj.ID, type);
+                            }
+
+                            var SOIdss = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 2).Select(x => x.ID).ToList();
+                            List<string> listss = new List<string>();
+                            foreach (var item in SOIds)
+                            {
+                                var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                                if (id != null)
+                                {
+                                    foreach (var items in id)
+                                    {
+                                        listss.Add(items);
+                                    }
+                                }
+                            }
+                            if (listss != null)
+                            {
+                                var result1 = new CommonController().PushNotification(messages, lists, JobObj.ID, type);
+                            }
+
+
+                        }
+                        var AreaID = Convert.ToInt32(JobObj.Areas);
+
+                        var IdsforWasa = db.SOZoneAndTowns.Where(x => x.CityID == JobObj.CityID && x.AreaID == AreaID).Select(x => x.SOID).Distinct().ToList();
+                        List<string> list2 = new List<string>();
+                        foreach (var item in IdsforWasa)
+                        {
+                            var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
+                            if (id != null)
+                            {
+                                foreach (var items in id)
+                                {
+                                    list2.Add(items);
+                                }
+                            }
+                        }
+                        if (list2 != null)
+                        {
+                            var result2 = new CommonController().PushNotificationForWasa(message, list2, JobObj.ID, type);
+                        }
+                    }
+                    else
+                    {
+                        // Notification For Progressive Management
+                        var SOIdss = db.SaleOfficers.Where(x => x.RegionalHeadID == 6 && x.RoleID == 2).Select(x => x.ID).ToList();
+                        List<string> list1 = new List<string>();
+                        foreach (var item in SOIdss)
+                        {
+                            var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                            if (id != null)
+                            {
+                                foreach (var items in id)
+                                {
+                                    list1.Add(items);
+                                }
+                            }
+                            if (list1 != null)
+                            {
+                                var result = new CommonController().PushNotification(message, list1, JobObj.ID, type);
+                            }
+                        }
+
+
+                        var AreaID = Convert.ToInt32(JobObj.Areas);
+
+                        var IdsforWasa = db.SOZoneAndTowns.Where(x => x.CityID == JobObj.CityID && x.AreaID == AreaID).Select(x => x.SOID).Distinct().ToList();
+                        List<string> list2 = new List<string>();
+                        foreach (var item in IdsforWasa)
+                        {
+                            var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
+                            if (id != null)
+                            {
+                                foreach (var items in id)
+                                {
+                                    list2.Add(items);
+                                }
+                            }
+                        }
+                        if (list2 != null)
+                        {
+                            var result2 = new CommonController().PushNotificationForWasa(message, list2, JobObj.ID, type);
+                        }
                     }
 
-                    if (list != null)
+                }
+                else
+                {
+                    string type = "Progress";
+                    List<string> list = new List<string>();
+                    string message = "There is an Update in Complaint No" + JobObj.TicketNo + " Kindly Visit it.";
+                    if (JobObj.ZoneID != 9)
                     {
-                        var result = new CommonController().PushNotification(message, list, obj.ID, type);
 
-                        string messages = "There is an Update in Complaint No" + JobObj.TicketNo + " Kindly Visit it.";
-                        var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 1 || x.RoleID == 2).Select(x => x.ID).ToList();
+                        var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 1).Select(x => x.ID).ToList();
                         List<string> lists = new List<string>();
                         foreach (var item in SOIds)
                         {
@@ -435,56 +548,94 @@ namespace FOS.Web.UI.Controllers.API
                         }
                         if (lists != null)
                         {
-                            var result1 = new CommonController().PushNotification(messages, lists, JobObj.ID, type);
+                            var result1 = new CommonController().PushNotification(message, lists, JobObj.ID, type);
                         }
 
-
-                    }
-                    var AreaID = Convert.ToInt32(JobObj.Areas);
-
-                    var IdsforWasa = db.SOZoneAndTowns.Where(x => x.CityID == JobObj.CityID && x.AreaID == AreaID).Select(x => x.SOID).Distinct().ToList();
-                    List<string> list2 = new List<string>();
-                    foreach (var item in IdsforWasa)
-                    {
-                        var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
-                        if (id != null)
+                        var SOIdss = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 2).Select(x => x.ID).ToList();
+                        List<string> listss = new List<string>();
+                        foreach (var item in SOIds)
                         {
-                            foreach (var items in id)
+                            var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                            if (id != null)
                             {
-                                list2.Add(items);
+                                foreach (var items in id)
+                                {
+                                    listss.Add(items);
+                                }
                             }
                         }
-                    }
-                    if (list2 != null)
-                    {
-                        var result2 = new CommonController().PushNotificationForWasa(message, list2, JobObj.ID, type);
-                    }
-
-                }
-               else 
-                {
-                    string type = "Progress";
-                    string message = "There is an Update in Complaint No" + JobObj.TicketNo + " Kindly Visit it.";
-                    var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 1 || x.RoleID==2).Select(x => x.ID).ToList();
-                    List<string> list = new List<string>();
-                    foreach (var item in SOIds)
-                    {
-                        var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
-                        if (id != null)
+                        if (listss != null)
                         {
-                            foreach (var items in id)
+                            var result1 = new CommonController().PushNotification(message, lists, JobObj.ID, type);
+                        }
+
+
+
+                        var AreaID = Convert.ToInt32(JobObj.Areas);
+
+                        var IdsforWasa = db.SOZoneAndTowns.Where(x => x.CityID == JobObj.CityID && x.AreaID == AreaID).Select(x => x.SOID).Distinct().ToList();
+                        List<string> list2 = new List<string>();
+                        foreach (var item in IdsforWasa)
+                        {
+                            var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
+                            if (id != null)
                             {
-                                list.Add(items);
+                                foreach (var items in id)
+                                {
+                                    list2.Add(items);
+                                }
                             }
                         }
+                        if (list2 != null)
+                        {
+                            var result2 = new CommonController().PushNotificationForWasa(message, list2, JobObj.ID, type);
+                        }
                     }
-                    if (list != null)
+                    else
                     {
-                        var result = new CommonController().PushNotification(message, list, JobObj.ID, type);
+                        // Notification For Progressive Management
+                        var SOIdss = db.SaleOfficers.Where(x => x.RegionalHeadID == 6 && x.RoleID == 2).Select(x => x.ID).ToList();
+                        List<string> list1 = new List<string>();
+                        foreach (var item in SOIdss)
+                        {
+                            var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                            if (id != null)
+                            {
+                                foreach (var items in id)
+                                {
+                                    list1.Add(items);
+                                }
+                            }
+                            if (list1 != null)
+                            {
+                                var result = new CommonController().PushNotification(message, list1, JobObj.ID, type);
+                            }
+                        }
+
+
+                        var AreaID = Convert.ToInt32(JobObj.Areas);
+
+                        var IdsforWasa = db.SOZoneAndTowns.Where(x => x.CityID == JobObj.CityID && x.AreaID == AreaID).Select(x => x.SOID).Distinct().ToList();
+                        List<string> list2 = new List<string>();
+                        foreach (var item in IdsforWasa)
+                        {
+                            var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
+                            if (id != null)
+                            {
+                                foreach (var items in id)
+                                {
+                                    list2.Add(items);
+                                }
+                            }
+                        }
+                        if (list2 != null)
+                        {
+                            var result2 = new CommonController().PushNotificationForWasa(message, list2, JobObj.ID, type);
+                        }
                     }
                 }
-
             }
+
             else
             {
                 try
@@ -536,7 +687,7 @@ namespace FOS.Web.UI.Controllers.API
 
                     db.JobsDetails.Add(jobDetail);
 
-                    if(JobDet.AssignedToSaleOfficer!= obj.AssignedToID)
+                    if (JobDet.AssignedToSaleOfficer != obj.AssignedToID)
                     {
                         var data = db.JobsDetails.Where(u => u.JobID == JobObj.ID && u.IsPublished == 1).ToList();
                         foreach (var item in data)
@@ -552,7 +703,7 @@ namespace FOS.Web.UI.Controllers.API
                         foreach (var item in data2)
                         {
                             item.AssignedToSaleOfficer = obj.AssignedToID;
-                           // item.FirstAssignedSO = item.AssignedToSaleOfficer;
+                            // item.FirstAssignedSO = item.AssignedToSaleOfficer;
                             db.SaveChanges();
                         }
                     }
@@ -585,7 +736,7 @@ namespace FOS.Web.UI.Controllers.API
                     history.CreatedDate = DateTime.UtcNow.AddHours(5);
 
                     db.Tbl_ComplaintHistory.Add(history);
-                 
+
 
                     var secondLastdata = db.Tbl_ComplaintHistory.OrderByDescending(s => s.ID).FirstOrDefault();
 
@@ -826,7 +977,7 @@ namespace FOS.Web.UI.Controllers.API
                             notify.IsPicture3Changed = true;
                         }
 
-                    
+
 
                         if (secondLastdata.ProgressStatusID == history.ProgressStatusID)
                         {
@@ -906,25 +1057,34 @@ namespace FOS.Web.UI.Controllers.API
                 }
 
                 string type = "Progress";
-                string message = "There Is An Update in Complaint No" + JobObj.TicketNo+ " Which Is Performed By Field Staff. Kindly Publish it.";
-                var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 2).Select(x => x.ID).ToList();
-                List<string> list = new List<string>();
-                foreach (var item in SOIds)
+                string message = "There Is An Update in Complaint No" + JobObj.TicketNo + " Which Is Performed By Field Staff. Kindly Publish it.";
+
+                if (JobObj.ZoneID != 9)
                 {
-                    var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
-                    if (id != null)
+
+                    var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 2).Select(x => x.ID).ToList();
+                    List<string> list = new List<string>();
+                    foreach (var item in SOIds)
                     {
-                        foreach (var items in id)
+                        var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                        if (id != null)
                         {
-                            list.Add(items);
+                            foreach (var items in id)
+                            {
+                                list.Add(items);
+                            }
                         }
                     }
-                }
 
-                if (list != null)
+                    if (list != null)
+                    {
+
+                        var result = new CommonController().PushNotification(message, list, JobObj.ID, type);
+                    }
+                }
+                else
                 {
 
-                    var result = new CommonController().PushNotification(message, list, JobObj.ID, type);
                 }
             }
             return new Result<SuccessResponse>
