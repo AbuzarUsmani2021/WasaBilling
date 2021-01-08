@@ -1684,14 +1684,14 @@ namespace FOS.Setup
 
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                    if (From != null && To != null && Project!=0)
+                         if (From != null && To != null && Project!=0)
                     {
                         if(Project==1)
                         {
                             DateTime FromDate = Convert.ToDateTime(From);
                             DateTime ToDate = Convert.ToDateTime(To).AddDays(1);
                             doneJobData = (from job in dbContext.Jobs
-                                           where job.CreatedDate >= FromDate && job.CreatedDate <= ToDate
+                                           where (job.CreatedDate >= FromDate && job.CreatedDate <= ToDate)
                                            select new JobsDetailData
                                            {
                                                ID = job.ID,
@@ -1747,12 +1747,13 @@ namespace FOS.Setup
                         }
                        
                     }
-
-                    else if (Project != 0) 
+                    else if (From == null && To == null && Project != 0) 
                     {
                         if (Project==1) 
                         {
+                            var FromDate = DateTime.Today;
                             doneJobData = (from job in dbContext.Jobs
+                                           where (job.CreatedDate >= FromDate) || (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4)
                                            select new JobsDetailData
                                            {
                                                ID = job.ID,
@@ -1778,8 +1779,9 @@ namespace FOS.Setup
                         }
                         else 
                         {
+                            var FromDate = DateTime.Today;
                             doneJobData = (from job in dbContext.Jobs
-                                           where job.ZoneID == Project
+                                           where (job.ZoneID == Project && job.CreatedDate >= FromDate) || (job.ZoneID == Project && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
                                            select new JobsDetailData
                                            {
                                                ID = job.ID,
@@ -1806,11 +1808,12 @@ namespace FOS.Setup
 
                         
                     }
-
-                    else if(From == null && To == null && Project == 0)
+                    else if (From == null && To == null && Project == 0)
                     {
+                        var FromDate = DateTime.Today;
                         doneJobData = (from job in dbContext.Jobs
-                                   select new JobsDetailData
+                              where job.CreatedDate >= FromDate || job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4
+                                       select new JobsDetailData
                                    {
                                        ID = job.ID,
                                        JobID = job.ID,
@@ -1833,9 +1836,6 @@ namespace FOS.Setup
                                        ResolvedAt = job.ResolvedAt
                                    }).OrderByDescending(x => x.ID).ToList();
                     }
-
-                 
-
                 }
             }
             catch (Exception exp)
@@ -2053,8 +2053,7 @@ namespace FOS.Setup
                         else if (From == null && To == null && Project != 0)
                         {
 
-                            DateTime FromDate = Convert.ToDateTime(From);
-                            DateTime ToDate = Convert.ToDateTime(To).AddDays(1);
+                            var FromDate = DateTime.Today;
                             doneJobData = (from job in dbContext.Jobs
                                            where (job.ZoneID == Project && job.CreatedDate >= FromDate) || (job.ZoneID == Project && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
                                            select new JobsDetailData
@@ -2087,7 +2086,7 @@ namespace FOS.Setup
                             var FromDate = DateTime.Today;
 
                             doneJobData = (from job in dbContext.Jobs
-                                           where job.CreatedDate >= FromDate && (job.ZoneID == 7 || job.ZoneID == 9 || job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4)
+                                           where (job.CreatedDate >= FromDate && (job.ZoneID == 7 || job.ZoneID == 9)) || (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4)
                                            select new JobsDetailData
                                            {
                                                ID = job.ID,
