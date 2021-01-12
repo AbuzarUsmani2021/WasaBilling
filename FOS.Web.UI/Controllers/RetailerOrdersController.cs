@@ -2310,16 +2310,18 @@ namespace FOS.Web.UI.Controllers
                         {
                             if (itm.StatusID == 3)
                             {
-
-                                var format = itm.ResolveTime;
-                                comlist.VisitDateFormatted = format.ToString(@"hh\:mm");
-
+                            var format = itm.ResolveTime;
+                            var totalhours = string.Format("{0:#,##0}:{1:mm}", Math.Truncate(format.TotalHours), format);
+                            comlist.VisitDateFormatted = totalhours;
+                            //comlist.VisitDateFormatted = format.ToString(@"hh\:mm");
                             }
                             else
                             {
-                                var format = itm.ElapseTime;
-                                comlist.VisitDateFormatted = format.ToString(@"hh\:mm");
-                            }
+                            var format = itm.ElapseTime;
+                            var totalhours = string.Format("{0:#,##0}:{1:mm}", Math.Truncate(format.TotalHours), format);
+                            comlist.VisitDateFormatted = totalhours;
+                            //comlist.VisitDateFormatted = format.ToString(@"hh\:mm");
+                        }
 
                         }
 
@@ -2497,14 +2499,16 @@ namespace FOS.Web.UI.Controllers
                             if (itm.StatusID == 3)
                             {
 
-                                var format = itm.ResolveTime;
-                                comlist.VisitDateFormatted = format.ToString(@"hh\:mm");
+                            var format = itm.ResolveTime;
+                            var totalhours = string.Format("{0:#,##0}:{1:mm}", Math.Truncate(format.TotalHours), format);
+                            comlist.VisitDateFormatted = totalhours;
 
                             }
                             else
                             {
-                                var format = itm.ElapseTime;
-                                comlist.VisitDateFormatted = format.ToString(@"hh\:mm");
+                             var format = itm.ElapseTime;
+                             var totalhours = string.Format("{0:#,##0}:{1:mm}", Math.Truncate(format.TotalHours), format);
+                            comlist.VisitDateFormatted = totalhours;
                             }
 
                         }

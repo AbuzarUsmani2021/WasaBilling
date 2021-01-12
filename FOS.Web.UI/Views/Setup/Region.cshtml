@@ -4,7 +4,7 @@
     ViewBag.Title = "Client";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<link href="~/Content/GridSystem.css" rel="stylesheet" />
 <!-- BEGIN PAGE HEADER-->
 <div class="row-fluid">
     <div class="span12">
@@ -37,8 +37,8 @@
                     <h4 class="text-center"><strong>Manage Clients</strong></h4>
                 </div>
                 <div class="widget-body">
-                    <div class="span12">
-                        <div class="span4">
+                    <div class="row">
+                        <div class="col-md-4">
                             <div class="control-group">
                                 <label class="control-label">Client Name:*</label>
                                 <div class="controls">
@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="span4">
+                        <div class="col-md-4">
                             <div class="control-group">
                                 <label class="control-label">Client Code:*</label>
                                 <div class="controls">
@@ -57,7 +57,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="span4">
+                        <div class="col-md-4">
                             <div class="control-group">
                                 <label class="control-label">Contact No:*</label>
                                 <div class="controls">
