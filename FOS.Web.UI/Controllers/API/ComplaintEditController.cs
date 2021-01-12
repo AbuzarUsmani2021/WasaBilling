@@ -404,7 +404,7 @@ namespace FOS.Web.UI.Controllers.API
 
                 if (obj.AssignedToID != 0)
                 {
-
+                    // Notification To Assigned FS
                     string message = "Complaint Is Assigned and Complaint No is " + JobObj.TicketNo;
                     string type = "Progress";
                     List<string> list = new List<string>();
@@ -418,21 +418,24 @@ namespace FOS.Web.UI.Controllers.API
 
                         }
 
-                        if (list != null)
+                        if (list.Count > 0)
                         {
-                            var result = new CommonController().PushNotification(message, list, obj.ID, type);
 
+                            var result = new CommonController().PushNotification(message, list, obj.ID, type);
+                        }
                             string messages = "There is an Update in Complaint No" + JobObj.TicketNo + " Kindly Visit it.";
+
+                            // Notification For KSB MGT
                             var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 1).Select(x => x.ID).ToList();
                             List<string> lists = new List<string>();
                             foreach (var item in SOIds)
                             {
                                 var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
-                                if (id != null)
+                                if (id.Count > 0)
                                 {
                                     foreach (var items in id)
                                     {
-                                        list.Add(items);
+                                        lists.Add(items);
                                     }
                                 }
                             }
@@ -441,12 +444,14 @@ namespace FOS.Web.UI.Controllers.API
                                 var result1 = new CommonController().PushNotification(messages, lists, JobObj.ID, type);
                             }
 
+
+                            // Notification For KSB CC
                             var SOIdss = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 2).Select(x => x.ID).ToList();
                             List<string> listss = new List<string>();
-                            foreach (var item in SOIds)
+                            foreach (var item in SOIdss)
                             {
                                 var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
-                                if (id != null)
+                                if (id.Count > 0)
                                 {
                                     foreach (var items in id)
                                     {
@@ -454,13 +459,13 @@ namespace FOS.Web.UI.Controllers.API
                                     }
                                 }
                             }
-                            if (listss != null)
+                            if (listss.Count > 0)
                             {
-                                var result1 = new CommonController().PushNotification(messages, lists, JobObj.ID, type);
+                                var result1 = new CommonController().PushNotification(messages, listss, JobObj.ID, type);
                             }
 
 
-                        }
+                      
                         var AreaID = Convert.ToInt32(JobObj.Areas);
 
                         var IdsforWasa = db.SOZoneAndTowns.Where(x => x.CityID == JobObj.CityID && x.AreaID == AreaID).Select(x => x.SOID).Distinct().ToList();
@@ -468,7 +473,7 @@ namespace FOS.Web.UI.Controllers.API
                         foreach (var item in IdsforWasa)
                         {
                             var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
-                            if (id != null)
+                            if (id.Count > 0)
                             {
                                 foreach (var items in id)
                                 {
@@ -489,7 +494,7 @@ namespace FOS.Web.UI.Controllers.API
                         foreach (var item in SOIdss)
                         {
                             var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
-                            if (id != null)
+                            if (id.Count > 0)
                             {
                                 foreach (var items in id)
                                 {
@@ -510,7 +515,7 @@ namespace FOS.Web.UI.Controllers.API
                         foreach (var item in IdsforWasa)
                         {
                             var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
-                            if (id != null)
+                            if (id.Count > 0)
                             {
                                 foreach (var items in id)
                                 {
@@ -538,11 +543,11 @@ namespace FOS.Web.UI.Controllers.API
                         foreach (var item in SOIds)
                         {
                             var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
-                            if (id != null)
+                            if (id.Count > 0)
                             {
                                 foreach (var items in id)
                                 {
-                                    list.Add(items);
+                                    lists.Add(items);
                                 }
                             }
                         }
@@ -556,7 +561,7 @@ namespace FOS.Web.UI.Controllers.API
                         foreach (var item in SOIds)
                         {
                             var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
-                            if (id != null)
+                            if (id.Count > 0)
                             {
                                 foreach (var items in id)
                                 {
@@ -566,7 +571,7 @@ namespace FOS.Web.UI.Controllers.API
                         }
                         if (listss != null)
                         {
-                            var result1 = new CommonController().PushNotification(message, lists, JobObj.ID, type);
+                            var result1 = new CommonController().PushNotification(message, listss, JobObj.ID, type);
                         }
 
 
@@ -578,7 +583,7 @@ namespace FOS.Web.UI.Controllers.API
                         foreach (var item in IdsforWasa)
                         {
                             var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
-                            if (id != null)
+                            if (id.Count > 0)
                             {
                                 foreach (var items in id)
                                 {
@@ -599,7 +604,7 @@ namespace FOS.Web.UI.Controllers.API
                         foreach (var item in SOIdss)
                         {
                             var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
-                            if (id != null)
+                            if (id.Count > 0)
                             {
                                 foreach (var items in id)
                                 {
@@ -620,7 +625,7 @@ namespace FOS.Web.UI.Controllers.API
                         foreach (var item in IdsforWasa)
                         {
                             var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
-                            if (id != null)
+                            if (id.Count > 0)
                             {
                                 foreach (var items in id)
                                 {
@@ -1067,7 +1072,7 @@ namespace FOS.Web.UI.Controllers.API
                     foreach (var item in SOIds)
                     {
                         var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
-                        if (id != null)
+                        if (id.Count > 0)
                         {
                             foreach (var items in id)
                             {
@@ -1083,7 +1088,24 @@ namespace FOS.Web.UI.Controllers.API
                     }
                 }
                 else
-                {
+                {  // Notification For Progressive Management
+                    var SOIdss = db.SaleOfficers.Where(x => x.RegionalHeadID == 6 && x.RoleID == 2).Select(x => x.ID).ToList();
+                    List<string> list1 = new List<string>();
+                    foreach (var item in SOIdss)
+                    {
+                        var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                        if (id.Count > 0)
+                        {
+                            foreach (var items in id)
+                            {
+                                list1.Add(items);
+                            }
+                        }
+                        if (list1 != null)
+                        {
+                            var result = new CommonController().PushNotification(message, list1, JobObj.ID, type);
+                        }
+                    }
 
                 }
             }
