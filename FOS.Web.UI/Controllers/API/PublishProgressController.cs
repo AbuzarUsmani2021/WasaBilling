@@ -52,7 +52,7 @@ namespace FOS.Web.UI.Controllers.API
                 {
                     // Notification Send to KSB CC
                     string type = "Progress";
-                    string message = "There is an Update in Complaint No" + job.TicketNo + " Kindly Visit it.";
+                    string message = "There is an Update Which is Published By CC in Complaint No" + job.TicketNo + " Kindly View it.";
                     if (job.ZoneID != 9)
                     {
                         var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 2).Select(x => x.ID).ToList();
@@ -71,7 +71,7 @@ namespace FOS.Web.UI.Controllers.API
 
                         if (list != null)
                         {
-                            var result = new CommonController().PushNotification(message, list, jobDetail.ID, type);
+                            var result = new CommonController().PushNotification(message, list, job.ID, type);
                         }
 
                         // Notification For KSB Management
@@ -91,7 +91,7 @@ namespace FOS.Web.UI.Controllers.API
 
                         if (list1 != null)
                         {
-                            var result = new CommonController().PushNotification(message, list1, jobDetail.ID, type);
+                            var result = new CommonController().PushNotification(message, list1, job.ID, type);
                         }
 
                         // Notification Send to Wasa
@@ -113,7 +113,7 @@ namespace FOS.Web.UI.Controllers.API
                         }
                         if (list2 != null)
                         {
-                            var result2 = new CommonController().PushNotificationForWasa(message, list2, jobDetail.ID, type);
+                            var result2 = new CommonController().PushNotificationForWasa(message, list2, job.ID, type);
                         }
                     }
                     else
@@ -133,7 +133,7 @@ namespace FOS.Web.UI.Controllers.API
                             }
                             if (list1 != null)
                             {
-                                var result = new CommonController().PushNotification(message, list1, jobDetail.ID, type);
+                                var result = new CommonController().PushNotification(message, list1, job.ID, type);
                             }
                         }
 
@@ -155,7 +155,7 @@ namespace FOS.Web.UI.Controllers.API
                         }
                         if (list2 != null)
                         {
-                            var result2 = new CommonController().PushNotificationForWasa(message, list2, jobDetail.ID, type);
+                            var result2 = new CommonController().PushNotificationForWasa(message, list2, job.ID, type);
                         }
                     }
                 }

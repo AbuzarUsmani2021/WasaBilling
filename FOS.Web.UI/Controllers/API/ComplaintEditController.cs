@@ -421,9 +421,9 @@ namespace FOS.Web.UI.Controllers.API
                         if (list.Count > 0)
                         {
 
-                            var result = new CommonController().PushNotification(message, list, obj.ID, type);
+                            var result = new CommonController().PushNotification(message, list, JobObj.ID, type);
                         }
-                            string messages = "There is an Update in Complaint No" + JobObj.TicketNo + " Kindly Visit it.";
+                            string messages = "There is an Update in Complaint No" + JobObj.TicketNo + " Kindly View it.";
 
                             // Notification For KSB MGT
                             var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 1).Select(x => x.ID).ToList();
@@ -534,7 +534,7 @@ namespace FOS.Web.UI.Controllers.API
                 {
                     string type = "Progress";
                     List<string> list = new List<string>();
-                    string message = "There is an Update in Complaint No" + JobObj.TicketNo + " Kindly Visit it.";
+                    string message = "There is an Update in Complaint No" + JobObj.TicketNo + " Kindly View it.";
                     if (JobObj.ZoneID != 9)
                     {
 

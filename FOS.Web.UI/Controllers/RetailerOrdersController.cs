@@ -2437,7 +2437,7 @@ namespace FOS.Web.UI.Controllers
                     //            {
 
                     //                var format = itm.ResolveTime;
-                    //                comlist.VisitDateFormatted = format.ToString(@"hh\:mm");
+                    //                comlist.VisitDateFormatted = 
 
                     //            }
                     //            else

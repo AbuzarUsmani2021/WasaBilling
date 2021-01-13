@@ -1569,7 +1569,7 @@ namespace FOS.Setup
                                            ComplaintTypeName = job.ComplaintType.Name,
                                            d1 = date,
                                            d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                           ResolvedAt = job.ResolvedAt
+                                           ResolvedAt = (DateTime)job.ResolvedAt
                                        }).OrderByDescending(x => x.ID).ToList();
                     }
                     else if (From != null && To != null && Project == 0)
@@ -1599,7 +1599,7 @@ namespace FOS.Setup
                                            ComplaintTypeName = job.ComplaintType.Name,
                                            d1 = date,
                                            d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                           ResolvedAt = job.ResolvedAt
+                                           ResolvedAt = (DateTime)job.ResolvedAt
                                        }).OrderByDescending(x => x.ID).ToList();
                     }
                     else if (From == null && To == null && Project != 0)
@@ -1628,7 +1628,7 @@ namespace FOS.Setup
                                            ComplaintTypeName = job.ComplaintType.Name,
                                            d1 = date,
                                            d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                           ResolvedAt = job.ResolvedAt
+                                           ResolvedAt = (DateTime)job.ResolvedAt
                                        }).OrderByDescending(x => x.ID).ToList();
 
 
@@ -1658,7 +1658,7 @@ namespace FOS.Setup
                                            ComplaintTypeName = job.ComplaintType.Name,
                                            d1 = date,
                                            d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                           ResolvedAt = job.ResolvedAt
+                                           ResolvedAt = (DateTime)job.ResolvedAt
                                        }).OrderByDescending(x => x.ID).ToList();
 
                     }
@@ -1712,7 +1712,7 @@ namespace FOS.Setup
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                               ResolvedAt = job.ResolvedAt
+                                               ResolvedAt = (DateTime)job.ResolvedAt
                                            }).OrderByDescending(x => x.ID).ToList();
 
                         }
@@ -1742,7 +1742,7 @@ namespace FOS.Setup
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                               ResolvedAt = job.ResolvedAt
+                                               ResolvedAt = (DateTime)job.ResolvedAt
                                            }).OrderByDescending(x => x.ID).ToList();
                         }
                        
@@ -1774,7 +1774,7 @@ namespace FOS.Setup
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                               ResolvedAt = job.ResolvedAt
+                                               ResolvedAt = (DateTime)job.ResolvedAt
                                            }).OrderByDescending(x => x.ID).ToList();
                         }
                         else 
@@ -1802,7 +1802,7 @@ namespace FOS.Setup
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                               ResolvedAt = job.ResolvedAt
+                                               ResolvedAt = (DateTime)job.ResolvedAt
                                            }).OrderByDescending(x => x.ID).ToList();
                         }
 
@@ -1833,7 +1833,7 @@ namespace FOS.Setup
                                        ComplaintTypeName = job.ComplaintType.Name,
                                        d1 = date,
                                        d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                       ResolvedAt = job.ResolvedAt
+                                       ResolvedAt = (DateTime)job.ResolvedAt
                                    }).OrderByDescending(x => x.ID).ToList();
                     }
                 }
@@ -1884,7 +1884,7 @@ namespace FOS.Setup
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                               ResolvedAt = job.ResolvedAt
+                                               ResolvedAt = (DateTime)job.ResolvedAt
                                            }).OrderByDescending(x => x.ID).ToList();
 
 
@@ -1916,7 +1916,7 @@ namespace FOS.Setup
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                               ResolvedAt = job.ResolvedAt
+                                               ResolvedAt = (DateTime)job.ResolvedAt
                                            }).OrderByDescending(x => x.ID).ToList();
 
 
@@ -1947,7 +1947,7 @@ namespace FOS.Setup
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                               ResolvedAt = job.ResolvedAt
+                                               ResolvedAt = (DateTime)job.ResolvedAt
                                            }).OrderByDescending(x => x.ID).ToList();
 
 
@@ -1977,7 +1977,7 @@ namespace FOS.Setup
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                               ResolvedAt = job.ResolvedAt
+                                               ResolvedAt = (DateTime)job.ResolvedAt
                                            }).OrderByDescending(x => x.ID).ToList();
 
                         }
@@ -2012,7 +2012,7 @@ namespace FOS.Setup
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                               ResolvedAt = job.ResolvedAt
+                                               ResolvedAt = (DateTime)job.ResolvedAt
                                            }).OrderByDescending(x => x.ID).ToList();
 
 
@@ -2045,7 +2045,7 @@ namespace FOS.Setup
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                               ResolvedAt = job.ResolvedAt
+                                               ResolvedAt = (DateTime)job.ResolvedAt
                                            }).OrderByDescending(x => x.ID).ToList();
 
 
@@ -2076,7 +2076,7 @@ namespace FOS.Setup
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                               ResolvedAt = job.ResolvedAt
+                                               ResolvedAt = (DateTime)job.ResolvedAt
                                            }).OrderByDescending(x => x.ID).ToList();
 
 
@@ -2107,7 +2107,7 @@ namespace FOS.Setup
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                               ResolvedAt = job.ResolvedAt
+                                               ResolvedAt = (DateTime)job.ResolvedAt
                                            }).OrderByDescending(x => x.ID).ToList();
 
                         }
@@ -2170,7 +2170,7 @@ namespace FOS.Setup
                             comlist.ComplaintTypeName = items.ComplaintType.Name;
                             comlist.d1 = date;
                             comlist.d2 = (DateTime)(items.CreatedDate.HasValue ? items.CreatedDate : date);
-                            comlist.ResolvedAt = items.ResolvedAt;
+                            comlist.ResolvedAt = (DateTime)items.ResolvedAt;
 
                             doneJobData.Add(comlist);
                         }
@@ -2212,7 +2212,7 @@ namespace FOS.Setup
                             comlist.ComplaintTypeName = items.ComplaintType.Name;
                             comlist.d1 = date;
                             comlist.d2 = (DateTime)(items.CreatedDate.HasValue ? items.CreatedDate : date);
-                            comlist.ResolvedAt = items.ResolvedAt;
+                            comlist.ResolvedAt = (DateTime)items.ResolvedAt;
 
                             doneJobData.Add(comlist);
                         }
@@ -2263,7 +2263,7 @@ namespace FOS.Setup
                                        ComplaintTypeName = job.ComplaintType.Name,
                                        d1 = DateTime.Now,
                                        d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : DateTime.Now),
-                                       ResolvedAt = job.ResolvedAt
+                                       ResolvedAt = (DateTime)job.ResolvedAt
                                    }).OrderByDescending(x => x.ID).ToList();
                 }
 

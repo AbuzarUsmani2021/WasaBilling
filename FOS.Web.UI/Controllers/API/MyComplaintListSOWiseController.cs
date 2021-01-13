@@ -60,7 +60,7 @@ namespace FOS.Web.UI.Controllers.API
                                     comlist.TicketNo = item.TicketNo;
                                     comlist.LaunchedByName = item.LaunchedByName;
                                     comlist.SaleOfficerName = item.LaunchedByName;
-                                    if (items.ProgressStatusName == null)
+                                    if (items.ProgressStatusName == null && items.ProgressstatusId==null)
                                     {
                                         comlist.ProgressRemarks = " ";
                                     }
