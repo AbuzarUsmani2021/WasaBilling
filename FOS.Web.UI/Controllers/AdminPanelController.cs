@@ -68,7 +68,7 @@ namespace FOS.Web.UI.Controllers
                 SessionManager.Destroy("UserName");
             }
 
-            if(userId == 1025|| userId==1026|| userId == 1027)
+            if(userId == 1025|| userId==1026|| userId == 1027 || userId == 1028 || userId == 1029 || userId == 1030 || userId == 1031)
             {
                 pageUrl = string.IsNullOrEmpty(returnUrl) ? string.Format("{0}/Home/WasaDashboard", Settings.AppPath) : returnUrl;
             }

@@ -282,22 +282,36 @@ namespace FOS.Web.UI.Controllers.API
             DateTime dtFromToday = dtFromTodayUtc.Date;
             DateTime dtToToday = dtFromToday.AddDays(1);
             string remarks = "";
-            
 
-            var result1 = db.Sp_MyComplaintListRemarksFinal(1, dtFromToday, dtToToday).ToList();
 
-            foreach (var item in result1)
+            //var result1 = db.Sp_MyComplaintListRemarksFinal(1, dtFromToday, dtToToday).ToList();
+
+            //foreach (var item in result1)
+            //{
+            //    if (item.ComplaintID == SOID)
+            //    {
+            //        remarks = item.ProgressStatusName + " "+ " (" +item.datecomplete + ")";
+
+            //    }
+
+            //}
+            var data = db.Tbl_ComplaintHistory.Where(x => x.JobID == SOID && x.IsPublished == 1).OrderByDescending(x => x.ID).FirstOrDefault();
+            var rem = db.ProgressStatus.Where(x => x.ID == data.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+            if (rem != null)
             {
-                if (item.ComplaintID == SOID)
-                {
-                    remarks = item.ProgressStatusName + " "+ " (" +item.datecomplete + ")";
-
-                }
-
+              remarks=  db.ProgressStatus.Where(x => x.ID == data.ProgressStatusID).Select(x => x.Name).FirstOrDefault() + " " + " (" + data.CreatedDate + ")";
+            }
+            else
+            {
+                remarks = "";
             }
 
+              
 
             return remarks;
+
+
+           
         }
 
 
@@ -310,18 +324,30 @@ namespace FOS.Web.UI.Controllers.API
             string remarks = "";
 
 
-            var result1 = db.Sp_MyComplaintListRemarksFinal(1, dtFromToday, dtToToday).ToList();
+            //var result1 = db.Sp_MyComplaintListRemarksFinal(1, dtFromToday, dtToToday).ToList();
 
-            foreach (var item in result1)
+            //foreach (var item in result1)
+            //{
+            //    if (item.ComplaintID == SOID)
+            //    {
+            //        remarks = db.WorkDones.Where(x => x.ID == item.ProgressstatusId).Select(x => x.Name).FirstOrDefault() + " " + " (" + item.datecomplete + ")"; 
+
+            //    }
+
+            //}
+
+
+            var data = db.Tbl_ComplaintHistory.Where(x => x.JobID == SOID && x.IsPublished == 1).OrderByDescending(x => x.ID).FirstOrDefault();
+            var rem = db.WorkDones.Where(x => x.ID == data.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+
+            if (rem != null)
             {
-                if (item.ComplaintID == SOID)
-                {
-                    remarks = db.WorkDones.Where(x => x.ID == item.ProgressstatusId).Select(x => x.Name).FirstOrDefault() + " " + " (" + item.datecomplete + ")"; 
-
-                }
-
+                remarks=db.WorkDones.Where(x => x.ID == data.ProgressStatusID).Select(x => x.Name).FirstOrDefault() + " " + " (" + data.CreatedDate + ")";
             }
-
+            else
+            {
+                remarks = "";
+            }
 
             return remarks;
         }

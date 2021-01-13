@@ -233,14 +233,14 @@ namespace FOS.Shared
              }
         public DateTime d1 { get; set; }
         public DateTime d2 { get; set; }
-        public DateTime? ResolvedAt { get; set; }
+        public DateTime ResolvedAt { get; set; }
 
         public TimeSpan ResolveTime
         {
             get
             {
 
-                return d2.Subtract((DateTime)ResolvedAt);
+                return ResolvedAt.Subtract(d2);
             }
         }
         // Retailer

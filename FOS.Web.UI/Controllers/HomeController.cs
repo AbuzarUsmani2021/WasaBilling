@@ -987,13 +987,22 @@ namespace FOS.Web.UI.Controllers
             {
                 objRetailer.Projects = FOS.Setup.ManageCity.GetProjectsList();
             }
-            else
+            else if(userID == 1026|| userID == 1027)
             {
                 var soid = db.Users.Where(x => x.ID == userID).Select(x => x.SOIDRelation).FirstOrDefault();
 
                 var list = db.SOProjects.Where(x => x.SaleOfficerID == soid).Select(x => x.ProjectID).Distinct().ToList();
 
                 var Projectlist= FOS.Setup.ManageCity.GetProjectsListForUsers(list);
+                objRetailer.Projects = Projectlist;
+            }
+            else
+            {
+                var soid = db.Users.Where(x => x.ID == userID).Select(x => x.SOIDRelation).FirstOrDefault();
+
+                var list = db.SOProjects.Where(x => x.SaleOfficerID == soid).Select(x => x.ProjectID).Distinct().ToList();
+
+                var Projectlist = FOS.Setup.ManageCity.GetProjectsListForSDOS(list);
                 objRetailer.Projects = Projectlist;
             }
 

@@ -461,6 +461,36 @@ namespace FOS.Setup
             return city;
         }
 
+
+        public static List<ComplaintStatus> GetProjectsListForSDOS(List<int?> list)
+        {
+            List<ComplaintStatus> city = new List<ComplaintStatus>();
+            ComplaintStatus comlist;
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+
+                    foreach (var item in list)
+                    {
+                        comlist = new ComplaintStatus();
+                        comlist.ID = item;
+                        comlist.Name = dbContext.Zones.Where(x => x.ID == item).Select(x => x.Name).FirstOrDefault();
+                        city.Add(comlist);
+                    }
+
+                }
+                
+               
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return city;
+        }
         public static List<CityData> GetCityListCombo()
         {
             List<CityData> city = new List<CityData>();
