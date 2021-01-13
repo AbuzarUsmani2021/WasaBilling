@@ -43,7 +43,8 @@ namespace FOS.Web.UI.Controllers.API
                 job.FaultTypeId = jobhistory.FaultTypeId;
                 job.FaultTypeDetailID = jobhistory.FaultTypeDetailID;
                 job.ComplaintStatusId = jobhistory.ComplaintStatusId;
-                
+                job.ResolvedAt= DateTime.UtcNow.AddHours(5);
+                job.LastUpdated= DateTime.UtcNow.AddHours(5);
 
 
                 db.SaveChanges();

@@ -406,43 +406,42 @@ namespace FOS.Web.UI.Controllers.API
                 {
                     // Notification To Assigned FS
                     string message = "Complaint Is Assigned and Complaint No is " + JobObj.TicketNo;
+                    string messages = "There is an Update in Complaint No" + JobObj.TicketNo + " Kindly View it.";
                     string type = "Progress";
                     List<string> list = new List<string>();
 
                     if (JobObj.ZoneID != 9)
                     {
-                        var SOIDS = db.OneSignalUsers.Where(x => x.UserID == obj.AssignedToID).Select(x => x.OneSidnalUserID).ToList();
-                        foreach (var item in SOIDS)
-                        {
-                            list.Add(item);
+                        var SOIDS = db.OneSignalUsers.Where(x => x.UserID == obj.AssignedToID).Select(x => x.OneSidnalUserID).FirstOrDefault();
+                       
 
-                        }
-
-                        if (list.Count > 0)
+                        if (SOIDS!=null)
                         {
 
-                            var result = new CommonController().PushNotification(message, list, JobObj.ID, type);
+                            var result = new CommonController().PushNotificationForEdit(message, SOIDS, JobObj.ID, type);
                         }
-                            string messages = "There is an Update in Complaint No" + JobObj.TicketNo + " Kindly View it.";
+                            
 
                             // Notification For KSB MGT
-                            var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 1).Select(x => x.ID).ToList();
+                            var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 1).Distinct().Select(x => x.ID).ToList();
                             List<string> lists = new List<string>();
                             foreach (var item in SOIds)
                             {
-                                var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
-                                if (id.Count > 0)
+                            var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                            if (id.Count > 0)
+                            {
+                                foreach (var items in id)
                                 {
-                                    foreach (var items in id)
-                                    {
-                                        lists.Add(items);
-                                    }
+                                    var result = new CommonController().PushNotificationForEdit(messages, items, JobObj.ID, type);
                                 }
                             }
-                            if (lists != null)
-                            {
-                                var result1 = new CommonController().PushNotification(messages, lists, JobObj.ID, type);
-                            }
+
+                            
+                        }
+                            //if (lists != null)
+                            //{
+                            //    var result1 = new CommonController().PushNotification(messages, lists, JobObj.ID, type);
+                            //}
 
 
                             // Notification For KSB CC
@@ -455,14 +454,14 @@ namespace FOS.Web.UI.Controllers.API
                                 {
                                     foreach (var items in id)
                                     {
-                                        listss.Add(items);
-                                    }
+                                    var result1 = new CommonController().PushNotificationForEdit(messages, items, JobObj.ID, type);
+                                }
                                 }
                             }
-                            if (listss.Count > 0)
-                            {
-                                var result1 = new CommonController().PushNotification(messages, listss, JobObj.ID, type);
-                            }
+                            //if (listss.Count > 0)
+                            //{
+                                
+                            //}
 
 
                       
@@ -477,14 +476,14 @@ namespace FOS.Web.UI.Controllers.API
                             {
                                 foreach (var items in id)
                                 {
-                                    list2.Add(items);
+                                    var result1 = new CommonController().PushNotificationForEdit(messages, items, JobObj.ID, type);
                                 }
                             }
                         }
-                        if (list2 != null)
-                        {
-                            var result2 = new CommonController().PushNotificationForWasa(message, list2, JobObj.ID, type);
-                        }
+                        //if (list2 != null)
+                        //{
+                        //    var result2 = new CommonController().PushNotificationForWasa(message, list2, JobObj.ID, type);
+                        //}
                     }
                     else
                     {
@@ -498,13 +497,13 @@ namespace FOS.Web.UI.Controllers.API
                             {
                                 foreach (var items in id)
                                 {
-                                    list1.Add(items);
+                                    var result1 = new CommonController().PushNotificationForEdit(messages, items, JobObj.ID, type);
                                 }
                             }
-                            if (list1 != null)
-                            {
-                                var result = new CommonController().PushNotification(message, list1, JobObj.ID, type);
-                            }
+                            //if (list1 != null)
+                            //{
+                            //    var result = new CommonController().PushNotification(message, list1, JobObj.ID, type);
+                            //}
                         }
 
 
@@ -519,14 +518,14 @@ namespace FOS.Web.UI.Controllers.API
                             {
                                 foreach (var items in id)
                                 {
-                                    list2.Add(items);
+                                    var result1 = new CommonController().PushNotificationForEdit(messages, items, JobObj.ID, type);
                                 }
                             }
                         }
-                        if (list2 != null)
-                        {
-                            var result2 = new CommonController().PushNotificationForWasa(message, list2, JobObj.ID, type);
-                        }
+                        //if (list2 != null)
+                        //{
+                        //    var result2 = new CommonController().PushNotificationForWasa(message, list2, JobObj.ID, type);
+                        //}
                     }
 
                 }
@@ -547,14 +546,14 @@ namespace FOS.Web.UI.Controllers.API
                             {
                                 foreach (var items in id)
                                 {
-                                    lists.Add(items);
+                                    var result1 = new CommonController().PushNotificationForEdit(message, items, JobObj.ID, type);
                                 }
                             }
                         }
-                        if (lists != null)
-                        {
-                            var result1 = new CommonController().PushNotification(message, lists, JobObj.ID, type);
-                        }
+                        //if (lists != null)
+                        //{
+                        //    var result1 = new CommonController().PushNotification(message, lists, JobObj.ID, type);
+                        //}
 
                         var SOIdss = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 2).Select(x => x.ID).ToList();
                         List<string> listss = new List<string>();
@@ -565,14 +564,14 @@ namespace FOS.Web.UI.Controllers.API
                             {
                                 foreach (var items in id)
                                 {
-                                    listss.Add(items);
+                                    var result1 = new CommonController().PushNotificationForEdit(message, items, JobObj.ID, type);
                                 }
                             }
                         }
-                        if (listss != null)
-                        {
-                            var result1 = new CommonController().PushNotification(message, listss, JobObj.ID, type);
-                        }
+                        //if (listss != null)
+                        //{
+                        //    var result1 = new CommonController().PushNotification(message, listss, JobObj.ID, type);
+                        //}
 
 
 
@@ -587,14 +586,14 @@ namespace FOS.Web.UI.Controllers.API
                             {
                                 foreach (var items in id)
                                 {
-                                    list2.Add(items);
+                                    var result1 = new CommonController().PushNotificationForEdit(message, items, JobObj.ID, type);
                                 }
                             }
                         }
-                        if (list2 != null)
-                        {
-                            var result2 = new CommonController().PushNotificationForWasa(message, list2, JobObj.ID, type);
-                        }
+                        //if (list2 != null)
+                        //{
+                        //    var result2 = new CommonController().PushNotificationForWasa(message, list2, JobObj.ID, type);
+                        //}
                     }
                     else
                     {
@@ -608,13 +607,13 @@ namespace FOS.Web.UI.Controllers.API
                             {
                                 foreach (var items in id)
                                 {
-                                    list1.Add(items);
+                                    var result1 = new CommonController().PushNotificationForEdit(message, items, JobObj.ID, type);
                                 }
                             }
-                            if (list1 != null)
-                            {
-                                var result = new CommonController().PushNotification(message, list1, JobObj.ID, type);
-                            }
+                            //if (list1 != null)
+                            //{
+                            //    var result = new CommonController().PushNotification(message, list1, JobObj.ID, type);
+                            //}
                         }
 
 
@@ -629,14 +628,14 @@ namespace FOS.Web.UI.Controllers.API
                             {
                                 foreach (var items in id)
                                 {
-                                    list2.Add(items);
+                                    var result1 = new CommonController().PushNotificationForEdit(message, items, JobObj.ID, type);
                                 }
                             }
                         }
-                        if (list2 != null)
-                        {
-                            var result2 = new CommonController().PushNotificationForWasa(message, list2, JobObj.ID, type);
-                        }
+                        //if (list2 != null)
+                        //{
+                        //    var result2 = new CommonController().PushNotificationForWasa(message, list2, JobObj.ID, type);
+                        //}
                     }
                 }
             }
@@ -1076,16 +1075,16 @@ namespace FOS.Web.UI.Controllers.API
                         {
                             foreach (var items in id)
                             {
-                                list.Add(items);
+                                var result1 = new CommonController().PushNotificationForEdit(message, items, JobObj.ID, type);
                             }
                         }
                     }
 
-                    if (list != null)
-                    {
+                    //if (list != null)
+                    //{
 
-                        var result = new CommonController().PushNotification(message, list, JobObj.ID, type);
-                    }
+                    //    var result = new CommonController().PushNotification(message, list, JobObj.ID, type);
+                    //}
                 }
                 else
                 {  // Notification For Progressive Management
@@ -1098,13 +1097,13 @@ namespace FOS.Web.UI.Controllers.API
                         {
                             foreach (var items in id)
                             {
-                                list1.Add(items);
+                                var result1 = new CommonController().PushNotificationForEdit(message, items, JobObj.ID, type);
                             }
                         }
-                        if (list1 != null)
-                        {
-                            var result = new CommonController().PushNotification(message, list1, JobObj.ID, type);
-                        }
+                        //if (list1 != null)
+                        //{
+                        //    var result = new CommonController().PushNotification(message, list1, JobObj.ID, type);
+                        //}
                     }
 
                 }

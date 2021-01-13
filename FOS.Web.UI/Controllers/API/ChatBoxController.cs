@@ -52,12 +52,12 @@ namespace FOS.Web.UI.Controllers.API
                         {
                             foreach (var items in id)
                             {
-                                list.Add(items);
+                                var result = new CommonController().PushNotificationForEdit(message, items, rm.ComplaintID, type);
                             }
                         }
                     }
 
-                    var result = new CommonController().PushNotification(message, list, rm.ComplaintID, type);
+                   
 
                 }
                 else
@@ -72,13 +72,13 @@ namespace FOS.Web.UI.Controllers.API
                         {
                             foreach (var items in id)
                             {
-                                list1.Add(items);
+                                var result = new CommonController().PushNotificationForEdit(message, items, rm.ComplaintID, type);
                             }
                         }
-                        if (list1 != null)
-                        {
-                            var result = new CommonController().PushNotification(message, list1, rm.ComplaintID, type);
-                        }
+                        //if (list1 != null)
+                        //{
+                        //    var result = new CommonController().PushNotification(message, list1, rm.ComplaintID, type);
+                        //}
                     }
                 }
 
