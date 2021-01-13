@@ -83,14 +83,7 @@
     <div class="grid-item">
         <label>Project:</label>
         <div class="controls" style="margin-left: 0px">
-            <select class="" data-val="true" data-val-number="The field ProjectId must be a number." data-val-required="The ProjectId field is required." id="ProjectId" name="ProjectId">
-                    <option value="1">All</option>
-                <option value="9">Contract 1 (6115) North And South</option>
-                <option value="8">Contract 2 (6212)  South</option>
-                <option value="7">Contract 3 (6211)  North</option>
-            </select>
-            <input id="ProjectId" name="ProjectId" type="hidden" value="0">
-            <span class="field-validation-valid" data-valmsg-for="ProjectId" data-valmsg-replace="true"></span>
+            @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.SaleOfficers, "ID", "Name"), new { @class = "" })
         </div>
     </div>
     <div class="grid-item" style="margin-top: 28px;">
@@ -982,14 +975,14 @@
                 "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                     //$("td:first", nRow).html(iDisplayIndex + 1);
                     if (aData["StatusID"] == "3") {
-                        $(nRow).find('td:eq(9)').css('background-color', '#A0B978');
-                        $(nRow).find('td:eq(9)').css('color', 'white');
+                        $(nRow).find('td:eq(8)').css('background-color', '#A0B978');
+                        $(nRow).find('td:eq(8)').css('color', 'white');
 
                         // $('td', nRow).css('background-color', 'Green');
                     }
                     if (aData["StatusID"] == "4") {
-                        $(nRow).find('td:eq(9)').css('background-color', '#F0E801');
-                        $(nRow).find('td:eq(9)').css('color', 'black');
+                        $(nRow).find('td:eq(8)').css('background-color', '#F0E801');
+                        $(nRow).find('td:eq(8)').css('color', 'black');
 
                     }
                     if (aData["ComplaintTypeName"] == "Major") {
@@ -1027,7 +1020,7 @@
 
                         }
                     }
-                ], "order": [0, "desc"]
+                ], "order": [7, "desc"]
 
             });
 
@@ -1036,7 +1029,7 @@
             var info = table.page.info();
             var pageNum = (info.page < info.pages) ? info.page + 1 : 1;
             table.page(pageNum).draw(false);
-        }, 300000);
+        }, 20000);
     }
     function ChildView(ProgressID) {
         var url = "/Complaint/GetProgressIDData?ProgressID=" + ProgressID;

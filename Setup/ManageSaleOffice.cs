@@ -931,7 +931,7 @@ namespace FOS.Setup
             saleOfficerData.Insert(0, new SaleOfficerData
             {
                 ID = 0,
-                Name = "--Select Project--"
+                Name = "All"
             });
             return saleOfficerData;
             
