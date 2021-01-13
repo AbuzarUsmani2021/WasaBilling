@@ -1290,5 +1290,66 @@ namespace FOS.Web.UI.Controllers.API
         }
 
 
+        public bool PushNotificationForEdit(string Message, string deviceIDs, int ID, string type)
+        {
+            var AppId = ConfigurationManager.AppSettings["OneSignalAppID"];
+
+            var DevIDs = deviceIDs;
+            
+                var request = WebRequest.Create("https://onesignal.com/api/v1/notifications") as HttpWebRequest;
+
+                request.KeepAlive = true;
+                request.Method = "POST";
+                request.ContentType = "application/json; charset=utf-8";
+
+                var serializer = new JavaScriptSerializer();
+                var obj = new
+                {
+                    app_id = AppId,
+                    contents = new { en = Message },
+                    data = new { ComplaintID = ID, PushType = type },
+                    include_player_ids = new string[] { DevIDs }
+                };
+
+
+
+                var param = serializer.Serialize(obj);
+                byte[] byteArray = Encoding.UTF8.GetBytes(param);
+
+                string responseContent = null;
+
+                try
+                {
+                    using (var writer = request.GetRequestStream())
+                    {
+                        writer.Write(byteArray, 0, byteArray.Length);
+                    }
+
+                    using (var response = request.GetResponse() as HttpWebResponse)
+                    {
+                        using (var reader = new StreamReader(response.GetResponseStream()))
+                        {
+                            responseContent = reader.ReadToEnd();
+                        }
+                    }
+                }
+                catch (WebException ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                    System.Diagnostics.Debug.WriteLine(new StreamReader(ex.Response.GetResponseStream()).ReadToEnd());
+
+                    return false;
+                }
+
+                System.Diagnostics.Debug.WriteLine(responseContent);
+
+
+
+         
+
+            return true;
+
+        }
+
     }
 }
