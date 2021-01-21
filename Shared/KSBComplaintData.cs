@@ -118,6 +118,8 @@ namespace FOS.Shared
 
         public List<ComplaintStatus> Projects { get; set; }
         public List<FaultTypeData> faultTypesDetail { get; set; }
+        public List<int?> UpdatefaultTypesDetail { get; set; }
+
         public List<ComplaintLaunchedBy> LaunchedBy { get; set; }
         public List<SubDivisionData> SubDivisions { get; set; }
         public List<RetailerData> Sites { get; set; }

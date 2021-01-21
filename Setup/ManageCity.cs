@@ -85,6 +85,70 @@ namespace FOS.Setup
             return so;
         }
 
+        public static List<RetailerData> GetSitesList()
+        {
+            List<RetailerData> Sites = new List<RetailerData>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    Sites = dbContext.Retailers.Where(c => c.IsDeleted == false && c.IsActive == true)
+                            .Select
+                            (
+                                u => new RetailerData
+                                {
+                                    ID = u.ID,
+                                    Name = u.Name,
+                                    RetailerCode = u.RetailerCode
+
+                                }).OrderBy(x => x.Name).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            Sites.Insert(0, new RetailerData
+            {
+                ID = 0,
+                Name = "--Select Sites--"
+            });
+
+            return Sites;
+        }
+        public static List<SaleOfficerData> GetFieldOfficersList(int TeamID)
+        {
+            List<SaleOfficerData> city = new List<SaleOfficerData>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    city = dbContext.SaleOfficers.Where(x => x.RoleID == 3 && x.RegionalHeadID== TeamID)
+                            .Select
+                            (
+                                u => new SaleOfficerData
+                                {
+                                    ID = u.ID,
+                                    Name = u.Name,
+
+                                }).OrderBy(x => x.Name).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            city.Insert(0, new SaleOfficerData
+            {
+                ID = 0,
+                Name = "--Select Field Officer--"
+            });
+
+            return city;
+        }
         public static List<SaleOfficerData> GetFieldOfficersList()
         {
             List<SaleOfficerData> city = new List<SaleOfficerData>();
@@ -275,6 +339,11 @@ namespace FOS.Setup
             {
                 throw;
             }
+            city.Insert(0, new PriorityData
+            {
+                ID = 0,
+                Name = "--Select Priority--"
+            });
 
             return city;
         }
@@ -362,6 +431,11 @@ namespace FOS.Setup
             {
                 throw;
             }
+            city.Insert(0, new ComplaintStatus
+            {
+                ID = 0,
+                Name = "--Select Progress Status--"
+            });
 
             return city;
         }
@@ -390,6 +464,11 @@ namespace FOS.Setup
             {
                 throw;
             }
+              city.Insert(0, new ComplaintStatus
+                {
+                    ID = 0,
+                    Name = "All"
+                });
 
             return city;
         }
@@ -734,6 +813,40 @@ namespace FOS.Setup
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
                     cityList = dbContext.FaultTypeDetails.Where(c => c.FaulttypeID == ClientID && c.IsDeleted == false).OrderBy(c => c.Name)
+                                .Select(
+                                    u => new CityData
+                                    {
+                                        ID = u.ID,
+                                        Name = u.Name,
+
+                                    }).ToList();
+                }
+                var ctyList = cityList.OrderBy(x => x.Name).ToList();
+                ctyList.Insert(0, new CityData
+                {
+                    ID = 0,
+                    Name = selectText
+                });
+                return ctyList;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public static List<CityData> WorkDoneDetailList(int ClientID, string selectText = "Select")
+        {
+            List<CityData> cityList;
+
+            try
+            {
+
+
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    cityList = dbContext.WorkDones.Where(c => c.FaulttypeID == ClientID && c.IsActive == true).OrderBy(c => c.Name)
                                 .Select(
                                     u => new CityData
                                     {

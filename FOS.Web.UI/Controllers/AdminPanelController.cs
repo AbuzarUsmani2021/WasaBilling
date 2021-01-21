@@ -57,6 +57,12 @@ namespace FOS.Web.UI.Controllers
                 SessionManager.Store("UserName", userName.ToString());
                 SessionManager.Store("UserID", userId);
                 SessionManager.Store("UserPages", Common.CurrentUser.GetUserPages(userId));
+                SessionManager.Store("RoleID", Common.CurrentUser.GetUserRole(userId));
+                SessionManager.Store("TeamID", Common.CurrentUser.GetUserTeamID(userId));
+                SessionManager.Store("SORelationID", Common.CurrentUser.User_SOIDRelation(userId));
+
+
+
 
                 SetRegionalHeadIDRelatedToUser(userId);
 

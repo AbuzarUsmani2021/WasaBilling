@@ -1529,8 +1529,34 @@ namespace FOS.Setup
 
         #endregion
 
+        public static List<ComplaintClientRemarks> GetComplaintClientRemarks(int ComplaintId)
+        {
 
-        public static List<JobsDetailData> AllFilteredComplaints(string From, string To, int Project)
+            List<ComplaintClientRemarks> CRC = new List<ComplaintClientRemarks>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    CRC = dbContext.ClientRemarks.Where(u => u.ComplaintID == ComplaintId).Select(u => new ComplaintClientRemarks
+                    {
+                        DateTime = u.RemarksDate.ToString(),
+                        RemarksByName = u.RemarksByName,
+                        ClientRemarks = u.ClientRemarks
+                    }).ToList();
+
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return CRC;
+
+        }
+
+
+        public static List<JobsDetailData> AllFilteredComplaints(string From, string To, int Project, int TeamID)
         {
             List<JobsDetailData> doneJobData = new List<JobsDetailData>();
             try
@@ -1538,77 +1564,17 @@ namespace FOS.Setup
                 var date = DateTime.UtcNow.AddHours(5);
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                         if (From != null && To != null && Project != 0)
+                    if(TeamID==4)
                     {
-                        DateTime FromDate = Convert.ToDateTime(From);
-                        DateTime ToDate = Convert.ToDateTime(To);
-                        DateTime dtFromUtc = FromDate.AddHours(5);
-                        DateTime dtFrom = dtFromUtc.Date;
-                        DateTime dtTo = ToDate.AddDays(1);
-                        doneJobData = (from job in dbContext.Jobs
-                        where job.ZoneID == Project && job.CreatedDate >= dtFrom && job.CreatedDate <= dtTo
-                        select new JobsDetailData
-                                           {
-                                               ID = job.ID,
-                                               JobID = job.ID,
-                                               RetailerID = job.SiteID,
-                                               RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
-                                               FaultTypeID = job.FaultTypeId,
-                                               FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
-                                               FaultTypeDetailID = job.FaultTypeDetailID,
-                                               FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
-                                               StatusID = job.ComplaintStatusId,
-                                               StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
-                                               SaleOfficerName = job.SaleOfficer.Name,
-                                               TicketNo = job.TicketNo,
-                                               SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
-                                               dateformat = job.CreatedDate.ToString(),
-                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
-                                               ComplaintTypeName = job.ComplaintType.Name,
-                                               d1 = date,
-                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                               ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
-                    }
-                    else if (From != null && To != null && Project == 0)
-                    {
-                        DateTime FromDate = Convert.ToDateTime(From);
-                        DateTime ToDate = Convert.ToDateTime(To);
-                        DateTime dtFromUtc = FromDate.AddHours(5);
-                        DateTime dtFrom = dtFromUtc.Date;
-                        DateTime dtTo = ToDate.AddDays(1);
-                        doneJobData = (from job in dbContext.Jobs
-                                       where job.CreatedDate >= dtFrom && job.CreatedDate <= dtTo
-                                       select new JobsDetailData
-                                       {
-                                           ID = job.ID,
-                                           JobID = job.ID,
-                                           RetailerID = job.SiteID,
-                                           RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
-                                           FaultTypeID = job.FaultTypeId,
-                                           FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
-                                           FaultTypeDetailID = job.FaultTypeDetailID,
-                                           FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
-                                           StatusID = job.ComplaintStatusId,
-                                           StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
-                                           SaleOfficerName = job.SaleOfficer.Name,
-                                           TicketNo = job.TicketNo,
-                                           SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
-                                           dateformat = job.CreatedDate.ToString(),
-                                           UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
-                                           ComplaintTypeName = job.ComplaintType.Name,
-                                           d1 = date,
-                                           d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                           ResolvedAt = (DateTime)job.ResolvedAt
-                                       }).OrderByDescending(x => x.dateformat).ToList();
-                    }
-                    else if (From == null && To == null && Project != 0)
-                    {
-                            DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
-                            DateTime dtFromToday = dtFromTodayUtc.Date;
-                            DateTime dtToToday = dtFromToday.AddDays(1);
+                             if (From != null && To != null && Project != 0)
+                        {
+                            DateTime FromDate = Convert.ToDateTime(From);
+                            DateTime ToDate = Convert.ToDateTime(To);
+                            DateTime dtFromUtc = FromDate.AddHours(5);
+                            DateTime dtFrom = dtFromUtc.Date;
+                            DateTime dtTo = ToDate.AddDays(1);
                             doneJobData = (from job in dbContext.Jobs
-                                           where (job.ZoneID == Project && job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) || (job.ZoneID == Project && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
+                                           where job.ZoneID == Project && job.CreatedDate >= dtFrom && job.CreatedDate <= dtTo
                                            select new JobsDetailData
                                            {
                                                ID = job.ID,
@@ -1631,37 +1597,368 @@ namespace FOS.Setup
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
                                            }).OrderByDescending(x => x.dateformat).ToList();
-                     }
-                    else if (From == null && To == null && Project == 0)
-                    {
-                        DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
-                        DateTime dtFromToday = dtFromTodayUtc.Date;
-                        DateTime dtToToday = dtFromToday.AddDays(1);
-                        doneJobData = (from job in dbContext.Jobs
-                                       where (job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) || job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4
-                                       select new JobsDetailData
-                                       {
-                                           ID = job.ID,
-                                           JobID = job.ID,
-                                           RetailerID = job.SiteID,
-                                           RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
-                                           FaultTypeID = job.FaultTypeId,
-                                           FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
-                                           FaultTypeDetailID = job.FaultTypeDetailID,
-                                           FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
-                                           StatusID = job.ComplaintStatusId,
-                                           StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
-                                           SaleOfficerName = job.SaleOfficer.Name,
-                                           TicketNo = job.TicketNo,
-                                           SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
-                                           dateformat = job.CreatedDate.ToString(),
-                                           UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
-                                           ComplaintTypeName = job.ComplaintType.Name,
-                                           d1 = date,
-                                           d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
-                                           ResolvedAt = (DateTime)job.ResolvedAt
-                                       }).OrderByDescending(x => x.dateformat).ToList();
+                        }
+                        else if (From != null && To != null && Project == 0)
+                        {
+                            DateTime FromDate = Convert.ToDateTime(From);
+                            DateTime ToDate = Convert.ToDateTime(To);
+                            DateTime dtFromUtc = FromDate.AddHours(5);
+                            DateTime dtFrom = dtFromUtc.Date;
+                            DateTime dtTo = ToDate.AddDays(1);
+                            doneJobData = (from job in dbContext.Jobs
+                                           where job.CreatedDate >= dtFrom && job.CreatedDate <= dtTo
+                                           select new JobsDetailData
+                                           {
+                                               ID = job.ID,
+                                               JobID = job.ID,
+                                               RetailerID = job.SiteID,
+                                               RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeID = job.FaultTypeId,
+                                               FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeDetailID = job.FaultTypeDetailID,
+                                               FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                                               StatusID = job.ComplaintStatusId,
+                                               StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                                               SaleOfficerName = job.SaleOfficer.Name,
+                                               TicketNo = job.TicketNo,
+                                               SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
+                                               dateformat = job.CreatedDate.ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               ComplaintTypeName = job.ComplaintType.Name,
+                                               d1 = date,
+                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
+                                               ResolvedAt = (DateTime)job.ResolvedAt
+                                           }).OrderByDescending(x => x.dateformat).ToList();
+                        }
+                        else if (From == null && To == null && Project != 0)
+                        {
+                            DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
+                            DateTime dtFromToday = dtFromTodayUtc.Date;
+                            DateTime dtToToday = dtFromToday.AddDays(1);
+                            doneJobData = (from job in dbContext.Jobs
+                                           where (job.ZoneID == Project && job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) ||
+                                                 (job.ZoneID == Project && job.ResolvedAt >= dtFromToday && job.ResolvedAt <= dtToToday) ||
+                                                 (job.ZoneID == Project && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
+                                           select new JobsDetailData
+                                           {
+                                               ID = job.ID,
+                                               JobID = job.ID,
+                                               RetailerID = job.SiteID,
+                                               RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeID = job.FaultTypeId,
+                                               FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeDetailID = job.FaultTypeDetailID,
+                                               FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                                               StatusID = job.ComplaintStatusId,
+                                               StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                                               SaleOfficerName = job.SaleOfficer.Name,
+                                               TicketNo = job.TicketNo,
+                                               SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
+                                               dateformat = job.CreatedDate.ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               ComplaintTypeName = job.ComplaintType.Name,
+                                               d1 = date,
+                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
+                                               ResolvedAt = (DateTime)job.ResolvedAt
+                                           }).OrderByDescending(x => x.dateformat).ToList();
+                        }
+                        else if (From == null && To == null && Project == 0)
+                        {
+                            DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
+                            DateTime dtFromToday = dtFromTodayUtc.Date;
+                            DateTime dtToToday = dtFromToday.AddDays(1);
+                            doneJobData = (from job in dbContext.Jobs
+                                           where (job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) ||
+                                                 (job.ResolvedAt >= dtFromToday && job.ResolvedAt <= dtToToday) ||
+                                                 (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4)
+                                           select new JobsDetailData
+                                           {
+                                               ID = job.ID,
+                                               JobID = job.ID,
+                                               RetailerID = job.SiteID,
+                                               RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeID = job.FaultTypeId,
+                                               FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeDetailID = job.FaultTypeDetailID,
+                                               FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                                               StatusID = job.ComplaintStatusId,
+                                               StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                                               SaleOfficerName = job.SaleOfficer.Name,
+                                               TicketNo = job.TicketNo,
+                                               SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
+                                               dateformat = job.CreatedDate.ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               ComplaintTypeName = job.ComplaintType.Name,
+                                               d1 = date,
+                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
+                                               ResolvedAt = (DateTime)job.ResolvedAt
+                                           }).OrderByDescending(x => x.dateformat).ToList();
+                        }
                     }
+               else if (TeamID == 5)
+                    {
+                             if (From != null && To != null && Project != 0)
+                        {
+                            DateTime FromDate = Convert.ToDateTime(From);
+                            DateTime ToDate = Convert.ToDateTime(To);
+                            DateTime dtFromUtc = FromDate.AddHours(5);
+                            DateTime dtFrom = dtFromUtc.Date;
+                            DateTime dtTo = ToDate.AddDays(1);
+                            doneJobData = (from job in dbContext.Jobs
+                                           where job.ZoneID == Project && job.CreatedDate >= dtFrom && job.CreatedDate <= dtTo
+                                           select new JobsDetailData
+                                           {
+                                               ID = job.ID,
+                                               JobID = job.ID,
+                                               RetailerID = job.SiteID,
+                                               RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeID = job.FaultTypeId,
+                                               FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeDetailID = job.FaultTypeDetailID,
+                                               FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                                               StatusID = job.ComplaintStatusId,
+                                               StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                                               SaleOfficerName = job.SaleOfficer.Name,
+                                               TicketNo = job.TicketNo,
+                                               SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
+                                               dateformat = job.CreatedDate.ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               ComplaintTypeName = job.ComplaintType.Name,
+                                               d1 = date,
+                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
+                                               ResolvedAt = (DateTime)job.ResolvedAt
+                                           }).OrderByDescending(x => x.dateformat).ToList();
+                        }
+                        else if (From != null && To != null && Project == 0)
+                        {
+                            DateTime FromDate = Convert.ToDateTime(From);
+                            DateTime ToDate = Convert.ToDateTime(To);
+                            DateTime dtFromUtc = FromDate.AddHours(5);
+                            DateTime dtFrom = dtFromUtc.Date;
+                            DateTime dtTo = ToDate.AddDays(1);
+                            doneJobData = (from job in dbContext.Jobs
+                                           where ((job.ZoneID == 7 || job.ZoneID == 8) && job.CreatedDate >= dtFrom && job.CreatedDate <= dtTo)
+                                           select new JobsDetailData
+                                           {
+                                               ID = job.ID,
+                                               JobID = job.ID,
+                                               RetailerID = job.SiteID,
+                                               RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeID = job.FaultTypeId,
+                                               FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeDetailID = job.FaultTypeDetailID,
+                                               FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                                               StatusID = job.ComplaintStatusId,
+                                               StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                                               SaleOfficerName = job.SaleOfficer.Name,
+                                               TicketNo = job.TicketNo,
+                                               SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
+                                               dateformat = job.CreatedDate.ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               ComplaintTypeName = job.ComplaintType.Name,
+                                               d1 = date,
+                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
+                                               ResolvedAt = (DateTime)job.ResolvedAt
+                                           }).OrderByDescending(x => x.dateformat).ToList();
+                        }
+                        else if (From == null && To == null && Project != 0)
+                        {
+                            DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
+                            DateTime dtFromToday = dtFromTodayUtc.Date;
+                            DateTime dtToToday = dtFromToday.AddDays(1);
+                            doneJobData = (from job in dbContext.Jobs
+                                           where (job.ZoneID == Project && job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) ||
+                                                 ((job.ZoneID == Project) && job.ResolvedAt >= dtFromToday && job.ResolvedAt <= dtToToday) ||
+                                                 (job.ZoneID == Project && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
+                                           select new JobsDetailData
+                                           {
+                                               ID = job.ID,
+                                               JobID = job.ID,
+                                               RetailerID = job.SiteID,
+                                               RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeID = job.FaultTypeId,
+                                               FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeDetailID = job.FaultTypeDetailID,
+                                               FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                                               StatusID = job.ComplaintStatusId,
+                                               StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                                               SaleOfficerName = job.SaleOfficer.Name,
+                                               TicketNo = job.TicketNo,
+                                               SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
+                                               dateformat = job.CreatedDate.ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               ComplaintTypeName = job.ComplaintType.Name,
+                                               d1 = date,
+                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
+                                               ResolvedAt = (DateTime)job.ResolvedAt
+                                           }).OrderByDescending(x => x.dateformat).ToList();
+                        }
+                        else if (From == null && To == null && Project == 0)
+                        {
+                            DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
+                            DateTime dtFromToday = dtFromTodayUtc.Date;
+                            DateTime dtToToday = dtFromToday.AddDays(1);
+                            doneJobData = (from job in dbContext.Jobs
+                                           where ((job.ZoneID == 7 || job.ZoneID == 8) && job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday)   ||
+                                                 ((job.ZoneID == 7 || job.ZoneID == 8) && job.ResolvedAt  >= dtFromToday && job.ResolvedAt  <= dtToToday)   ||
+                                                 ((job.ZoneID == 7 || job.ZoneID == 8) && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
+                                           select new JobsDetailData
+                                           {
+                                               ID = job.ID,
+                                               JobID = job.ID,
+                                               RetailerID = job.SiteID,
+                                               RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeID = job.FaultTypeId,
+                                               FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeDetailID = job.FaultTypeDetailID,
+                                               FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                                               StatusID = job.ComplaintStatusId,
+                                               StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                                               SaleOfficerName = job.SaleOfficer.Name,
+                                               TicketNo = job.TicketNo,
+                                               SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
+                                               dateformat = job.CreatedDate.ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               ComplaintTypeName = job.ComplaintType.Name,
+                                               ResolvedHours=job.ResolvedHours,
+                                               d1 = date,
+                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
+                                               ResolvedAt = (DateTime)job.ResolvedAt
+                                           }).OrderByDescending(x => x.dateformat).ToList();
+                        }
+                    }
+               else if (TeamID == 6)
+                    {
+                             if (From != null && To != null && Project != 0)
+                        {
+                            DateTime FromDate = Convert.ToDateTime(From);
+                            DateTime ToDate = Convert.ToDateTime(To);
+                            DateTime dtFromUtc = FromDate.AddHours(5);
+                            DateTime dtFrom = dtFromUtc.Date;
+                            DateTime dtTo = ToDate.AddDays(1);
+                            doneJobData = (from job in dbContext.Jobs
+                                           where job.ZoneID == Project && job.CreatedDate >= dtFrom && job.CreatedDate <= dtTo
+                                           select new JobsDetailData
+                                           {
+                                               ID = job.ID,
+                                               JobID = job.ID,
+                                               RetailerID = job.SiteID,
+                                               RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeID = job.FaultTypeId,
+                                               FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeDetailID = job.FaultTypeDetailID,
+                                               FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                                               StatusID = job.ComplaintStatusId,
+                                               StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                                               SaleOfficerName = job.SaleOfficer.Name,
+                                               TicketNo = job.TicketNo,
+                                               SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
+                                               dateformat = job.CreatedDate.ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               ComplaintTypeName = job.ComplaintType.Name,
+                                               d1 = date,
+                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
+                                               ResolvedAt = (DateTime)job.ResolvedAt
+                                           }).OrderByDescending(x => x.dateformat).ToList();
+                        }
+                        else if (From != null && To != null && Project == 0)
+                        {
+                            DateTime FromDate = Convert.ToDateTime(From);
+                            DateTime ToDate = Convert.ToDateTime(To);
+                            DateTime dtFromUtc = FromDate.AddHours(5);
+                            DateTime dtFrom = dtFromUtc.Date;
+                            DateTime dtTo = ToDate.AddDays(1);
+                            doneJobData = (from job in dbContext.Jobs
+                                           where (job.ZoneID == 9 && job.CreatedDate >= dtFrom && job.CreatedDate <= dtTo)
+                                           select new JobsDetailData
+                                           {
+                                               ID = job.ID,
+                                               JobID = job.ID,
+                                               RetailerID = job.SiteID,
+                                               RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeID = job.FaultTypeId,
+                                               FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeDetailID = job.FaultTypeDetailID,
+                                               FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                                               StatusID = job.ComplaintStatusId,
+                                               StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                                               SaleOfficerName = job.SaleOfficer.Name,
+                                               TicketNo = job.TicketNo,
+                                               SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
+                                               dateformat = job.CreatedDate.ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               ComplaintTypeName = job.ComplaintType.Name,
+                                               d1 = date,
+                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
+                                               ResolvedAt = (DateTime)job.ResolvedAt
+                                           }).OrderByDescending(x => x.dateformat).ToList();
+                        }
+                        else if (From == null && To == null && Project != 0)
+                        {
+                            DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
+                            DateTime dtFromToday = dtFromTodayUtc.Date;
+                            DateTime dtToToday = dtFromToday.AddDays(1);
+                            doneJobData = (from job in dbContext.Jobs
+                                           where (job.ZoneID == Project && job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) ||
+                                                ((job.ZoneID == Project) && job.ResolvedAt >= dtFromToday && job.ResolvedAt <= dtToToday) ||
+                                                 (job.ZoneID == Project && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
+                                           select new JobsDetailData
+                                           {
+                                               ID = job.ID,
+                                               JobID = job.ID,
+                                               RetailerID = job.SiteID,
+                                               RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeID = job.FaultTypeId,
+                                               FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeDetailID = job.FaultTypeDetailID,
+                                               FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                                               StatusID = job.ComplaintStatusId,
+                                               StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                                               SaleOfficerName = job.SaleOfficer.Name,
+                                               TicketNo = job.TicketNo,
+                                               SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
+                                               dateformat = job.CreatedDate.ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               ComplaintTypeName = job.ComplaintType.Name,
+                                               d1 = date,
+                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
+                                               ResolvedAt = (DateTime)job.ResolvedAt
+                                           }).OrderByDescending(x => x.dateformat).ToList();
+                        }
+                        else if (From == null && To == null && Project == 0)
+                        {
+                            DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
+                            DateTime dtFromToday = dtFromTodayUtc.Date;
+                            DateTime dtToToday = dtFromToday.AddDays(1);
+                            doneJobData = (from job in dbContext.Jobs
+                                           where (job.ZoneID == 9 && job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) ||
+                                                ((job.ZoneID == 9) && job.ResolvedAt >= dtFromToday && job.ResolvedAt <= dtToToday) ||
+                                                 (job.ZoneID == 9 && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
+                                           select new JobsDetailData
+                                           {
+                                               ID = job.ID,
+                                               JobID = job.ID,
+                                               RetailerID = job.SiteID,
+                                               RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeID = job.FaultTypeId,
+                                               FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                                               FaultTypeDetailID = job.FaultTypeDetailID,
+                                               FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                                               StatusID = job.ComplaintStatusId,
+                                               StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                                               SaleOfficerName = job.SaleOfficer.Name,
+                                               TicketNo = job.TicketNo,
+                                               SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
+                                               dateformat = job.CreatedDate.ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               ComplaintTypeName = job.ComplaintType.Name,
+                                               d1 = date,
+                                               d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
+                                               ResolvedAt = (DateTime)job.ResolvedAt
+                                           }).OrderByDescending(x => x.dateformat).ToList();
+                        }
+                    }
+
                 }
             }
             catch (Exception exp)
@@ -1751,7 +2048,9 @@ namespace FOS.Setup
                         DateTime dtFromToday = dtFromTodayUtc.Date;
                         DateTime dtToToday = dtFromToday.AddDays(1);
                         doneJobData = (from job in dbContext.Jobs
-                                       where (job.ZoneID == Project && job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) || (job.ZoneID == Project && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
+                                       where (job.ZoneID == Project && job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) ||
+                                             (job.ZoneID == Project && job.ResolvedAt >= dtFromToday && job.ResolvedAt <= dtToToday) ||
+                                             (job.ZoneID == Project && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
                                        select new JobsDetailData
                                        {
                                            ID = job.ID, 
@@ -1783,7 +2082,9 @@ namespace FOS.Setup
                         DateTime dtFromToday = dtFromTodayUtc.Date;
                         DateTime dtToToday = dtFromToday.AddDays(1);
                         doneJobData = (from job in dbContext.Jobs
-                                       where (job.CreatedDate >= dtFromToday && job.CreatedDate <= dtFromToday) || job.ComplaintStatusId==2003 || job.ComplaintStatusId == 4
+                                       where (job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) ||
+                                             (job.ResolvedAt  >= dtFromToday && job.ResolvedAt  <= dtToToday) ||
+                                             (job.ComplaintStatusId==2003 || job.ComplaintStatusId == 4)
                                        select new JobsDetailData
                                        {
                                            ID = job.ID,
@@ -1898,7 +2199,9 @@ namespace FOS.Setup
                             DateTime dtFromToday = dtFromTodayUtc.Date;
                             DateTime dtToToday = dtFromToday.AddDays(1);
                             doneJobData = (from job in dbContext.Jobs
-                            where (job.ZoneID == Project && job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) || (job.ZoneID == Project && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
+                            where (job.ZoneID == Project && job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) ||
+                                  (job.ZoneID == Project && job.ResolvedAt  >= dtFromToday && job.ResolvedAt  <= dtToToday) ||
+                                  (job.ZoneID == Project && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
                             select new JobsDetailData
                                            {
                                                ID = job.ID,
@@ -1928,7 +2231,9 @@ namespace FOS.Setup
                             DateTime dtFromToday = dtFromTodayUtc.Date;
                             DateTime dtToToday = dtFromToday.AddDays(1); 
                             doneJobData = (from job in dbContext.Jobs
-                            where ((job.ZoneID == 8 || job.ZoneID == 9) && job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) || ((job.ZoneID == 8 || job.ZoneID == 9)  && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
+                            where ((job.ZoneID == 8 || job.ZoneID == 9) && job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) ||
+                                  ((job.ZoneID == 8 || job.ZoneID == 9) && job.ResolvedAt  >= dtFromToday && job.ResolvedAt  <= dtToToday) ||
+                                  ((job.ZoneID == 8 || job.ZoneID == 9) && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
                             select new JobsDetailData
                                            {
                                                ID = job.ID,
@@ -2025,7 +2330,9 @@ namespace FOS.Setup
                             DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
                             DateTime dtFromToday = dtFromTodayUtc.Date;
                             DateTime dtToToday = dtFromToday.AddDays(1); doneJobData = (from job in dbContext.Jobs
-                            where (job.ZoneID == Project && job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) || (job.ZoneID == Project && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
+                            where (job.ZoneID == Project && job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) ||
+                                  (job.ZoneID == Project && job.ResolvedAt  >= dtFromToday && job.ResolvedAt  <= dtToToday) ||
+                                  (job.ZoneID == Project && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
                             select new JobsDetailData
                                            {
                                                ID = job.ID,
@@ -2055,7 +2362,9 @@ namespace FOS.Setup
                             DateTime dtFromToday = dtFromTodayUtc.Date;
                             DateTime dtToToday = dtFromToday.AddDays(1);
                             doneJobData = (from job in dbContext.Jobs
-                            where ((job.ZoneID == 7 || job.ZoneID == 9) && job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) || ((job.ZoneID == 7 || job.ZoneID == 9) && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
+                            where ((job.ZoneID == 7 || job.ZoneID == 9) && job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) ||
+                                  ((job.ZoneID == 7 || job.ZoneID == 9) && job.ResolvedAt  >= dtFromToday && job.ResolvedAt  <= dtToToday) ||
+                                  ((job.ZoneID == 7 || job.ZoneID == 9) && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
                             select new JobsDetailData
                                            {
                                                ID = job.ID,
@@ -2108,7 +2417,6 @@ namespace FOS.Setup
                     {
                         var AreaID = item.AreaID.ToString();
                         var data2 = dbContext.Jobs.Where(x => x.ZoneID == Project && x.CityID == item.CityID && x.Areas == AreaID && x.CreatedDate >= FromDate && x.CreatedDate <= ToDate).ToList();
-
                         foreach (var items in data2)
                         {
                             comlist = new JobsDetailData();
@@ -2147,7 +2455,11 @@ namespace FOS.Setup
                     foreach (var item in data)
                     {
                         var AreaID = item.AreaID.ToString();
-                        var data2 = dbContext.Jobs.Where(x => x.ZoneID == Project && x.CityID == item.CityID && x.Areas == AreaID && x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).ToList();
+                        var data2 = (from job in dbContext.Jobs
+                                     where ((job.ZoneID == Project && job.CityID == item.CityID && job.Areas == AreaID) && job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) ||
+                                           ((job.ZoneID == Project && job.CityID == item.CityID && job.Areas == AreaID) && job.ResolvedAt >= dtFromToday && job.ResolvedAt <= dtToToday) ||
+                                           ((job.ZoneID == Project && job.CityID == item.CityID && job.Areas == AreaID) && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
+                                     select job);
                         foreach (var items in data2)
                         {
                             comlist = new JobsDetailData();
@@ -2271,23 +2583,21 @@ namespace FOS.Setup
 
             using (FOSDataModel dbContext = new FOSDataModel())
             {
-                return dbContext.Tbl_ComplaintHistory.Where(u => u.JobID == ComplaintID).OrderByDescending(u => u.ID).Select(u => new KSBComplaintData
+                return dbContext.Jobs.Where(u => u.ID == ComplaintID).OrderByDescending(u => u.ID).Select(u => new KSBComplaintData
                 {
-                    UpdateComplaintID = (int)u.JobID,
+                    UpdateComplaintID = u.ID,
                     UpdateFaulttypeId = u.FaultTypeId,
-                    UpdateFaulttypeDetailId = u.FaultTypeDetailID,
-                    UpdateFaultTypeDetailOtherRemarks = u.FaultTypeDetailRemarks,
+                    UpdateFaulttypeDetailId=u.FaultTypeDetailID,
+                    UpdateFaultTypeDetailOtherRemarks = dbContext.JobsDetails.Where(x => x.JobID == u.ID).Select(x => x.PRemarks).FirstOrDefault(),
                     UpdatePriorityId = u.PriorityId,
                     UpdateComplaintTypeID = u.ComplainttypeID,
-                    UpdateSalesOficerID = u.AssignedToSaleOfficer,
+                    UpdateSalesOficerID = dbContext.JobsDetails.Where(x => x.JobID == u.ID).OrderByDescending(x=>x.ID).Select(x => x.AssignedToSaleOfficer).FirstOrDefault(),
                     UpdateStatusID = u.ComplaintStatusId,
-                    UpdateProgressStatusId = u.ProgressStatusID,
-                    UpdateProgressStatusOtherRemarks = u.ProgressStatusRemarks,
-                    UpdateTime = dbContext.Jobs.Where(x => x.ID == u.JobID).Select(x => x.ResolvedHours).FirstOrDefault(),
+                    UpdateProgressStatusId = dbContext.JobsDetails.Where(x => x.JobID == u.ID).OrderByDescending(x => x.ID).Select(x => x.ProgressStatusID).FirstOrDefault(),
+                    UpdateProgressStatusOtherRemarks = dbContext.JobsDetails.Where(x => x.JobID == u.ID).Select(x => x.PRemarks).FirstOrDefault(),
                     UpdatePerson = u.PersonName,
-                    UpdateProgressRemarks = u.ProgressStatusRemarks,
-                    Picture1 = u.Picture1,
-                    Picture2 = u.Picture2
+                    ReslovedHours=u.ResolvedHours
+                    //UpdateProgressRemarks = dbContext.JobsDetails.Where(x => x.JobID == u.ID).Select(x => x.ProgressStatusRemarks).FirstOrDefault()
                 }).First();
 
             }
@@ -2299,31 +2609,26 @@ namespace FOS.Setup
 
             using (FOSDataModel dbContext = new FOSDataModel())
             {
-                return dbContext.JobsDetails.Where(u => u.ID == ProgressID).Select(u => new ComplaintProgress
+                return dbContext.Tbl_ComplaintHistory.Where(u => u.ID == ProgressID).Select(u => new ComplaintProgress
                 {
                     ProgressID = u.ID,
-                    ComplaintID = u.JobID,
-                    DateTime = u.JobDate.ToString(),
-                    FaultTypeID = u.ChildFaultTypeID,
-                    FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == u.ChildFaultTypeID).Select(p => p.Name).FirstOrDefault(),
-                    FaultTypeDetailID = u.ChildFaultTypeDetailID,
-                    FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == u.ChildFaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
-                    PriorityID = dbContext.Jobs.Where(p => p.ID == u.JobID).Select(p => p.PriorityId).FirstOrDefault(),
-                    ComplaintTypeID = dbContext.Jobs.Where(x => x.ID == u.JobID).Select(x => x.ComplainttypeID).FirstOrDefault(),
-
-                    ComplaintStatus = dbContext.ComplaintStatus.Where(x => x.Id == u.ChildStatusID).Select(x => x.Name).FirstOrDefault(),
-                    AssignedFS = dbContext.SaleOfficers.Where(x => x.ID == u.ChildAssignedSaleOfficerID).Select(x => x.Name).FirstOrDefault(),
+                    DateTime = u.CreatedDate.ToString(),
+                    FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == u.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                    FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == u.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                    FaultTypeDetailRemarks =u.FaultTypeDetailRemarks,
+                    AssignedFS = dbContext.SaleOfficers.Where(x => x.ID == u.AssignedToSaleOfficer).Select(x => x.Name).FirstOrDefault(),
                     ProgressStatusID = u.ProgressStatusID,
-                    ProgressRemarks = u.PRemarks,
-                    Picture1 = dbContext.JobsDetails.Where(p => p.ID == u.ID).Select(p => p.Picture1).FirstOrDefault(),
-                    Picture2 = dbContext.JobsDetails.Where(p => p.ID == u.ID).Select(p => p.Picture2).FirstOrDefault()
+                    ProgressRemarks=u.UpdateRemarks,
+                    ComplaintStatus= dbContext.ComplaintStatus.Where(x => x.Id == u.ComplaintStatusId).Select(x => x.Name).FirstOrDefault(),
+                    Picture1 = u.Picture1,
+                    Picture2 = u.Picture2
                 }).First();
 
             }
         }
 
 
-        public static List<ComplaintProgress> GetComplaintProgressData(int ComplaintId)
+        public static List<ComplaintProgress> GetComplaintChildData(int ComplaintId)
         {
 
             List<ComplaintProgress> CP = new List<ComplaintProgress>();
@@ -2332,19 +2637,18 @@ namespace FOS.Setup
             {
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                    CP = dbContext.JobsDetails.Where(u => u.JobID == ComplaintId).Select(u => new ComplaintProgress
+                    CP = dbContext.Tbl_ComplaintHistory.Where(u => u.JobID == ComplaintId && u.IsPublished==1).Select(u => new ComplaintProgress
                     {
-                        ProgressID = u.ID,
-                        ComplaintID = u.JobID,
-                        DateTime = u.JobDate.ToString(),
-                        FaultTypeID = u.ChildFaultTypeID,
-                        FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == u.ChildFaultTypeID).Select(p => p.Name).FirstOrDefault(),
-                        FaultTypeDetailID = u.ChildFaultTypeDetailID,
-                        FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == u.ChildFaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
-                        ComplaintStatus = dbContext.ComplaintStatus.Where(x => x.Id == u.ChildStatusID).Select(x => x.Name).FirstOrDefault(),
-                        AssignedFS = dbContext.SaleOfficers.Where(x => x.ID == u.ChildAssignedSaleOfficerID).Select(x => x.Name).FirstOrDefault(),
-                        ProgressStatusID = u.ProgressStatusID,
-                        ProgressRemarks = u.PRemarks
+                        ProgressID=u.ID,
+                        ComplaintID = (int) u.JobID,
+                        DateTime = u.CreatedDate.ToString(),
+                        FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == u.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                        FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == u.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                        ComplaintStatus = dbContext.ComplaintStatus.Where(x => x.Id == u.ComplaintStatusId).Select(x => x.Name).FirstOrDefault(),
+                        AssignedFS = dbContext.SaleOfficers.Where(x => x.ID == u.AssignedToSaleOfficer).Select(x => x.Name).FirstOrDefault(),
+                        FaultTypeDetailRemarks=u.FaultTypeDetailRemarks,
+                        ProgressStatusID=u.ProgressStatusID,
+                        ProgressRemarks=u.UpdateRemarks
                     }).OrderByDescending(u => u.ProgressID).ToList();
 
                 }
@@ -2356,6 +2660,38 @@ namespace FOS.Setup
             return CP;
 
         }
+        //public static List<ComplaintProgress> GetComplaintChildDataForWASA(int ComplaintId)
+        //{
+
+        //    List<ComplaintProgress> CP = new List<ComplaintProgress>();
+
+        //    try
+        //    {
+        //        using (FOSDataModel dbContext = new FOSDataModel())
+        //        {
+        //            CP = dbContext.JobsDetails.Where(u => u.JobID == ComplaintId && u.IsPublished == 1).Select(u => new ComplaintProgress
+        //            {
+        //                ProgressID = u.ID,
+        //                ComplaintID = (int)u.JobID,
+        //                DateTime = u.DateComplete.ToString(),
+        //                FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == u.ChildFaultTypeID).Select(p => p.Name).FirstOrDefault(),
+        //                FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == u.ChildFaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+        //                ComplaintStatus = dbContext.ComplaintStatus.Where(x => x.Id == u.ChildStatusID).Select(x => x.Name).FirstOrDefault(),
+        //                FaultTypeDetailRemarks = u.ActivityType,
+        //                ProgressStatusID = u.ProgressStatusID,
+        //                ProgressRemarks = u.PRemarks
+        //            }).OrderByDescending(u => u.ProgressID).ToList();
+
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //    return CP;
+
+        //}
+
 
 
 

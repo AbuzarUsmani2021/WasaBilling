@@ -72,6 +72,8 @@ namespace FOS.Web.UI.Controllers
             objRetailer.complaintStatuses = FOS.Setup.ManageCity.GetComplaintStatusList();
             objRetailer.ProgressStatus = FOS.Setup.ManageCity.GetProgressStatusList();
             objRetailer.LaunchedBy = FOS.Setup.ManageCity.GetLaunchedByList();
+            objRetailer.Sites = FOS.Setup.ManageCity.GetSitesList();
+
             objRetailer.Areas = FOS.Setup.ManageArea.GetAreaList();
             objRetailer.SubDivisions = ManageRetailer.GetSubDivisionsList();
             objRetailer.ComplaintTypes = FOS.Setup.ManageCity.GetComplaintTypeList();
@@ -86,141 +88,34 @@ namespace FOS.Web.UI.Controllers
         // Add Or Update Retailer
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult NewComplaint([Bind(Exclude = "TID,SaleOfficers,Dealers")] KSBComplaintData newRetailer, HttpPostedFileBase file1, HttpPostedFileBase file2, HttpPostedFileBase file3, HttpPostedFileBase file4, HttpPostedFileBase file5, HttpPostedFileBase file6)
+        public ActionResult NewComplaint([Bind(Exclude = "TID,SaleOfficers,Dealers")] KSBComplaintData newRetailer, HttpPostedFileBase Picture1, HttpPostedFileBase Picture2)
         {
 
-            Boolean boolFlag = true;
             FOSDataModel dbContext = new FOSDataModel();
-
-            int id = dbContext.Users.Where(x => x.UserName == User.Identity.Name).Select(x => x.ID).FirstOrDefault();
-            newRetailer.LaunchedByID = id;
-            ////newRetailer.ComplaintTypeID = 0;
-            ////newRetailer.PriorityId = 0;
             newRetailer.StatusID = 2003;
-
-
-
-
+            newRetailer.SaleOfficerID= (int) Session["SORelationID"];
 
             string path1 = "";
             string path2 = "";
-            string path3 = "";
-            string path4 = "";
-            string path5 = "";
-            string path6 = "";
-            ValidationResult results = new ValidationResult();
-            try
+
+            if (Picture1 != null)
             {
-                if (newRetailer != null)
-                {
-                    //if (newRetailer.ID == 0)
-                    //{
-                    //    //ComplaintValidator validator = new ComplaintValidator();
-                    //    //results = validator.Validate(newRetailer);
-                    //    //boolFlag = results.IsValid;
-                    //}
-
-
-
-
-
-                    if (boolFlag)
-                    {
-
-                        if (file1 != null)
-                        {
-                            var filename = Path.GetFileName(file1.FileName);
-                            path1 = Path.Combine(Server.MapPath("/Images/ComplaintImages/"), filename);
-                            file1.SaveAs(path1);
-                            path1 = "/images/ComplaintImages/" + filename;
-
-                        }
-
-                        if (file2 != null)
-                        {
-                            var filename = Path.GetFileName(file2.FileName);
-                            path2 = Path.Combine(Server.MapPath("~/Images/ComplaintImages/"), filename);
-                            file2.SaveAs(path2);
-                            path2 = "/images/ComplaintImages/" + filename;
-
-                        }
-                        if (file3 != null)
-                        {
-                            var filename = Path.GetFileName(file3.FileName);
-                            path3 = Path.Combine(Server.MapPath("~/Images/ComplaintImages/"), filename);
-                            file3.SaveAs(path3);
-                            path3 = "/images/ComplaintImages/" + filename;
-
-                        }
-                        if (file4 != null)
-                        {
-                            var filename = Path.GetFileName(file4.FileName);
-                            path4 = Path.Combine(Server.MapPath("~/Images/ComplaintImages/"), filename);
-                            file4.SaveAs(path4);
-                            path4 = "/images/ComplaintImages/" + filename;
-
-                        }
-                        if (file5 != null)
-                        {
-                            var filename = Path.GetFileName(file5.FileName);
-                            path5 = Path.Combine(Server.MapPath("~/Images/ComplaintImages/"), filename);
-                            file5.SaveAs(path5);
-                            path5 = "/images/ComplaintImages/" + filename;
-
-                        }
-                        if (file6 != null)
-                        {
-                            var filename = Path.GetFileName(file6.FileName);
-                            path6 = Path.Combine(Server.MapPath("~/Images/ComplaintVideos/"), filename);
-                            file6.SaveAs(path6);
-                            path6 = "/images/ComplaintImages/" + filename;
-
-                        }
-
-                        int Res = ManageRetailer.AddUpdateComplaint(newRetailer, path1, path2, path3, path4, path5, path6);
-
-                        if (Res == 1)
-                        {
-
-                            return Content("1");
-                        }
-                        else if (Res == 3)
-                        {
-                            return Content("3");
-                        }
-                        else if (Res == 4)
-                        {
-                            return Content("4");
-                        }
-                        else if (Res == 5)
-                        {
-                            return Content("5");
-                        }
-                        else
-                        {
-                            return Content("0");
-                        }
-                    }
-                    else
-                    {
-                        IList<ValidationFailure> failures = results.Errors;
-                        StringBuilder sb = new StringBuilder();
-                        sb.Append(String.Format("{0}:{1}", "*** Error ***", "<br/>"));
-                        foreach (ValidationFailure failer in results.Errors)
-                        {
-                            sb.AppendLine(String.Format("{0}:{1}{2}", failer.PropertyName, failer.ErrorMessage, "<br/>"));
-                            Response.StatusCode = 422;
-                            return Json(new { errors = sb.ToString() });
-                        }
-                    }
-
-                }
-                return Content("0");
+                var filename = Path.GetFileName(Picture1.FileName);
+                path1 = Path.Combine(Server.MapPath("/Images/ComplaintImages/"), filename);
+                Picture1.SaveAs(path1);
+                path1 = "/Images/ComplaintImages/" + filename;
             }
-            catch (Exception exp)
+            if (Picture2 != null)
             {
-                return Content("Exception : " + exp.Message);
+                var filename = Path.GetFileName(Picture2.FileName);
+                path2 = Path.Combine(Server.MapPath("~/Images/ComplaintImages/"), filename);
+                Picture2.SaveAs(path2);
+                path2 = "/Images/ComplaintImages/" + filename;
             }
+            int Res = ManageRetailer.AddUpdateComplaint(newRetailer, path1, path2);
+            return RedirectToAction("Home", "Home");
+
+
         }
 
         #endregion
@@ -277,6 +172,12 @@ namespace FOS.Web.UI.Controllers
             return Json(result);
         }
 
+        public JsonResult WorkDoneDetailList(int ClientID)
+        {
+            var result = FOS.Setup.ManageCity.WorkDoneDetailList(ClientID, "--Select Work Done Status--");
+            return Json(result);
+        }
+
         public JsonResult GetProgressDetailList(int ClientID)
         {
             var result = FOS.Setup.ManageCity.GetProgressDetailList(ClientID, "Select");
@@ -289,6 +190,12 @@ namespace FOS.Web.UI.Controllers
             return Json(Response, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetComplaintClientRemarks(int ComplaintId)
+        {
+            var Response = ManageJobs.GetComplaintClientRemarks(ComplaintId);
+            return Json(Response);
+        }
+
 
         public JsonResult GetSiteId(int ClientID)
         {   
@@ -297,22 +204,15 @@ namespace FOS.Web.UI.Controllers
             return Json(result);
         }
 
-        public JsonResult GetComplaintProgressData(DTParameters param, int ComplaintId)
+        public JsonResult GetComplaintChildData(DTParameters param, int ComplaintId)
         {
             var dtsource = new List<ComplaintProgress>();
-            dtsource = ManageJobs.GetComplaintProgressData(ComplaintId);
+            dtsource = ManageJobs.GetComplaintChildData(ComplaintId);
             foreach (var itm in dtsource)
             {
-                if (itm.FaultTypeDetailID == 3030 || itm.FaultTypeDetailID == 3042 || itm.FaultTypeDetailID == 3049)
+                if (itm.FaultTypeDetailName == "Others")
                 {
-                    itm.FaultTypeDetailName = db.JobsDetails.Where(x => x.JobID == itm.ComplaintID).Select(x => x.PRemarks).FirstOrDefault();
-                }
-                else if (itm.FaultTypeDetailID == null && itm.FaultTypeID == null)
-                {
-                    itm.FaultTypeID = db.Jobs.Where(x => x.ID == itm.ComplaintID).Select(x => x.FaultTypeId).FirstOrDefault();
-                    itm.FaultTypeName = db.FaultTypes.Where(x => x.Id == itm.FaultTypeID).Select(x => x.Name).FirstOrDefault();
-                    itm.FaultTypeDetailID = db.Jobs.Where(x => x.ID == itm.ComplaintID).Select(x => x.FaultTypeDetailID).FirstOrDefault();
-                    itm.FaultTypeDetailName = db.FaultTypeDetails.Where(x => x.ID == itm.FaultTypeDetailID).Select(x => x.Name).FirstOrDefault();
+                    itm.FaultTypeDetailName = itm.FaultTypeDetailRemarks;
                 }
                 if (itm.ComplaintStatus == "Resolved")
                 {
@@ -328,26 +228,49 @@ namespace FOS.Web.UI.Controllers
                 }
                 if (itm.ProgressStatusName == "Others")
                 {
-                    itm.ProgressStatusName = db.JobsDetails.Where(x => x.JobID == itm.ComplaintID).Select(x => x.PRemarks).FirstOrDefault();
+                    itm.ProgressStatusName = itm.ProgressRemarks;
                 }
             }
             return Json(dtsource);
 
         }
 
+        //public JsonResult GetComplaintChildDataForWASA(DTParameters param, int ComplaintId)
+        //{
+        //    var dtsource = new List<ComplaintProgress>();
+        //    dtsource = ManageJobs.GetComplaintChildDataForWASA(ComplaintId);
+        //    foreach (var itm in dtsource)
+        //    {
+        //        if (itm.FaultTypeDetailName == "Others")
+        //        {
+        //            itm.FaultTypeDetailName = itm.FaultTypeDetailRemarks;
+        //        }
+        //        if (itm.ComplaintStatus == "Resolved")
+        //        {
+        //            itm.ProgressStatusName = db.WorkDones.Where(x => x.ID == itm.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+        //        }
+        //        else if (itm.ComplaintStatus == null)
+        //        {
+        //            itm.ComplaintStatus = "New Complaint";
+        //        }
+        //        else
+        //        {
+        //            itm.ProgressStatusName = db.ProgressStatus.Where(x => x.ID == itm.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+        //        }
+        //        if (itm.ProgressStatusName == "Others")
+        //        {
+        //            itm.ProgressStatusName = itm.ProgressRemarks;
+        //        }
+        //    }
+        //    return Json(dtsource);
+
+        //}
         public JsonResult GetProgressIDData(int ProgressID)
         {
             var Response = ManageJobs.GetProgressIDData(ProgressID);
-            if (Response.FaultTypeDetailID == 3030 || Response.FaultTypeDetailID == 3042 || Response.FaultTypeDetailID == 3049)
+            if (Response.FaultTypeDetailName == "Others")
             {
-                Response.FaultTypeDetailName = db.JobsDetails.Where(x => x.JobID == Response.ComplaintID).Select(x => x.PRemarks).FirstOrDefault();
-            }
-            else if (Response.FaultTypeDetailID == null && Response.FaultTypeID == null)
-            {
-                Response.FaultTypeID = db.Jobs.Where(x => x.ID == Response.ComplaintID).Select(x => x.FaultTypeId).FirstOrDefault();
-                Response.FaultTypeName = db.FaultTypes.Where(x => x.Id == Response.FaultTypeID).Select(x => x.Name).FirstOrDefault();
-                Response.FaultTypeDetailID = db.Jobs.Where(x => x.ID == Response.ComplaintID).Select(x => x.FaultTypeDetailID).FirstOrDefault();
-                Response.FaultTypeDetailName = db.FaultTypeDetails.Where(x => x.ID == Response.FaultTypeDetailID).Select(x => x.Name).FirstOrDefault();
+                Response.FaultTypeDetailName =Response.FaultTypeDetailRemarks;
             }
             if (Response.ComplaintStatus == "Resolved")
             {
@@ -363,17 +286,18 @@ namespace FOS.Web.UI.Controllers
             }
             if (Response.ProgressStatusName == "Others")
             {
-                Response.ProgressStatusName = db.JobsDetails.Where(x => x.JobID == Response.ComplaintID).Select(x => x.PRemarks).FirstOrDefault();
+                Response.ProgressStatusName = Response.ProgressRemarks;
             }
             return Json(Response, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetComplaintDetail(int ComplaintId)
+        public JsonResult GetCurrentComplaintDetail(int ComplaintId)
         {
-            var Response = ManageRetailer.GetEditComplaint(ComplaintId);
-            if (Response.FaulttypeDetailId == 3030 || Response.FaulttypeDetailId == 3042 || Response.FaulttypeDetailId == 3049)
+            var Response = ManageRetailer.GetCurrentComplaintDetail(ComplaintId);
+            //Response.LastUpdated = Convert.ToString(Response.ResolvedAt);
+            if (Response.FaultTypesDetailName == "Others")
             {
-                Response.FaultTypeDetailOtherRemarks = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).FirstOrDefault().PRemarks;
+                Response.FaultTypesDetailName = Response.FaultTypesDetailName + "/" + Response.FaultTypeDetailOtherRemarks;
             }
             Response.ProgressStatusId = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).Select(x => x.ProgressStatusID).FirstOrDefault();
             Response.ProgressStatusName = db.ProgressStatus.Where(x => x.ID == Response.ProgressStatusId).OrderByDescending(x => x.ID).Select(x => x.Name).FirstOrDefault();
@@ -391,19 +315,22 @@ namespace FOS.Web.UI.Controllers
             {
                 Response.ProgressStatusName = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).Select(x => x.PRemarks).FirstOrDefault();
             }
-            Response.ProgressStatusOtherRemarks = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).Select(x => x.PRemarks).FirstOrDefault();
-
-
-
-
-
 
             return Json(Response, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetActualComplaintDetail(int ComplaintId)
+        {
+            var Response = ManageRetailer.GetActualComplaintDetail(ComplaintId);
+            if (Response.FaultTypesDetailName == "Others")
+            {
+                Response.FaultTypesDetailName = Response.FaultTypesDetailName+"/"+Response.FaultTypeDetailOtherRemarks;
+            }
+              return Json(Response, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetEditComplaint(int ComplaintId)
         {
-            var Response = ManageRetailer.GetEditComplaint(ComplaintId);
+            //var Response = ManageRetailer.GetEditComplaint(ComplaintId);
             
             return Json(Response, JsonRequestBehavior.AllowGet);
         }

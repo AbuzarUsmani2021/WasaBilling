@@ -25,34 +25,7 @@ namespace FOS.Setup
         //Site Start
         //table start
 
-        public static KSBComplaintData GetActualComplaintDetail(int ComplaintId)
-        {
-            try
-            {
-                using (FOSDataModel dbContext = new FOSDataModel())
-                {
-                    return dbContext.Tbl_ComplaintHistory.Where(u => u.JobID == ComplaintId && u.ComplaintStatusId == 2003).Select(u => new KSBComplaintData
-                    {
-                        ID = u.ID,
-                        SiteCode = dbContext.Retailers.Where(p => p.ID == u.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
-                        SiteName = dbContext.Retailers.Where(p => p.ID == u.SiteID).Select(p => p.Name).FirstOrDefault(),
-                        TicketNo = u.TicketNo,
-                        CreatedDate = u.CreatedDate.ToString(),
-                        LaunchedByName = dbContext.SaleOfficers.Where(p => p.ID == u.LaunchedById).Select(p => p.Name).FirstOrDefault(),
-                        FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == u.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
-                        FaultTypesDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == u.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
-                        StatusName = dbContext.ComplaintStatus.Where(p => p.Id == u.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
-                        Remarks = u.InitialRemarks,
-                        Picture1 = dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.Picture1).FirstOrDefault(),
-                        Picture2 = dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.Picture2).FirstOrDefault(),
-                    }).First();
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+
         public static List<RetailerData> AllSitesData(int ProjectId)
         {
             List<RetailerData> SitesData = new List<RetailerData>();
@@ -60,7 +33,7 @@ namespace FOS.Setup
             {
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                    SitesData = dbContext.Retailers.Where(u => u.IsActive==true && u.IsDeleted==false && u.ZoneID==ProjectId)
+                    SitesData = dbContext.Retailers.Where(u => u.IsActive == true && u.IsDeleted == false && u.ZoneID == ProjectId)
                             .ToList().Select(
                                 u => new RetailerData
                                 {
@@ -100,13 +73,13 @@ namespace FOS.Setup
 
             IQueryable<RetailerData> results = dtResult.AsQueryable();
 
-            results = results.Where(p => (search == null 
+            results = results.Where(p => (search == null
 
-            || (p.ZoneName != null && p.ZoneName.ToLower().Contains(search.ToLower()) 
-            || p.CItyName != null && p.CItyName.ToLower().Contains(search.ToLower()) 
-            || p.AreaName != null && p.AreaName.ToLower().Contains(search.ToLower()) 
-            || p.SubDivisionName != null && p.SubDivisionName.ToLower().Contains(search.ToLower()) 
-            || p.Name != null && p.Name.ToLower().Contains(search.ToLower()) 
+            || (p.ZoneName != null && p.ZoneName.ToLower().Contains(search.ToLower())
+            || p.CItyName != null && p.CItyName.ToLower().Contains(search.ToLower())
+            || p.AreaName != null && p.AreaName.ToLower().Contains(search.ToLower())
+            || p.SubDivisionName != null && p.SubDivisionName.ToLower().Contains(search.ToLower())
+            || p.Name != null && p.Name.ToLower().Contains(search.ToLower())
             || p.RetailerCode != null && p.RetailerCode.ToLower().Contains(search.ToLower())))
 
 
@@ -116,7 +89,7 @@ namespace FOS.Setup
             && (columnFilters[4] == null || (p.SubDivisionName != null && p.SubDivisionName.ToLower().Contains(columnFilters[4].ToLower())))
             && (columnFilters[5] == null || (p.Name != null && p.Name.ToLower().Contains(columnFilters[5].ToLower())))
             && (columnFilters[6] == null || (p.RetailerCode != null && p.RetailerCode.ToLower().Contains(columnFilters[6].ToLower())))
-            
+
                );
 
             return results;
@@ -221,11 +194,11 @@ namespace FOS.Setup
                     return dbContext.Retailers.Where(u => u.ID == SiteID).Select(u => new RetailerData
                     {
                         ID = u.ID,
-                        RegionID=u.RegionID,
-                        ZoneID=u.ZoneID,
-                        CityID=u.CityID,
+                        RegionID = u.RegionID,
+                        ZoneID = u.ZoneID,
+                        CityID = u.CityID,
                         AreaID = (int)u.AreaID,
-                        SubDivisionID=(int)u.SubDivisionID,
+                        SubDivisionID = (int)u.SubDivisionID,
                         Name = u.Name,
                         RetailerCode = u.RetailerCode,
                         Capacity = u.Capacity,
@@ -235,7 +208,7 @@ namespace FOS.Setup
                         Longitude = u.Longitude,
                         Phone1 = u.Phone1,
                         Address = u.Address,
-                        Picture1=u.Picture1
+                        Picture1 = u.Picture1
                     }).First();
                 }
             }
@@ -298,30 +271,30 @@ namespace FOS.Setup
             }
             return retailerData;
         }
-        public List<GetTComplaintsStatusWise_Result> SOVisitsToday(DateTime from,DateTime to , int ProjectID)
+        public List<GetTComplaintsStatusWise_Result> SOVisitsToday(DateTime from, DateTime to, int ProjectID)
         {
             List<GetTComplaintsStatusWise_Result> RetailerObj = new List<GetTComplaintsStatusWise_Result>();
-           
-              
-                try
-                {
-                    
 
 
-                    FOSDataModel dbContext = new FOSDataModel();
+            try
+            {
 
-                    RetailerObj = dbContext.GetTComplaintsStatusWise(from, to,ProjectID).ToList();
 
 
-                }
+                FOSDataModel dbContext = new FOSDataModel();
 
-                catch (Exception exp)
-                {
-                    Log.Instance.Error(exp, "Data not Found");
-                    throw;
-                }
-          
-           
+                RetailerObj = dbContext.GetTComplaintsStatusWise(from, to, ProjectID).ToList();
+
+
+            }
+
+            catch (Exception exp)
+            {
+                Log.Instance.Error(exp, "Data not Found");
+                throw;
+            }
+
+
             return RetailerObj;
         }
 
@@ -591,7 +564,7 @@ namespace FOS.Setup
                     var tagCount = dbContext.Retailers.Where(u => u.IsDeleted == false
                     && u.Status == true
                     && u.Dealer.RegionalHeadID == (RegionalHeadID > 0 ? RegionalHeadID : u.Dealer.RegionalHeadID)
-                    && u.Dealer.ID == (DealerID > 0 ? DealerID : u.Dealer.ID) 
+                    && u.Dealer.ID == (DealerID > 0 ? DealerID : u.Dealer.ID)
                     && u.SaleOfficerID == (SaleOfficerID > 0 ? SaleOfficerID : u.SaleOfficerID)
                     && u.SaleOfficer.City.RegionID == (RegionID > 0 ? RegionID : u.SaleOfficer.City.RegionID)
                     && u.CityID == (CityID > 0 ? CityID : u.CityID)
@@ -632,7 +605,7 @@ namespace FOS.Setup
                         retailerData = dbContext.Retailers.Where(u => u.IsDeleted == false
                         && u.Status == true
                         && u.SaleOfficer.RegionalHeadID == (RegionalHeadID > 0 ? RegionalHeadID : u.SaleOfficer.RegionalHeadID)
-                       // && u.Dealer.ID == (DealerID > 0 ? DealerID : u.Dealer.ID)
+                        // && u.Dealer.ID == (DealerID > 0 ? DealerID : u.Dealer.ID)
                         && u.SaleOfficerID == (SaleOfficerID > 0 ? SaleOfficerID : u.SaleOfficerID)
                         && u.SaleOfficer.City.RegionID == (RegionID > 0 ? RegionID : u.SaleOfficer.City.RegionID)
                         && u.CityID == (CityID > 0 ? CityID : u.CityID)
@@ -642,31 +615,31 @@ namespace FOS.Setup
                                 u => new RetailerData
                                 {
                                     ID = u.ID,
-                                Name = u.Name,
-                                ShopName = u.ShopName,
-                                Location = u.Location,
-                                LocationMargin = u.LocationMargin,
-                                LocationName = u.LocationName,
-                                RetailerType = u.RetailerType,
-                                Latitude = u.Latitude,
-                                Longitude = u.Longitude,
-                                Address = u.Address == null ? "" : u.Address,
-                                Phone1 = u.Phone1,
+                                    Name = u.Name,
+                                    ShopName = u.ShopName,
+                                    Location = u.Location,
+                                    LocationMargin = u.LocationMargin,
+                                    LocationName = u.LocationName,
+                                    RetailerType = u.RetailerType,
+                                    Latitude = u.Latitude,
+                                    Longitude = u.Longitude,
+                                    Address = u.Address == null ? "" : u.Address,
+                                    Phone1 = u.Phone1,
 
-                                //DealerName = u.Dealer.Name,
-                                SaleOfficerName = u.SaleOfficer.Name,
-                                CItyName = u.City.Name,
-                                AreaName = u.Area.Name,
-                                Phone2 = u.Phone2
+                                    //DealerName = u.Dealer.Name,
+                                    SaleOfficerName = u.SaleOfficer.Name,
+                                    CItyName = u.City.Name,
+                                    AreaName = u.Area.Name,
+                                    Phone2 = u.Phone2
 
-                            }).ToList();
+                                }).ToList();
                     }
                     else
                     {
                         retailerData = dbContext.Retailers.Where(u => u.IsDeleted == false
                             && u.Status == true
                             && u.SaleOfficer.RegionalHeadID == (RegionalHeadID > 0 ? RegionalHeadID : u.SaleOfficer.RegionalHeadID)
-                           // && u.Dealer.ID == (DealerID > 0 ? DealerID : u.Dealer.ID)
+                            // && u.Dealer.ID == (DealerID > 0 ? DealerID : u.Dealer.ID)
                             && u.SaleOfficerID == (SaleOfficerID > 0 ? SaleOfficerID : u.SaleOfficerID)
                             && u.SaleOfficer.City.RegionID == (RegionID > 0 ? RegionID : u.SaleOfficer.City.RegionID)
                             && u.CityID == (CityID > 0 ? CityID : u.CityID)
@@ -687,7 +660,7 @@ namespace FOS.Setup
                                     Address = u.Address == null ? "" : u.Address,
                                     Phone1 = u.Phone1,
 
-                                   // DealerName = u.Dealer.Name,
+                                    // DealerName = u.Dealer.Name,
                                     SaleOfficerName = u.SaleOfficer.Name,
                                     CItyName = u.City.Name,
                                     AreaName = u.Area.Name,
@@ -954,7 +927,7 @@ namespace FOS.Setup
 
 
         // Insert OR Update Retailer ...
-        
+
 
         public static int UndoRetailer(int RetailerID)
         {
@@ -1096,7 +1069,7 @@ namespace FOS.Setup
                     obj.UpdatedBy = approvedBy;
                     obj.UpdatedOn = DateTime.Now;
                     obj.Source = (int)RetSourceEnum.Web;
-                    if(action == RetActionEnum.Update)
+                    if (action == RetActionEnum.Update)
                     {
                         obj.Action = (int)RetActionEnum.UpdateApproved;
                     }
@@ -1118,7 +1091,7 @@ namespace FOS.Setup
                     {
                         ret = new Retailer();
                         ret.ID = dbContext.Retailers.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
-                        
+
                         // set retailer id also to approval table
                         obj.ID = ret.ID;
                         //////////////
@@ -1135,7 +1108,7 @@ namespace FOS.Setup
                         ret.Source = (int)RetSourceEnum.Mobile;
                     }
 
-                    if(ret != null)
+                    if (ret != null)
                     {
                         ret.ShopName = obj.ShopName;
                         ret.Name = obj.Name;
@@ -1377,8 +1350,8 @@ namespace FOS.Setup
                                         {
                                             ret.ShopName = "<label style='background-color:yellow'>" + ret.ShopName + "</label>";
                                         }
-                                        if (!string.IsNullOrEmpty(dbRet.Name) 
-                                            && !string.IsNullOrEmpty(ret.Name) 
+                                        if (!string.IsNullOrEmpty(dbRet.Name)
+                                            && !string.IsNullOrEmpty(ret.Name)
                                             && !dbRet.Name.Equals(ret.Name))
                                         {
                                             ret.Name = "<label style='background-color:yellow'>" + ret.Name + "</label>";
@@ -1548,7 +1521,7 @@ namespace FOS.Setup
                 {
                     if (RetActionEnum.Add == action || RetActionEnum.Update == action)
                     {
-                        RetailerData = dbContext.Retailers.Where(u=>u.IsDeleted == true && u.Status==true)
+                        RetailerData = dbContext.Retailers.Where(u => u.IsDeleted == true && u.Status == true)
                             .Select(
                                 u => new RetailerPendingData
                                 {
@@ -1590,7 +1563,7 @@ namespace FOS.Setup
                 && (columnFilters[4] == null || (p.SaleOfficerName != null && p.SaleOfficerName.ToLower().Contains(columnFilters[4].ToLower())))
                 );
 
-            return results; 
+            return results;
         }
 
 
@@ -1639,7 +1612,7 @@ namespace FOS.Setup
                             retailerObj.OperatingTemperature = obj.OperatingTemperature;
                             retailerObj.OperatingPressure = obj.OperatingPressure;
                             retailerObj.Remarks = obj.Remarks;
-                        
+
                             dbContext.SiteEquipmentDetails.Add(retailerObj);
                         }
                         else
@@ -1720,16 +1693,16 @@ namespace FOS.Setup
             {
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                    RetailerData = dbContext.Retailers.OrderByDescending(r => r.ID).Where(u =>u.Status == true && u.IsDeleted == false)
+                    RetailerData = dbContext.Retailers.OrderByDescending(r => r.ID).Where(u => u.Status == true && u.IsDeleted == false)
                             .ToList().Select(
                                 u => new RetailerData
                                 {
                                     ID = u.ID,
-                                  
-                                    
+
+
                                     SaleOfficerID = u.SaleOfficerID,
                                     SaleOfficerName = u.SaleOfficer.Name,
-                                   
+
                                     CityID = u.CityID,
                                     CItyName = u.City.Name,
                                     AreaID = (int)u.AreaID,
@@ -1737,20 +1710,20 @@ namespace FOS.Setup
                                     Address = u.Address == null ? "" : u.Address,
                                     Name = u.Name,
                                     RetailerCode = u.RetailerCode,
-                               
-                                   
-                                    
-                                     Capacity=u.Capacity,
-                                
-                              
-                                   
-                            
-                                
+
+
+
+                                    Capacity = u.Capacity,
+
+
+
+
+
                                 }).ToList();
                 }
             }
             catch (Exception exp)
-                {
+            {
                 Log.Instance.Error(exp, "Get Retailer List Failed");
                 throw;
             }
@@ -1768,17 +1741,17 @@ namespace FOS.Setup
             {
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                    RetailerData = dbContext.SiteEquipmentDetails.OrderByDescending(r => r.ID).Where(u =>u.SiteID==SiteID)
+                    RetailerData = dbContext.SiteEquipmentDetails.OrderByDescending(r => r.ID).Where(u => u.SiteID == SiteID)
                             .ToList().Select(
                                 u => new SiteEquipmentDetailData
                                 {
                                     ID = u.ID,
-                                    SiteName=u.Retailer.Name,
-                                    MaterialNo= u.MaterialNo,
-                                    EquipmentCatName=u.EquipmentCategory.Name,
-                                    EquipmentTypeName= u.EquipmentType.Name,
-                                    Capacity=u.Capacity,
-                                    BrandName=u.EquipmentBrand.Name
+                                    SiteName = u.Retailer.Name,
+                                    MaterialNo = u.MaterialNo,
+                                    EquipmentCatName = u.EquipmentCategory.Name,
+                                    EquipmentTypeName = u.EquipmentType.Name,
+                                    Capacity = u.Capacity,
+                                    BrandName = u.EquipmentBrand.Name
                                 }).ToList();
                 }
             }
@@ -1809,17 +1782,17 @@ namespace FOS.Setup
                                     RegionalHeadID = u.SaleOfficer.RegionalHeadID,
                                     SaleOfficerID = u.SaleOfficerID,
                                     SaleOfficerName = u.SaleOfficer.Name,
-                                  //  RetailerType = u.RetailerType,
+                                    //  RetailerType = u.RetailerType,
                                     CityID = u.CityID,
                                     CItyName = u.City.Name,
                                     AreaID = (int)u.AreaID,
-                                 //   AreaName = u.Area.Name,
+                                    //   AreaName = u.Area.Name,
                                     Address = u.Address == null ? "" : u.Address,
                                     Name = u.Name,
-                                   // RetailerCode = u.RetailerCode,
+                                    // RetailerCode = u.RetailerCode,
                                     CNIC = u.CNIC,
-                                 //   ContactPerson = u.ContactPerson,
-                                  //  ContactPersonCell = u.ContactCellNo,
+                                    //   ContactPerson = u.ContactPerson,
+                                    //  ContactPersonCell = u.ContactCellNo,
 
                                     ShopName = u.ShopName,
                                     Phone1 = u.Phone1 == null ? "" : u.Phone1,
@@ -1864,7 +1837,7 @@ namespace FOS.Setup
                                     CityID = u.SaleOfficer.CityID,
                                     CItyName = u.City.Name,
                                     RegionID = (int)u.RegionID,
-                                    RegionName = dbContext.Regions.Where(x => x.ID == u.RegionID).Select(x=>x.Name).FirstOrDefault(),
+                                    RegionName = dbContext.Regions.Where(x => x.ID == u.RegionID).Select(x => x.Name).FirstOrDefault(),
                                     Address = u.Address == null ? "" : u.Address,
                                     Name = u.Name,
                                     RetailerCode = u.RetailerCode,
@@ -2038,34 +2011,34 @@ namespace FOS.Setup
             {
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                    return dbContext.SiteEquipmentDetails.Where(u => u.ID == RetailerID ).Select(u => new SiteEquipmentDetailData
+                    return dbContext.SiteEquipmentDetails.Where(u => u.ID == RetailerID).Select(u => new SiteEquipmentDetailData
                     {
                         ID = u.ID,
-                     SiteID=u.SiteID,
-                     CityID=u.Retailer.CityID,
-                     AreaID=(int)u.Retailer.AreaID,
-                     ClientID=(int)u.Retailer.RegionID,
-                     ZoneID=u.Retailer.ZoneID,
-                     SubDivisionID=(int)u.Retailer.SubDivisionID,
-                     MaintaineByWhome=u.MaintainedByWhome,
-                     MaintainedByKSB=u.MaintainedBy,
-                     Capacity=u.Capacity,
-                     BrandID=u.BrandID,
-                     Size=u.Size,
-                     Color=u.Color,
-                     EquipmentCatID= (int)u.EquipmentCategoryID,
-                     EquipmentTypeID= (int)u.EquipmentTypeID,
-                     Remarks=u.Remarks,
-                     YearOfInstall=u.YearOfInstall,
-                     YearOfManufacture=u.YearOfManufacture,
-                     Condition=u.Condition,
-                     MaterialNo=u.MaterialNo,
-                     Guarantee=u.Guarantee,
-                     GuaranteeDetail=u.GuaranteeDetail,
-                     Weight=u.Weight,
-                     MediumInUse=u.MediumInUse,
-                     OperatingPressure=u.OperatingPressure,
-                     OperatingTemperature=u.OperatingTemperature
+                        SiteID = u.SiteID,
+                        CityID = u.Retailer.CityID,
+                        AreaID = (int)u.Retailer.AreaID,
+                        ClientID = (int)u.Retailer.RegionID,
+                        ZoneID = u.Retailer.ZoneID,
+                        SubDivisionID = (int)u.Retailer.SubDivisionID,
+                        MaintaineByWhome = u.MaintainedByWhome,
+                        MaintainedByKSB = u.MaintainedBy,
+                        Capacity = u.Capacity,
+                        BrandID = u.BrandID,
+                        Size = u.Size,
+                        Color = u.Color,
+                        EquipmentCatID = (int)u.EquipmentCategoryID,
+                        EquipmentTypeID = (int)u.EquipmentTypeID,
+                        Remarks = u.Remarks,
+                        YearOfInstall = u.YearOfInstall,
+                        YearOfManufacture = u.YearOfManufacture,
+                        Condition = u.Condition,
+                        MaterialNo = u.MaterialNo,
+                        Guarantee = u.Guarantee,
+                        GuaranteeDetail = u.GuaranteeDetail,
+                        Weight = u.Weight,
+                        MediumInUse = u.MediumInUse,
+                        OperatingPressure = u.OperatingPressure,
+                        OperatingTemperature = u.OperatingTemperature
 
 
 
@@ -2082,7 +2055,7 @@ namespace FOS.Setup
 
 
 
-        public static KSBComplaintData GetEditComplaint(int ComplaintId)
+        public static KSBComplaintData GetCurrentComplaintDetail(int ComplaintId)
         {
             try
             {
@@ -2090,26 +2063,55 @@ namespace FOS.Setup
                 {
                     return dbContext.Jobs.Where(u => u.ID == ComplaintId).Select(u => new KSBComplaintData
                     {
-                        ID = u.ID,
+                        ID=u.ID,
                         SiteCode = dbContext.Retailers.Where(p => p.ID == u.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                         SiteName = dbContext.Retailers.Where(p => p.ID == u.SiteID).Select(p => p.Name).FirstOrDefault(),
                         TicketNo = u.TicketNo,
                         CreatedDate = u.CreatedDate.ToString(),
                         LaunchedByName = dbContext.SaleOfficers.Where(p => p.ID == u.SaleOfficerID).Select(p => p.Name).FirstOrDefault(),
-                        ComplaintType = dbContext.ComplaintTypes.Where(p => p.ID == u.ComplainttypeID).Select(p => p.Name).FirstOrDefault(),
                         FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == u.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                        FaultTypeDetailOtherRemarks= dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.PRemarks).FirstOrDefault(),
                         FaultTypesDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == u.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                        StatusName = dbContext.ComplaintStatus.Where(p => p.Id == u.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                        LastUpdated = dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.JobDate).FirstOrDefault().ToString(),
+                        Picture1 = dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.Picture1).FirstOrDefault(),
+                        Picture2 = dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.Picture2).FirstOrDefault(),
+                        //ComplaintType = dbContext.ComplaintTypes.Where(p => p.ID == u.ComplainttypeID).Select(p => p.Name).FirstOrDefault(),
+                        //Name = u.PersonName,
+                        //Remarks = u.InitialRemarks,
+                        //ComplaintTypeID = u.ComplainttypeID,
+                        //ResolvedAt = u.ResolvedAt,
+                        //ReslovedHours = u.ResolvedHours,
+
+                    }).First();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public static KSBComplaintData GetActualComplaintDetail(int ComplaintId)
+        {
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    return dbContext.Tbl_ComplaintHistory.Where(u => u.JobID == ComplaintId).Select(u => new KSBComplaintData
+                    {
+                        CreatedDate = u.CreatedDate.ToString(),
+                        SiteCode = dbContext.Retailers.Where(p => p.ID == u.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
+                        SiteName = dbContext.Retailers.Where(p => p.ID == u.SiteID).Select(p => p.Name).FirstOrDefault(),
+                        TicketNo = u.TicketNo,
+                        FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == u.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                        StatusName = dbContext.ComplaintStatus.Where(p => p.Id == u.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                        LaunchedByName = dbContext.SaleOfficers.Where(p => p.ID == u.LaunchedById).Select(p => p.Name).FirstOrDefault(),
+                        FaultTypesDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == u.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                        FaultTypeDetailOtherRemarks = u.FaultTypeDetailRemarks,
                         Name = u.PersonName,
                         Remarks = u.InitialRemarks,
-                        StatusName = dbContext.ComplaintStatus.Where(p => p.Id == u.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
-                        ProgressStatusId = dbContext.JobsDetails.Where(x => x.JobID == u.ID).OrderByDescending(x => x.ID).Select(x => x.ProgressStatusID).FirstOrDefault(),
-                        LastUpdated = dbContext.JobsDetails.Where(x => x.JobID == u.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
-                        ComplaintTypeID = u.ComplainttypeID,
-                        ResolvedAt=u.ResolvedAt,
-                        ReslovedHours=u.ResolvedHours,
-                        Picture1= dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.Picture1).FirstOrDefault(),
-                        Picture2 = dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.Picture2).FirstOrDefault(),
-                        
+                        Picture1 = u.Picture1,
+                        Picture2 = u.Picture2
                     }).First();
                 }
             }
@@ -2119,6 +2121,32 @@ namespace FOS.Setup
             }
         }
 
+        public static SaleOfficerData GetSOData(int SaleOfficerID)
+        {
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    return dbContext.SaleOfficers.Where(u => u.ID == SaleOfficerID).Select(u => new SaleOfficerData
+                    {
+                        ID = u.ID,
+                        Name = u.Name,
+                        UserName = u.UserName,
+                        Password = u.Password,
+                        RegionalHeadID = u.RegionalHeadID,
+                        Type = (int)u.RegionalHead.Type,
+                        SoRoleID = (int)u.RoleID,
+                        SaleOfficersProjects = dbContext.SOProjects.Where(x => x.SaleOfficerID == u.ID).Select(x => x.ProjectID).ToList(),
+                        SOZones = dbContext.SOZoneAndTowns.Where(x => x.SOID == u.ID).Select(x => x.CityID).Distinct().ToList(),
+                        SOTowns = dbContext.SOZoneAndTowns.Where(x => x.SOID == u.ID).Select(x => x.AreaID).Distinct().ToList(),
+                    }).First();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
 
 
@@ -2137,8 +2165,8 @@ namespace FOS.Setup
         {
             IQueryable<SiteEquipmentDetailData> results = dtResult.AsQueryable();
 
-            results = results.Where(p => (search == null || (p.SiteName != null && p.SiteName.ToLower().Contains(search.ToLower()) ))
-              
+            results = results.Where(p => (search == null || (p.SiteName != null && p.SiteName.ToLower().Contains(search.ToLower())))
+
                );
 
             return results;
@@ -2179,7 +2207,7 @@ namespace FOS.Setup
             return boolFlag;
         }
 
-        public List<Sp_SiteInformationSummary_Result> RetailerInfo(int TID, int Fosid, int cityid, int areaid,DateTime sdate, DateTime edate)
+        public List<Sp_SiteInformationSummary_Result> RetailerInfo(int TID, int Fosid, int cityid, int areaid, DateTime sdate, DateTime edate)
         {
             List<Sp_SiteInformationSummary_Result> RetailerObj = new List<Sp_SiteInformationSummary_Result>();
             try
@@ -2187,7 +2215,7 @@ namespace FOS.Setup
                 FOSDataModel dbContext = new FOSDataModel();
 
 
-                RetailerObj = dbContext.Sp_SiteInformationSummary(TID, Fosid, cityid, areaid, sdate,edate).ToList();
+                RetailerObj = dbContext.Sp_SiteInformationSummary(TID, Fosid, cityid, areaid, sdate, edate).ToList();
             }
 
             catch (Exception exp)
@@ -2298,7 +2326,7 @@ namespace FOS.Setup
 
                 FOSDataModel dbContext = new FOSDataModel();
 
-                RetailerObj = dbContext.sp_getFollowUpReason( fosid, StartingDate, EndingDate).ToList();
+                RetailerObj = dbContext.sp_getFollowUpReason(fosid, StartingDate, EndingDate).ToList();
 
 
             }
@@ -2409,7 +2437,7 @@ namespace FOS.Setup
 
                 FOSDataModel dbContext = new FOSDataModel();
 
-                RetailerObj = dbContext.Sp__ShopBrandWiseDisplayData(StartingDate, EndingDate, TID, fosid, dealerid, cityid,display).ToList();
+                RetailerObj = dbContext.Sp__ShopBrandWiseDisplayData(StartingDate, EndingDate, TID, fosid, dealerid, cityid, display).ToList();
 
 
             }
@@ -2423,7 +2451,7 @@ namespace FOS.Setup
         }
 
 
-        public List<Sp_CityMarketRetailerInfo_Result> CityMarketRetailerInfo(DateTime StartingDate,  int cityid, int dealerid)
+        public List<Sp_CityMarketRetailerInfo_Result> CityMarketRetailerInfo(DateTime StartingDate, int cityid, int dealerid)
         {
             List<Sp_CityMarketRetailerInfo_Result> RetailerObj = new List<Sp_CityMarketRetailerInfo_Result>();
             try
@@ -2478,12 +2506,12 @@ namespace FOS.Setup
 
                 DateTime dtFromToday = dtFromTodayUtc.Date;
                 DateTime dtToToday = dtFromToday.AddDays(1);
-             
+
 
 
                 FOSDataModel dbContext = new FOSDataModel();
 
-                RetailerObj = dbContext.GetDataRelatedToFaultType(dtFromToday,dtFromToday,0).ToList();
+                RetailerObj = dbContext.GetDataRelatedToFaultType(dtFromToday, dtFromToday, 0).ToList();
 
 
             }
@@ -2498,12 +2526,12 @@ namespace FOS.Setup
 
 
 
-        public List<GetDataRelatedToFaultType_Result> FaultTypeGraph(DateTime from, DateTime To ,int ProjectId)
+        public List<GetDataRelatedToFaultType_Result> FaultTypeGraph(DateTime from, DateTime To, int ProjectId)
         {
             List<GetDataRelatedToFaultType_Result> RetailerObj = new List<GetDataRelatedToFaultType_Result>();
             try
             {
-          
+
 
 
                 FOSDataModel dbContext = new FOSDataModel();
@@ -2544,167 +2572,205 @@ namespace FOS.Setup
         }
 
 
-        public static int AddUpdateComplaint(KSBComplaintData obj, string file1, string file2, string file3, string file4, string file5, string file6)
+        public static int AddUpdateComplaint(KSBComplaintData obj, string file1, string file2)
         {
-          
+
             int Res = 0;
-
-            try
+            using (TransactionScope scope = new TransactionScope())
             {
-                using (TransactionScope scope = new TransactionScope())
+                using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                    using (FOSDataModel dbContext = new FOSDataModel())
+                    Job retailerObj = new Job();
+                    if (obj.ID == 0)
                     {
-                        Job retailerObj = new Job();
-
-                        if (obj.ID == 0)
+                        var data = dbContext.Retailers.Where(x => x.ID == obj.SiteId).FirstOrDefault();
+                        var dateAndTime = DateTime.Now;
+                        int year = dateAndTime.Year;
+                        int month = dateAndTime.Month;
+                        string finalMonth = month.ToString().PadLeft(2, '0');
+                        int day = dateAndTime.Day;
+                        string finalday = day.ToString().PadLeft(2, '0');
+                        var datein = string.Format("{0}{1}{2}", year, finalMonth, finalday);
+                        DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
+                        DateTime dtFromToday = dtFromTodayUtc.Date;
+                        DateTime dtToToday = dtFromToday.AddDays(1);
+                        if (data.ZoneID == 7)
                         {
-                            var dateAndTime = DateTime.Now;
-                            int year = dateAndTime.Year;
-                            int month = dateAndTime.Month;
-                            string finalMonth = month.ToString().PadLeft(2, '0');
-                            int day = dateAndTime.Day;
-                            string finalday = day.ToString().PadLeft(2, '0');
-                            var datein = string.Format("{0}{1}{2}", year, finalMonth, finalday);
-                            DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
+                            var Id1 = "O3";
 
-                            DateTime dtFromToday = dtFromTodayUtc.Date;
-                            DateTime dtToToday = dtFromToday.AddDays(1);
-                            var counter= dbContext.Jobs.Where(x=>x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday).OrderByDescending(u => u.ID).Select(u => u.TicketNo).FirstOrDefault();
+                            var counter = dbContext.Jobs.Where(x => x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday && x.RegionID == data.RegionID && x.ZoneID == data.ZoneID).OrderByDescending(u => u.ID).Select(u => u.TicketNo).FirstOrDefault();
 
 
                             if (counter == null)
                             {
-                            var ticketCount = 1;
+                                var ticketCount = 1;
                                 string s = ticketCount.ToString().PadLeft(3, '0');
-                                retailerObj.TicketNo = datein + "-" + s;
+                                retailerObj.TicketNo = datein + "-" + Id1 + "-" + s;
                             }
                             else
                             {
-
-
-                              
                                 var splittedcounter = counter.Split('-');
+                                var val = splittedcounter[2];
+                                int value = Convert.ToInt32(val) + 1;
+                                string s = value.ToString().PadLeft(3, '0');
+                                retailerObj.TicketNo = datein + "-" + Id1 + "-" + s;
+                            }
+                        }
+                        else if (data.ZoneID == 8)
+                        {
+                            var Id2 = "O2";
+
+                            var counter = dbContext.Jobs.Where(x => x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday && x.RegionID == data.RegionID && x.ZoneID == data.ZoneID).OrderByDescending(u => u.ID).Select(u => u.TicketNo).FirstOrDefault();
 
 
-                                var val =  Convert.ToInt32 (splittedcounter[1]);
-                                int value = val + 1;
+                            if (counter == null)
+                            {
+                                var ticketCount = 1;
+                                string s = ticketCount.ToString().PadLeft(3, '0');
+                                retailerObj.TicketNo = datein + "-" + Id2 + "-" + s;
+                            }
+                            else
+                            {
+                                var splittedcounter = counter.Split('-');
+                                var val = splittedcounter[2];
+                                int value = Convert.ToInt32(val) + 1;
                                 string s = value.ToString().PadLeft(3, '0');
 
-                                retailerObj.TicketNo = datein + "-"+ s;
+                                retailerObj.TicketNo = datein + "-" + Id2 + "-" + s;
                             }
-                            retailerObj.ID = dbContext.Jobs.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
-
-
-                            // Client Id is region id in retailers table
-                            retailerObj.RegionID = obj.ClientId;
-
-                            // Zone Id is Project id in retailers table
-                            retailerObj.ZoneID = obj.ProjectId;
-                            retailerObj.ResolvedAt = DateTime.UtcNow.AddHours(5);
-                            retailerObj.PersonName = obj.Name;
-
-
-                            retailerObj.CityID = obj.CityID;
-                            retailerObj.Areas = obj.AreaID.ToString();
-                            retailerObj.SubDivisionID = obj.SubDivisionID;
-                            retailerObj.SiteID = obj.SiteId;
-                            retailerObj.ComplaintStatusId = 2003;
-                            retailerObj.PriorityId = obj.PriorityId;
-                            retailerObj.FaultTypeId = obj.FaulttypeId;
-                            retailerObj.LaunchedById = obj.LaunchedByID;
-                            retailerObj.FaultTypeDetailID = obj.FaulttypeDetailId;
-                            retailerObj.IsActive = true;
-                            retailerObj.Status = true;
-                            retailerObj.InitialRemarks = obj.Remarks;
-                            retailerObj.ComplainttypeID = obj.ComplaintTypeID;
-                            retailerObj.CreatedDate = DateTime.Now;
-
-                            dbContext.Jobs.Add(retailerObj);
-
-
-                            JobsDetail jobDetail = new JobsDetail();
-                            jobDetail.JobID = retailerObj.ID;
-                            jobDetail.PRemarks = obj.FaultTypeDetailOtherRemarks;
-                            jobDetail.ProgressStatusRemarks = obj.ProgressStatusOtherRemarks;
-                            jobDetail.RetailerID = obj.SiteId;
-                            jobDetail.ProgressStatusID = obj.ProgressStatusId;
-                            jobDetail.JobDate = DateTime.Now;
-                            jobDetail.SalesOficerID = 2;
-                            jobDetail.Picture1 = file1;
-                            jobDetail.Picture2 = file2;
-                            jobDetail.Picture3 = file3;
-                            jobDetail.Picture4 = file4;
-                            jobDetail.Picture5 = file5;
-                            jobDetail.Video = file6;
-                            dbContext.JobsDetails.Add(jobDetail);
-
 
                         }
-                        else
+                        else if (data.ZoneID == 9)
                         {
-                            retailerObj = dbContext.Jobs.Where(u => u.ID == obj.ID).FirstOrDefault();
-                            retailerObj.PersonName = obj.Name;
-                            retailerObj.ComplaintStatusId = obj.StatusID;
-                            if (retailerObj.ComplaintStatusId == 3)
+                            var Id3 = "O1";
+
+                            var counter = dbContext.Jobs.Where(x => x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday && x.RegionID == data.RegionID && x.ZoneID == data.ZoneID).OrderByDescending(u => u.ID).Select(u => u.TicketNo).FirstOrDefault();
+
+
+                            if (counter == null)
                             {
-                                retailerObj.ResolvedAt = DateTime.UtcNow.AddHours(5);
+                                var ticketCount = 1;
+                                string s = ticketCount.ToString().PadLeft(3, '0');
+                                retailerObj.TicketNo = datein + "-" + Id3 + "-" + s;
                             }
-                            retailerObj.PriorityId = obj.PriorityId;
-                            retailerObj.FaultTypeId = obj.FaulttypeId;
-                            retailerObj.ComplaintStatusId = obj.StatusID;
-                            retailerObj.LaunchedById = obj.LaunchedByID;
-                            retailerObj.ComplainttypeID = obj.ComplaintTypeID;
-                            dbContext.SaveChanges();
+                            else
+                            {
+                                var splittedcounter = counter.Split('-');
+                                var val = splittedcounter[2];
+                                int value = Convert.ToInt32(val) + 1;
+                                string s = value.ToString().PadLeft(3, '0');
 
-                            JobsDetail jobDetail = new JobsDetail();
-                            jobDetail.JobID = retailerObj.ID;
-                            jobDetail.PRemarks = obj.Remarks;
-                            jobDetail.RetailerID = retailerObj.SiteID;
-                            jobDetail.ProgressStatusID = obj.ProgressStatusId;
-                            jobDetail.JobDate = DateTime.Now;
-                            jobDetail.SalesOficerID = 2;
-                            jobDetail.Picture1 = file1;
-                            jobDetail.Picture2 = file2;
-                            jobDetail.Picture3 = file3;
-                            jobDetail.Picture4 = file4;
-                            jobDetail.Picture5 = file5;
-
-                            dbContext.JobsDetails.Add(jobDetail);
+                                retailerObj.TicketNo = datein + "-" + Id3 + "-" + s;
+                            }
 
                         }
+                        //ADD New Retailer 
+                        retailerObj.ID = dbContext.Jobs.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
+                        retailerObj.SaleOfficerID = obj.SaleOfficerID;
+                        retailerObj.CityID = obj.CityID;
+                        retailerObj.Areas = obj.AreaID.ToString();
+                        retailerObj.Status = true;
+                        retailerObj.CreatedDate = DateTime.UtcNow.AddHours(5);
+                        retailerObj.IsActive = true;
+                        retailerObj.RegionID = obj.ClientId;         // Client Id is region id in retailers table
+                        retailerObj.ZoneID = obj.ProjectId;         // Zone Id is Project id in retailers table 
+                        retailerObj.SiteID = obj.SiteId;
+                        retailerObj.FaultTypeId = obj.FaulttypeId;
+                        retailerObj.PriorityId = 0;
+                        retailerObj.ComplaintStatusId = 2003;
+                        retailerObj.LaunchedById = 2;
+                        retailerObj.PersonName = obj.Name;
+                        retailerObj.FaultTypeDetailID = obj.FaulttypeDetailId;
+                        retailerObj.SubDivisionID = obj.SubDivisionID;
+                        retailerObj.ComplainttypeID = obj.ComplaintTypeID;
+                        retailerObj.InitialRemarks = obj.Remarks;
+                        retailerObj.ResolvedAt = DateTime.UtcNow.AddHours(5);
+                        dbContext.Jobs.Add(retailerObj);
 
-                        dbContext.SaveChanges();
-                        Res = 1;
-                        scope.Complete();
+                        JobsDetail jobDetail = new JobsDetail();
+                        jobDetail.ID = dbContext.JobsDetails.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
+                        jobDetail.JobID = retailerObj.ID;
+                        jobDetail.SalesOficerID = obj.SaleOfficerID;
+                        jobDetail.RetailerID = obj.SiteId;
+                        jobDetail.JobDate = DateTime.UtcNow.AddHours(5);
+                        jobDetail.Picture1 = file1;
+                        jobDetail.Picture2 = file2;
+                        jobDetail.PRemarks = obj.FaultTypeDetailOtherRemarks;
+                        jobDetail.ActivityType = obj.FaultTypeDetailOtherRemarks;
+                        dbContext.JobsDetails.Add(jobDetail);
+
+
+                        Tbl_ComplaintHistory history = new Tbl_ComplaintHistory();
+                        history.JobID = retailerObj.ID;
+                        history.JobDetailID = jobDetail.ID;
+                        history.CreatedDate = DateTime.UtcNow.AddHours(5);
+                        history.IsActive = true;
+                        history.SiteID = obj.SiteId;
+                        history.TicketNo = retailerObj.TicketNo;
+                        history.FaultTypeId = obj.FaulttypeId;
+                        history.PriorityId = 0;
+                        history.ComplaintStatusId = 2003;
+                        history.LaunchedById = obj.SaleOfficerID;
+                        history.PersonName = retailerObj.PersonName;
+                        history.FaultTypeDetailID = obj.FaulttypeDetailId;
+                        history.ComplainttypeID = retailerObj.ComplainttypeID;
+                        history.Picture1 = jobDetail.Picture1;
+                        history.Picture2 = jobDetail.Picture2;
+                        history.FaultTypeDetailRemarks = obj.FaultTypeDetailOtherRemarks;
+                        history.IsPublished = 1;
+                        history.InitialRemarks = obj.Remarks;
+                        dbContext.Tbl_ComplaintHistory.Add(history);
+
+                        ComplaintNotification notify = new ComplaintNotification();
+                        notify.ID = dbContext.ComplaintNotifications.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
+                        notify.JobID = retailerObj.ID;
+                        notify.JobDetailID = jobDetail.ID;
+                        notify.ComplaintHistoryID = history.ID;
+                        notify.IsSiteIDChanged = true;
+                        notify.IsSiteCodeChanged = true;
+                        notify.IsFaulttypeIDChanged = true;
+                        notify.IsFaulttypeDetailIDChanged = true;
+                        notify.IsPriorityIDChanged = true;
+                        notify.IsComplaintStatusIDChanged = true;
+                        notify.IsPersonNameChanged = true;
+                        notify.IsPicture1Changed = true;
+                        notify.IsPicture2Changed = true;
+                        notify.IsProgressStatusIDChanged = false;
+                        notify.IsProgressStatusRemarksChanged = false;
+                        notify.IsFaulttypeDetailRemarksChanged = true;
+                        notify.IsAssignedSaleOfficerChanged = false;
+                        notify.IsUpdateRemarksChanged = false;
+                        notify.IsSeen = false;
+                        notify.CreatedDate = DateTime.UtcNow.AddHours(5);
+                        dbContext.ComplaintNotifications.Add(notify);
+
+                        var IDs = dbContext.SOZoneAndTowns.Where(x => x.CityID == data.CityID && x.AreaID == data.AreaID).Select(x => x.SOID).Distinct().ToList();
+                        foreach (var item in IDs)
+                        {
+                            NotificationSeen seen = new NotificationSeen();
+                            seen.JobID = retailerObj.ID;
+                            seen.JobDetailID = jobDetail.ID;
+                            seen.ComplainthistoryID = history.ID;
+                            seen.ComplaintNotificationID = notify.ID;
+                            seen.IsSeen = false;
+                            seen.SOID = item;
+                            dbContext.NotificationSeens.Add(seen);
+                        }
+                        // Add Token Detail ...
+                        TokenDetail tokenDetail = new TokenDetail();
+                        tokenDetail.TokenName = obj.Token;
+                        tokenDetail.Action = "Add New Complaint";
+                        tokenDetail.ProcessedDateTime = DateTime.Now;
+                        dbContext.TokenDetails.Add(tokenDetail);
+                        //END
                     }
+                    dbContext.SaveChanges();
+                    Res = 1;
+                    scope.Complete();
                 }
             }
-            catch (Exception exp)
-            {
-                Log.Instance.Error(exp, "Add Customer Failed");
-                if (exp.InnerException.InnerException.Message.Contains("CNIC"))
-                {
-                    // Res = 2 Is For Unique Constraint Error...
-                    Res = 3;
-                    return Res;
-                }
 
-                if (exp.InnerException.InnerException.Message.Contains("AccountNo"))
-                {
-                    // Res = 2 Is For Unique Constraint Error...
-                    Res = 4;
-                    return Res;
-                }
 
-                if (exp.InnerException.InnerException.Message.Contains("CardNo"))
-                {
-                    // Res = 2 Is For Unique Constraint Error...
-                    Res = 5;
-                    return Res;
-                }
-                Res = 0;
-            }
             return Res;
         }
 
@@ -4282,7 +4348,7 @@ namespace FOS.Setup
                                 {
                                     ID = u.ID,
                                     Name = u.Name,
-                                  
+
                                 }).ToList();
                 }
             }
@@ -4360,7 +4426,7 @@ namespace FOS.Setup
             {
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                    area = dbContext.EquipmentTypes.Where(x=>x.EquipmentCategoryID==ID && x.IsDeleted==false)
+                    area = dbContext.EquipmentTypes.Where(x => x.EquipmentCategoryID == ID && x.IsDeleted == false)
                             .Select(
                                 u => new Equipment
                                 {

@@ -51,8 +51,8 @@ namespace FOS.Web.UI.Controllers
                 {
                     regId = FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser();
                 }
-
-                List<SaleOfficerData> SaleOfficerObj = ManageSaleOffice.GetProjectsData();
+                int TeamID =(int) Session["TeamID"];
+                List<SaleOfficerData> SaleOfficerObj = ManageSaleOffice.GetProjects(TeamID);
                 var objSaleOff = SaleOfficerObj.FirstOrDefault();
 
                 List<DealerData> DealerObj = ManageDealer.GetAllDealersListRelatedToRegionalHead(regId);
@@ -65,8 +65,8 @@ namespace FOS.Web.UI.Controllers
                 objRetailer.faultTypes = FOS.Setup.ManageCity.GetFaultTypesList();
                 objRetailer.faultTypesDetail = FOS.Setup.ManageCity.GetFaultTypesDetailList();
                 objRetailer.complaintStatuses = FOS.Setup.ManageCity.GetComplaintStatusList();
-            objRetailer.FieldOfficers = FOS.Setup.ManageCity.GetFieldOfficersList();
-            objRetailer.ProgressStatus = FOS.Setup.ManageCity.GetProgressStatusList();
+                objRetailer.FieldOfficers = FOS.Setup.ManageCity.GetFieldOfficersList(TeamID);
+                objRetailer.ProgressStatus = FOS.Setup.ManageCity.GetProgressStatusList();
                 objRetailer.LaunchedBy = FOS.Setup.ManageCity.GetLaunchedByList();
                 objRetailer.Areas = FOS.Setup.ManageArea.GetAreaList();
                 objRetailer.SubDivisions = ManageRetailer.GetSubDivisionsList();
@@ -172,27 +172,47 @@ namespace FOS.Web.UI.Controllers
             return Json(result);
         }
 
-        public JsonResult GetActualComplaintDetail(int ComplaintId)
-        {
-            var Response = ManageRetailer.GetActualComplaintDetail(ComplaintId);
-            if (Response.FaulttypeDetailId == 3030 || Response.FaulttypeDetailId == 3042 || Response.FaulttypeDetailId == 3049)
-            {
-                Response.FaultTypeDetailOtherRemarks = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).FirstOrDefault().PRemarks;
-            }
-            return Json(Response, JsonRequestBehavior.AllowGet);
-        }
+       
         public JsonResult SaveClientRemarks(ClientRemark model)
         {
-            ClientRemark CR = new ClientRemark();
-            CR.ComplaintID = model.ComplaintID;
-            CR.RemarksDate = DateTime.Now;
-            CR.IsActive = true;
-            CR.Isdeleted = false;
-            CR.ClientRemarks = model.ClientRemarks;
-            CR.RemarksByName = "HammadWASATestUser(Mgt)";
-            db.ClientRemarks.Add(CR);
-            db.SaveChanges();
-            var result = true;
+            var result = false;
+            if (model.ClientRemarks!=null)
+            {
+                ClientRemark CR = new ClientRemark();
+                CR.ComplaintID = model.ComplaintID;
+                CR.RemarksDate = DateTime.UtcNow.AddHours(5);
+                CR.IsActive = true;
+                CR.Isdeleted = false;
+                CR.RemarksBy = (int?)Session["SORelationID"];
+                CR.ClientRemarks = model.ClientRemarks;
+                CR.RemarksByName = db.SaleOfficers.Where(x => x.ID == CR.RemarksBy).Select(x => x.Name).FirstOrDefault();
+                db.ClientRemarks.Add(CR);
+                db.SaveChanges();
+                 result = true;
+            }
+           
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult UpdateCompaintDateTime(DateTime UpdateDateTime, int UpdateDateTimeComplaintID)
+        {
+            var result = false;
+            if (UpdateDateTime != null)
+            {
+                Tbl_ComplaintHistory ComplaintHistorydata = db.Tbl_ComplaintHistory.Where(x => x.JobID == UpdateDateTimeComplaintID).OrderByDescending(x => x.ID).FirstOrDefault();
+                ComplaintHistorydata.CreatedDate = UpdateDateTime;
+
+                JobsDetail JobDetailData = db.JobsDetails.Where(x => x.JobID == UpdateDateTimeComplaintID).OrderByDescending(x => x.ID).FirstOrDefault();
+                JobDetailData.DateComplete = UpdateDateTime;
+                JobDetailData.JobDate = UpdateDateTime;
+
+                Job JobData = db.Jobs.Where(x => x.ID == UpdateDateTimeComplaintID).OrderByDescending(x => x.ID).FirstOrDefault();
+                JobData.LastUpdated = UpdateDateTime;
+                JobData.ResolvedAt = UpdateDateTime;
+                db.SaveChanges();
+
+                result = true;
+            }
+
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult JobsGraph()
@@ -446,8 +466,6 @@ namespace FOS.Web.UI.Controllers
         {
             var JobObj = new Job();
             var JobDet = new JobsDetail();
-
-
             JobObj = db.Jobs.Where(u => u.ID == model.UpdateComplaintID).FirstOrDefault();
             JobObj.LastUpdated = DateTime.UtcNow.AddHours(5); ;
             JobObj.FaultTypeId = model.UpdateFaulttypeId;
@@ -461,12 +479,11 @@ namespace FOS.Web.UI.Controllers
                 JobObj.ResolvedAt = DateTime.UtcNow.AddHours(5);
             }
             JobObj.ResolvedHours = model.UpdateTime;
-            db.SaveChanges();
 
             JobsDetail jobDetail = new JobsDetail();
             jobDetail.ID = db.JobsDetails.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
             jobDetail.JobID = model.UpdateComplaintID;
-            jobDetail.SalesOficerID = 49;
+            jobDetail.SalesOficerID =(int?) Session["SORelationID"];
             jobDetail.RetailerID = JobObj.SiteID;
             jobDetail.PRemarks = model.UpdateProgressRemarks;
             jobDetail.JobDate = DateTime.UtcNow.AddHours(5);
@@ -514,7 +531,7 @@ namespace FOS.Web.UI.Controllers
                 jobDetail.Picture2 = model.UpdatePicture2;
             }
             jobDetail.ProgressStatusID = model.UpdateProgressStatusId;
-            //jobDetail.FaultTypeDetailRemarks = model.UpdateFaultTypeDetailOtherRemarks; discussed by abuzar bhai
+            jobDetail.ActivityType = model.UpdateFaultTypeDetailOtherRemarks; 
             jobDetail.ProgressStatusRemarks = model.UpdateProgressStatusOtherRemarks;
             jobDetail.AssignedToSaleOfficer = model.UpdateSalesOficerID;
             if (model.UpdateStatusID == 3)
@@ -539,7 +556,7 @@ namespace FOS.Web.UI.Controllers
             history.FaultTypeId = model.UpdateFaulttypeId;
             history.PriorityId = model.UpdatePriorityId;
             history.ComplaintStatusId = model.UpdateStatusID;
-            history.LaunchedById = 49;
+            history.LaunchedById = db.Jobs.Where(x => x.ID == model.UpdateComplaintID).Select(x => x.LaunchedById).FirstOrDefault();
             history.PersonName = model.UpdatePerson;
             history.FaultTypeDetailID = model.UpdateFaulttypeDetailId;
             history.ComplainttypeID = model.UpdateComplaintTypeID;
@@ -554,18 +571,16 @@ namespace FOS.Web.UI.Controllers
             history.InitialRemarks = JobObj.InitialRemarks;
             history.FirstAssignedSO = model.UpdateSalesOficerID;
             db.Tbl_ComplaintHistory.Add(history);
-            var secondLastdata = db.Tbl_ComplaintHistory.OrderByDescending(s => s.ID).FirstOrDefault();
 
+            var secondLastdata = db.Tbl_ComplaintHistory.OrderByDescending(s => s.ID).FirstOrDefault();
             if (secondLastdata == null)
             {
                 var data = db.Tbl_ComplaintHistory.FirstOrDefault();
-
                 ComplaintNotification notify = new ComplaintNotification();
                 notify.ID = db.ComplaintNotifications.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
                 notify.JobID = JobObj.ID;
                 notify.JobDetailID = jobDetail.ID;
                 notify.ComplaintHistoryID = history.ID;
-
                 if (data.SiteID == history.SiteID)
                 {
                     notify.IsSiteIDChanged = false;
@@ -616,8 +631,6 @@ namespace FOS.Web.UI.Controllers
                 {
                     notify.IsPersonNameChanged = true;
                 }
-
-
                 notify.IsPicture1Changed = false;
                 notify.IsPicture2Changed = false;
                 notify.IsPicture3Changed = false;
@@ -680,7 +693,6 @@ namespace FOS.Web.UI.Controllers
                     seen.ComplaintNotificationID = notify.ID;
                     seen.IsSeen = false;
                     seen.SOID = item;
-
                     db.NotificationSeens.Add(seen);
                     db.SaveChanges();
                 }
@@ -798,7 +810,6 @@ namespace FOS.Web.UI.Controllers
 
                 var UID = int.Parse(JobObj.Areas);
                 var IDs = db.SOZoneAndTowns.Where(x => x.CityID == JobObj.CityID && x.AreaID == UID).Select(x => x.SOID).Distinct().ToList();
-
                 foreach (var item in IDs)
                 {
 
@@ -816,8 +827,6 @@ namespace FOS.Web.UI.Controllers
                 }
             }
             db.SaveChanges();
-
-
             var result = true;
             return Json(result, JsonRequestBehavior.AllowGet);
         }

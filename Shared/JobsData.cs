@@ -185,6 +185,10 @@ namespace FOS.Shared
                 return FaultTypeName + "/" + FaultTypeDetailName;
             } }
         public Nullable<int> PriorityID { get; set; }
+        public Nullable<int> ResolvedHours { get; set; }
+        public Nullable<int> Exceed { get; set; }
+
+
         public string PriorityName { get; set; }
         public Nullable<int> LaunchedByID { get; set; }
         public string LaunchedByName { get; set; }
