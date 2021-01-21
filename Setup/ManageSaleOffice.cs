@@ -336,20 +336,15 @@ namespace FOS.Setup
                                 u => new SaleOfficerData
                                 {
                                     ID = u.ID,
-                                    RegionalHeadID = u.RegionalHeadID,
                                     Name = u.Name,
                                     UserName = u.UserName,
                                     Password = u.Password,
-                                    RegionalHeadName = u.RegionalHead.Name,
-                                    Phone1 = u.Phone1 == null ? "" : u.Phone1,
-                                    Phone2 = u.Phone2 == null ? "" : u.Phone2,
-                                    RegionID = u.RegionID,
-                                    RegionName = dbContext.Regions.Where(x => x.ID == u.RegionID).Select(z => z.Name).FirstOrDefault(),
-                                    CityName = u.City != null ? u.City.Name : "",
-                                    CityID = u.CityID != null ? u.CityID : 0,
-                                    AreaName = GetSaleOfficerAreaName(u.ID),
-                                    AreaID = GetSaleOfficerAreaID(u.ID),
-                                    LastUpdate = u.LastUpdate
+                                    RegionalHeadID = u.RegionalHeadID,
+                                    RegionalHeadName = dbContext.RegionalHeads.Where(x => x.ID == RegionalHeadID).Select(x => x.Name).FirstOrDefault(),
+                                    SoRoleID =(int)u.RoleID,
+                                    SaleOfficersProjects =dbContext.SOProjects.Where(x=>x.SaleOfficerID== u.ID).Select(x=>x.ProjectID).ToList(),
+                                    SOZones= dbContext.SOZoneAndTowns.Where(x => x.SOID == u.ID).Select(x => x.CityID).Distinct().ToList(),
+                                    SOTowns = dbContext.SOZoneAndTowns.Where(x => x.SOID == u.ID).Select(x => x.AreaID).Distinct().ToList(),
                                 }).ToList();
                 }
             }
@@ -935,6 +930,49 @@ namespace FOS.Setup
             });
             return saleOfficerData;
             
+        }
+        public static List<SaleOfficerData> GetProjects(int TeamID)
+        {
+            List<SaleOfficerData> saleOfficerData = new List<SaleOfficerData>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    if (TeamID == 5)
+                    {
+                        saleOfficerData = dbContext.Zones.Where(x => x.ProjectCode == 7 || x.ProjectCode == 8)
+                                                    .Select(
+                                                        u => new SaleOfficerData
+                                                        {
+                                                            ID = u.ID,
+                                                            Name = u.Name,
+                                                        }).OrderBy(x => x.Name).ToList();
+                    }
+                    else if (TeamID == 6)
+                    {
+                        saleOfficerData = dbContext.Zones.Where(x => x.ProjectCode == 9)
+                                                    .Select(
+                                                        u => new SaleOfficerData
+                                                        {
+                                                            ID = u.ID,
+                                                            Name = u.Name,
+                                                        }).OrderBy(x => x.Name).ToList();
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            saleOfficerData.Insert(0, new SaleOfficerData
+            {
+                ID = 0,
+                Name = "All"
+            });
+            return saleOfficerData;
+
         }
 
 

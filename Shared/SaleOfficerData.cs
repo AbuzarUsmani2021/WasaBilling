@@ -33,12 +33,15 @@ namespace FOS.Shared
         public string RegionName { get; set; }
         //[Required(ErrorMessage = "* Required")]
         public int Type { get; set; }
+    
+
         public String RegionIDD { get; set; }
         public String TownIDD { get; set; }
 
         public String ProjectIDD { get; set; }
         public int? RegionID { get; set; }
         public int SoRoleID { get; set; }
+
         public int? RegionalHeadID { get; set; }
         public int HiddenRegionalHeadID { get; set; }
         //[Required(ErrorMessage = "* Required")]
@@ -70,6 +73,19 @@ namespace FOS.Shared
         public IEnumerable<RegionData> Regions { get; set; }
         public IEnumerable<RegionData> SORoles { get; set; }
         public IEnumerable<RegionData> SOProjects { get; set; }
+        public string SaleOfficerProjectsName { get; set; }
+        public string SaleOfficerZonesName { get; set; }
+        public string SaleOfficerTownName { get; set; }
+
+        public string SaleOfficerRoleName { get; set; }
+
+
+
+
+        public IEnumerable<int?> SaleOfficersProjects { get; set; }
+        public IEnumerable<int?> SOZones { get; set; }
+        public IEnumerable<int?> SOTowns { get; set; }
+
         public IEnumerable<RegionData> Towns { get; set; }
         public String AreaID { get; set; }
 

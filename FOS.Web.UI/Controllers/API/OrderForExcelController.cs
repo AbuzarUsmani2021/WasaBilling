@@ -58,8 +58,8 @@ namespace FOS.Web.UI.Controllers.API
                             dealername = deal.ShopName;
                             CityName = deal.City.Name;
                         }
-                        
-                      
+
+
 
                         string SoName = "";
                         List<SaleOfficer> SO = db.SaleOfficers.Where(u => u.ID == rm.SaleOfficerID).ToList();

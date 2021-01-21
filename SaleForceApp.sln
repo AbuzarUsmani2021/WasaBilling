@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FOS.Modules", "FOS.Modules", "{0C2998EA-BC29-44C7-8C5C-FE3673DEA402}"
 EndProject
@@ -49,5 +49,8 @@ Global
 		{246C8D01-3F6B-4B2F-BCD1-A0839FD0690C} = {0C2998EA-BC29-44C7-8C5C-FE3673DEA402}
 		{408754BE-EEFC-4E17-87BB-DAB457782552} = {0C2998EA-BC29-44C7-8C5C-FE3673DEA402}
 		{FFCA6CD1-6BF2-4285-8EB2-D15940AE7587} = {0C2998EA-BC29-44C7-8C5C-FE3673DEA402}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CCBCE00D-DBCD-4790-8754-D824BE587C3A}
 	EndGlobalSection
 EndGlobal

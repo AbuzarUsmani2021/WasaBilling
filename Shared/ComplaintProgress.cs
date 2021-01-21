@@ -18,6 +18,8 @@ namespace FOS.Shared
         public string FaultTypeName { get; set; }
         public Nullable<int> FaultTypeDetailID { get; set; }
         public string FaultTypeDetailName { get; set; }
+        public string FaultTypeDetailRemarks{ get; set; }
+
 
         public string FaultTypeFinalName
         {

@@ -10,6 +10,43 @@ namespace FOS.Web.UI.Common
     public class CurrentUser
     {
 
+        public static int User_SOIDRelation(int userId)
+        {
+            int User_SOIDRelationID = 0;
+            using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                     User_SOIDRelationID = (int) dbContext.Users.Where(u => u.ID == userId).Select(x=>x.SOIDRelation).FirstOrDefault();
+                   
+                }
+            return User_SOIDRelationID;
+        }
+        public static int GetUserRole(int userId)
+        {
+                int RoleID = 0;
+            using (FOSDataModel dbContext = new FOSDataModel())
+            {
+                var User_SOIDRelationID = dbContext.Users.Where(u => u.ID == userId).Select(x => x.SOIDRelation).FirstOrDefault();
+                if (User_SOIDRelationID != null)
+                {
+                    RoleID = (int)dbContext.SaleOfficers.Where(x => x.ID == User_SOIDRelationID).Select(x => x.RoleID).FirstOrDefault();
+                }
+            }
+            return RoleID;
+        }
+        public static int GetUserTeamID(int userId)
+        {
+            int TeamID = 0;
+            using (FOSDataModel dbContext = new FOSDataModel())
+            {
+                var User_SOIDRelationID = dbContext.Users.Where(u => u.ID == userId).Select(x => x.SOIDRelation).FirstOrDefault();
+                if (User_SOIDRelationID != null)
+                {
+                    TeamID = (int)dbContext.SaleOfficers.Where(x => x.ID == User_SOIDRelationID).Select(x => x.RegionalHeadID).FirstOrDefault();
+                }
+            }
+            return TeamID;
+        }
+
         public static List<UserPage> GetUserPages(int userId)
         {
             List<UserPage> list = new List<UserPage>();

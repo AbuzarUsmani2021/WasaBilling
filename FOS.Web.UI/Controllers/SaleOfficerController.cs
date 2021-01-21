@@ -166,6 +166,12 @@ namespace FOS.Web.UI.Controllers
         }
 
         //Get All Region Method...
+
+        public JsonResult GetSOData(int SaleOfficerID)
+        {
+            var Response = ManageRetailer.GetSOData(SaleOfficerID);
+            return Json(Response, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult DataHandler(DTParameters param , int RegionalHeadType , int RegionalHeadID)
         {
             try
@@ -188,6 +194,23 @@ namespace FOS.Web.UI.Controllers
                 foreach (var col in param.Columns)
                 {
                     columnSearch.Add(col.Search.Value);
+                }
+                foreach (var item in dtsource)
+                {
+                    foreach (var item1 in item.SaleOfficersProjects)
+                    {
+                        item.SaleOfficerProjectsName += dbContext.Zones.Where(x => x.ID == item1).Select(x => x.Name).FirstOrDefault() + "</br>";
+                    }
+                    foreach (var item2 in item.SOZones)
+                    {
+                        item.SaleOfficerZonesName += dbContext.Cities.Where(x => x.ID == item2).Select(x => x.Name).FirstOrDefault() + "</br>";
+                    }
+                    foreach (var item3 in item.SOTowns)
+                    {
+                        item.SaleOfficerTownName += dbContext.Areas.Where(x => x.ID == item3).Select(x => x.Name).FirstOrDefault() + "</br>";
+                    }
+                    item.SaleOfficerRoleName = dbContext.SORoles.Where(x => x.ID == item.SoRoleID).Select(x => x.Name).FirstOrDefault();
+
                 }
 
                 List<SaleOfficerData> data = ManageSaleOffice.GetResult(param.Search.Value, param.SortOrder, param.Start, param.Length, dtsource, columnSearch);

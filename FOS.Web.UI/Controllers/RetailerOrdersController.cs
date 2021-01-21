@@ -2195,6 +2195,7 @@ namespace FOS.Web.UI.Controllers
 
 
 
+        [CustomAuthorize]
 
         public JsonResult HomeComplaintsDataHandler(DTParameters param)
         {
@@ -2203,8 +2204,9 @@ namespace FOS.Web.UI.Controllers
                 List<JobsDetailData> list = new List<JobsDetailData>();
                 JobsDetailData comlist;
                 DTResult<JobsDetailData> result = null;
-                    var dtsource = new List<JobsDetailData>();
-                    dtsource = ManageJobs.AllFilteredComplaints(param.StartingDate1, param.StartingDate2, param.ProjectId);
+                var dtsource = new List<JobsDetailData>();
+                int TeamID = (int)Session["TeamID"];
+                dtsource = ManageJobs.AllFilteredComplaints(param.StartingDate1, param.StartingDate2, param.ProjectId, TeamID);
                     List<String> columnSearch = new List<String>();
                     foreach (var col in param.Columns)
                     {
@@ -2213,7 +2215,7 @@ namespace FOS.Web.UI.Controllers
                     List<JobsDetailData> data = ManageJobs.GetResult12(param.Search.Value, param.SortOrder, param.Start, param.Length, dtsource, columnSearch/*param.SaleOfficer,param.StartingDate1,param.StartingDate2*/);
                     foreach (var itm in data)
                     {
-
+                   
                     //if (itm.StatusID == 3)
                     //{
                     //    DateTime time =  itm.ResolvedAt?? DateTime.UtcNow.AddHours(5);
@@ -2281,13 +2283,13 @@ namespace FOS.Web.UI.Controllers
                     //        }
                     //        list.Add(comlist);
                     //    }
-                      
-                     
+
+
 
                     //    }
                     //else
                     //{
-                        comlist = new JobsDetailData();
+                    comlist = new JobsDetailData();
                         comlist.ID = itm.ID;
                         comlist.JobID = itm.ID;
 
@@ -2304,7 +2306,6 @@ namespace FOS.Web.UI.Controllers
                         comlist.dateformat = itm.dateformat;
                         comlist.UpdatedAt = itm.UpdatedAt;
                         comlist.ComplaintTypeName = itm.ComplaintTypeName;
-
                         comlist.ResolvedAt = itm.ResolvedAt;
                         if (itm.ElapseTime != null)
                         {
@@ -2314,21 +2315,72 @@ namespace FOS.Web.UI.Controllers
                             var totalhours = string.Format("{0:#,##0}:{1:mm}", Math.Truncate(format.TotalHours), format);
                             comlist.VisitDateFormatted = totalhours;
                             //comlist.VisitDateFormatted = format.ToString(@"hh\:mm");
+                            var totalElapsedHours = string.Format("{0:#,##0}", Math.Truncate(format.TotalHours), format);
+                            int totalElapsedHoursinint = Convert.ToInt32(totalElapsedHours);
+                            if (itm.ResolvedHours == null)
+                            {
+                                if (totalElapsedHoursinint >= 1)
+                                {
+                                    comlist.Exceed = 1;
+                                }
+                                else
+                                {
+                                    comlist.Exceed = 0;
+                                }
                             }
+                            else if (itm.ResolvedHours != null)
+                            {
+                                if (totalElapsedHoursinint >= itm.ResolvedHours)
+                                {
+                                    comlist.Exceed = 1;
+                                }
+                                else
+                                {
+                                    comlist.Exceed = 0;
+                                }
+                            }
+
+                        }
                             else
                             {
                             var format = itm.ElapseTime;
                             var totalhours = string.Format("{0:#,##0}:{1:mm}", Math.Truncate(format.TotalHours), format);
+                            //var totalElapsedHours = format.TotalHours();
                             comlist.VisitDateFormatted = totalhours;
                             //comlist.VisitDateFormatted = format.ToString(@"hh\:mm");
+                            var totalElapsedHours = string.Format("{0:#,##0}", Math.Truncate(format.TotalHours), format);
+                            int totalElapsedHoursinint = Convert.ToInt32(totalElapsedHours);
+                            if (itm.ResolvedHours == null)
+                            {
+                                if (totalElapsedHoursinint >= 1)
+                                {
+                                    comlist.Exceed = 1;
+                                }
+                                else
+                                {
+                                    comlist.Exceed = 0;
+                                }
+                            }
+                            else if (itm.ResolvedHours != null)
+                            {
+                                if (totalElapsedHoursinint >= itm.ResolvedHours)
+                                {
+                                    comlist.Exceed = 1;
+                                }
+                                else
+                                {
+                                    comlist.Exceed = 0;
+                                }
+                            }
+
                         }
 
                         }
 
                         if (itm.FaultTypeDetailID == 3030 || itm.FaultTypeDetailID == 3042 || itm.FaultTypeDetailID == 3049)
                         {
-                            comlist.FaultTypeDetailName = db.JobsDetails.Where(x => x.JobID == itm.ID).OrderByDescending(x => x.ID).FirstOrDefault().PRemarks;
-                        }
+                            comlist.FaultTypeDetailName ="Others/" + db.JobsDetails.Where(x => x.JobID == itm.ID).OrderByDescending(x => x.ID).FirstOrDefault().ActivityType;
+                        } 
                         var ProgressID = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault();
                         //    var dateformat = Convert.ToDateTime(ProgressID.JobDate);
                         //    itm.UpdatedAt = dateformat.ToString();
@@ -2342,9 +2394,9 @@ namespace FOS.Web.UI.Controllers
                             comlist.ProgressStatus = db.ProgressStatus.Where(x => x.ID == ProgressID.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
 
                         }
-                        if (itm.ProgressStatus == "Others")
+                        if (comlist.ProgressStatus == "Others")
                         {
-                            comlist.ProgressStatus = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).Select(x => x.PRemarks).FirstOrDefault();
+                            comlist.ProgressStatus = "Others/" + db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).Select(x => x.ProgressStatusRemarks).FirstOrDefault();
                         }
                         list.Add(comlist);
                     //}
@@ -2502,24 +2554,70 @@ namespace FOS.Web.UI.Controllers
                             var format = itm.ResolveTime;
                             var totalhours = string.Format("{0:#,##0}:{1:mm}", Math.Truncate(format.TotalHours), format);
                             comlist.VisitDateFormatted = totalhours;
-
+                            var totalElapsedHours = string.Format("{0:#,##0}", Math.Truncate(format.TotalHours), format);
+                            int totalElapsedHoursinint = Convert.ToInt32(totalElapsedHours);
+                            if (itm.ResolvedHours == null)
+                            {
+                                if (totalElapsedHoursinint >= 1)
+                                {
+                                    comlist.Exceed = 1;
+                                }
+                                else
+                                {
+                                    comlist.Exceed = 0;
+                                }
                             }
+                            else if (itm.ResolvedHours != null)
+                            {
+                                if (totalElapsedHoursinint >= itm.ResolvedHours)
+                                {
+                                    comlist.Exceed = 1;
+                                }
+                                else
+                                {
+                                    comlist.Exceed = 0;
+                                }
+                            }
+
+                        }
                             else
                             {
                              var format = itm.ElapseTime;
                              var totalhours = string.Format("{0:#,##0}:{1:mm}", Math.Truncate(format.TotalHours), format);
                             comlist.VisitDateFormatted = totalhours;
+                            var totalElapsedHours = string.Format("{0:#,##0}", Math.Truncate(format.TotalHours), format);
+                            int totalElapsedHoursinint = Convert.ToInt32(totalElapsedHours);
+                            if (itm.ResolvedHours == null)
+                            {
+                                if (totalElapsedHoursinint >= 5)
+                                {
+                                    comlist.Exceed = 1;
+                                }
+                                else
+                                {
+                                    comlist.Exceed = 0;
+                                }
                             }
+                            else if (itm.ResolvedHours != null)
+                            {
+                                if (totalElapsedHoursinint >= itm.ResolvedHours)
+                                {
+                                    comlist.Exceed = 1;
+                                }
+                                else
+                                {
+                                    comlist.Exceed = 0;
+                                }
+                            }
+                        }
 
                         }
 
                         if (itm.FaultTypeDetailID == 3030 || itm.FaultTypeDetailID == 3042 || itm.FaultTypeDetailID == 3049)
                         {
-                            comlist.FaultTypeDetailName = db.JobsDetails.Where(x => x.JobID == itm.ID).OrderByDescending(x => x.ID).FirstOrDefault().PRemarks;
+                        comlist.FaultTypeDetailName = "Others/" + db.JobsDetails.Where(x => x.JobID == itm.ID).OrderByDescending(x => x.ID).FirstOrDefault().ActivityType;
                         }
-                        var ProgressID = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault();
-                        //    var dateformat = Convert.ToDateTime(ProgressID.JobDate);
-                        //    itm.UpdatedAt = dateformat.ToString();
+                    var ProgressID = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault();
                         if (itm.StatusName == "Resolved")
                         {
                             comlist.ProgressStatus = db.WorkDones.Where(x => x.ID == ProgressID.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
@@ -2530,11 +2628,12 @@ namespace FOS.Web.UI.Controllers
                             comlist.ProgressStatus = db.ProgressStatus.Where(x => x.ID == ProgressID.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
 
                         }
-                        if (itm.ProgressStatus == "Others")
+                        if (comlist.ProgressStatus == "Others")
                         {
-                            comlist.ProgressStatus = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).Select(x => x.PRemarks).FirstOrDefault();
-                        }
-                        list.Add(comlist);
+                        comlist.ProgressStatus = "Others/" + db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).Select(x => x.ProgressStatusRemarks).FirstOrDefault();
+
+                    }
+                    list.Add(comlist);
                     //}
 
                 }

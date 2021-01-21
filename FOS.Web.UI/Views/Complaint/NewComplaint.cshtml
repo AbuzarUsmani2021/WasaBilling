@@ -10,23 +10,10 @@
         height: 474px;
     }
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="~/Content/Style/UploadPhoto.css" rel="stylesheet" />
 
-<!-- BEGIN PAGE HEADER-->
-<div class="row-fluid">
-    <div class="span12">
-        <h3 class="page-title"></h3>
-        <ul class="breadcrumb">
-            <li>
-                <a href="@Url.Action("NewComplaint", "Complaint") ">Complaint</a>
-                <span class="divider">/</span>
-            </li>
-            <li>
-                <a href="">New Complaint</a>
-            </li>
-        </ul>
-        <!-- END PAGE TITLE & BREADCRUMB-->
-    </div>
-</div>
+<br />
 
 <div class="row-fluid">
     <div class="span12">
@@ -53,21 +40,15 @@
                             <div class="span12">
 
                                 <div class="span3" style="margin-top: 0px;">
-
-
-
-                                    <!-- Select RegionalHead -->
                                     <div class="control-group hidden" style="margin-bottom: 10px">
-                                        <label class="control-label">Select Client: *</label>
+                                        <label class="control-label">Select Client:*</label>
                                         <div class="controls" style="margin-left: 0px">
-                                            @Html.DropDownListFor(model => model.ClientId, new SelectList(Model.Client, "ID", "Name"), new { @disabled = "disabled", @Value = "27" })
+                                            @Html.DropDownListFor(model => model.ClientId, new SelectList(Model.Client, "ID", "Name", 27))
                                             @Html.ValidationMessageFor(model => model.ClientId)
                                             @Html.HiddenFor(model => model.ClientId)
                                         </div>
 
                                     </div>
-
-
                                     <div class="control-group" style="margin-bottom: 10px">
                                         <label class="control-label">Select Project:*</label>
                                         <div class="controls" style="margin-left: 0px">
@@ -76,63 +57,43 @@
                                             @Html.ValidationMessageFor(model => model.ProjectId)
                                         </div>
                                     </div>
-
-
                                     <div class="control-group" style="margin-bottom: 10px">
-                                        <label class="control-label">Select Zone: *</label>
+                                        <label class="control-label">Select Zone:*</label>
                                         <div class="controls" style="margin-left: 0px">
                                             @Html.DropDownListFor(model => model.CityID, new SelectList(Model.Cities, "ID", "Name"), new { @class = "" })
                                             @Html.ValidationMessageFor(model => model.CityID)
                                         </div>
                                     </div>
-
                                     <div class="control-group" style="margin-bottom: 10px">
-                                        <label class="control-label">Select Town: *</label>
+                                        <label class="control-label">Select Town:*</label>
                                         <div class="controls" style="margin-left: 0px">
                                             @Html.DropDownListFor(model => model.AreaID, new SelectList(Model.Areas, "ID", "Name"), new { @class = "Areas" })
                                             @Html.HiddenFor(model => model.AreaID)
                                         </div>
                                     </div>
-
                                     <div class="control-group" style="margin-bottom: 10px">
-                                        <label class="control-label">Select Sub Division: *</label>
+                                        <label class="control-label">Select Sub Division:*</label>
                                         <div class="controls" style="margin-left: 0px">
                                             @Html.DropDownListFor(model => model.SubDivisionID, new SelectList(Model.SubDivisions, "ID", "Name"), new { @class = "Areas" })
                                             @Html.HiddenFor(model => model.SubDivisionID)
                                         </div>
                                     </div>
-
-
                                     <div class="control-group" style="margin-bottom: 10px">
-                                        <label class="control-label">Select Site *</label>
+                                        <label class="control-label">Select Site:*</label>
                                         <div class="controls" style="margin-left: 0px">
-                                            @Html.DropDownListFor(model => model.SiteId, new SelectList(Model.Areas, "ID", "Name"), new { @class = "Areas" })
+                                            @Html.DropDownListFor(model => model.SiteId, new SelectList(Model.Sites, "ID", "Name"), new { @class = "Areas" })
                                             @Html.HiddenFor(model => model.SiteId)
                                         </div>
                                     </div>
                                     <div class="control-group" style="margin-bottom: 10px">
-                                        <label class="control-label">Site ID: *</label>
+                                        <label class="control-label">Site ID:*</label>
                                         <div class="controls" style="margin-left: 0px">
-                                            @Html.TextBoxFor(model => model.DisableSiteID, new { placeholder = "Select Site First:" })
+                                            @Html.TextBoxFor(model => model.DisableSiteID, new { placeholder = "--Select Site First--", @disabled = "disabled" })
                                         </div>
                                     </div>
-
-
-
-
                                 </div>
 
                                 <div class="span3" style="margin-top: 0px;">
-
-
-                                    @*<div class="control-group hidden" style="margin-bottom: 10px; padding-top:0px;">
-                                            <label class="control-label">Launched By: *</label>
-                                            <div class="controls" style="margin-left: 0px">
-                                                @Html.DropDownListFor(model => model.LaunchedByID, new SelectList(Model.LaunchedBy, "ID", "Name"), new { @class = "Areas" })
-                                                @Html.HiddenFor(model => model.LaunchedByID)
-                                            </div>
-                                        </div>*@
-
                                     <div class="control-group" style="margin-bottom: 10px">
                                         <label class="control-label">Select Fault Type: *</label>
                                         <div class="controls" style="margin-left: 0px">
@@ -147,134 +108,63 @@
                                             @Html.HiddenFor(model => model.FaulttypeDetailId)
                                         </div>
                                     </div>
-                                    @*<div class="control-group hidden" style="margin-bottom: 0px">
-                                            <label class="control-label" style="">Other Remarks</label>
-                                            <div class="controls" style="margin-left: 0px">
-                                                @Html.EditorFor(model => model.FaultTypeDetailOtherRemarks)
-                                            </div>
+                                    <div class="control-group" style="margin-bottom: 10px" id="OtherRemarks">
+                                        <label class="control-label" style=""> Fault Type Detail Other Remarks:</label>
+                                        <div class="controls" style="margin-left: 0px">
+                                            @Html.EditorFor(model => model.FaultTypeDetailOtherRemarks)
                                         </div>
-                                        <div class="control-group hidden" style="margin-bottom: 10px">
-                                            <label class="control-label">Select Priority *</label>
-                                            <div class="controls" style="margin-left: 0px">
-                                                @Html.DropDownListFor(model => model.PriorityId, new SelectList(Model.priorityDatas, "ID", "Name"), new { @class = "Areas" })
-                                                @Html.HiddenFor(model => model.PriorityId)
-                                            </div>
+                                    </div>
+                                    <div class="control-group hidden" style="margin-bottom: 10px">
+                                        <label class="control-label">Complaint Type *</label>
+                                        <div class="controls" style="margin-left: 0px">
+                                            @Html.DropDownListFor(model => model.ComplaintTypeID, new SelectList(Model.ComplaintTypes, "ID", "Name", 2), new { @class = "Areas" })
                                         </div>
-                                        <div class="control-group hidden" style="margin-bottom: 10px">
-                                            <label class="control-label">Select Status: *</label>
-                                            <div class="controls" style="margin-left: 0px">
-                                                @Html.DropDownListFor(model => model.StatusID, new SelectList(Model.complaintStatuses, "ID", "Name"), new { @class = "Areas", @Value = "2003" })
-                                                @Html.HiddenFor(model => model.StatusID)
-                                            </div>
-                                        </div>*@
-                                    @*<div class="control-group hidden" style="margin-bottom: 10px">
-                                            <label class="control-label">Complaint Type *</label>
-                                            <div class="controls" style="margin-left: 0px">
-                                                @Html.DropDownListFor(model => model.ComplaintTypeID, new SelectList(Model.ComplaintTypes, "ID", "Name"), new { @class = "Areas" })
-                                                @Html.HiddenFor(model => model.ComplaintTypeID)
-                                            </div>
-                                        </div>
-                                        <div class="control-group hidden" style="margin-bottom: 10px">
-                                            <label class="control-label">Progress Status *</label>
-                                            <div class="controls" style="margin-left: 0px">
-                                                @Html.DropDownListFor(model => model.ProgressStatusId, new SelectList(Model.ProgressStatus, "ID", "Name"), new { @class = "Areas" })
-                                                @Html.HiddenFor(model => model.ProgressStatusId)
-                                            </div>
-                                        </div>
-                                        <div class="control-group hidden" style="margin-bottom: 0px">
-                                            <label class="control-label" style="">Progress Status Remarks</label>
-                                            <div class="controls" style="margin-left: 0px">
-                                                @Html.EditorFor(model => model.ProgressStatusOtherRemarks)
-                                            </div>
-                                        </div>*@
+                                    </div>
                                     <div class="control-group" style="margin-bottom: 0px">
                                         <label class="control-label" style="">Person Name:</label>
                                         <div class="controls" style="margin-left: 0px">
-                                            @Html.TextBoxFor(model => model.Name, new { placeholder = "Enter Contact Person Name:" })
+                                            @Html.TextBoxFor(model => model.Name, new { placeholder = "Enter Contact Person Name:", autocomplete = "false" })
                                         </div>
                                     </div>
                                     <div class="control-group" style="margin-bottom: 10px; padding-top:20px;">
                                         <label class="control-label" style="">Complaint initial Remarks:</label>
                                         <div class="controls" style="margin-left: 0px">
-                                            @Html.TextAreaFor(model => model.Remarks, new { @style = "height:170px; width:202px; margin: 0px 0px 10px;", placeholder = "Enter Issue:" })
+                                            @Html.TextAreaFor(model => model.Remarks, new { @style = "height:96px; width:202px; margin: 0px 0px 10px;", placeholder = "Enter Issue:" })
                                         </div>
                                     </div>
-
-
-
-
-
-
-                                </div>
-
-
-
-                                <div class="span3" style="margin-top: 0px;">
-
-                                    <div class="control-group" style="margin-bottom: 0px">
-                                        <label class="control-label" style="">Picture1:</label>
-                                        <input type="file" name="file1" id="file1"><br>
-                                        <img id="blah" src="~/Images/no-image-available.png.jpg" width="100px" alt="your image" />
-                                    </div>
-                                    <div class="control-group" style="margin-bottom: 0px;padding-top: 4px;">
-                                        <label class="control-label" style="">Picture2:</label>
-                                        <input type="file" name="file2" id="file2"><br>
-                                        <img id="blah1" src="~/Images/no-image-available.png.jpg" width="100px" alt="your image" />
-                                    </div>
-                                    <div class="control-group" style="margin-bottom: 0px;padding-top: 4px;">
-                                        <label class="control-label" style="">Picture3:</label>
-                                        <input type="file" name="file3" id="file3"><br>
-                                        <img id="blah2" src="~/Images/no-image-available.png.jpg" width="100px" alt="your image" />
-                                    </div>
-                                    <div class="control-group" style="margin-top: -25px">
-                                        <div class="form-actions" style="float: right; padding-left: 0px;  margin-top: 16px;">
-                                            <button type="submit" id="btnNew" class="btn btn-primary" style="margin-right: 8px; width: 100px;">
-                                                <span id="create">Save</span>
-                                            </button>
-                                            @* <button type="button" id="btnRefresh" class="btn btn-info"><i class="icon-ban-circle icon-white" style="padding-right: 8px"></i>Reset</button>*@
-                                        </div>
-                                    </div>
-
-
-                                    <!-- Buttons -->
-
-
 
                                 </div>
 
 
                                 <div class="span3" style="margin-top: 0px;">
-
-
-
-                                    <div class="control-group" style="margin-bottom: 0px">
-                                        <label class="control-label" style="">Picture4:</label>
-                                        <input type="file" name="file4" id="file4"><br>
-                                        <img id="blah3" src="~/Images/no-image-available.png.jpg" width="100px" alt="your image" />
+                                    <div class="user-profile-image">
+                                        <input type="file" name="Picture1" style="display:none" ; class="hidden" id="Picture1" />
+                                        <img src="/Images/no-image-available.png.jpg" class="img-responsive" id="Picture1UserImage" />
+                                        <div class="upload-photo" style="width:296px;bottom:163px;">
+                                            <img src="/Images/upload.png" class="img-responsive" />
+                                        </div>
+                                        <div class="remove-photo" style="top:130px;right:395px;">
+                                            <span class="fa fa-window-close"></span>
+                                        </div>
                                     </div>
-                                    <div class="control-group" style="margin-bottom: 0px;padding-top: 4px;">
-                                        <label class="control-label" style="">Picture5:</label>
-                                        <input type="file" name="file5" id="file5"><br>
-                                        <img id="blah4" src="~/Images/no-image-available.png.jpg" width="100px" alt="your image" />
+                                </div>
+                                <div class="span3" style="margin-top: 0px;">
+                                    <div class="user-profile-image">
+                                        <input type="file" name="Picture2" style="display:none" ; class="hidden" id="Picture2" />
+                                        <img src="/Images/no-image-available.png.jpg" class="img-responsive" id="Picture2UserImage" />
+                                        <div class="upload-photo" id="upload-photo2" style="width:296px;bottom:163px;">
+                                            <img src="/Images/upload.png" class="img-responsive" />
+                                        </div>
+                                        <div class="remove-photo" id="remove-photo2" style="top:130px;right:73px;">
+                                            <span class="fa fa-window-close"></span>
+                                        </div>
                                     </div>
-
-                                    <div class="control-group" style="margin-bottom: 0px;padding-top: 4px;">
-                                        <label class="control-label" style="">Upload a Video:</label>
-                                        <input type="file" name="file6" id="file6"><br>
-                                        <img id="blah5" src="~/Images/no-image-available.png.jpg" width="100px" alt="your image" />
-
+                                </div>
+                                <div class="control-group" style="margin-top: 10px">
+                                    <div class="form-actions" style="float: right; padding-left: 0px;  margin-top: 16px;    margin-right: 246px;">
+                                        <button type="submit" id="btnNew"     class="btn btn-primary" ><span id="create"><i class="icon-arrow-up icon-white" style="padding-right: 8px"></i><b>Save</b></span></button>
+                                        <button type="button" id="btnRefresh" class="btn btn-info"><i class="icon-ban-circle icon-white" style="padding-right: 8px"></i><b> Reset</b></button>
                                     </div>
-
-
-
-
-
-
-
-                                    <!-- Buttons -->
-
-
-
                                 </div>
 
                             </div>
@@ -408,7 +298,6 @@
         });
 
     }
-
     function LoadCities(RegionalHeadID) {
 
         $.ajax({
@@ -433,7 +322,6 @@
             }
         });
     }
-
     function LoadAreas(CityID) {
         $.ajax({
             type: "POST",
@@ -450,8 +338,6 @@
 
         });
     }
-
-
     function LoadSubDivision(CityID) {
         $.ajax({
             type: "POST",
@@ -473,17 +359,7 @@
 
     $(document).ready(function () {
         $("#FaultTypeDetailOtherRemarks").hide();
-        $("#ProgressStatusOtherRemarks").hide();
-        $("#liRetailer,#liManageRetailer").addClass("active");
-        $('#DisableSiteID').attr('disabled', 'disabled');
-        var WriteCheck = "0";
-
-        if (WriteCheck == "@HttpContext.Current.Session["WriteCheck"]") {
-            // $("#btnNew").css("display", "none");
-            $("#btnNew").attr("disabled", true);
-        }
-        else {
-        }
+        $("#OtherRemarks").hide();
 
         $("#ClientId").change(function () {
 
@@ -492,18 +368,20 @@
 
 
         });
-
         $("#ProjectId").change(function () {
 
             LoadCities($(this).val());
         });
-
+        $("#CityID").change(function () {
+            LoadAreas($(this).val());
+        });
+        $("#AreaID").change(function () {
+            LoadSubDivision($(this).val());
+        });
         $("#SubDivisionID").change(function () {
 
             LoadSites();
         });
-
-
         $("#SiteId").change(function () {
 
             LoadSiteID();
@@ -513,19 +391,25 @@
             LoadFaultTypeDetails();
             LoadProgressStatusDetails();
         });
-
         $("#FaulttypeDetailId").change(function () {
-
-            if ($("#FaulttypeDetailId").val() == '2002' || ("#FaulttypeDetailId").val() == '2003' || ("#FaulttypeDetailId").val() == '2004') //I'm supposing the "Other" option value is 0.
+            if ($("#FaulttypeDetailId").val() == '3030') {
                 $("#FaultTypeDetailOtherRemarks").show();
+                $("#OtherRemarks").show();
+            }
+            else if ($("#FaulttypeDetailId").val() == '3042') {
+                $("#FaultTypeDetailOtherRemarks").show();
+                $("#OtherRemarks").show();
+            }
+            else if ($("#FaulttypeDetailId").val() == '3049') {
+                $("#FaultTypeDetailOtherRemarks").show();
+                $("#OtherRemarks").show();
+            }
+            else {
+                $("#FaultTypeDetailOtherRemarks").hide();
+                $("#OtherRemarks").hide();
+            }
+
         });
-
-        $("#ProgressStatusId").change(function () {
-
-            if ($("#ProgressStatusId").val() == '1002' || ("#ProgressStatusId").val() == '1003' || ("#ProgressStatusId").val() == '1004') //I'm supposing the "Other" option value is 0.
-                $("#ProgressStatusOtherRemarks").show();
-        });
-
         function LoadProjects(ClientID) {
 
             try {
@@ -548,7 +432,6 @@
             }
 
         }
-
         function LoadDealers(RegionalHeadID) {
 
             try {
@@ -571,8 +454,6 @@
             }
 
         }
-
-
         function LoadFaultTypeDetails() {
             var ClientID = $("#FaulttypeId").val();
 
@@ -592,8 +473,6 @@
             }
         });
         }
-
-
         function LoadProgressStatusDetails() {
             var ClientID = $("#FaulttypeId").val();
 
@@ -613,9 +492,6 @@
             }
         });
     }
-
-
-
         function LoadSiteID() {
             var ClientID = $("#SiteId").val();
 
@@ -630,13 +506,8 @@
 
             }
         });
-    }
-
-
-
-
-
-          function LoadSites() {
+        }
+        function LoadSites() {
               var ClientID = $("#ClientId").val();
               var ProjectID = $("#ProjectId").val();
               var CityID = $("#CityID").val();
@@ -657,77 +528,87 @@
 
             }
         });
-    }
-
-        $("#CityID").change(function () {
-            LoadAreas($(this).val());
-        });
-
-        $("#AreaID").change(function () {
-            LoadSubDivision($(this).val());
-        });
-
+        }
         $("#btnRefresh").click(function () {
             ClearForm();
         });
-
     });
 
-    $(document).ajaxComplete(function () {
-
-    });
-</script>
-<script type="text/javascript">
 
     function ClearForm() {
-        $('#Name').val('');
-        $('#ShopName').val('');
-        $('#LocationMargin').val('');
-        $('#Phone1').val('');
-        $('#Phone2').val('');
-        $('#ID').val(0);
-        $('#BankName2').val('');
-        $('#Account2').val('');
-        $('#Address').val('');
-        $('#RetailerCode').val('');
-        $('#LandLineNo').val('');
-
-
-
-    }
-
-    function OnSuccess(response) {
-        debugger
-        if (response == "1") {
-            alertify.success("Complaint Saved Successfully");
-            ClearForm();
-            $('.close').trigger('click');
-        }
-        else if (response == "2") {
-            alertify.error("Phone Number Already Exist.");
-        }
-        else if (response == "3") {
-            alertify.error("CNIC Already Exist");
-        }
-        else if (response == "4") {
-            alertify.error("Account No Already Exist");
-        }
-        else if (response == "5") {
-            alertify.error("Card No Already Exist");
-        }
-        else {
-            alertify.error("Unable To Save");
-        }
+        $('#ProjectId').val(0);
+        $('#CityID').val(0);
+        $('#AreaID').val(0);
+        $('#SubDivisionID').val(0);
+        $('#SiteId').val(0);
+        $('#DisableSiteID ').val("");
+        $('#FaulttypeId').val(0);
+        $('#FaulttypeDetailId').val(0);
+        $('#FaultTypeDetailOtherRemarks ').val("");
+        $('#ComplaintTypeID').val(0);
+        $('#Name').val("");
+        $('#Remarks').val("");
+        $('#Picture1').val("");
+        $("#Picture1UserImage").attr('src', "/Images/no-image-available.png.jpg");
+        $('#Picture2').val("");
+        $("#Picture2UserImage").attr('src', "/Images/no-image-available.png.jpg");
 
     }
 
-    function OnFailure(response) {
-        if (response.status == 422) {
-            var errors = JSON.parse(response.responseText);
-            alertify.error(errors.errors);
-        }
-        else {
-            alertify.error(response);
-        }
+    //Upload-Picture1 Start
+    $('#Picture1UserImage').click(function () {
+        UploadClickEvent();
+    });
+    $('.upload-photo').click(function () {
+        UploadClickEvent();
+    });
+    function UploadClickEvent() {
+        $('#Picture1').trigger('click');
     }
+    $('#Picture1').change(function () {
+        if (this.files && this.files[0]) {
+            var fileReader = new FileReader();
+            fileReader.readAsDataURL(this.files[0]);
+            fileReader.onload = function (x) {
+                $('#Picture1UserImage').attr('src', x.target.result);
+
+            }
+        }
+
+    });
+    $('.remove-photo').click(function () {
+        $('#Picture1UserImage').attr('src', "/Images/no-image-available.png.jpg");
+    });
+    //Upload-Picture1 End
+
+
+
+
+
+    //Upload-Picture2 Start
+    $('#Picture2UserImage').click(function () {
+        UploadClickEvent2();
+    });
+    $('#upload-photo2').click(function () {
+        UploadClickEvent2();
+    });
+    function UploadClickEvent2() {
+        $('#Picture2').trigger('click');
+    }
+    $('#Picture2').change(function () {
+        if (this.files && this.files[0]) {
+            var fileReader = new FileReader();
+            fileReader.readAsDataURL(this.files[0]);
+            fileReader.onload = function (x) {
+                $('#Picture2UserImage').attr('src', x.target.result);
+
+            }
+        }
+
+    });
+    $('#remove-photo2').click(function () {
+        $('#Picture2UserImage').attr('src', "/images/no-image-available.png.jpg");
+
+    });
+    //Upload-Picture2 End
 </script>
