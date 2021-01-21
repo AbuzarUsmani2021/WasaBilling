@@ -233,6 +233,7 @@
     <Compile Include="Common\Settings.cs" />
     <Compile Include="Common\Token\TokenAttribute.cs" />
     <Compile Include="Common\UserManager.cs" />
+    <Compile Include="Controllers\API\VideoAudioController.cs" />
     <Compile Include="Controllers\API\SiteEquipmentRegistrationController.cs" />
     <Compile Include="Controllers\API\EquipmentTypeController.cs" />
     <Compile Include="Controllers\API\LogoutController.cs" />
