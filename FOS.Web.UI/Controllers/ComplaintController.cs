@@ -325,13 +325,17 @@ namespace FOS.Web.UI.Controllers
             {
                 Response.FaultTypesDetailName ="Others/"+Response.FaultTypeDetailOtherRemarks;
             }
-            if (Response.Name == null)
+            if (Response.Name == null || Response.Name =="")
             {
                 Response.Name = "null";
             }
             if (Response.Remarks == null || Response.Remarks == "")
             {
                 Response.Remarks = "null";
+            }
+            if (Response.FaultTypesDetailName == null || Response.FaultTypesDetailName == "")
+            {
+                Response.FaultTypesDetailName = "null";
             }
 
             return Json(Response, JsonRequestBehavior.AllowGet);
