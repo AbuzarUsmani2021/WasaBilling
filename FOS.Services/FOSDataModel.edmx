@@ -26,6 +26,36 @@
           <Property Name="CreatedBy" Type="int" />
           <Property Name="PurposeCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="AddPurposeOfVisit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KSBVisitID" Type="int" />
+          <Property Name="SiteID" Type="int" />
+          <Property Name="VisitPurposeID" Type="int" />
+          <Property Name="LaunchedAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="AddSiteStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KSbVisitID" Type="int" />
+          <Property Name="VisitTypeID" Type="int" />
+          <Property Name="SiteID" Type="int" />
+          <Property Name="SiteStatusID" Type="int" />
+        </EntityType>
+        <EntityType Name="AddStaffList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KSBVisitID" Type="int" />
+          <Property Name="SiteID" Type="int" />
+          <Property Name="StaffID" Type="int" />
+          <Property Name="LAunchedAt" Type="datetime" />
+        </EntityType>
         <EntityType Name="Areas">
           <Key>
             <PropertyRef Name="ID" />
@@ -1204,6 +1234,10 @@ warning 6002: The table/view 'KSBComplaint.dbo.Student' does not have a primary 
           <Property Name="Remarks" Type="varchar" MaxLength="500" />
           <Property Name="Picture1" Type="varbinary" MaxLength="500" />
           <Property Name="Picture2" Type="varchar" MaxLength="500" />
+          <Property Name="LaunchDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="TimeInHours" Type="int" />
         </EntityType>
         <EntityType Name="Tbl_MasterStock">
           <Key>
@@ -1495,6 +1529,90 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
             </Principal>
             <Dependent Role="AccessLog">
               <PropertyRef Name="SaleOfficerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AddPurposeOfVisit_Retailers">
+          <End Role="Retailers" Type="Self.Retailers" Multiplicity="0..1" />
+          <End Role="AddPurposeOfVisit" Type="Self.AddPurposeOfVisit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Retailers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AddPurposeOfVisit">
+              <PropertyRef Name="SiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AddPurposeOfVisit_TBL_KsbVisits">
+          <End Role="TBL_KsbVisits" Type="Self.TBL_KsbVisits" Multiplicity="0..1" />
+          <End Role="AddPurposeOfVisit" Type="Self.AddPurposeOfVisit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_KsbVisits">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AddPurposeOfVisit">
+              <PropertyRef Name="KSBVisitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AddSiteStatus_Retailers">
+          <End Role="Retailers" Type="Self.Retailers" Multiplicity="0..1" />
+          <End Role="AddSiteStatus" Type="Self.AddSiteStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Retailers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AddSiteStatus">
+              <PropertyRef Name="SiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AddSiteStatus_TBL_KsbVisits">
+          <End Role="TBL_KsbVisits" Type="Self.TBL_KsbVisits" Multiplicity="0..1" />
+          <End Role="AddSiteStatus" Type="Self.AddSiteStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_KsbVisits">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AddSiteStatus">
+              <PropertyRef Name="KSbVisitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AddStaffList_Retailers">
+          <End Role="Retailers" Type="Self.Retailers" Multiplicity="0..1" />
+          <End Role="AddStaffList" Type="Self.AddStaffList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Retailers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AddStaffList">
+              <PropertyRef Name="SiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AddStaffList_StaffList">
+          <End Role="StaffList" Type="Self.StaffList" Multiplicity="0..1" />
+          <End Role="AddStaffList" Type="Self.AddStaffList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StaffList">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AddStaffList">
+              <PropertyRef Name="StaffID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AddStaffList_TBL_KsbVisits">
+          <End Role="TBL_KsbVisits" Type="Self.TBL_KsbVisits" Multiplicity="0..1" />
+          <End Role="AddStaffList" Type="Self.AddStaffList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_KsbVisits">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AddStaffList">
+              <PropertyRef Name="KSBVisitID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3596,6 +3714,9 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
         <EntityContainer Name="FOS_WallCoatModelStoreContainer">
           <EntitySet Name="AccessLog" EntityType="Self.AccessLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ActivityPurpose" EntityType="Self.ActivityPurpose" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AddPurposeOfVisit" EntityType="Self.AddPurposeOfVisit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AddSiteStatus" EntityType="Self.AddSiteStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AddStaffList" EntityType="Self.AddStaffList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Areas" EntityType="Self.Areas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChatBox" EntityType="Self.ChatBox" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
@@ -3748,6 +3869,34 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <AssociationSet Name="FK_AccessLog_SaleOfficers" Association="Self.FK_AccessLog_SaleOfficers">
             <End Role="SaleOfficers" EntitySet="SaleOfficers" />
             <End Role="AccessLog" EntitySet="AccessLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddPurposeOfVisit_Retailers" Association="Self.FK_AddPurposeOfVisit_Retailers">
+            <End Role="Retailers" EntitySet="Retailers" />
+            <End Role="AddPurposeOfVisit" EntitySet="AddPurposeOfVisit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddPurposeOfVisit_TBL_KsbVisits" Association="Self.FK_AddPurposeOfVisit_TBL_KsbVisits">
+            <End Role="TBL_KsbVisits" EntitySet="TBL_KsbVisits" />
+            <End Role="AddPurposeOfVisit" EntitySet="AddPurposeOfVisit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddSiteStatus_Retailers" Association="Self.FK_AddSiteStatus_Retailers">
+            <End Role="Retailers" EntitySet="Retailers" />
+            <End Role="AddSiteStatus" EntitySet="AddSiteStatus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddSiteStatus_TBL_KsbVisits" Association="Self.FK_AddSiteStatus_TBL_KsbVisits">
+            <End Role="TBL_KsbVisits" EntitySet="TBL_KsbVisits" />
+            <End Role="AddSiteStatus" EntitySet="AddSiteStatus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddStaffList_Retailers" Association="Self.FK_AddStaffList_Retailers">
+            <End Role="Retailers" EntitySet="Retailers" />
+            <End Role="AddStaffList" EntitySet="AddStaffList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddStaffList_StaffList" Association="Self.FK_AddStaffList_StaffList">
+            <End Role="StaffList" EntitySet="StaffList" />
+            <End Role="AddStaffList" EntitySet="AddStaffList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddStaffList_TBL_KsbVisits" Association="Self.FK_AddStaffList_TBL_KsbVisits">
+            <End Role="TBL_KsbVisits" EntitySet="TBL_KsbVisits" />
+            <End Role="AddStaffList" EntitySet="AddStaffList" />
           </AssociationSet>
           <AssociationSet Name="FK_Areas_Cities" Association="Self.FK_Areas_Cities">
             <End Role="Cities" EntitySet="Cities" />
@@ -5694,6 +5843,37 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySet Name="VisitPersons" EntityType="FOS_WallCoatModel.VisitPerson" />
           <EntitySet Name="PurposeOfVisits" EntityType="FOS_WallCoatModel.PurposeOfVisit" />
           <EntitySet Name="StaffLists" EntityType="FOS_WallCoatModel.StaffList" />
+          <EntitySet Name="AddPurposeOfVisits" EntityType="FOS_WallCoatModel.AddPurposeOfVisit" />
+          <EntitySet Name="AddSiteStatus" EntityType="FOS_WallCoatModel.AddSiteStatu" />
+          <EntitySet Name="AddStaffLists" EntityType="FOS_WallCoatModel.AddStaffList" />
+          <AssociationSet Name="FK_AddPurposeOfVisit_Retailers" Association="FOS_WallCoatModel.FK_AddPurposeOfVisit_Retailers">
+            <End Role="Retailer" EntitySet="Retailers" />
+            <End Role="AddPurposeOfVisit" EntitySet="AddPurposeOfVisits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddPurposeOfVisit_TBL_KsbVisits" Association="FOS_WallCoatModel.FK_AddPurposeOfVisit_TBL_KsbVisits">
+            <End Role="TBL_KsbVisits" EntitySet="TBL_KsbVisits" />
+            <End Role="AddPurposeOfVisit" EntitySet="AddPurposeOfVisits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddSiteStatus_Retailers" Association="FOS_WallCoatModel.FK_AddSiteStatus_Retailers">
+            <End Role="Retailer" EntitySet="Retailers" />
+            <End Role="AddSiteStatu" EntitySet="AddSiteStatus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddSiteStatus_TBL_KsbVisits" Association="FOS_WallCoatModel.FK_AddSiteStatus_TBL_KsbVisits">
+            <End Role="TBL_KsbVisits" EntitySet="TBL_KsbVisits" />
+            <End Role="AddSiteStatu" EntitySet="AddSiteStatus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddStaffList_Retailers" Association="FOS_WallCoatModel.FK_AddStaffList_Retailers">
+            <End Role="Retailer" EntitySet="Retailers" />
+            <End Role="AddStaffList" EntitySet="AddStaffLists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddStaffList_StaffList" Association="FOS_WallCoatModel.FK_AddStaffList_StaffList">
+            <End Role="StaffList" EntitySet="StaffLists" />
+            <End Role="AddStaffList" EntitySet="AddStaffLists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddStaffList_TBL_KsbVisits" Association="FOS_WallCoatModel.FK_AddStaffList_TBL_KsbVisits">
+            <End Role="TBL_KsbVisits" EntitySet="TBL_KsbVisits" />
+            <End Role="AddStaffList" EntitySet="AddStaffLists" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="AreasRelatedtoCities_Result">
           <Property Type="Int32" Name="SaleOfficerID" Nullable="true" />
@@ -7502,6 +7682,9 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <NavigationProperty Name="SaleOfficer" Relationship="FOS_WallCoatModel.FK_Retailers_SaleOfficers" FromRole="Retailer" ToRole="SaleOfficer" />
           <NavigationProperty Name="JobsDetails" Relationship="FOS_WallCoatModel.FK_SoRetailersJobs_Retailers" FromRole="Retailer" ToRole="JobsDetail" />
           <NavigationProperty Name="TBL_KsbVisits" Relationship="FOS_WallCoatModel.FK_TBL_KsbVisits_Retailers" FromRole="Retailer" ToRole="TBL_KsbVisits" />
+          <NavigationProperty Name="AddPurposeOfVisits" Relationship="FOS_WallCoatModel.FK_AddPurposeOfVisit_Retailers" FromRole="Retailer" ToRole="AddPurposeOfVisit" />
+          <NavigationProperty Name="AddSiteStatus" Relationship="FOS_WallCoatModel.FK_AddSiteStatus_Retailers" FromRole="Retailer" ToRole="AddSiteStatu" />
+          <NavigationProperty Name="AddStaffLists" Relationship="FOS_WallCoatModel.FK_AddStaffList_Retailers" FromRole="Retailer" ToRole="AddStaffList" />
         </EntityType>
         <Association Name="FK_Retailers_Areas">
           <End Type="FOS_WallCoatModel.Area" Role="Area" Multiplicity="0..1" />
@@ -10228,6 +10411,13 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Property Name="Picture2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Retailer" Relationship="FOS_WallCoatModel.FK_TBL_KsbVisits_Retailers" FromRole="TBL_KsbVisits" ToRole="Retailer" />
           <NavigationProperty Name="VisitPurpose" Relationship="FOS_WallCoatModel.FK_TBL_KsbVisits_VisitPurpose" FromRole="TBL_KsbVisits" ToRole="VisitPurpose" />
+          <Property Name="LaunchDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="TimeInHours" Type="Int32" />
+          <NavigationProperty Name="AddPurposeOfVisits" Relationship="FOS_WallCoatModel.FK_AddPurposeOfVisit_TBL_KsbVisits" FromRole="TBL_KsbVisits" ToRole="AddPurposeOfVisit" />
+          <NavigationProperty Name="AddSiteStatus" Relationship="FOS_WallCoatModel.FK_AddSiteStatus_TBL_KsbVisits" FromRole="TBL_KsbVisits" ToRole="AddSiteStatu" />
+          <NavigationProperty Name="AddStaffLists" Relationship="FOS_WallCoatModel.FK_AddStaffList_TBL_KsbVisits" FromRole="TBL_KsbVisits" ToRole="AddStaffList" />
         </EntityType>
         <EntityType Name="VisitPurpose">
           <Key>
@@ -10845,7 +11035,129 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Property Name="Name" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
           <Property Name="RegionID" Type="Int32" />
           <Property Name="HeadID" Type="Int32" />
+          <NavigationProperty Name="AddStaffLists" Relationship="FOS_WallCoatModel.FK_AddStaffList_StaffList" FromRole="StaffList" ToRole="AddStaffList" />
         </EntityType>
+        <EntityType Name="AddPurposeOfVisit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KSBVisitID" Type="Int32" />
+          <Property Name="SiteID" Type="Int32" />
+          <Property Name="VisitPurposeID" Type="Int32" />
+          <Property Name="LaunchedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Retailer" Relationship="FOS_WallCoatModel.FK_AddPurposeOfVisit_Retailers" FromRole="AddPurposeOfVisit" ToRole="Retailer" />
+          <NavigationProperty Name="TBL_KsbVisits" Relationship="FOS_WallCoatModel.FK_AddPurposeOfVisit_TBL_KsbVisits" FromRole="AddPurposeOfVisit" ToRole="TBL_KsbVisits" />
+        </EntityType>
+        <EntityType Name="AddSiteStatu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KSbVisitID" Type="Int32" />
+          <Property Name="VisitTypeID" Type="Int32" />
+          <Property Name="SiteID" Type="Int32" />
+          <Property Name="SiteStatusID" Type="Int32" />
+          <NavigationProperty Name="Retailer" Relationship="FOS_WallCoatModel.FK_AddSiteStatus_Retailers" FromRole="AddSiteStatu" ToRole="Retailer" />
+          <NavigationProperty Name="TBL_KsbVisits" Relationship="FOS_WallCoatModel.FK_AddSiteStatus_TBL_KsbVisits" FromRole="AddSiteStatu" ToRole="TBL_KsbVisits" />
+        </EntityType>
+        <EntityType Name="AddStaffList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KSBVisitID" Type="Int32" />
+          <Property Name="SiteID" Type="Int32" />
+          <Property Name="StaffID" Type="Int32" />
+          <Property Name="LAunchedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Retailer" Relationship="FOS_WallCoatModel.FK_AddStaffList_Retailers" FromRole="AddStaffList" ToRole="Retailer" />
+          <NavigationProperty Name="StaffList" Relationship="FOS_WallCoatModel.FK_AddStaffList_StaffList" FromRole="AddStaffList" ToRole="StaffList" />
+          <NavigationProperty Name="TBL_KsbVisits" Relationship="FOS_WallCoatModel.FK_AddStaffList_TBL_KsbVisits" FromRole="AddStaffList" ToRole="TBL_KsbVisits" />
+        </EntityType>
+        <Association Name="FK_AddPurposeOfVisit_Retailers">
+          <End Type="FOS_WallCoatModel.Retailer" Role="Retailer" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.AddPurposeOfVisit" Role="AddPurposeOfVisit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Retailer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AddPurposeOfVisit">
+              <PropertyRef Name="SiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AddPurposeOfVisit_TBL_KsbVisits">
+          <End Type="FOS_WallCoatModel.TBL_KsbVisits" Role="TBL_KsbVisits" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.AddPurposeOfVisit" Role="AddPurposeOfVisit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_KsbVisits">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AddPurposeOfVisit">
+              <PropertyRef Name="KSBVisitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AddSiteStatus_Retailers">
+          <End Type="FOS_WallCoatModel.Retailer" Role="Retailer" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.AddSiteStatu" Role="AddSiteStatu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Retailer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AddSiteStatu">
+              <PropertyRef Name="SiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AddSiteStatus_TBL_KsbVisits">
+          <End Type="FOS_WallCoatModel.TBL_KsbVisits" Role="TBL_KsbVisits" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.AddSiteStatu" Role="AddSiteStatu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_KsbVisits">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AddSiteStatu">
+              <PropertyRef Name="KSbVisitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AddStaffList_Retailers">
+          <End Type="FOS_WallCoatModel.Retailer" Role="Retailer" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.AddStaffList" Role="AddStaffList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Retailer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AddStaffList">
+              <PropertyRef Name="SiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AddStaffList_StaffList">
+          <End Type="FOS_WallCoatModel.StaffList" Role="StaffList" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.AddStaffList" Role="AddStaffList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StaffList">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AddStaffList">
+              <PropertyRef Name="StaffID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AddStaffList_TBL_KsbVisits">
+          <End Type="FOS_WallCoatModel.TBL_KsbVisits" Role="TBL_KsbVisits" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.AddStaffList" Role="AddStaffList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_KsbVisits">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AddStaffList">
+              <PropertyRef Name="KSBVisitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -14680,6 +14992,10 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySetMapping Name="TBL_KsbVisits">
             <EntityTypeMapping TypeName="FOS_WallCoatModel.TBL_KsbVisits">
               <MappingFragment StoreEntitySet="TBL_KsbVisits">
+                <ScalarProperty Name="TimeInHours" ColumnName="TimeInHours" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="LaunchDate" ColumnName="LaunchDate" />
                 <ScalarProperty Name="Picture2" ColumnName="Picture2" />
                 <ScalarProperty Name="Picture1" ColumnName="Picture1" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
@@ -15163,6 +15479,39 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
                 <ScalarProperty Name="HeadID" ColumnName="HeadID" />
                 <ScalarProperty Name="RegionID" ColumnName="RegionID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AddPurposeOfVisits">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.AddPurposeOfVisit">
+              <MappingFragment StoreEntitySet="AddPurposeOfVisit">
+                <ScalarProperty Name="LaunchedAt" ColumnName="LaunchedAt" />
+                <ScalarProperty Name="VisitPurposeID" ColumnName="VisitPurposeID" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+                <ScalarProperty Name="KSBVisitID" ColumnName="KSBVisitID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AddSiteStatus">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.AddSiteStatu">
+              <MappingFragment StoreEntitySet="AddSiteStatus">
+                <ScalarProperty Name="SiteStatusID" ColumnName="SiteStatusID" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+                <ScalarProperty Name="VisitTypeID" ColumnName="VisitTypeID" />
+                <ScalarProperty Name="KSbVisitID" ColumnName="KSbVisitID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AddStaffLists">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.AddStaffList">
+              <MappingFragment StoreEntitySet="AddStaffList">
+                <ScalarProperty Name="LAunchedAt" ColumnName="LAunchedAt" />
+                <ScalarProperty Name="StaffID" ColumnName="StaffID" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+                <ScalarProperty Name="KSBVisitID" ColumnName="KSBVisitID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

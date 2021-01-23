@@ -112,6 +112,9 @@ namespace FOS.DataLayer
         public virtual DbSet<VisitPerson> VisitPersons { get; set; }
         public virtual DbSet<PurposeOfVisit> PurposeOfVisits { get; set; }
         public virtual DbSet<StaffList> StaffLists { get; set; }
+        public virtual DbSet<AddPurposeOfVisit> AddPurposeOfVisits { get; set; }
+        public virtual DbSet<AddSiteStatu> AddSiteStatus { get; set; }
+        public virtual DbSet<AddStaffList> AddStaffLists { get; set; }
     
         [DbFunction("FOSDataModel", "fnStringList2Table")]
         public virtual IQueryable<fnStringList2Table_Result> fnStringList2Table(string list)

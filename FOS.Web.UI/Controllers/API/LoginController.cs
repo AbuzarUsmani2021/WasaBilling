@@ -58,13 +58,14 @@ namespace FOS.Web.UI.Controllers.API
                             Priorities = new CommonController().GetPriorities(),
                             Status= new CommonController().GetComplaintStatus(),
                             Type= new CommonController().GetComplaintTypes(),
-                            LaunchedBy= new CommonController().GetLaunchedBy(),
+                            SiteStatuses = new CommonController().GetSiteStatuses(SO.RegionID),
+                            LaunchedBy = new CommonController().GetLaunchedBy(),
                             Roles = new CommonController().GetRole(),
                             WorkDoneStatus= new CommonController().GetWorkDoneStatuses(),
                             VisitTypes = new CommonController().GetvisitTypesStatuses(),
                             VisitPersons = new CommonController().GetvisitPersons(),
                             Staff = new CommonController().GetStaffList(SO.RegionalHeadID, SO.RegionID),
-                             VisitPurposesTypes= new CommonController().GetvisitPurposeTypes(),
+                            VisitPurposesTypes= new CommonController().GetvisitPurposeTypes(),
                             //RegionID=db.RegionalHeadRegions.Where(x=>x.RegionHeadID==SO.RegionalHeadID).Select(x=>x.RegionID).FirstOrDefault(),
                             //Region = new CommonController().GetCities(SO.RegionalHeadID),
                             Count = new CommonController().GetNotificationCount(SO.ID,SO.RoleID),
@@ -200,6 +201,7 @@ namespace FOS.Web.UI.Controllers.API
         public List<Purposes> VisitPurposesTypes { get; set; }
         public List<ComplaintStatus> Status { get; set; }
         public List<ComplaintType> Type { get; set; }
+        public List<ComplaintType> SiteStatuses { get; set; }
         public List<ComplaintType> LaunchedBy { get; set; }
 
         public List<ComplaintType> Roles { get; set; }

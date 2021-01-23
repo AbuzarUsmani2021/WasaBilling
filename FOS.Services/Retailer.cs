@@ -28,6 +28,9 @@ namespace FOS.DataLayer
             this.SiteEquipmentDetails = new HashSet<SiteEquipmentDetail>();
             this.JobsDetails = new HashSet<JobsDetail>();
             this.TBL_KsbVisits = new HashSet<TBL_KsbVisits>();
+            this.AddPurposeOfVisits = new HashSet<AddPurposeOfVisit>();
+            this.AddSiteStatus = new HashSet<AddSiteStatu>();
+            this.AddStaffLists = new HashSet<AddStaffList>();
         }
     
         public int TID { get; set; }
@@ -127,5 +130,11 @@ namespace FOS.DataLayer
         public virtual ICollection<JobsDetail> JobsDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_KsbVisits> TBL_KsbVisits { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AddPurposeOfVisit> AddPurposeOfVisits { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AddSiteStatu> AddSiteStatus { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AddStaffList> AddStaffLists { get; set; }
     }
 }

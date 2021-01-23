@@ -14,9 +14,18 @@ namespace FOS.DataLayer
     
     public partial class StaffList
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public StaffList()
+        {
+            this.AddStaffLists = new HashSet<AddStaffList>();
+        }
+    
         public int ID { get; set; }
         public string Name { get; set; }
         public Nullable<int> RegionID { get; set; }
         public Nullable<int> HeadID { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AddStaffList> AddStaffLists { get; set; }
     }
 }

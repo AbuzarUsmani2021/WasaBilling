@@ -30,11 +30,11 @@ namespace FOS.Web.UI.Controllers.API
                     retailerObj.ID = db.TBL_KsbVisits.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
  
                     retailerObj.SiteID = rm.SiteId;
-                   
+                    retailerObj.TimeInHours = rm.Time;
 
                     retailerObj.Remarks = rm.Remarks;
                     retailerObj.VisitTypeID = rm.VisitTypeId;
-
+                    retailerObj.LaunchDate= DateTime.UtcNow.AddHours(5);
 
                 if (rm.Picture2 == "" || rm.Picture2 == null)
                 {
@@ -48,10 +48,73 @@ namespace FOS.Web.UI.Controllers.API
                 db.TBL_KsbVisits.Add(retailerObj);
                 db.SaveChanges();
 
+
+             
+                string[] statusesList = rm.SiteStatuses.Split(',');
+
+                if (statusesList != null)
+                {
+
+                    foreach (var item in statusesList)
+                    {
+                        AddSiteStatu Ac = new AddSiteStatu();
+
+                        Ac.KSbVisitID = retailerObj.ID;
+                        Ac.SiteID = rm.SiteId;
+                        Ac.SiteStatusID = Convert.ToInt32(item);
+
+                        db.AddSiteStatus.Add(Ac);
+                        db.SaveChanges();
+
+                    }
+                }
+
+                string[] PurposeOfVisits = rm.PurposeOfVisits.Split(',');
+
+
+                if (PurposeOfVisits != null)
+                {
+
+                    foreach (var item in PurposeOfVisits)
+                    {
+                        AddPurposeOfVisit Ac = new AddPurposeOfVisit();
+
+                        Ac.KSBVisitID = retailerObj.ID;
+                        Ac.SiteID = rm.SiteId;
+                        Ac.VisitPurposeID = Convert.ToInt32(item);
+                        Ac.LaunchedAt = DateTime.UtcNow.AddHours(5);
+                        db.AddPurposeOfVisits.Add(Ac);
+                        db.SaveChanges();
+
+                    }
+
+                }
+                string[] StaffLists = rm.StaffLists.Split(',');
+
+
+                if (StaffLists != null)
+                {
+
+
+                    foreach (var item in StaffLists)
+                    {
+                        AddStaffList Ac = new AddStaffList();
+
+                        Ac.KSBVisitID = retailerObj.ID;
+                        Ac.SiteID = rm.SiteId;
+                        Ac.StaffID = Convert.ToInt32(item);
+                        Ac.LAunchedAt = DateTime.UtcNow.AddHours(5);
+                        db.AddStaffLists.Add(Ac);
+                        db.SaveChanges();
+
+                    }
+
+                }
+
                 return new Result<SuccessResponse>
                     {
                         Data = null,
-                        Message = "Visit Registration Successful",
+                        Message = "Visit Launched Successfully",
                         ResultType = ResultType.Success,
                         Exception = null,
                         ValidationErrors = null
@@ -117,9 +180,14 @@ namespace FOS.Web.UI.Controllers.API
 
             public int SiteId { get; set; }
 
+            public int Time { get; set; }
+
             public int VisitTypeId { get; set; }
             public string Remarks { get; set; }
 
+            public string SiteStatuses { get; set; }
+            public string PurposeOfVisits { get; set; }
+            public string StaffLists { get; set; }
             public string Picture1 { get; set; }
             public string Picture2 { get; set; }
 

@@ -95,6 +95,15 @@
     <Compile Include="ActivityPurpose.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AddPurposeOfVisit.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AddSiteStatu.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AddStaffList.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Area.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
