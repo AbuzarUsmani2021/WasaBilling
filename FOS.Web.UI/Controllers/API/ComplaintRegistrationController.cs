@@ -35,7 +35,6 @@ namespace FOS.Web.UI.Controllers.API
                     string finalday = day.ToString().PadLeft(2, '0');
                     var datein = string.Format("{0}{1}{2}", year, finalMonth, finalday);
                     DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
-
                     DateTime dtFromToday = dtFromTodayUtc.Date;
                     DateTime dtToToday = dtFromToday.AddDays(1);
 
@@ -113,20 +112,16 @@ namespace FOS.Web.UI.Controllers.API
                     retailerObj.ID = db.Jobs.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
                     retailerObj.PersonName = rm.Name;
                     retailerObj.ResolvedAt= DateTime.UtcNow.AddHours(5);
-
                     retailerObj.SiteID = rm.SiteId;
                     retailerObj.RegionID = data.RegionID;
                     retailerObj.ZoneID = data.ZoneID;
                     retailerObj.CityID = data.CityID;
                     retailerObj.Areas = data.AreaID.ToString();
                     retailerObj.SubDivisionID = data.SubDivisionID;
-
                     retailerObj.ComplaintStatusId = 2003;
-                    
                     retailerObj.FaultTypeId = rm.FaulttypeId;
                     retailerObj.LaunchedById = rm.LaunchedByID;
                     retailerObj.FaultTypeDetailID = rm.FaulttypeDetailId;
-                    
                     retailerObj.PriorityId = 0;
                     retailerObj.IsActive = true;
                     retailerObj.Status = true;  
@@ -145,9 +140,7 @@ namespace FOS.Web.UI.Controllers.API
                     //jobDetail.PRemarks = rm.FaultTypeDetailOtherRemarks;
                    // jobDetail.ProgressStatusRemarks = rm.ProgressStatusOtherRemarks;
                     jobDetail.ActivityType = rm.FaultTypeDetailOtherRemarks;
-                    jobDetail.RetailerID = rm.SiteId;
-                    
-                    
+                    jobDetail.RetailerID = rm.SiteId;                    
                     jobDetail.JobDate = DateTime.UtcNow.AddHours(5);
                     jobDetail.SalesOficerID = rm.SaleOfficerID;
                     if (rm.Picture1 == "" || rm.Picture1 == null)
@@ -177,28 +170,25 @@ namespace FOS.Web.UI.Controllers.API
                     db.JobsDetails.Add(jobDetail);
 
                     Tbl_ComplaintHistory history = new Tbl_ComplaintHistory();
-
                     history.JobID = retailerObj.ID;
                     history.JobDetailID = jobDetail.ID;
                     history.FaultTypeDetailRemarks = rm.FaultTypeDetailOtherRemarks;
                     history.ProgressStatusRemarks = rm.ProgressStatusOtherRemarks;
                     history.FaultTypeId = rm.FaulttypeId;
                     history.FaultTypeDetailID = rm.FaulttypeDetailId;
-                history.TicketNo = retailerObj.TicketNo;
-                history.ComplaintStatusId = 2003;
-                history.InitialRemarks = rm.Remarks;
-                history.LaunchedById= rm.SaleOfficerID;
-                history.Picture1 = jobDetail.Picture1;
-                history.Picture2 = jobDetail.Picture2;
-                history.Picture3 = jobDetail.Picture3;
-                history.SiteID = rm.SiteId;
+                    history.TicketNo = retailerObj.TicketNo;
+                    history.ComplaintStatusId = 2003;
+                    history.InitialRemarks = rm.Remarks;
+                    history.LaunchedById= rm.SaleOfficerID;
+                    history.Picture1 = jobDetail.Picture1;
+                    history.Picture2 = jobDetail.Picture2;
+                    history.Picture3 = jobDetail.Picture3;
+                    history.SiteID = rm.SiteId;
                     history.PriorityId = 0;
                     history.IsActive = true;
                     history.IsPublished = 1;
-
-
+                    history.PersonName = retailerObj.PersonName;
                     history.CreatedDate = DateTime.UtcNow.AddHours(5);
-
                     db.Tbl_ComplaintHistory.Add(history);
 
 
@@ -241,7 +231,6 @@ namespace FOS.Web.UI.Controllers.API
                     seen.ComplaintNotificationID = notify.ID;
                     seen.IsSeen = false;
                     seen.SOID = item;
-
                     db.NotificationSeens.Add(seen);
                     db.SaveChanges();
                 }

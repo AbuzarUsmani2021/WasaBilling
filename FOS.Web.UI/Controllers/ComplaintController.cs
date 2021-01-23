@@ -212,7 +212,7 @@ namespace FOS.Web.UI.Controllers
             {
                 if (itm.FaultTypeDetailName == "Others")
                 {
-                    itm.FaultTypeDetailName = itm.FaultTypeDetailRemarks;
+                    itm.FaultTypeDetailName ="Others/" + itm.FaultTypeDetailRemarks;
                 }
                 if (itm.ComplaintStatus == "Resolved")
                 {
@@ -228,49 +228,26 @@ namespace FOS.Web.UI.Controllers
                 }
                 if (itm.ProgressStatusName == "Others")
                 {
-                    itm.ProgressStatusName = itm.ProgressRemarks;
+                    itm.ProgressStatusName ="Others/" + itm.ProgressStatusName;
+                }
+                if (itm.ProgressRemarks == null || itm.ProgressRemarks == "")
+                {
+                    itm.ProgressRemarks = "null";
+                }
+                if (itm.ProgressStatusName == null)
+                {
+                    itm.ProgressStatusName = "null";
                 }
             }
             return Json(dtsource);
 
         }
-
-        //public JsonResult GetComplaintChildDataForWASA(DTParameters param, int ComplaintId)
-        //{
-        //    var dtsource = new List<ComplaintProgress>();
-        //    dtsource = ManageJobs.GetComplaintChildDataForWASA(ComplaintId);
-        //    foreach (var itm in dtsource)
-        //    {
-        //        if (itm.FaultTypeDetailName == "Others")
-        //        {
-        //            itm.FaultTypeDetailName = itm.FaultTypeDetailRemarks;
-        //        }
-        //        if (itm.ComplaintStatus == "Resolved")
-        //        {
-        //            itm.ProgressStatusName = db.WorkDones.Where(x => x.ID == itm.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
-        //        }
-        //        else if (itm.ComplaintStatus == null)
-        //        {
-        //            itm.ComplaintStatus = "New Complaint";
-        //        }
-        //        else
-        //        {
-        //            itm.ProgressStatusName = db.ProgressStatus.Where(x => x.ID == itm.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
-        //        }
-        //        if (itm.ProgressStatusName == "Others")
-        //        {
-        //            itm.ProgressStatusName = itm.ProgressRemarks;
-        //        }
-        //    }
-        //    return Json(dtsource);
-
-        //}
         public JsonResult GetProgressIDData(int ProgressID)
         {
             var Response = ManageJobs.GetProgressIDData(ProgressID);
             if (Response.FaultTypeDetailName == "Others")
             {
-                Response.FaultTypeDetailName =Response.FaultTypeDetailRemarks;
+                Response.FaultTypeDetailName ="Others/" +Response.FaultTypeDetailRemarks;
             }
             if (Response.ComplaintStatus == "Resolved")
             {
@@ -286,18 +263,26 @@ namespace FOS.Web.UI.Controllers
             }
             if (Response.ProgressStatusName == "Others")
             {
-                Response.ProgressStatusName = Response.ProgressRemarks;
+                Response.ProgressStatusName ="Others/" +  Response.ProgressStatusName;
             }
+            if (Response.ProgressStatusName ==null)
+            {
+                Response.ProgressStatusName = "null";
+            }
+            if (Response.ProgressRemarks == null || Response.ProgressRemarks == "")
+            {
+                Response.ProgressRemarks = "null";
+            }
+
             return Json(Response, JsonRequestBehavior.AllowGet);
         }
-
         public JsonResult GetCurrentComplaintDetail(int ComplaintId)
         {
             var Response = ManageRetailer.GetCurrentComplaintDetail(ComplaintId);
             //Response.LastUpdated = Convert.ToString(Response.ResolvedAt);
             if (Response.FaultTypesDetailName == "Others")
             {
-                Response.FaultTypesDetailName = Response.FaultTypesDetailName + "/" + Response.FaultTypeDetailOtherRemarks;
+                Response.FaultTypesDetailName = "Others/" + Response.FaultTypeDetailOtherRemarks;
             }
             Response.ProgressStatusId = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).Select(x => x.ProgressStatusID).FirstOrDefault();
             Response.ProgressStatusName = db.ProgressStatus.Where(x => x.ID == Response.ProgressStatusId).OrderByDescending(x => x.ID).Select(x => x.Name).FirstOrDefault();
@@ -313,7 +298,11 @@ namespace FOS.Web.UI.Controllers
             }
             if (Response.ProgressStatusName == "Others")
             {
-                Response.ProgressStatusName = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).Select(x => x.PRemarks).FirstOrDefault();
+                Response.ProgressStatusName = "Other/" + db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).Select(x => x.PRemarks).FirstOrDefault();
+            }
+            if (Response.ProgressStatusName == "" || Response.ProgressStatusName ==null || Response.ProgressStatusId==null)
+            {
+                Response.ProgressStatusName =  "null";
             }
 
             return Json(Response, JsonRequestBehavior.AllowGet);
@@ -323,11 +312,19 @@ namespace FOS.Web.UI.Controllers
             var Response = ManageRetailer.GetActualComplaintDetail(ComplaintId);
             if (Response.FaultTypesDetailName == "Others")
             {
-                Response.FaultTypesDetailName = Response.FaultTypesDetailName+"/"+Response.FaultTypeDetailOtherRemarks;
+                Response.FaultTypesDetailName ="Others/"+Response.FaultTypeDetailOtherRemarks;
             }
-              return Json(Response, JsonRequestBehavior.AllowGet);
-        }
+            if (Response.Name == null)
+            {
+                Response.Name = "null";
+            }
+            if (Response.Remarks == null || Response.Remarks == "")
+            {
+                Response.Remarks = "null";
+            }
 
+            return Json(Response, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult GetEditComplaint(int ComplaintId)
         {
             //var Response = ManageRetailer.GetEditComplaint(ComplaintId);
