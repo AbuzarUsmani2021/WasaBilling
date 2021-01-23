@@ -1595,8 +1595,9 @@ namespace FOS.Setup
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
+                                               ResolvedHours = job.ResolvedHours,
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                         else if (From != null && To != null && Project == 0)
                         {
@@ -1614,6 +1615,7 @@ namespace FOS.Setup
                                                RetailerID = job.SiteID,
                                                RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
                                                FaultTypeID = job.FaultTypeId,
+                                               ResolvedHours = job.ResolvedHours,
                                                FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
                                                FaultTypeDetailID = job.FaultTypeDetailID,
                                                FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
@@ -1628,7 +1630,7 @@ namespace FOS.Setup
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                         else if (From == null && To == null && Project != 0)
                         {
@@ -1658,9 +1660,10 @@ namespace FOS.Setup
                                                UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
+                                               ResolvedHours = job.ResolvedHours,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                         else if (From == null && To == null && Project == 0)
                         {
@@ -1676,6 +1679,7 @@ namespace FOS.Setup
                                                ID = job.ID,
                                                JobID = job.ID,
                                                RetailerID = job.SiteID,
+                                               ResolvedHours = job.ResolvedHours,
                                                RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
                                                FaultTypeID = job.FaultTypeId,
                                                FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
@@ -1692,7 +1696,7 @@ namespace FOS.Setup
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                     }
                else if (TeamID == 5)
@@ -1725,9 +1729,10 @@ namespace FOS.Setup
                                                UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
+                                               ResolvedHours = job.ResolvedHours,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                         else if (From != null && To != null && Project == 0)
                         {
@@ -1757,9 +1762,10 @@ namespace FOS.Setup
                                                UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
+                                               ResolvedHours = job.ResolvedHours,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                         else if (From == null && To == null && Project != 0)
                         {
@@ -1788,10 +1794,11 @@ namespace FOS.Setup
                                                dateformat = job.CreatedDate.ToString(),
                                                UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
+                                               ResolvedHours = job.ResolvedHours,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                         else if (From == null && To == null && Project == 0)
                         {
@@ -1824,7 +1831,7 @@ namespace FOS.Setup
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                     }
                else if (TeamID == 6)
@@ -1843,6 +1850,7 @@ namespace FOS.Setup
                                                ID = job.ID,
                                                JobID = job.ID,
                                                RetailerID = job.SiteID,
+                                               ResolvedHours = job.ResolvedHours,
                                                RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
                                                FaultTypeID = job.FaultTypeId,
                                                FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
@@ -1859,7 +1867,7 @@ namespace FOS.Setup
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                         else if (From != null && To != null && Project == 0)
                         {
@@ -1889,9 +1897,10 @@ namespace FOS.Setup
                                                UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
+                                               ResolvedHours = job.ResolvedHours,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                         else if (From == null && To == null && Project != 0)
                         {
@@ -1921,9 +1930,10 @@ namespace FOS.Setup
                                                UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
+                                               ResolvedHours = job.ResolvedHours,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                         else if (From == null && To == null && Project == 0)
                         {
@@ -1952,13 +1962,13 @@ namespace FOS.Setup
                                                dateformat = job.CreatedDate.ToString(),
                                                UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
+                                               ResolvedHours = job.ResolvedHours,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                     }
-
                 }
             }
             catch (Exception exp)
@@ -1994,6 +2004,7 @@ namespace FOS.Setup
                                            RetailerID = job.SiteID,
                                            RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
                                            FaultTypeID = job.FaultTypeId,
+                                           ResolvedHours = job.ResolvedHours,
                                            FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
                                            FaultTypeDetailID = job.FaultTypeDetailID,
                                            FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
@@ -2008,7 +2019,7 @@ namespace FOS.Setup
                                            d1 = date,
                                            d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                            ResolvedAt = (DateTime)job.ResolvedAt
-                                       }).OrderByDescending(x => x.dateformat).ToList();
+                                       }).OrderByDescending(x => x.ID).ToList();
                     }
                     else if (From != null && To != null && Project == 0)
                     {
@@ -2030,6 +2041,7 @@ namespace FOS.Setup
                                            FaultTypeDetailID = job.FaultTypeDetailID,
                                            FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
                                            StatusID = job.ComplaintStatusId,
+                                           ResolvedHours = job.ResolvedHours,
                                            StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
                                            SaleOfficerName = job.SaleOfficer.Name,
                                            TicketNo = job.TicketNo,
@@ -2040,7 +2052,7 @@ namespace FOS.Setup
                                            d1 = date,
                                            d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                            ResolvedAt = (DateTime)job.ResolvedAt
-                                       }).OrderByDescending(x => x.dateformat).ToList();
+                                       }).OrderByDescending(x => x.ID).ToList();
                     }
                     else if (From == null && To == null && Project != 0)
                     {
@@ -2065,6 +2077,7 @@ namespace FOS.Setup
                                            StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
                                            SaleOfficerName = job.SaleOfficer.Name,
                                            TicketNo = job.TicketNo,
+                                           ResolvedHours = job.ResolvedHours,
                                            SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                            dateformat = job.CreatedDate.ToString(),
                                            UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
@@ -2072,7 +2085,7 @@ namespace FOS.Setup
                                            d1 = date,
                                            d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                            ResolvedAt = (DateTime)job.ResolvedAt
-                                       }).OrderByDescending(x => x.dateformat).ToList();
+                                       }).OrderByDescending(x => x.ID).ToList();
 
 
                     }
@@ -2103,10 +2116,11 @@ namespace FOS.Setup
                                            dateformat = job.CreatedDate.ToString(),
                                            UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                            ComplaintTypeName = job.ComplaintType.Name,
+                                           ResolvedHours = job.ResolvedHours,
                                            d1 = date,
                                            d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                            ResolvedAt = (DateTime)job.ResolvedAt
-                                       }).OrderByDescending(x => x.dateformat).ToList();
+                                       }).OrderByDescending(x => x.ID).ToList();
                     }
                 }
             }
@@ -2143,6 +2157,7 @@ namespace FOS.Setup
                                                ID = job.ID,
                                                JobID = job.ID,
                                                RetailerID = job.SiteID,
+                                               ResolvedHours = job.ResolvedHours,
                                                RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
                                                FaultTypeID = job.FaultTypeId,
                                                FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
@@ -2159,7 +2174,7 @@ namespace FOS.Setup
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                        else if (From != null && To != null && Project == 0)
                         {
@@ -2181,6 +2196,7 @@ namespace FOS.Setup
                                                FaultTypeDetailID = job.FaultTypeDetailID,
                                                FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
                                                StatusID = job.ComplaintStatusId,
+                                               ResolvedHours = job.ResolvedHours,
                                                StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
                                                SaleOfficerName = job.SaleOfficer.Name,
                                                TicketNo = job.TicketNo,
@@ -2191,7 +2207,7 @@ namespace FOS.Setup
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                        else if (From == null && To == null && Project != 0)
                         {
@@ -2213,7 +2229,8 @@ namespace FOS.Setup
                                                FaultTypeDetailID = job.FaultTypeDetailID,
                                                FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
                                                StatusID = job.ComplaintStatusId,
-                                               StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                                ResolvedHours = job.ResolvedHours,
+                                StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
                                                SaleOfficerName = job.SaleOfficer.Name,
                                                TicketNo = job.TicketNo,
                                                SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
@@ -2223,7 +2240,7 @@ namespace FOS.Setup
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                        else if (From == null && To == null && Project == 0)
                         {
@@ -2248,6 +2265,7 @@ namespace FOS.Setup
                                                StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
                                                SaleOfficerName = job.SaleOfficer.Name,
                                                TicketNo = job.TicketNo,
+                                               ResolvedHours = job.ResolvedHours,
                                                SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                                dateformat = job.CreatedDate.ToString(),
                                                UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
@@ -2255,7 +2273,7 @@ namespace FOS.Setup
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                     }
                     if (userId == 1027)
@@ -2277,7 +2295,8 @@ namespace FOS.Setup
                                                RetailerID = job.SiteID,
                                                RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
                                                FaultTypeID = job.FaultTypeId,
-                                               FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                                ResolvedHours = job.ResolvedHours,
+                                FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
                                                FaultTypeDetailID = job.FaultTypeDetailID,
                                                FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
                                                StatusID = job.ComplaintStatusId,
@@ -2291,7 +2310,7 @@ namespace FOS.Setup
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                         else if (From != null && To != null && Project == 0)
                         {
@@ -2309,7 +2328,8 @@ namespace FOS.Setup
                                                RetailerID = job.SiteID,
                                                RetailerName = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.Name).FirstOrDefault(),
                                                FaultTypeID = job.FaultTypeId,
-                                               FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                                ResolvedHours = job.ResolvedHours,
+                                FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == job.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
                                                FaultTypeDetailID = job.FaultTypeDetailID,
                                                FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == job.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
                                                StatusID = job.ComplaintStatusId,
@@ -2323,7 +2343,7 @@ namespace FOS.Setup
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                         else if (From == null && To == null && Project != 0)
                         {
@@ -2347,6 +2367,7 @@ namespace FOS.Setup
                                                StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
                                                SaleOfficerName = job.SaleOfficer.Name,
                                                TicketNo = job.TicketNo,
+                                               ResolvedHours = job.ResolvedHours,
                                                SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                                dateformat = job.CreatedDate.ToString(),
                                                UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
@@ -2354,7 +2375,7 @@ namespace FOS.Setup
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                         else if (From == null && To == null && Project == 0)
                         {
@@ -2379,6 +2400,7 @@ namespace FOS.Setup
                                                StatusName = dbContext.ComplaintStatus.Where(p => p.Id == job.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
                                                SaleOfficerName = job.SaleOfficer.Name,
                                                TicketNo = job.TicketNo,
+                                               ResolvedHours = job.ResolvedHours,
                                                SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                                dateformat = job.CreatedDate.ToString(),
                                                UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
@@ -2386,7 +2408,7 @@ namespace FOS.Setup
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
                                                ResolvedAt = (DateTime)job.ResolvedAt
-                                           }).OrderByDescending(x => x.dateformat).ToList();
+                                           }).OrderByDescending(x => x.ID).ToList();
                         }
                     }
                 }
@@ -2432,6 +2454,7 @@ namespace FOS.Setup
                             comlist.StatusName = dbContext.ComplaintStatus.Where(p => p.Id == items.ComplaintStatusId).Select(p => p.Name).FirstOrDefault();
                             comlist.SaleOfficerName = items.SaleOfficer.Name;
                             comlist.TicketNo = items.TicketNo;
+                            comlist.ResolvedHours = items.ResolvedHours;
                             comlist.SiteCode = dbContext.Retailers.Where(p => p.ID == items.SiteID).Select(p => p.RetailerCode).FirstOrDefault();
                             comlist.dateformat = items.CreatedDate.ToString();
                             comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
@@ -2439,7 +2462,6 @@ namespace FOS.Setup
                             comlist.d1 = date;
                             comlist.d2 = (DateTime)(items.CreatedDate.HasValue ? items.CreatedDate : date);
                             comlist.ResolvedAt = (DateTime)items.ResolvedAt;
-
                             doneJobData.Add(comlist);
                         }
 
@@ -2480,6 +2502,7 @@ namespace FOS.Setup
                             comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
                             comlist.ComplaintTypeName = items.ComplaintType.Name;
                             comlist.d1 = date;
+                            comlist.ResolvedHours = items.ResolvedHours;
                             comlist.d2 = (DateTime)(items.CreatedDate.HasValue ? items.CreatedDate : date);
                             comlist.ResolvedAt = (DateTime)items.ResolvedAt;
                             doneJobData.Add(comlist);
@@ -2609,7 +2632,7 @@ namespace FOS.Setup
 
             using (FOSDataModel dbContext = new FOSDataModel())
             {
-                return dbContext.Tbl_ComplaintHistory.Where(u => u.ID == ProgressID).Select(u => new ComplaintProgress
+                return dbContext.Tbl_ComplaintHistory.Where(u => u.ID == ProgressID && u.IsPublished==1).Select(u => new ComplaintProgress
                 {
                     ProgressID = u.ID,
                     DateTime = u.CreatedDate.ToString(),

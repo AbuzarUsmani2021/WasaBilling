@@ -2666,60 +2666,83 @@ namespace FOS.Setup
                         }
                         //ADD New Retailer 
                         retailerObj.ID = dbContext.Jobs.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
-                        retailerObj.SaleOfficerID = obj.SaleOfficerID;
-                        retailerObj.CityID = obj.CityID;
-                        retailerObj.Areas = obj.AreaID.ToString();
-                        retailerObj.Status = true;
-                        retailerObj.CreatedDate = DateTime.UtcNow.AddHours(5);
-                        retailerObj.IsActive = true;
+                        retailerObj.PersonName = obj.Name;
+                        retailerObj.ResolvedAt = DateTime.UtcNow.AddHours(5);
+                        retailerObj.SiteID = obj.SiteId;
                         retailerObj.RegionID = obj.ClientId;         // Client Id is region id in retailers table
                         retailerObj.ZoneID = obj.ProjectId;         // Zone Id is Project id in retailers table 
-                        retailerObj.SiteID = obj.SiteId;
-                        retailerObj.FaultTypeId = obj.FaulttypeId;
-                        retailerObj.PriorityId = 0;
-                        retailerObj.ComplaintStatusId = 2003;
-                        retailerObj.LaunchedById = 2;
-                        retailerObj.PersonName = obj.Name;
-                        retailerObj.FaultTypeDetailID = obj.FaulttypeDetailId;
+                        retailerObj.CityID = obj.CityID;
+                        retailerObj.Areas = obj.AreaID.ToString();
                         retailerObj.SubDivisionID = obj.SubDivisionID;
-                        retailerObj.ComplainttypeID = obj.ComplaintTypeID;
+                        retailerObj.ComplaintStatusId = 2003;
+                        retailerObj.FaultTypeId = obj.FaulttypeId;
+                        retailerObj.LaunchedById = obj.SaleOfficerID;
+                        retailerObj.FaultTypeDetailID = obj.FaulttypeDetailId;
+                        retailerObj.PriorityId = 0;
+                        retailerObj.IsActive = true;
+                        retailerObj.Status = true;
                         retailerObj.InitialRemarks = obj.Remarks;
-                        retailerObj.ResolvedAt = DateTime.UtcNow.AddHours(5);
+                        retailerObj.ComplainttypeID = obj.ComplaintTypeID;
+                        retailerObj.CreatedDate = DateTime.UtcNow.AddHours(5);
+                        retailerObj.SaleOfficerID = obj.SaleOfficerID;
                         dbContext.Jobs.Add(retailerObj);
 
                         JobsDetail jobDetail = new JobsDetail();
                         jobDetail.ID = dbContext.JobsDetails.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
                         jobDetail.JobID = retailerObj.ID;
-                        jobDetail.SalesOficerID = obj.SaleOfficerID;
+                        //jobDetail.FaultTypeDetailRemarks = obj.FaultTypeDetailOtherRemarks;
+                        //jobDetail.ProgressStatusRemarks = obj.ProgressStatusOtherRemarks;
+                        jobDetail.ActivityType = obj.FaultTypeDetailOtherRemarks;
                         jobDetail.RetailerID = obj.SiteId;
                         jobDetail.JobDate = DateTime.UtcNow.AddHours(5);
-                        jobDetail.Picture1 = file1;
-                        jobDetail.Picture2 = file2;
-                        jobDetail.PRemarks = obj.FaultTypeDetailOtherRemarks;
-                        jobDetail.ActivityType = obj.FaultTypeDetailOtherRemarks;
+                        jobDetail.SalesOficerID = obj.SaleOfficerID;
+                        if (obj.Picture1 == "" || obj.Picture1 == null)
+                        {
+                            jobDetail.Picture1 = null;
+                        }
+                        else
+                        {
+                            jobDetail.Picture1 = file1;
+                        }
+                        if (obj.Picture2 == "" || obj.Picture2 == null)
+                        {
+                            jobDetail.Picture2 = null;
+                        }
+                        else
+                        {
+                            jobDetail.Picture2 = file2;
+                        }
                         dbContext.JobsDetails.Add(jobDetail);
+
+
+
+
+
+
 
 
                         Tbl_ComplaintHistory history = new Tbl_ComplaintHistory();
                         history.JobID = retailerObj.ID;
                         history.JobDetailID = jobDetail.ID;
-                        history.CreatedDate = DateTime.UtcNow.AddHours(5);
-                        history.IsActive = true;
-                        history.SiteID = obj.SiteId;
-                        history.TicketNo = retailerObj.TicketNo;
+                        history.FaultTypeDetailRemarks = obj.FaultTypeDetailOtherRemarks;
+                        history.ProgressStatusRemarks = obj.ProgressStatusOtherRemarks;
                         history.FaultTypeId = obj.FaulttypeId;
-                        history.PriorityId = 0;
-                        history.ComplaintStatusId = 2003;
-                        history.LaunchedById = obj.SaleOfficerID;
-                        history.PersonName = retailerObj.PersonName;
                         history.FaultTypeDetailID = obj.FaulttypeDetailId;
+                        history.TicketNo = retailerObj.TicketNo;
+                        history.ComplaintStatusId = 2003;
+                        history.InitialRemarks = obj.Remarks;
+                        history.LaunchedById = obj.SaleOfficerID;
                         history.ComplainttypeID = retailerObj.ComplainttypeID;
                         history.Picture1 = jobDetail.Picture1;
                         history.Picture2 = jobDetail.Picture2;
-                        history.FaultTypeDetailRemarks = obj.FaultTypeDetailOtherRemarks;
+                        history.SiteID = obj.SiteId;
+                        history.PriorityId = 0;
+                        history.IsActive = true;
                         history.IsPublished = 1;
-                        history.InitialRemarks = obj.Remarks;
+                        history.CreatedDate = DateTime.UtcNow.AddHours(5);
+                        history.PersonName = retailerObj.PersonName;
                         dbContext.Tbl_ComplaintHistory.Add(history);
+
 
                         ComplaintNotification notify = new ComplaintNotification();
                         notify.ID = dbContext.ComplaintNotifications.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
@@ -2755,6 +2778,8 @@ namespace FOS.Setup
                             seen.IsSeen = false;
                             seen.SOID = item;
                             dbContext.NotificationSeens.Add(seen);
+                            dbContext.SaveChanges();
+
                         }
                         // Add Token Detail ...
                         TokenDetail tokenDetail = new TokenDetail();

@@ -31,6 +31,7 @@ namespace FOS.Shared
 
 
 
+        public int RoleID { get; set; }
 
         public int? RegionID { get; set; }
         public string RegionName { get; set; }

@@ -101,7 +101,7 @@
     <table class="table table-striped table-hover table-bordered" id="datatab">
         <thead>
             <tr class="align-center" style="background-color:#1969b1; color:white;">
-                @*<th>Sr #</th>*@
+                <th>Sr #</th>
                 <th>Complaint No</th>
                 <th>Site ID</th>
                 <th>Site Name</th>
@@ -580,8 +580,7 @@
                 "deferRender": true,
                 "bSelect": true,
                 "columns": [
-                    //{ "data": "ID", "sClass": "center-align-td" },
-                    //{ "data": "Exceed", "sClass": "center-align-td", "bVisible": false  },
+                    { "data": "ID", "sClass": "center-align-td", "bVisible": false },
                     { "data": "TicketNo", "sClass": "center-align-td" },
                     { "data": "SiteCode", "sClass": "center-align-td"},
                     { "data": "RetailerName", "sClass": "center-align-td" },
@@ -606,7 +605,7 @@
 
                         }
                     }
-                ], "order": [7, "desc"]
+                ], "order": [0, "desc"]
 
             });
 
