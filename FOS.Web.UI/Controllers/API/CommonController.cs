@@ -700,6 +700,31 @@ namespace FOS.Web.UI.Controllers.API
             return dbregions;
         }
 
+
+        public List<ComplaintType> GetSiteStatuses(int? RegionID)
+        {
+            List<ComplaintType> cities = new List<ComplaintType>();
+            //Regions cty;
+
+            //var dbCities = db.RegionalHeadRegions.Where(c => c.RegionHeadID == ID).ToList();
+
+
+            var dbregions = db.SiteStatus.Where(x=>x.ClientID== RegionID).Select(x => new ComplaintType
+            {
+                ID = x.ID,
+                Name = x.Description
+            }).ToList();
+
+
+            dbregions.Insert(0, new ComplaintType
+            {
+                ID = 0,
+                Name = "Select"
+            });
+
+            return dbregions;
+        }
+
         public List<ComplaintType> GetLaunchedBy()
         {
             List<ComplaintType> cities = new List<ComplaintType>();

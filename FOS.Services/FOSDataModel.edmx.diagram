@@ -183,6 +183,16 @@
         <EntityTypeShape EntityType="FOS_WallCoatModel.VisitPerson" Width="1.5" PointX="21.375" PointY="10.75" />
         <EntityTypeShape EntityType="FOS_WallCoatModel.PurposeOfVisit" Width="1.5" PointX="21.375" PointY="13.75" />
         <EntityTypeShape EntityType="FOS_WallCoatModel.StaffList" Width="1.5" PointX="21.375" PointY="16.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.AddPurposeOfVisit" Width="1.5" PointX="26.5" PointY="23.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.AddSiteStatu" Width="1.5" PointX="24.5" PointY="27.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.AddStaffList" Width="1.5" PointX="23.625" PointY="23.625" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_AddPurposeOfVisit_Retailers" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_AddPurposeOfVisit_TBL_KsbVisits" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_AddSiteStatus_Retailers" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_AddSiteStatus_TBL_KsbVisits" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_AddStaffList_Retailers" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_AddStaffList_StaffList" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_AddStaffList_TBL_KsbVisits" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
