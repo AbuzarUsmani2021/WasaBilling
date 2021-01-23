@@ -94,6 +94,8 @@ namespace FOS.Web.UI.Controllers
             FOSDataModel dbContext = new FOSDataModel();
             newRetailer.StatusID = 2003;
             newRetailer.SaleOfficerID= (int) Session["SORelationID"];
+            var TeamID = (int)Session["TeamID"];
+
 
             string path1 = "";
             string path2 = "";
@@ -113,7 +115,16 @@ namespace FOS.Web.UI.Controllers
                 path2 = "/Images/ComplaintImages/" + filename;
             }
             int Res = ManageRetailer.AddUpdateComplaint(newRetailer, path1, path2);
-            return RedirectToAction("Home", "Home");
+
+            if (TeamID == 4)
+            {
+                return RedirectToAction("WASADashboard","Home");
+            }
+            else 
+            {
+                return RedirectToAction("Home", "Home");
+            }
+
 
 
         }

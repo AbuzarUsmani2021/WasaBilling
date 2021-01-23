@@ -2615,7 +2615,7 @@ namespace FOS.Web.UI.Controllers
 
                         if (itm.FaultTypeDetailID == 3030 || itm.FaultTypeDetailID == 3042 || itm.FaultTypeDetailID == 3049)
                         {
-                        comlist.FaultTypeDetailName = "Others/" + db.JobsDetails.Where(x => x.JobID == itm.ID).OrderByDescending(x => x.ID).FirstOrDefault().ActivityType;
+                        comlist.FaultTypeDetailName = db.JobsDetails.Where(x => x.JobID == itm.ID).OrderByDescending(x => x.ID).FirstOrDefault().ActivityType;
                         }
                     var ProgressID = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault();
                         if (itm.StatusName == "Resolved")

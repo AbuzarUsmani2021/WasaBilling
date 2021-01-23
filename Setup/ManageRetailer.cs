@@ -2070,7 +2070,7 @@ namespace FOS.Setup
                         CreatedDate = u.CreatedDate.ToString(),
                         LaunchedByName = dbContext.SaleOfficers.Where(p => p.ID == u.SaleOfficerID).Select(p => p.Name).FirstOrDefault(),
                         FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == u.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
-                        FaultTypeDetailOtherRemarks= dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.PRemarks).FirstOrDefault(),
+                        FaultTypeDetailOtherRemarks= dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.ActivityType).FirstOrDefault(),
                         FaultTypesDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == u.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
                         StatusName = dbContext.ComplaintStatus.Where(p => p.Id == u.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
                         LastUpdated = dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.JobDate).FirstOrDefault().ToString(),
