@@ -60,6 +60,8 @@ namespace FOS.Web.UI.Controllers.API
                             Type= new CommonController().GetComplaintTypes(),
                             SiteStatuses = new CommonController().GetSiteStatuses(SO.RegionID),
                             LaunchedBy = new CommonController().GetLaunchedBy(),
+                            EquipParent = new CommonController().GetEquipParent(),
+                            EquipChild = new CommonController().GetEquipCild(),
                             Roles = new CommonController().GetRole(),
                             WorkDoneStatus= new CommonController().GetWorkDoneStatuses(),
                             VisitTypes = new CommonController().GetvisitTypesStatuses(),
@@ -196,6 +198,9 @@ namespace FOS.Web.UI.Controllers.API
         public List<Priority> Priorities { get; set; }
         public List<WorkDone> WorkDoneStatus { get; set; }
         public List<ComplaintType> VisitTypes { get; set; }
+
+        public List<ComplaintType> EquipParent { get; set; }
+        public List<EquipChild> EquipChild { get; set; }
         public List<ComplaintType> VisitPersons { get; set; }
         public List<StaffList> Staff { get; set; }
         public List<Purposes> VisitPurposesTypes { get; set; }
@@ -287,6 +292,12 @@ public class Projects
         public string Name { get; set; }
     }
 
+    public class EquipChild
+    {
+        public int ID { get; set; }
+        public int? ParentID { get; set; }
+        public string Name { get; set; }
+    }
 
     public class StaffList
     {

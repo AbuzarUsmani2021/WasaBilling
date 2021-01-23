@@ -193,6 +193,8 @@
         <AssociationConnector Association="FOS_WallCoatModel.FK_AddStaffList_Retailers" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_AddStaffList_StaffList" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_AddStaffList_TBL_KsbVisits" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.EquipChild" Width="1.5" PointX="21.375" PointY="19.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.EquipParent" Width="1.5" PointX="23.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

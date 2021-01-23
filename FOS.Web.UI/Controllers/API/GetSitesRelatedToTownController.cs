@@ -15,36 +15,67 @@ namespace FOS.Web.UI.Controllers.API
     {
         FOSDataModel db = new FOSDataModel();
 
-        public IHttpActionResult Get(int ProjectID, int ZoneID, int TownID)
+        public IHttpActionResult Get(int ProjectID, int ZoneID, int TownID,int VisitTypeID)
         {
-            try
+            if (VisitTypeID != 3)
             {
-                if (ZoneID > 0 && TownID > 0 )
+                try
                 {
-                    var SubCat = ManageArea.GetSitesForAPIFinals(ProjectID ,ZoneID, TownID);    
-                    if (SubCat != null && SubCat.Count > 0)
+                    if (ZoneID > 0 && TownID > 0)
                     {
-                        return Ok(new
+                        var SubCat = ManageArea.GetSitesForAPIFinals(ProjectID, ZoneID, TownID);
+                        if (SubCat != null && SubCat.Count > 0)
                         {
-                            Sites = SubCat.Select(d => new
+                            return Ok(new
                             {
-                                d.ID,
-                                d.Name,
-                                d.ShortCode
-                            }).OrderBy(d => d.ID)
-                        });
+                                Sites = SubCat.Select(d => new
+                                {
+                                    d.ID,
+                                    d.Name,
+                                    d.ShortCode
+                                }).OrderBy(d => d.ID)
+                            });
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    Log.Instance.Error(ex, "SitesController GET API Failed");
+                }
             }
-            catch (Exception ex)
+            else
             {
-                Log.Instance.Error(ex, "SitesController GET API Failed");
+                try
+                {
+                    if (ZoneID > 0 && TownID > 0)
+                    {
+                        var SubCat = ManageArea.GetComplaintsForAPIFinals(ProjectID, ZoneID, TownID);
+                        if (SubCat != null && SubCat.Count > 0)
+                        {
+                            return Ok(new
+                            {
+                                Sites = SubCat.Select(d => new
+                                {
+                                    d.ID,
+                                    d.Name,
+                                    d.ShortCode
+                                }).OrderBy(d => d.ID)
+                            });
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Instance.Error(ex, "SitesController GET API Failed");
+                }
+
             }
             object[] param = { };
             return Ok(new
             {
                 Sites = param
             });
+            }
         }
 
 

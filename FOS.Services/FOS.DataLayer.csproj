@@ -164,6 +164,9 @@
     <Compile Include="DealerCityArea.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EquipChild.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EquipmentBrand.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
@@ -171,6 +174,9 @@
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EquipmentType.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EquipParent.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="FaultType.cs">

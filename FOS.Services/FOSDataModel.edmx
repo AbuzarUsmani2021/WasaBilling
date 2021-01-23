@@ -264,6 +264,14 @@
           <Property Name="CNIC" Type="varchar" MaxLength="250" />
           <Property Name="NewArea" Type="varchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="EquipChild">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParentID" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="5000" />
+        </EntityType>
         <EntityType Name="EquipmentBrand">
           <Key>
             <PropertyRef Name="ID" />
@@ -294,6 +302,13 @@
           <Property Name="Status" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
           <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="EquipParent">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="5000" />
         </EntityType>
         <EntityType Name="FaultType">
           <Key>
@@ -3731,9 +3746,11 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySet Name="ComplaintTypes" EntityType="Self.ComplaintTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DealerCityArea" EntityType="Self.DealerCityArea" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Dealers" EntityType="Self.Dealers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipChild" EntityType="Self.EquipChild" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentBrand" EntityType="Self.EquipmentBrand" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentCategory" EntityType="Self.EquipmentCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentType" EntityType="Self.EquipmentType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipParent" EntityType="Self.EquipParent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FaultType" EntityType="Self.FaultType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FaultTypeDetails" EntityType="Self.FaultTypeDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FeeStructure" EntityType="Self.FeeStructure" Schema="dbo" store:Type="Tables" />
@@ -5874,6 +5891,8 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
             <End Role="TBL_KsbVisits" EntitySet="TBL_KsbVisits" />
             <End Role="AddStaffList" EntitySet="AddStaffLists" />
           </AssociationSet>
+          <EntitySet Name="EquipChilds" EntityType="FOS_WallCoatModel.EquipChild" />
+          <EntitySet Name="EquipParents" EntityType="FOS_WallCoatModel.EquipParent" />
         </EntityContainer>
         <ComplexType Name="AreasRelatedtoCities_Result">
           <Property Type="Int32" Name="SaleOfficerID" Nullable="true" />
@@ -11158,6 +11177,21 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="EquipChild">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="EquipParent">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -15512,6 +15546,23 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
                 <ScalarProperty Name="StaffID" ColumnName="StaffID" />
                 <ScalarProperty Name="SiteID" ColumnName="SiteID" />
                 <ScalarProperty Name="KSBVisitID" ColumnName="KSBVisitID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipChilds">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.EquipChild">
+              <MappingFragment StoreEntitySet="EquipChild">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipParents">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.EquipParent">
+              <MappingFragment StoreEntitySet="EquipParent">
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
