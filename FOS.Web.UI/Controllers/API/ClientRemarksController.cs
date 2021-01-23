@@ -61,7 +61,7 @@ namespace FOS.Web.UI.Controllers.API
 
                 if (list != null)
                 {
-                    var result = new CommonController().PushNotificationForRegistration(message, list, retailerObj.ID, type, data.ZoneID);
+                    var result = new CommonController().PushNotificationForRegistration(message, list, rm.ComplaintID, type, data.ZoneID);
                 }
 
                 // Notification Send to Wasa
@@ -83,7 +83,7 @@ namespace FOS.Web.UI.Controllers.API
                 }
                 if (list2 != null)
                 {
-                    var result2 = new CommonController().PushNotificationForWasa(message, list2, retailerObj.ID, type);
+                    var result2 = new CommonController().PushNotificationForWasa(message, list2, rm.ComplaintID, type);
                 }
 
 
