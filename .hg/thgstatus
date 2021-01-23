@@ -2,6 +2,7 @@ m
 mFOS.Services
 rFOS.Services/FakesAssemblies
 mFOS.Web.UI
+mFOS.Web.UI/Common
 mFOS.Web.UI/Common/CustomerAttributes
 mFOS.Web.UI/Content
 mFOS.Web.UI/Content/Font

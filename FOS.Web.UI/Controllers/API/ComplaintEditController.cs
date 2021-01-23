@@ -654,9 +654,14 @@ namespace FOS.Web.UI.Controllers.API
                     jobDetail.AssignedToSaleOfficer = obj.AssignedToID;
                     jobDetail.RetailerID = JobObj.SiteID;
                     jobDetail.IsPublished = 0;
+                    if (obj.StatusID == 3)
+                    {
+                        JobObj.ResolvedAt = DateTime.UtcNow.AddHours(5);
+                    }
                     jobDetail.ProgressStatusID = JobDet.ProgressStatusID;
                     jobDetail.ProgressStatusRemarks = obj.ProgressStatusOtherRemarks;
                     jobDetail.WorkDoneID = obj.WorkDoneID;
+                    jobDetail.ActivityType = obj.FaultTypeDetailOtherRemarks;
                     jobDetail.SalesOficerID = JobObj.SaleOfficerID;
                     jobDetail.JobDate = DateTime.UtcNow.AddHours(5);
                     jobDetail.SalesOficerID = obj.SaleOfficerID;

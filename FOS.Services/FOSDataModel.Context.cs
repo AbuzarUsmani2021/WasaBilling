@@ -108,6 +108,10 @@ namespace FOS.DataLayer
         public virtual DbSet<Tbl_SMSLogs> Tbl_SMSLogs { get; set; }
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<OneSignalUser> OneSignalUsers { get; set; }
+        public virtual DbSet<SiteStatu> SiteStatus { get; set; }
+        public virtual DbSet<VisitPerson> VisitPersons { get; set; }
+        public virtual DbSet<PurposeOfVisit> PurposeOfVisits { get; set; }
+        public virtual DbSet<StaffList> StaffLists { get; set; }
     
         [DbFunction("FOSDataModel", "fnStringList2Table")]
         public virtual IQueryable<fnStringList2Table_Result> fnStringList2Table(string list)

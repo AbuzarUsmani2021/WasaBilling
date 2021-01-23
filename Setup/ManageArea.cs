@@ -855,6 +855,39 @@ namespace FOS.Setup
             }
         }
 
+
+        public static List<CityData> GetSitesForAPIFinals(int ProjectID, int RegionID, int CityID)
+        {
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    //var CITY = dbContext.Cities.Where(s => s.ID == CityID).FirstOrDefault();
+
+                    List<CityData> ChooseAreas = dbContext.Retailers.Where(a => a.CityID == RegionID && a.ZoneID == ProjectID && a.AreaID == CityID ).Select(a => new CityData
+                    {
+                        ID = a.ID,
+                        Name = a.Name + " " + a.RetailerCode,
+                        ShortCode = a.RetailerCode,
+
+
+                    }).ToList();
+                    ChooseAreas.Insert(0, new CityData
+                    {
+                        ID = 0,
+                        Name = "Select"
+                    });
+
+
+                    return ChooseAreas.ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public static List<CityData> GetDistributorForAPI(int RegionID, int CityID)
         {
             try

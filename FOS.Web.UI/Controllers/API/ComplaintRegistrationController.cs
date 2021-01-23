@@ -142,8 +142,8 @@ namespace FOS.Web.UI.Controllers.API
                     JobsDetail jobDetail = new JobsDetail();
                     jobDetail.ID = db.JobsDetails.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
                     jobDetail.JobID = retailerObj.ID;
-                    jobDetail.PRemarks = rm.FaultTypeDetailOtherRemarks;
-                    jobDetail.ProgressStatusRemarks = rm.ProgressStatusOtherRemarks;
+                    //jobDetail.PRemarks = rm.FaultTypeDetailOtherRemarks;
+                   // jobDetail.ProgressStatusRemarks = rm.ProgressStatusOtherRemarks;
                     jobDetail.ActivityType = rm.FaultTypeDetailOtherRemarks;
                     jobDetail.RetailerID = rm.SiteId;
                     
