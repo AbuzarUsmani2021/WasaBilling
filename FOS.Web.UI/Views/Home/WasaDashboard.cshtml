@@ -444,21 +444,24 @@
                             $("#ActualPersonName").html(Response.Name);
                             $("#ActualInitialRemarks").html(Response.Remarks);
                             $("#ActualComplaintStatus").html(Response.StatusName);
-                            if (Response.Picture1 != "")
+                            if (Response.Picture1 == "" || Response.Picture1== null || Response.Picture1 == "null")
                             {
-                                $("#ActualPicture1").attr('src',Response.Picture1);
+                                $("#ActualPicture1").attr('src', "/Images/KSB_Logo.png");
+
                             }
                             else
                             {
-                                $("#ActualPicture1").attr('src',"/Images/no-image-available.png.jpg");
+                                $("#ActualPicture1").attr('src', Response.Picture1);
                             }
-                            if (Response.Picture2 != "")
+                            if (Response.Picture2 == "" || Response.Picture2 == null || Response.Picture2 == "null")
                             {
-                                $("#ActualPicture2").attr('src',Response.Picture2);
+                                $("#ActualPicture2").attr('src', "/Images/KSB_Logo.png");
+
                              }
                             else
                             {
-                                $("#ActualPicture2").attr('src', "/Images/no-image-available.png.jpg");
+                                $("#ActualPicture2").attr('src', Response.Picture2);
+
                             }
             }
                     });
@@ -490,15 +493,15 @@
                             }
                             else
                             {
-                                $("#Picture1").attr('src',"/Images/no-image-available.png.jpg");
+                                $("#Picture1").attr('src', "/Images/KSB_Logo.png");
                             }
                             if (Response.Picture2 != null)
                             {
-                                $("#Picture2").attr('src',Response.Picture2);
+                                $("#Picture2").attr('src', Response.Picture2);
                              }
                             else
                             {
-                                $("#Picture2").attr('src',"/Images/no-image-available.png.jpg");
+                                $("#Picture2").attr('src', "/Images/KSB_Logo.png");
                             }
             }
                     });
@@ -634,7 +637,7 @@
                 }
                 else
                 {
-                    $("#ChildViewPicture1").attr('src', "/Images/no-image-available.png.jpg");
+                    $("#ChildViewPicture1").attr('src', "/Images/KSB_Logo.png");
                 }
                 if (Response.Picture2 != null)
                 {
@@ -642,7 +645,7 @@
                 }
                 else
                 {
-                    $("#ChildViewPicture2").attr('src', "/Images/no-image-available.png.jpg");
+                    $("#ChildViewPicture2").attr('src', "/Images/KSB_Logo.png");
                 }
 
 
