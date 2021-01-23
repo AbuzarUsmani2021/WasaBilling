@@ -47,8 +47,9 @@ namespace FOS.Web.UI.Controllers.API
                             SOID = SO.ID,
                             Name = SO.Name,
                             RoleID = SO.RoleID,
-                           RegionalHeadID=SO.RegionalHeadID,
-                           RegionalHeadType= new CommonController().GetRegionalHeadTypeID((int)SO.RegionalHeadID),
+                            RegionalHeadID = SO.RegionalHeadID,
+                            RegionID = SO.RegionID,
+                            RegionalHeadType= new CommonController().GetRegionalHeadTypeID((int)SO.RegionalHeadID),
                            Token = Token,
                             Projects= new CommonController().GetProjects(SO.ID),
                             FaultTypes= new CommonController().GetFaultTypes(),
@@ -61,6 +62,9 @@ namespace FOS.Web.UI.Controllers.API
                             Roles = new CommonController().GetRole(),
                             WorkDoneStatus= new CommonController().GetWorkDoneStatuses(),
                             VisitTypes = new CommonController().GetvisitTypesStatuses(),
+                            VisitPersons = new CommonController().GetvisitPersons(),
+                            Staff = new CommonController().GetStaffList(SO.RegionalHeadID, SO.RegionID),
+                             VisitPurposesTypes= new CommonController().GetvisitPurposeTypes(),
                             //RegionID=db.RegionalHeadRegions.Where(x=>x.RegionHeadID==SO.RegionalHeadID).Select(x=>x.RegionID).FirstOrDefault(),
                             //Region = new CommonController().GetCities(SO.RegionalHeadID),
                             Count = new CommonController().GetNotificationCount(SO.ID,SO.RoleID),
@@ -191,6 +195,9 @@ namespace FOS.Web.UI.Controllers.API
         public List<Priority> Priorities { get; set; }
         public List<WorkDone> WorkDoneStatus { get; set; }
         public List<ComplaintType> VisitTypes { get; set; }
+        public List<ComplaintType> VisitPersons { get; set; }
+        public List<StaffList> Staff { get; set; }
+        public List<Purposes> VisitPurposesTypes { get; set; }
         public List<ComplaintStatus> Status { get; set; }
         public List<ComplaintType> Type { get; set; }
         public List<ComplaintType> LaunchedBy { get; set; }
@@ -268,6 +275,22 @@ public class Projects
     public class ComplaintType
     {
         public int ID { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class Purposes
+    {
+        public int ID { get; set; }
+        public int? PersonID { get; set; }
+        public string Name { get; set; }
+    }
+
+
+    public class StaffList
+    {
+        public int ID { get; set; }
+        public int? RegionID { get; set; }
+        public int? HeadID { get; set; }
         public string Name { get; set; }
     }
     public class Customers

@@ -672,6 +672,14 @@
           <Property Name="Isdeleted" Type="bit" />
           <Property Name="CreatedOn" Type="datetime" />
         </EntityType>
+        <EntityType Name="PurposeOfVisits">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonID" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="5000" />
+        </EntityType>
         <EntityType Name="QrActivity">
           <Key>
             <PropertyRef Name="QrID" />
@@ -980,6 +988,15 @@
           <Property Name="OperatingPressure" Type="varchar" MaxLength="50" />
           <Property Name="Remarks" Type="varchar" MaxLength="500" />
         </EntityType>
+        <EntityType Name="SiteStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectID" Type="int" />
+          <Property Name="ClientID" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="5000" />
+        </EntityType>
         <EntityType Name="SMSLog">
           <Key>
             <PropertyRef Name="SmsID" />
@@ -1018,6 +1035,15 @@
           <Property Name="CityID" Type="int" />
           <Property Name="AreaID" Type="int" />
           <Property Name="SOID" Type="int" />
+        </EntityType>
+        <EntityType Name="StaffList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="5000" />
+          <Property Name="RegionID" Type="int" />
+          <Property Name="HeadID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'KSBComplaint.dbo.Student' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1371,6 +1397,13 @@ warning 6002: The table/view 'KSBComplaint.dbo.Student' does not have a primary 
           </Key>
           <Property Name="RegionalHeadID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VisitPersons">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="VisitPlans">
           <Key>
@@ -3596,6 +3629,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySet Name="OneSignalUsers" EntityType="Self.OneSignalUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pages" EntityType="Self.Pages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProgressStatus" EntityType="Self.ProgressStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PurposeOfVisits" EntityType="Self.PurposeOfVisits" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QrActivity" EntityType="Self.QrActivity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QrSODetail" EntityType="Self.QrSODetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RegionalHeadRegions" EntityType="Self.RegionalHeadRegions" Schema="dbo" store:Type="Tables" />
@@ -3611,10 +3645,12 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySet Name="SaleOfficers" EntityType="Self.SaleOfficers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesOfficerJobs" EntityType="Self.SalesOfficerJobs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SiteEquipmentDetail" EntityType="Self.SiteEquipmentDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SiteStatus" EntityType="Self.SiteStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SMSLog" EntityType="Self.SMSLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SOProjects" EntityType="Self.SOProjects" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SORoles" EntityType="Self.SORoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SOZoneAndTown" EntityType="Self.SOZoneAndTown" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StaffList" EntityType="Self.StaffList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubCategory" EntityType="Self.SubCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubCtegoryA" EntityType="Self.SubCtegoryA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubDivision" EntityType="Self.SubDivision" Schema="dbo" store:Type="Tables" />
@@ -3639,6 +3675,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UsersRegionalHead" EntityType="Self.UsersRegionalHead" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VisitPersons" EntityType="Self.VisitPersons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VisitPlans" EntityType="Self.VisitPlans" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VisitPurpose" EntityType="Self.VisitPurpose" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkDone" EntityType="Self.WorkDone" Schema="dbo" store:Type="Tables" />
@@ -5653,6 +5690,10 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
             <Parameter Name="dateFrom" Mode="In" Type="DateTime" />
             <Parameter Name="dateTo" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <EntitySet Name="SiteStatus" EntityType="FOS_WallCoatModel.SiteStatu" />
+          <EntitySet Name="VisitPersons" EntityType="FOS_WallCoatModel.VisitPerson" />
+          <EntitySet Name="PurposeOfVisits" EntityType="FOS_WallCoatModel.PurposeOfVisit" />
+          <EntitySet Name="StaffLists" EntityType="FOS_WallCoatModel.StaffList" />
         </EntityContainer>
         <ComplexType Name="AreasRelatedtoCities_Result">
           <Property Type="Int32" Name="SaleOfficerID" Nullable="true" />
@@ -10772,6 +10813,39 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Property Type="Int32" Name="ProgressstatusId" Nullable="true" />
           <Property Type="DateTime" Name="datecomplete" Nullable="true" Precision="23" />
         </ComplexType>
+        <EntityType Name="SiteStatu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="ClientID" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="VisitPerson">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PurposeOfVisit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="StaffList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <Property Name="RegionID" Type="Int32" />
+          <Property Name="HeadID" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -15056,6 +15130,43 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="SiteStatus">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.SiteStatu">
+              <MappingFragment StoreEntitySet="SiteStatus">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VisitPersons">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.VisitPerson">
+              <MappingFragment StoreEntitySet="VisitPersons">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurposeOfVisits">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.PurposeOfVisit">
+              <MappingFragment StoreEntitySet="PurposeOfVisits">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StaffLists">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.StaffList">
+              <MappingFragment StoreEntitySet="StaffList">
+                <ScalarProperty Name="HeadID" ColumnName="HeadID" />
+                <ScalarProperty Name="RegionID" ColumnName="RegionID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

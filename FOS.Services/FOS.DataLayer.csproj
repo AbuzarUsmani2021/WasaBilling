@@ -255,6 +255,9 @@
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurposeOfVisit.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="QrActivity.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
@@ -295,6 +298,9 @@
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SiteEquipmentDetail.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SiteStatu.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SMSLog.cs">
@@ -1041,6 +1047,9 @@
     <Compile Include="Sp__TotalShopVisitSummery_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="StaffList.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Student.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
@@ -1111,6 +1120,9 @@
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="vActiveJob.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VisitPerson.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="VisitPlan.cs">

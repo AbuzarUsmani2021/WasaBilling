@@ -179,6 +179,10 @@
         <EntityTypeShape EntityType="FOS_WallCoatModel.Student" Width="1.5" PointX="5.75" PointY="21.75" />
         <EntityTypeShape EntityType="FOS_WallCoatModel.OneSignalUser" Width="1.5" PointX="9.75" PointY="30.5" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_OneSignalUsers_SaleOfficers" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.SiteStatu" Width="1.5" PointX="21.375" PointY="7.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.VisitPerson" Width="1.5" PointX="21.375" PointY="10.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.PurposeOfVisit" Width="1.5" PointX="21.375" PointY="13.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.StaffList" Width="1.5" PointX="21.375" PointY="16.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

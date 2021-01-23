@@ -795,6 +795,92 @@ namespace FOS.Web.UI.Controllers.API
             return dbregions;
         }
 
+
+        public List<ComplaintType> GetvisitPersons()
+        {
+
+
+
+            var dbregions = db.VisitPersons.Select(x => new ComplaintType
+            {
+                ID = x.ID,
+                Name = x.Name,
+
+            }).ToList();
+
+
+            dbregions.Insert(0, new ComplaintType
+            {
+                ID = 0,
+                Name = "Select"
+            });
+
+            return dbregions;
+        }
+
+
+
+        public List<Purposes> GetvisitPurposeTypes()
+        {
+
+
+
+            var dbregions = db.PurposeOfVisits.Select(x => new Purposes
+            {
+                ID = x.ID,
+                PersonID=x.PersonID,
+                Name = x.Name,
+
+            }).ToList();
+
+
+            dbregions.Insert(0, new Purposes
+            {
+                ID = 0,
+                Name = "Select"
+            });
+
+            return dbregions;
+        }
+
+
+        public List<StaffList> GetStaffList(int? HeadID, int? RegionID)
+        {
+            List<StaffList> dbregions = new List<StaffList>();
+            if (HeadID == 5)
+            {
+
+                 dbregions = db.StaffLists.Where(x=>x.RegionID==RegionID).Select(x => new StaffList
+                {
+                    ID = x.ID,
+                    RegionID = x.RegionID,
+                    HeadID=x.HeadID,
+                    Name = x.Name,
+
+                }).ToList();
+            }
+            else
+            {
+                dbregions = db.StaffLists.Where(x => x.RegionID == RegionID && x.HeadID==HeadID).Select(x => new StaffList
+                {
+                    ID = x.ID,
+                    RegionID = x.RegionID,
+                    HeadID = x.HeadID,
+                    Name = x.Name,
+
+                }).ToList();
+
+            }
+
+            dbregions.Insert(0, new StaffList
+            {
+                ID = 0,
+                Name = "Select"
+            });
+
+            return dbregions;
+        }
+
         public List<ComplaintStatus> GetComplaintStatus()
         {
             List<ComplaintStatus> cities = new List<ComplaintStatus>();
@@ -851,6 +937,7 @@ namespace FOS.Web.UI.Controllers.API
 
 
 
+      
         public List<RetailerType> RetailerType()
         {
             List<RetailerType> MAinCat = new List<RetailerType>();
