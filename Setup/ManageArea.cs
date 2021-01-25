@@ -888,6 +888,46 @@ namespace FOS.Setup
             }
         }
 
+
+        public static List<CityData> GetComplaintsForAPIFinals(int ProjectID, int RegionID, int CityID)
+        {
+            try
+            {
+                var city = Convert.ToString(CityID);
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    //var CITY = dbContext.Cities.Where(s => s.ID == CityID).FirstOrDefault();
+
+                    //List<CityData> ChooseAreas = dbContext.Jobs.Where(a => a.CityID == RegionID && a.ZoneID == ProjectID && a.Areas == city).Select(a => new CityData
+                    //{
+                    //    ID = a.ID,
+                    //    Name = a.TicketNo + " " + ,
+                    //    ShortCode = a.VisitType,
+
+
+                    ////}).ToList();
+                    //ChooseAreas.Insert(0, new CityData
+                    //{
+                    //    ID = 0,
+                    //    Name = "Select"
+                    //});
+
+
+                    return ChooseAreas.ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+
+
+
+
+
         public static List<CityData> GetDistributorForAPI(int RegionID, int CityID)
         {
             try

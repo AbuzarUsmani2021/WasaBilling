@@ -749,6 +749,57 @@ namespace FOS.Web.UI.Controllers.API
             return dbregions;
         }
 
+
+        public List<ComplaintType> GetEquipParent()
+        {
+            List<ComplaintType> cities = new List<ComplaintType>();
+            //Regions cty;
+
+            //var dbCities = db.RegionalHeadRegions.Where(c => c.RegionHeadID == ID).ToList();
+
+
+            var dbregions = db.EquipParents.Select(x => new ComplaintType
+            {
+                ID = x.ID,
+                Name = x.Name
+            }).ToList();
+
+
+            dbregions.Insert(0, new ComplaintType
+            {
+                ID = 0,
+                Name = "Select"
+            });
+
+            return dbregions;
+        }
+
+
+        public List<EquipChild> GetEquipCild()
+        {
+            List<ComplaintType> cities = new List<ComplaintType>();
+            //Regions cty;
+
+            //var dbCities = db.RegionalHeadRegions.Where(c => c.RegionHeadID == ID).ToList();
+
+
+            var dbregions = db.EquipChilds.Select(x => new EquipChild
+            {
+                ID = x.ID,
+                ParentID=x.ParentID,
+                Name = x.Name
+            }).ToList();
+
+
+            dbregions.Insert(0, new EquipChild
+            {
+                ID = 0,
+                Name = "Select"
+            });
+
+            return dbregions;
+        }
+
         public List<ComplaintType> GetRole()
         {
             List<ComplaintType> cities = new List<ComplaintType>();
