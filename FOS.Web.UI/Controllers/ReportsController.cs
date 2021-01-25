@@ -295,7 +295,41 @@ namespace FOS.Web.UI.Controllers
         }
         #endregion
 
-        public ActionResult FOSPlanning()
+
+        public ActionResult ComplaintsReport()
+        {
+            var Complaintdata = new KSBComplaintData();
+
+            Complaintdata.Projects = FOS.Setup.ManageCity.GetProjectsListForReport();
+            Complaintdata.Cities = FOS.Setup.ManageCity.GetCityList();
+            Complaintdata.faultTypes = FOS.Setup.ManageCity.GetFaultTypesList();
+            Complaintdata.complaintStatuses = FOS.Setup.ManageCity.GetComplaintStatusListForReport();
+            Complaintdata.WorkDone = FOS.Setup.ManageCity.GetWorkDoneList();
+            Complaintdata.SaleOfficers = FOS.Setup.ManageCity.GetSOList();
+            Complaintdata.FieldOfficers = FOS.Setup.ManageCity.GetFieldOfficerList();
+
+            return View(Complaintdata);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public ActionResult PostComplaintsReport(KSBComplaintData ComplaintReportData)
+        {
+            Boolean Result = true;
+
+
+
+            if (Result == true)
+            {
+                return Content("1");
+            }
+            else 
+            {
+                return Content("0");
+            }
+        }
+
+            public ActionResult FOSPlanning()
         {
             int RHID = FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser();
             List<RegionalHeadData> regionalHeadData = new List<RegionalHeadData>();

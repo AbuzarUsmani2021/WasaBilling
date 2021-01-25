@@ -82,8 +82,10 @@
     <div class="grid-item">
         <label>Project:</label>
         <div class="controls" style="margin-left: 0px">
-            @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.SaleOfficers, "ID", "Name"), new { @class = "" })
-        </div>
+                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects, "ID", "Name"), new { @class = "" })
+                @Html.ValidationMessageFor(model => model.ProjectId)
+                @Html.HiddenFor(model => model.ProjectId)
+            </div>        
     </div>
     <div class="grid-item" style="margin-top: 28px;">
         <button type="submit" id="ApplyFilter" class="btn btn-primary">

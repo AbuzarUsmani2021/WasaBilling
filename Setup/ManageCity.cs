@@ -405,6 +405,142 @@ namespace FOS.Setup
 
             return city;
         }
+        public static List<ComplaintStatus> GetComplaintStatusListForReport()
+        {
+            List<ComplaintStatus> city = new List<ComplaintStatus>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    city = dbContext.ComplaintStatus.Where(x => x.IsDeleted == false)
+                            .Select
+                            (
+                                u => new ComplaintStatus
+                                {
+                                    ID = u.Id,
+                                    Name = u.Name,
+
+                                }).OrderBy(x => x.Name).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            city.Insert(0, new ComplaintStatus
+            {
+                ID = 0,
+                Name = "--Select Complaint's Status--"
+            });
+
+
+            return city;
+        }
+
+
+        public static List<Workdone> GetWorkDoneList()
+        {
+            List<Workdone> WD = new List<Workdone>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    WD = dbContext.WorkDones.Where(x => x.IsActive == true)
+                            .Select
+                            (
+                                u => new Workdone
+                                {
+                                    ID = u.ID,
+                                    Name = u.Name,
+
+                                }).OrderBy(x => x.Name).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            WD.Insert(0, new Workdone
+            {
+                ID = 0,
+                Name = "--Select Work Done Status--"
+            });
+
+
+            return WD;
+        }
+
+        public static List<SaleOfficerData> GetSOList()
+        {
+            List<SaleOfficerData> SO = new List<SaleOfficerData>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    SO = dbContext.SaleOfficers
+                            .Select
+                            (
+                                u => new SaleOfficerData
+                                {
+                                    ID = u.ID,
+                                    Name = u.Name,
+
+                                }).OrderBy(x => x.Name).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            SO.Insert(0, new SaleOfficerData
+            {
+                ID = 0,
+                Name = "--Select Launched By--"
+            });
+
+
+            return SO;
+        }
+
+        public static List<SaleOfficerData> GetFieldOfficerList()
+        {
+            List<SaleOfficerData> SO = new List<SaleOfficerData>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    SO = dbContext.SaleOfficers.Where(u=>u.RoleID==3)
+                            .Select
+                            (
+                                u => new SaleOfficerData
+                                {
+                                    ID = u.ID,
+                                    Name = u.Name,
+
+                                }).OrderBy(x => x.Name).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            SO.Insert(0, new SaleOfficerData
+            {
+                ID = 0,
+                Name = "--Select Field Officer--"
+            });
+
+
+            return SO;
+        }
+
+
+
 
 
 
@@ -496,6 +632,38 @@ namespace FOS.Setup
                 {
                     ID = 0,
                     Name = "All"
+                });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return city;
+        }
+
+        public static List<ComplaintStatus> GetProjectsListForReport()
+        {
+            List<ComplaintStatus> city = new List<ComplaintStatus>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    city = dbContext.Zones
+                            .Select
+                            (
+                                u => new ComplaintStatus
+                                {
+                                    ID = u.ID,
+                                    Name = u.Name,
+
+                                }).OrderBy(x => x.Name).ToList();
+                }
+                city.Insert(0, new ComplaintStatus
+                {
+                    ID = 0,
+                    Name = "--Select Project--"
                 });
             }
             catch (Exception)
@@ -972,6 +1140,41 @@ namespace FOS.Setup
                 throw;
             }
         }
+
+        public static List<CityData> GetProgressDetailListForReport(int ClientID, string selectText = "--Select Progress Status--")
+        {
+            List<CityData> cityList;
+
+            try
+            {
+
+
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    cityList = dbContext.ProgressStatus.Where(c => c.FaulttypeId == ClientID && c.Isdeleted == false).OrderBy(c => c.Name)
+                                .Select(
+                                    u => new CityData
+                                    {
+                                        ID = u.ID,
+                                        Name = u.Name,
+
+                                    }).ToList();
+                }
+                var ctyList = cityList.OrderBy(x => x.Name).ToList();
+                ctyList.Insert(0, new CityData
+                {
+                    ID = 0,
+                    Name = selectText
+                });
+                return ctyList;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
 
 
         public static string GetSiteIDList(int ClientID)

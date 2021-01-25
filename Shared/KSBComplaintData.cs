@@ -12,6 +12,8 @@ namespace FOS.Shared
         public int ID { get; set; }
         public int? ClientId { get; set; }
         public int? SaleOfficerID { get; set; }
+        public int FieldOfficerID { get; set; }
+
         public string Token { get; set; }
 
         public string SaleOfficerName { get; set; }
@@ -36,6 +38,8 @@ namespace FOS.Shared
         public int? RegionID { get; set; }
         public string RegionName { get; set; }
         public int ProjectId { get; set; }
+        public String ProjectIDD { get; set; }
+
         public int? CityID { get; set; }
         public Nullable<int> ZoneId { get; set; }
         public string ZoneName { get; set; }
@@ -79,6 +83,9 @@ namespace FOS.Shared
         public int? SalesOficerID { get; set; }
         public int? UpdateSalesOficerID { get; set; }
 
+        public int? WorkDoneID { get; set; }
+
+
         public int? PriorityId { get; set; }
         public int? UpdatePriorityId { get; set; }
 
@@ -116,6 +123,8 @@ namespace FOS.Shared
         public List<ComplaintStatus> complaintStatuses { get; set; }
         public List<ComplaintStatus> ProgressStatus { get; set; }
         public List<ComplaintStatus> ComplaintTypes { get; set; }
+
+        public List<Workdone> WorkDone { get; set; }
 
         public List<ComplaintStatus> Projects { get; set; }
         public List<FaultTypeData> faultTypesDetail { get; set; }

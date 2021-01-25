@@ -109,6 +109,7 @@
     <Compile Include="SiteEquipmentDetailData.cs" />
     <Compile Include="SchemeData.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="Workdone.cs" />
     <Compile Include="ZoneData.cs" />
     <Compile Include="AreaData.cs" />
     <Compile Include="CityData.cs" />
