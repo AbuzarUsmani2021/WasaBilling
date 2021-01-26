@@ -95,6 +95,9 @@
     <Compile Include="ActivityPurpose.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AddMultipleComplaintVisit.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AddPurposeOfVisit.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
@@ -249,6 +252,9 @@
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="MainCategory.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MultipleSiteVisit.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="NotificationSeen.cs">

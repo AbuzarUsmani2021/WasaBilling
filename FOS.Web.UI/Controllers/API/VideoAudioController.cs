@@ -27,29 +27,58 @@ namespace FOS.Web.UI.Controllers.API
         {
             try
             {
+                var filename = "";
                 var ctx = HttpContext.Current;
-                var uploadPath = HostingEnvironment.MapPath("/") + @"/ComplaintVideos";
+                var uploadPath = System.Web.HttpContext.Current.Server.MapPath(@"~/ComplaintVideos/");
                 Directory.CreateDirectory(uploadPath);
                 var provider = new MultipartFormDataStreamProvider(uploadPath);
                 await Request.Content.ReadAsMultipartAsync(provider);
 
-               
-                // Files
-                //
-                foreach (var file in provider.FileData)
+                var Type = HttpContext.Current.Request.Params["Type"];
+                var ids = HttpContext.Current.Request.Params["ID"];
+                var DetailID = Convert.ToInt32(ids);
+                if (Type == "Video")
                 {
-                    var filename=(file.Headers.ContentDisposition.FileName);
-                    filename = filename.Trim('"');
-                    var loc=file.LocalFileName;
 
-                    var filepath = Path.Combine(uploadPath, filename);
-                    File.Move(loc, filepath);
+                    foreach (var file in provider.FileData)
+                    {
+                         filename = (file.Headers.ContentDisposition.FileName);
+                        filename = filename.Trim('"');
+                        var loc = file.LocalFileName;
+
+                        var filepath = Path.Combine(uploadPath, filename);
+                        File.Move(loc, filepath);
+                    }
+
+                    var jobDetailID = db.JobsDetails.Where(x => x.ID == DetailID).FirstOrDefault();
+
+                    jobDetailID.Video = "/ComplaintVideos/" + filename;
+
+                    var HistoryID = db.Tbl_ComplaintHistory.Where(x => x.JobDetailID == DetailID).FirstOrDefault();
+                    HistoryID.Video= "/ComplaintVideos/" + filename;
+                    db.SaveChanges();
                 }
+                else
+                {
+                    foreach (var file in provider.FileData)
+                    {
+                        filename = (file.Headers.ContentDisposition.FileName);
+                        filename = filename.Trim('"');
+                        var loc = file.LocalFileName;
 
-                // Form data
-                //
-                var filesToDelete = HttpContext.Current.Request.Params["filesToDelete"];
-                var clientContactId = HttpContext.Current.Request.Params["clientContactId"];
+                        var filepath = Path.Combine(uploadPath, filename);
+                        File.Move(loc, filepath);
+                    }
+
+                    var jobDetailID = db.JobsDetails.Where(x => x.ID == DetailID).FirstOrDefault();
+
+                    jobDetailID.Audio = "/ComplaintVideos/" + filename;
+
+                    var HistoryID = db.Tbl_ComplaintHistory.Where(x => x.JobDetailID == DetailID).FirstOrDefault();
+                    HistoryID.Audio = "/ComplaintVideos/" + filename;
+                    db.SaveChanges();
+                }
+               
 
                 return "Uploaded";
             }

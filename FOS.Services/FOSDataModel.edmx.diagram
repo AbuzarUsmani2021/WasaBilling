@@ -195,6 +195,10 @@
         <AssociationConnector Association="FOS_WallCoatModel.FK_AddStaffList_TBL_KsbVisits" />
         <EntityTypeShape EntityType="FOS_WallCoatModel.EquipChild" Width="1.5" PointX="21.375" PointY="19.75" />
         <EntityTypeShape EntityType="FOS_WallCoatModel.EquipParent" Width="1.5" PointX="23.375" PointY="0.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.MultipleSiteVisit" Width="1.5" PointX="22.5" PointY="51.375" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_MultipleSiteVisits_TBL_KsbVisits" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.AddMultipleComplaintVisit" Width="1.5" PointX="22.5" PointY="54.5" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_AddMultipleComplaintVisits_TBL_KsbVisits" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

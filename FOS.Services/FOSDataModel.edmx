@@ -26,6 +26,15 @@
           <Property Name="CreatedBy" Type="int" />
           <Property Name="PurposeCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="AddMultipleComplaintVisits">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KSBVisitID" Type="int" />
+          <Property Name="ComplaintID" Type="int" />
+          <Property Name="LaunchedAt" Type="datetime" />
+        </EntityType>
         <EntityType Name="AddPurposeOfVisit">
           <Key>
             <PropertyRef Name="ID" />
@@ -534,6 +543,7 @@
           <Property Name="ChildFaultTypeDetailID" Type="int" />
           <Property Name="ChildStatusID" Type="int" />
           <Property Name="ChildAssignedSaleOfficerID" Type="int" />
+          <Property Name="Audio" Type="varchar" MaxLength="5000" />
         </EntityType>
         <EntityType Name="JobsDetail_HTR">
           <Key>
@@ -667,6 +677,15 @@
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="UpdatedOn" Type="datetime" />
           <Property Name="UpdatedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="MultipleSiteVisits">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KSBVisitID" Type="int" />
+          <Property Name="SiteID" Type="int" />
+          <Property Name="LaunchedAt" Type="datetime" />
         </EntityType>
         <EntityType Name="NotificationSeen">
           <Key>
@@ -1228,6 +1247,8 @@ warning 6002: The table/view 'KSBComplaint.dbo.Student' does not have a primary 
           <Property Name="UpdateRemarks" Type="varchar" MaxLength="500" />
           <Property Name="InitialRemarks" Type="varchar" MaxLength="255" />
           <Property Name="FirstAssignedSO" Type="int" />
+          <Property Name="Video" Type="varchar" MaxLength="5000" />
+          <Property Name="Audio" Type="varchar" MaxLength="5000" />
         </EntityType>
         <EntityType Name="Tbl_FollowupReasons">
           <Key>
@@ -1544,6 +1565,18 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
             </Principal>
             <Dependent Role="AccessLog">
               <PropertyRef Name="SaleOfficerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AddMultipleComplaintVisits_TBL_KsbVisits">
+          <End Role="TBL_KsbVisits" Type="Self.TBL_KsbVisits" Multiplicity="0..1" />
+          <End Role="AddMultipleComplaintVisits" Type="Self.AddMultipleComplaintVisits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_KsbVisits">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AddMultipleComplaintVisits">
+              <PropertyRef Name="KSBVisitID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2060,6 +2093,18 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
             </Principal>
             <Dependent Role="JobsHistory">
               <PropertyRef Name="JobID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MultipleSiteVisits_TBL_KsbVisits">
+          <End Role="TBL_KsbVisits" Type="Self.TBL_KsbVisits" Multiplicity="0..1" />
+          <End Role="MultipleSiteVisits" Type="Self.MultipleSiteVisits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_KsbVisits">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MultipleSiteVisits">
+              <PropertyRef Name="KSBVisitID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3729,6 +3774,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
         <EntityContainer Name="FOS_WallCoatModelStoreContainer">
           <EntitySet Name="AccessLog" EntityType="Self.AccessLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ActivityPurpose" EntityType="Self.ActivityPurpose" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AddMultipleComplaintVisits" EntityType="Self.AddMultipleComplaintVisits" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AddPurposeOfVisit" EntityType="Self.AddPurposeOfVisit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AddSiteStatus" EntityType="Self.AddSiteStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AddStaffList" EntityType="Self.AddStaffList" Schema="dbo" store:Type="Tables" />
@@ -3763,6 +3809,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySet Name="JobsHistory" EntityType="Self.JobsHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoginHistories" EntityType="Self.LoginHistories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MainCategory" EntityType="Self.MainCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MultipleSiteVisits" EntityType="Self.MultipleSiteVisits" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NotificationSeen" EntityType="Self.NotificationSeen" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OneSignalUsers" EntityType="Self.OneSignalUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pages" EntityType="Self.Pages" Schema="dbo" store:Type="Tables" />
@@ -3886,6 +3933,10 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <AssociationSet Name="FK_AccessLog_SaleOfficers" Association="Self.FK_AccessLog_SaleOfficers">
             <End Role="SaleOfficers" EntitySet="SaleOfficers" />
             <End Role="AccessLog" EntitySet="AccessLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddMultipleComplaintVisits_TBL_KsbVisits" Association="Self.FK_AddMultipleComplaintVisits_TBL_KsbVisits">
+            <End Role="TBL_KsbVisits" EntitySet="TBL_KsbVisits" />
+            <End Role="AddMultipleComplaintVisits" EntitySet="AddMultipleComplaintVisits" />
           </AssociationSet>
           <AssociationSet Name="FK_AddPurposeOfVisit_Retailers" Association="Self.FK_AddPurposeOfVisit_Retailers">
             <End Role="Retailers" EntitySet="Retailers" />
@@ -4058,6 +4109,10 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <AssociationSet Name="FK_JobsInquiries_Jobs" Association="Self.FK_JobsInquiries_Jobs">
             <End Role="Jobs" EntitySet="Jobs" />
             <End Role="JobsHistory" EntitySet="JobsHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MultipleSiteVisits_TBL_KsbVisits" Association="Self.FK_MultipleSiteVisits_TBL_KsbVisits">
+            <End Role="TBL_KsbVisits" EntitySet="TBL_KsbVisits" />
+            <End Role="MultipleSiteVisits" EntitySet="MultipleSiteVisits" />
           </AssociationSet>
           <AssociationSet Name="FK_NotificationSeen_ComplaintNotification" Association="Self.FK_NotificationSeen_ComplaintNotification">
             <End Role="ComplaintNotification" EntitySet="ComplaintNotification" />
@@ -5893,6 +5948,16 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           </AssociationSet>
           <EntitySet Name="EquipChilds" EntityType="FOS_WallCoatModel.EquipChild" />
           <EntitySet Name="EquipParents" EntityType="FOS_WallCoatModel.EquipParent" />
+          <EntitySet Name="MultipleSiteVisits" EntityType="FOS_WallCoatModel.MultipleSiteVisit" />
+          <AssociationSet Name="FK_MultipleSiteVisits_TBL_KsbVisits" Association="FOS_WallCoatModel.FK_MultipleSiteVisits_TBL_KsbVisits">
+            <End Role="TBL_KsbVisits" EntitySet="TBL_KsbVisits" />
+            <End Role="MultipleSiteVisit" EntitySet="MultipleSiteVisits" />
+          </AssociationSet>
+          <EntitySet Name="AddMultipleComplaintVisits" EntityType="FOS_WallCoatModel.AddMultipleComplaintVisit" />
+          <AssociationSet Name="FK_AddMultipleComplaintVisits_TBL_KsbVisits" Association="FOS_WallCoatModel.FK_AddMultipleComplaintVisits_TBL_KsbVisits">
+            <End Role="TBL_KsbVisits" EntitySet="TBL_KsbVisits" />
+            <End Role="AddMultipleComplaintVisit" EntitySet="AddMultipleComplaintVisits" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="AreasRelatedtoCities_Result">
           <Property Type="Int32" Name="SaleOfficerID" Nullable="true" />
@@ -9977,6 +10042,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Property Name="ChildAssignedSaleOfficerID" Type="Int32" />
           <NavigationProperty Name="ComplaintNotifications" Relationship="FOS_WallCoatModel.FK_ComplaintNotification_JobsDetail" FromRole="JobsDetail" ToRole="ComplaintNotification" />
           <NavigationProperty Name="NotificationSeens" Relationship="FOS_WallCoatModel.FK_NotificationSeen_JobsDetail" FromRole="JobsDetail" ToRole="NotificationSeen" />
+          <Property Name="Audio" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_JobsDetail_Areas">
           <End Type="FOS_WallCoatModel.Area" Role="Area" Multiplicity="0..1" />
@@ -10211,6 +10277,8 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Property Name="InitialRemarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="FirstAssignedSO" Type="Int32" />
           <NavigationProperty Name="NotificationSeens" Relationship="FOS_WallCoatModel.FK_NotificationSeen_Tbl_ComplaintHistory" FromRole="Tbl_ComplaintHistory" ToRole="NotificationSeen" />
+          <Property Name="Video" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <Property Name="Audio" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
         </EntityType>
         <ComplexType Name="Sp_GetProgressListFinal_Result2">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -10437,6 +10505,8 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <NavigationProperty Name="AddPurposeOfVisits" Relationship="FOS_WallCoatModel.FK_AddPurposeOfVisit_TBL_KsbVisits" FromRole="TBL_KsbVisits" ToRole="AddPurposeOfVisit" />
           <NavigationProperty Name="AddSiteStatus" Relationship="FOS_WallCoatModel.FK_AddSiteStatus_TBL_KsbVisits" FromRole="TBL_KsbVisits" ToRole="AddSiteStatu" />
           <NavigationProperty Name="AddStaffLists" Relationship="FOS_WallCoatModel.FK_AddStaffList_TBL_KsbVisits" FromRole="TBL_KsbVisits" ToRole="AddStaffList" />
+          <NavigationProperty Name="MultipleSiteVisits" Relationship="FOS_WallCoatModel.FK_MultipleSiteVisits_TBL_KsbVisits" FromRole="TBL_KsbVisits" ToRole="MultipleSiteVisit" />
+          <NavigationProperty Name="AddMultipleComplaintVisits" Relationship="FOS_WallCoatModel.FK_AddMultipleComplaintVisits_TBL_KsbVisits" FromRole="TBL_KsbVisits" ToRole="AddMultipleComplaintVisit" />
         </EntityType>
         <EntityType Name="VisitPurpose">
           <Key>
@@ -11192,6 +11262,50 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="MultipleSiteVisit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KSBVisitID" Type="Int32" />
+          <Property Name="SiteID" Type="Int32" />
+          <Property Name="LaunchedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TBL_KsbVisits" Relationship="FOS_WallCoatModel.FK_MultipleSiteVisits_TBL_KsbVisits" FromRole="MultipleSiteVisit" ToRole="TBL_KsbVisits" />
+        </EntityType>
+        <Association Name="FK_MultipleSiteVisits_TBL_KsbVisits">
+          <End Type="FOS_WallCoatModel.TBL_KsbVisits" Role="TBL_KsbVisits" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.MultipleSiteVisit" Role="MultipleSiteVisit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_KsbVisits">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MultipleSiteVisit">
+              <PropertyRef Name="KSBVisitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AddMultipleComplaintVisit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KSBVisitID" Type="Int32" />
+          <Property Name="ComplaintID" Type="Int32" />
+          <Property Name="LaunchedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TBL_KsbVisits" Relationship="FOS_WallCoatModel.FK_AddMultipleComplaintVisits_TBL_KsbVisits" FromRole="AddMultipleComplaintVisit" ToRole="TBL_KsbVisits" />
+        </EntityType>
+        <Association Name="FK_AddMultipleComplaintVisits_TBL_KsbVisits">
+          <End Type="FOS_WallCoatModel.TBL_KsbVisits" Role="TBL_KsbVisits" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.AddMultipleComplaintVisit" Role="AddMultipleComplaintVisit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_KsbVisits">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AddMultipleComplaintVisit">
+              <PropertyRef Name="KSBVisitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -14746,6 +14860,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySetMapping Name="JobsDetails">
             <EntityTypeMapping TypeName="FOS_WallCoatModel.JobsDetail">
               <MappingFragment StoreEntitySet="JobsDetail">
+                <ScalarProperty Name="Audio" ColumnName="Audio" />
                 <ScalarProperty Name="ChildAssignedSaleOfficerID" ColumnName="ChildAssignedSaleOfficerID" />
                 <ScalarProperty Name="ChildStatusID" ColumnName="ChildStatusID" />
                 <ScalarProperty Name="ChildFaultTypeDetailID" ColumnName="ChildFaultTypeDetailID" />
@@ -14903,6 +15018,8 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySetMapping Name="Tbl_ComplaintHistory">
             <EntityTypeMapping TypeName="FOS_WallCoatModel.Tbl_ComplaintHistory">
               <MappingFragment StoreEntitySet="Tbl_ComplaintHistory">
+                <ScalarProperty Name="Audio" ColumnName="Audio" />
+                <ScalarProperty Name="Video" ColumnName="Video" />
                 <ScalarProperty Name="FirstAssignedSO" ColumnName="FirstAssignedSO" />
                 <ScalarProperty Name="InitialRemarks" ColumnName="InitialRemarks" />
                 <ScalarProperty Name="UpdateRemarks" ColumnName="UpdateRemarks" />
@@ -15563,6 +15680,26 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
             <EntityTypeMapping TypeName="FOS_WallCoatModel.EquipParent">
               <MappingFragment StoreEntitySet="EquipParent">
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MultipleSiteVisits">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.MultipleSiteVisit">
+              <MappingFragment StoreEntitySet="MultipleSiteVisits">
+                <ScalarProperty Name="LaunchedAt" ColumnName="LaunchedAt" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+                <ScalarProperty Name="KSBVisitID" ColumnName="KSBVisitID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AddMultipleComplaintVisits">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.AddMultipleComplaintVisit">
+              <MappingFragment StoreEntitySet="AddMultipleComplaintVisits">
+                <ScalarProperty Name="LaunchedAt" ColumnName="LaunchedAt" />
+                <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
+                <ScalarProperty Name="KSBVisitID" ColumnName="KSBVisitID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

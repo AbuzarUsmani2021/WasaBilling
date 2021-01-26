@@ -25,90 +25,319 @@ namespace FOS.Web.UI.Controllers.API
             TBL_KsbVisits retailerObj = new TBL_KsbVisits();
             try
             {
-
+                if (rm.VisitTypeId == 1)
+                {
+                    var siteID = rm.SitesLists;
                     //ADD New Retailer 
                     retailerObj.ID = db.TBL_KsbVisits.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
- 
-                    retailerObj.SiteID = rm.SiteId;
+
+                    retailerObj.SiteID = Convert.ToInt32(siteID);
                     retailerObj.TimeInHours = rm.Time;
 
                     retailerObj.Remarks = rm.Remarks;
                     retailerObj.VisitTypeID = rm.VisitTypeId;
-                    retailerObj.LaunchDate= DateTime.UtcNow.AddHours(5);
+                    retailerObj.LaunchDate = DateTime.UtcNow.AddHours(5);
 
-                if (rm.Picture2 == "" || rm.Picture2 == null)
-                {
-                    retailerObj.Picture2 = null;
-                }
-                else
-                {
-                    retailerObj.Picture2 = ConvertIntoByte(rm.Picture2, "KSBVisits", DateTime.Now.ToString("dd-mm-yyyy hhmmss").Replace(" ", ""), "VisitImages");
-                }
+                    retailerObj.IsActive = true;
+                    retailerObj.IsDeleted = false;
 
-                db.TBL_KsbVisits.Add(retailerObj);
-                db.SaveChanges();
-
-
-             
-                string[] statusesList = rm.SiteStatuses.Split(',');
-
-                if (statusesList != null)
-                {
-
-                    foreach (var item in statusesList)
+                    if (rm.Picture2 == "" || rm.Picture2 == null)
                     {
-                        AddSiteStatu Ac = new AddSiteStatu();
+                        retailerObj.Picture2 = null;
+                    }
+                    else
+                    {
+                        retailerObj.Picture2 = ConvertIntoByte(rm.Picture2, "KSBVisits", DateTime.Now.ToString("dd-mm-yyyy hhmmss").Replace(" ", ""), "VisitImages");
+                    }
 
-                        Ac.KSbVisitID = retailerObj.ID;
-                        Ac.SiteID = rm.SiteId;
-                        Ac.SiteStatusID = Convert.ToInt32(item);
+                    db.TBL_KsbVisits.Add(retailerObj);
+                    db.SaveChanges();
 
-                        db.AddSiteStatus.Add(Ac);
-                        db.SaveChanges();
+
+
+                    string[] statusesList = rm.SiteStatuses.Split(',');
+
+                    if (statusesList != null)
+                    {
+
+                        foreach (var item in statusesList)
+                        {
+                            AddSiteStatu Ac = new AddSiteStatu();
+
+                            Ac.KSbVisitID = retailerObj.ID;
+                            Ac.SiteID = Convert.ToInt32(siteID); 
+                            Ac.SiteStatusID = Convert.ToInt32(item);
+
+                            db.AddSiteStatus.Add(Ac);
+                            db.SaveChanges();
+
+                        }
+                    }
+
+                    string[] PurposeOfVisits = rm.PurposeOfVisits.Split(',');
+
+
+                    if (PurposeOfVisits != null)
+                    {
+
+                        foreach (var item in PurposeOfVisits)
+                        {
+                            AddPurposeOfVisit Ac = new AddPurposeOfVisit();
+
+                            Ac.KSBVisitID = retailerObj.ID;
+                            Ac.SiteID = Convert.ToInt32(siteID);
+                            Ac.VisitPurposeID = Convert.ToInt32(item);
+                            Ac.LaunchedAt = DateTime.UtcNow.AddHours(5);
+                            db.AddPurposeOfVisits.Add(Ac);
+                            db.SaveChanges();
+
+                        }
+
+                    }
+                    string[] StaffLists = rm.StaffLists.Split(',');
+
+
+                    if (StaffLists != null)
+                    {
+
+
+                        foreach (var item in StaffLists)
+                        {
+                            AddStaffList Ac = new AddStaffList();
+
+                            Ac.KSBVisitID = retailerObj.ID;
+                            Ac.SiteID = Convert.ToInt32(siteID);
+                            Ac.StaffID = Convert.ToInt32(item);
+                            Ac.LAunchedAt = DateTime.UtcNow.AddHours(5);
+                            db.AddStaffLists.Add(Ac);
+                            db.SaveChanges();
+
+                        }
 
                     }
                 }
 
-                string[] PurposeOfVisits = rm.PurposeOfVisits.Split(',');
 
-
-                if (PurposeOfVisits != null)
+               else if (rm.VisitTypeId == 2)
                 {
 
-                    foreach (var item in PurposeOfVisits)
-                    {
-                        AddPurposeOfVisit Ac = new AddPurposeOfVisit();
+                    //ADD New Retailer 
+                    retailerObj.ID = db.TBL_KsbVisits.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
 
-                        Ac.KSBVisitID = retailerObj.ID;
-                        Ac.SiteID = rm.SiteId;
-                        Ac.VisitPurposeID = Convert.ToInt32(item);
-                        Ac.LaunchedAt = DateTime.UtcNow.AddHours(5);
-                        db.AddPurposeOfVisits.Add(Ac);
-                        db.SaveChanges();
+                    //retailerObj.SiteID = rm.SiteId;
+                    retailerObj.TimeInHours = rm.Time;
+                    retailerObj.IsActive = true;
+                    retailerObj.IsDeleted = false;
+                    retailerObj.Remarks = rm.Remarks;
+                    retailerObj.VisitTypeID = rm.VisitTypeId;
+                    retailerObj.LaunchDate = DateTime.UtcNow.AddHours(5);
+
+                    if (rm.Picture2 == "" || rm.Picture2 == null)
+                    {
+                        retailerObj.Picture2 = null;
+                    }
+                    else
+                    {
+                        retailerObj.Picture2 = ConvertIntoByte(rm.Picture2, "KSBVisits", DateTime.Now.ToString("dd-mm-yyyy hhmmss").Replace(" ", ""), "VisitImages");
+                    }
+
+                    db.TBL_KsbVisits.Add(retailerObj);
+                    db.SaveChanges();
+
+
+
+                    string[] statusesList = rm.SiteStatuses.Split(',');
+
+                    if (statusesList != null)
+                    {
+
+                        foreach (var item in statusesList)
+                        {
+                            AddSiteStatu Ac = new AddSiteStatu();
+
+                            Ac.KSbVisitID = retailerObj.ID;
+                            //Ac.SiteID = rm.SiteId;
+                            Ac.SiteStatusID = Convert.ToInt32(item);
+
+                            db.AddSiteStatus.Add(Ac);
+                            db.SaveChanges();
+
+                        }
+                    }
+
+                    string[] PurposeOfVisits = rm.PurposeOfVisits.Split(',');
+
+
+                    if (PurposeOfVisits != null)
+                    {
+
+                        foreach (var item in PurposeOfVisits)
+                        {
+                            AddPurposeOfVisit Ac = new AddPurposeOfVisit();
+
+                            Ac.KSBVisitID = retailerObj.ID;
+                            //Ac.SiteID = rm.SiteId;
+                            Ac.VisitPurposeID = Convert.ToInt32(item);
+                            Ac.LaunchedAt = DateTime.UtcNow.AddHours(5);
+                            db.AddPurposeOfVisits.Add(Ac);
+                            db.SaveChanges();
+
+                        }
+
+                    }
+                    string[] StaffLists = rm.StaffLists.Split(',');
+
+
+                    if (StaffLists != null)
+                    {
+
+
+                        foreach (var item in StaffLists)
+                        {
+                            AddStaffList Ac = new AddStaffList();
+
+                            Ac.KSBVisitID = retailerObj.ID;
+                           // Ac.SiteID = rm.SiteId;
+                            Ac.StaffID = Convert.ToInt32(item);
+                            Ac.LAunchedAt = DateTime.UtcNow.AddHours(5);
+                            db.AddStaffLists.Add(Ac);
+                            db.SaveChanges();
+
+                        }
 
                     }
 
+                    string[] SitesLists = rm.SitesLists.Split(',');
+
+
+                    if (SitesLists != null)
+                    {
+
+
+                        foreach (var item in SitesLists)
+                        {
+                           MultipleSiteVisit Ac = new MultipleSiteVisit();
+
+                            Ac.KSBVisitID = retailerObj.ID;
+                           Ac.SiteID = Convert.ToInt32(item);
+                            Ac.LaunchedAt = DateTime.UtcNow.AddHours(5);
+                            db.MultipleSiteVisits.Add(Ac);
+                            db.SaveChanges();
+
+                        }
+
+                    }
                 }
-                string[] StaffLists = rm.StaffLists.Split(',');
 
-
-                if (StaffLists != null)
+                else if (rm.VisitTypeId == 3)
                 {
 
+                    //ADD New Retailer 
+                    retailerObj.ID = db.TBL_KsbVisits.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
 
-                    foreach (var item in StaffLists)
+                    //retailerObj.SiteID = rm.SiteId;
+                    retailerObj.TimeInHours = rm.Time;
+                    retailerObj.IsActive = true;
+                    retailerObj.IsDeleted = false;
+                    retailerObj.Remarks = rm.Remarks;
+                    retailerObj.VisitTypeID = rm.VisitTypeId;
+                    retailerObj.LaunchDate = DateTime.UtcNow.AddHours(5);
+
+                    if (rm.Picture2 == "" || rm.Picture2 == null)
                     {
-                        AddStaffList Ac = new AddStaffList();
+                        retailerObj.Picture2 = null;
+                    }
+                    else
+                    {
+                        retailerObj.Picture2 = ConvertIntoByte(rm.Picture2, "KSBVisits", DateTime.Now.ToString("dd-mm-yyyy hhmmss").Replace(" ", ""), "VisitImages");
+                    }
 
-                        Ac.KSBVisitID = retailerObj.ID;
-                        Ac.SiteID = rm.SiteId;
-                        Ac.StaffID = Convert.ToInt32(item);
-                        Ac.LAunchedAt = DateTime.UtcNow.AddHours(5);
-                        db.AddStaffLists.Add(Ac);
-                        db.SaveChanges();
+                    db.TBL_KsbVisits.Add(retailerObj);
+                    db.SaveChanges();
+
+
+
+                    string[] statusesList = rm.SiteStatuses.Split(',');
+
+                    if (statusesList != null)
+                    {
+
+                        foreach (var item in statusesList)
+                        {
+                            AddSiteStatu Ac = new AddSiteStatu();
+
+                            Ac.KSbVisitID = retailerObj.ID;
+                            //Ac.SiteID = rm.SiteId;
+                            Ac.SiteStatusID = Convert.ToInt32(item);
+
+                            db.AddSiteStatus.Add(Ac);
+                            db.SaveChanges();
+
+                        }
+                    }
+
+                    string[] PurposeOfVisits = rm.PurposeOfVisits.Split(',');
+
+
+                    if (PurposeOfVisits != null)
+                    {
+
+                        foreach (var item in PurposeOfVisits)
+                        {
+                            AddPurposeOfVisit Ac = new AddPurposeOfVisit();
+
+                            Ac.KSBVisitID = retailerObj.ID;
+                           // Ac.SiteID = rm.SiteId;
+                            Ac.VisitPurposeID = Convert.ToInt32(item);
+                            Ac.LaunchedAt = DateTime.UtcNow.AddHours(5);
+                            db.AddPurposeOfVisits.Add(Ac);
+                            db.SaveChanges();
+
+                        }
+
+                    }
+                    string[] StaffLists = rm.StaffLists.Split(',');
+
+
+                    if (StaffLists != null)
+                    {
+
+
+                        foreach (var item in StaffLists)
+                        {
+                            AddStaffList Ac = new AddStaffList();
+
+                            Ac.KSBVisitID = retailerObj.ID;
+                          //  Ac.SiteID = rm.SiteId;
+                            Ac.StaffID = Convert.ToInt32(item);
+                            Ac.LAunchedAt = DateTime.UtcNow.AddHours(5);
+                            db.AddStaffLists.Add(Ac);
+                            db.SaveChanges();
+
+                        }
 
                     }
 
+                    string[] SitesLists = rm.SitesLists.Split(',');
+
+
+                    if (SitesLists != null)
+                    {
+
+
+                        foreach (var item in SitesLists)
+                        {
+                            AddMultipleComplaintVisit Ac = new AddMultipleComplaintVisit();
+
+                            Ac.KSBVisitID = retailerObj.ID;
+                            Ac.ComplaintID = Convert.ToInt32(item);
+                            Ac.LaunchedAt = DateTime.UtcNow.AddHours(5);
+                            db.AddMultipleComplaintVisits.Add(Ac);
+                            db.SaveChanges();
+
+                        }
+
+                    }
                 }
 
                 return new Result<SuccessResponse>
@@ -188,6 +417,7 @@ namespace FOS.Web.UI.Controllers.API
             public string SiteStatuses { get; set; }
             public string PurposeOfVisits { get; set; }
             public string StaffLists { get; set; }
+            public string SitesLists { get; set; }
             public string Picture1 { get; set; }
             public string Picture2 { get; set; }
 

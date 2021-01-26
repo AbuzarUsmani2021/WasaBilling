@@ -891,29 +891,30 @@ namespace FOS.Setup
 
         public static List<CityData> GetComplaintsForAPIFinals(int ProjectID, int RegionID, int CityID)
         {
+            DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
+            DateTime dtFromToday = dtFromTodayUtc.Date;
+            DateTime dtToToday = dtFromToday.AddDays(1);
             try
             {
                 var city = Convert.ToString(CityID);
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                    //var CITY = dbContext.Cities.Where(s => s.ID == CityID).FirstOrDefault();
+                   // var CITY = dbContext.Cities.Where(s => s.ID == CityID).FirstOrDefault();
 
-                    //List<CityData> ChooseAreas = dbContext.Jobs.Where(a => a.CityID == RegionID && a.ZoneID == ProjectID && a.Areas == city).Select(a => new CityData
-                    //{
-                    //    ID = a.ID,
-                    //    Name = a.TicketNo + " " + ,
-                    //    ShortCode = a.VisitType,
+                    List<CityData> ChooseAreas = dbContext.Jobs.Where(a => a.CityID == RegionID && a.ZoneID == ProjectID && a.Areas == city && a.CreatedDate >= dtFromToday && a.CreatedDate <= dtToToday).Select(a => new CityData
+                    {
+                        ID = a.ID,
+                        Name = a.TicketNo + " " + dbContext.Retailers.Where(x=>x.ID==a.SiteID).Select(x=>x.Name).FirstOrDefault(),
+                        ShortCode = a.VisitType,
 
 
-                    ////}).ToList();
-                    //ChooseAreas.Insert(0, new CityData
-                    //{
-                    //    ID = 0,
-                    //    Name = "Select"
-                    //});
+                    }).ToList();
+                  
 
 
                     return ChooseAreas.ToList();
+
+                    
                 }
             }
             catch (Exception)

@@ -46,6 +46,8 @@ namespace FOS.DataLayer
         public string UpdateRemarks { get; set; }
         public string InitialRemarks { get; set; }
         public Nullable<int> FirstAssignedSO { get; set; }
+        public string Video { get; set; }
+        public string Audio { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ComplaintNotification> ComplaintNotifications { get; set; }

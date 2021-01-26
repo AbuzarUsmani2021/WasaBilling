@@ -20,6 +20,8 @@ namespace FOS.DataLayer
             this.AddPurposeOfVisits = new HashSet<AddPurposeOfVisit>();
             this.AddSiteStatus = new HashSet<AddSiteStatu>();
             this.AddStaffLists = new HashSet<AddStaffList>();
+            this.MultipleSiteVisits = new HashSet<MultipleSiteVisit>();
+            this.AddMultipleComplaintVisits = new HashSet<AddMultipleComplaintVisit>();
         }
     
         public int ID { get; set; }
@@ -41,5 +43,9 @@ namespace FOS.DataLayer
         public virtual ICollection<AddSiteStatu> AddSiteStatus { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AddStaffList> AddStaffLists { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MultipleSiteVisit> MultipleSiteVisits { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AddMultipleComplaintVisit> AddMultipleComplaintVisits { get; set; }
     }
 }

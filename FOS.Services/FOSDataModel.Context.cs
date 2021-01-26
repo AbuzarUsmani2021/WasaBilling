@@ -117,6 +117,8 @@ namespace FOS.DataLayer
         public virtual DbSet<AddStaffList> AddStaffLists { get; set; }
         public virtual DbSet<EquipChild> EquipChilds { get; set; }
         public virtual DbSet<EquipParent> EquipParents { get; set; }
+        public virtual DbSet<MultipleSiteVisit> MultipleSiteVisits { get; set; }
+        public virtual DbSet<AddMultipleComplaintVisit> AddMultipleComplaintVisits { get; set; }
     
         [DbFunction("FOSDataModel", "fnStringList2Table")]
         public virtual IQueryable<fnStringList2Table_Result> fnStringList2Table(string list)
