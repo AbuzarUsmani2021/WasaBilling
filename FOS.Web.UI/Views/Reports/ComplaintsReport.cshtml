@@ -1,0 +1,196 @@
+﻿@model FOS.Shared.KSBComplaintData
+@{
+    ViewBag.Title = "ComplaintsReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<div class="row-fluid">
+    <div class="span12">
+        <div class="widget green">
+            <div class="widget-title text-center">
+                <h4><strong>Complaint Summary Report</strong></h4>
+            </div>
+            @using (Ajax.BeginForm("PostComplaintsReport", "Reports", new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="widget-body form-horizontal">
+
+                    <div class="control-group">
+                        <label class="control-label text-center">Date From:</label>
+                        <div class="controls">
+                            <input type="datetime-local" class="single-line" style="height:22px;width:202px;margin-bottom: 0px;" id="DateFrom" autocomplete="off" placeholder="DD-MM-YYYY">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label text-center">Date To:</label>
+                        <div class="controls">
+                            <input type="datetime-local" class="single-line" style="height:22px;width:202px;margin-bottom: 0px;" id="DateTo" autocomplete="off" placeholder="DD-MM-YYYY">
+                        </div>
+                    </div>
+
+
+                    <div class="control-group">
+                        <label class="control-label">Project:</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects, "ID", "Name"), new { @class = "" })
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Zone:</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.CityID, new SelectList(Model.Cities, "ID", "Name"), new { @class = "" })
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label"> Fault Type:</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.FaulttypeId, new SelectList(Model.faultTypes, "Id", "Name"), new { @class = "Areas" })
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Complaint Status:</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.StatusID, new SelectList(Model.complaintStatuses, "Id", "Name"), new { @class = "Areas" })
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Work Done Status:</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.WorkDoneID, new SelectList(Model.WorkDone, "Id", "Name"), new { @class = "Areas" })
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Launched By:</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.SaleOfficerID, new SelectList(Model.SaleOfficers, "Id", "Name"), new { @class = "Areas" })
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Field officer:</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.FieldOfficerID, new SelectList(Model.FieldOfficers, "Id", "Name"), new { @class = "Areas" })
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="control-group" style="border-top: 1px solid #e5e5e5;">
+                        <div style="margin-top:10px; margin-left:135px;">
+                            <button type="submit" id="Generate" class="btn btn-primary"><i class="icon-ok icon-white"></i> Generate</button>
+                            <button type="button" id="Reset" class="btn btn-info"><i class="icon-ban-circle icon-white"></i> Reset</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+            </div>
+    </div>
+</div>
+
+
+<script>
+
+
+
+    $("#StatusID").change(function () {
+        if ($("#StatusID").val() == '3')
+        {
+            WorkDoneStatus();
+        }
+        else
+        {
+            ProgressStatus();
+        }
+    });
+    function ProgressStatus() {
+        var ClientID = $("#FaulttypeId").val();
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetProgressDetailListForReport", "Complaint")",
+            data: { ClientID: ClientID},
+            success: function (json) {
+
+                var $el = $("#WorkDoneID");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+
+
+            }
+        });
+        }
+    function WorkDoneStatus() {
+        var ClientId = $("#FaulttypeId").val();
+         $.ajax({
+            type: "POST",
+            url: "@Url.Action("WorkDoneDetailList", "Complaint")",
+             data: { ClientId: ClientId },
+            success: function (json) {
+
+                var $el = $("#WorkDoneID");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+
+
+            }
+        });
+    }
+
+    $("#Reset").click(function () {
+        ClearForm();
+
+    });
+
+    function ClearForm() {
+        $('#DateFrom').val("");
+        $('#DateTo').val("");
+        $('#ProjectId').val(0);
+        $('#CityID').val(0);
+        $('#FaulttypeId').val(0);
+        $('#StatusID').val(0);
+        $('#WorkDoneID').val(0);
+        $('#SaleOfficerID').val(0);
+        $('#FieldOfficerID').val(0);   
+    }
+
+    function OnSuccess(response)
+    {
+        if (response == "1")
+        {
+            alertify.success("Report has Successfully Generated.");
+            ClearForm();
+        }
+        else if (response == "0")
+        {
+            alertify.error("Unable To Generate Report.");
+        }
+    
+
+    }
+
+    function OnFailure(response) {
+        if (response.status == 422) {
+            var errors = JSON.parse(response.responseText);
+            alertify.error(errors.errors);
+        }
+        else {
+            alertify.error(response);
+        }
+    }
+
+
+</script>
+

@@ -195,6 +195,12 @@ namespace FOS.Web.UI.Controllers
             return Json(result);
         }
 
+        public JsonResult GetProgressDetailListForReport(int ClientID)
+        {
+            var result = FOS.Setup.ManageCity.GetProgressDetailListForReport(ClientID, "--Select Progress Status--");
+            return Json(result);
+        }
+
         public JsonResult GetUpdateComplaint(int ComplaintID)
         {
             var Response = ManageJobs.GetUpdateComplaint(ComplaintID);
