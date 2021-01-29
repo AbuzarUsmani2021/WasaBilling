@@ -9,11 +9,14 @@ using FOS.Web.UI.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace FOS.Web.UI.Controllers
 {
@@ -191,7 +194,7 @@ namespace FOS.Web.UI.Controllers
 
         public JsonResult GetProgressDetailList(int ClientID)
         {
-            var result = FOS.Setup.ManageCity.GetProgressDetailList(ClientID, "Select");
+            var result = FOS.Setup.ManageCity.GetProgressDetailListForReport(ClientID, "--Select Progress Status--");
             return Json(result);
         }
 
@@ -259,6 +262,45 @@ namespace FOS.Web.UI.Controllers
             return Json(dtsource);
 
         }
+        public JsonResult GetComplaintChildDataForKSB(DTParameters param, int ComplaintId)
+        {
+            var dtsource = new List<ComplaintProgress>();
+            dtsource = ManageJobs.GetComplaintChildDataForKSB(ComplaintId);
+            foreach (var itm in dtsource)
+            {
+                if (itm.FaultTypeDetailName == "Others")
+                {
+                    itm.FaultTypeDetailName = "Others/" + itm.FaultTypeDetailRemarks;
+                }
+                if (itm.ComplaintStatus == "Resolved")
+                {
+                    itm.ProgressStatusName = db.WorkDones.Where(x => x.ID == itm.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+                }
+                else if (itm.ComplaintStatus == null)
+                {
+                    itm.ComplaintStatus = "New Complaint";
+                }
+                else
+                {
+                    itm.ProgressStatusName = db.ProgressStatus.Where(x => x.ID == itm.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
+                }
+                if (itm.ProgressStatusName == "Others")
+                {
+                    itm.ProgressStatusName = "Others/" + itm.ProgressStatusName;
+                }
+                if (itm.ProgressRemarks == null || itm.ProgressRemarks == "")
+                {
+                    itm.ProgressRemarks = "null";
+                }
+                if (itm.ProgressStatusName == null)
+                {
+                    itm.ProgressStatusName = "null";
+                }
+            }
+            return Json(dtsource);
+
+        }
+
         public JsonResult GetProgressIDData(int ProgressID)
         {
             var Response = ManageJobs.GetProgressIDData(ProgressID);
@@ -293,6 +335,444 @@ namespace FOS.Web.UI.Controllers
 
             return Json(Response, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetChatBoxData(int ComplaintID)
+        {
+            List<CityData> Response = null;
+            using (FOSDataModel dbContext = new FOSDataModel())
+            {
+
+                var SiteID = dbContext.Jobs.Where(x => x.ID == ComplaintID).Select(x => x.SiteID).FirstOrDefault();
+                var SiteName = dbContext.Retailers.Where(x => x.ID == SiteID).FirstOrDefault();
+
+                Response = dbContext.ChatBoxes.Where(a => a.ComplaintID == ComplaintID).Select(a => new CityData
+                {
+                    ID = a.ID,
+                    Remarks = a.Remarks,
+                    ComplaintID = a.ComplaintID,
+                    ShopName = a.DateInstall.ToString(),
+                    SOID = a.SOID,
+                    SaleOfficerName = dbContext.SaleOfficers.Where(x => x.ID == a.SOID).Select(x => x.Name).FirstOrDefault(),
+                    SiteName = SiteName.Name + "(" + SiteName.RetailerCode + ")",
+
+                }).ToList();
+            }
+            return Json(Response, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult PostSMS(ChatBox SMSData)
+        {
+            var Response = true;
+            var job = db.Jobs.Where(x => x.ID == SMSData.ComplaintID).FirstOrDefault();
+            ChatBox retailerObj = new ChatBox();
+            retailerObj.ComplaintID = SMSData.ComplaintID;
+            retailerObj.Remarks = SMSData.Remarks;
+            retailerObj.DateInstall = DateTime.UtcNow.AddHours(5);
+            retailerObj.SOID =SMSData.SOID;
+            db.ChatBoxes.Add(retailerObj);
+            db.SaveChanges();
+            string type = "SMS";
+            string message = "There is a new message in Complaint No  " + job.TicketNo + " Kindly Visit it ";
+
+            if (job.ZoneID != 9)
+            {
+
+                var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 2).Select(x => x.ID).ToList();
+                List<string> list = new List<string>();
+
+                foreach (var item in SOIds)
+                {
+                    var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                    if (id != null)
+                    {
+                        foreach (var items in id)
+                        {
+                            var result = new ComplaintController().PushNotificationForEdit(message, items, (int)SMSData.ComplaintID, type);
+                        }
+                    }
+                }
+
+
+
+            }
+            else
+            {
+                // Notification For Progressive Management
+                var SOIdss = db.SaleOfficers.Where(x => x.RegionalHeadID == 6 && x.RoleID == 2).Select(x => x.ID).ToList();
+                List<string> list1 = new List<string>();
+                foreach (var item in SOIdss)
+                {
+                    var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                    if (id != null)
+                    {
+                        foreach (var items in id)
+                        {
+                            var result = new ComplaintController().PushNotificationForEdit(message, items, job.ID, type);
+                        }
+                    }
+                    //if (list1 != null)
+                    //{
+                    //    var result = new CommonController().PushNotification(message, list1, rm.ComplaintID, type);
+                    //}
+                }
+            }
+
+            return Json(Response);
+        }
+
+
+
+        public JsonResult DeleteProgressIDData(int ProgressID)
+        {
+
+            int? JobDetailID=  db.Tbl_ComplaintHistory.Where(x => x.ID == ProgressID).Select(x => x.JobDetailID).FirstOrDefault();
+            var NotificationSeen = db.NotificationSeens.Where(x => x.JobDetailID == JobDetailID).ToList();
+            foreach (var item in NotificationSeen)
+            {
+                db.NotificationSeens.Remove(item);
+            }
+            var ComplaintNotification = db.ComplaintNotifications.Where(x => x.JobDetailID== JobDetailID).FirstOrDefault();
+            db.ComplaintNotifications.Remove(ComplaintNotification);
+            var JobDetailRecord = db.JobsDetails.Where(x => x.ID == JobDetailID).FirstOrDefault();
+            db.JobsDetails.Remove(JobDetailRecord);
+            var Tbl_ComplaintHistoryRecord = db.Tbl_ComplaintHistory.Where(x => x.ID == ProgressID).FirstOrDefault();
+            db.Tbl_ComplaintHistory.Remove(Tbl_ComplaintHistoryRecord);
+            var Result = true;
+            db.SaveChanges();
+            return Json(Result, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult ProgressPublish(int ProgressID)
+        {
+            var Result = true;
+            var jobDetail = new JobsDetail();
+            var job = new Job();
+            var jobhistory = new Tbl_ComplaintHistory();
+            
+                int flag = 0;
+                jobhistory = db.Tbl_ComplaintHistory.Where(u => u.ID == ProgressID).FirstOrDefault();
+                if (jobhistory.IsPublished != 1)
+                {
+                    jobhistory.IsPublished = 1;
+                    flag = 1;
+                }
+                jobDetail = db.JobsDetails.Where(u => u.ID == jobhistory.JobDetailID).FirstOrDefault();
+                jobDetail.IsPublished =1;
+                jobDetail.ProgressStatusID = jobhistory.ProgressStatusID;
+                jobDetail.AssignedToSaleOfficer = jobhistory.AssignedToSaleOfficer;
+                jobDetail.ProgressStatusRemarks = jobhistory.ProgressStatusRemarks;
+                jobDetail.ActivityType = jobhistory.FaultTypeDetailRemarks;
+                jobDetail.DateComplete = DateTime.UtcNow.AddHours(5);
+                job = db.Jobs.Where(u => u.ID == jobhistory.JobID).FirstOrDefault();
+                job.FaultTypeId = jobhistory.FaultTypeId;
+                job.FaultTypeDetailID = jobhistory.FaultTypeDetailID;
+                job.ComplaintStatusId = jobhistory.ComplaintStatusId;
+                job.ResolvedAt = DateTime.UtcNow.AddHours(5);
+                job.LastUpdated = DateTime.UtcNow.AddHours(5);
+
+
+                db.SaveChanges();
+                if (flag == 1)
+
+                {
+                    // Notification Send to KSB CC
+                    string type = "Progress";
+                    string message = "There is an Update Which is Published By CC in Complaint No" + job.TicketNo + " Kindly View it.";
+                    if (job.ZoneID != 9)
+                    {
+                        var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 2).Select(x => x.ID).ToList();
+                        List<string> list = new List<string>();
+                        foreach (var item in SOIds)
+                        {
+                            var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                            if (id != null)
+                            {
+                                foreach (var items in id)
+                                {
+                                    list.Add(items);
+                                }
+                            }
+                        }
+
+                        if (list != null)
+                        {
+                            var result = new ComplaintController().PushNotification(message, list, job.ID, type);
+                        }
+
+                        // Notification For KSB Management
+                        var SOIdss = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 1).Select(x => x.ID).ToList();
+                        List<string> list1 = new List<string>();
+                        foreach (var item in SOIdss)
+                        {
+                            var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                            if (id != null)
+                            {
+                                foreach (var items in id)
+                                {
+                                    list1.Add(items);
+                                }
+                            }
+                        }
+
+                        if (list1 != null)
+                        {
+                            var result = new ComplaintController().PushNotification(message, list1, job.ID, type);
+                        }
+
+                        // Notification Send to Wasa
+
+                        var AreaID = Convert.ToInt32(job.Areas);
+
+                        var IdsforWasa = db.SOZoneAndTowns.Where(x => x.CityID == job.CityID && x.AreaID == AreaID).Select(x => x.SOID).Distinct().ToList();
+                        List<string> list2 = new List<string>();
+                        foreach (var item in IdsforWasa)
+                        {
+                            var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
+                            if (id != null)
+                            {
+                                foreach (var items in id)
+                                {
+                                    list2.Add(items);
+                                }
+                            }
+                        }
+                        if (list2 != null)
+                        {
+                            var result2 = new ComplaintController().PushNotificationForWasa(message, list2, job.ID, type);
+                        }
+                    }
+                    else
+                    {
+                        // Notification For Progressive Management
+                        var SOIdss = db.SaleOfficers.Where(x => x.RegionalHeadID == 6 && x.RoleID == 2).Select(x => x.ID).ToList();
+                        List<string> list1 = new List<string>();
+                        foreach (var item in SOIdss)
+                        {
+                            var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                            if (id != null)
+                            {
+                                foreach (var items in id)
+                                {
+                                    list1.Add(items);
+                                }
+                            }
+                            if (list1 != null)
+                            {
+                                var result = new ComplaintController().PushNotification(message, list1, job.ID, type);
+                            }
+                        }
+
+
+                        var AreaID = Convert.ToInt32(job.Areas);
+
+                        var IdsforWasa = db.SOZoneAndTowns.Where(x => x.CityID == job.CityID && x.AreaID == AreaID).Select(x => x.SOID).Distinct().ToList();
+                        List<string> list2 = new List<string>();
+                        foreach (var item in IdsforWasa)
+                        {
+                            var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
+                            if (id != null)
+                            {
+                                foreach (var items in id)
+                                {
+                                    list2.Add(items);
+                                }
+                            }
+                        }
+                        if (list2 != null)
+                        {
+                            var result2 = new ComplaintController().PushNotificationForWasa(message, list2, job.ID, type);
+                        }
+                    }
+                
+
+             
+            }
+            return Json(Result, JsonRequestBehavior.AllowGet);
+
+
+        }
+        public bool PushNotification(string Message, List<string> deviceIDs, int ID, string type)
+        {
+            var AppId = ConfigurationManager.AppSettings["OneSignalAppID"];
+
+            var DevIDs = deviceIDs;
+            foreach (var item in DevIDs)
+            {
+                var request = WebRequest.Create("https://onesignal.com/api/v1/notifications") as HttpWebRequest;
+
+                request.KeepAlive = true;
+                request.Method = "POST";
+                request.ContentType = "application/json; charset=utf-8";
+
+                var serializer = new JavaScriptSerializer();
+                var obj = new
+                {
+                    app_id = AppId,
+                    contents = new { en = Message },
+                    data = new { ComplaintID = ID, PushType = type },
+                    include_player_ids = new string[] { item }
+                };
+
+
+
+                var param = serializer.Serialize(obj);
+                byte[] byteArray = Encoding.UTF8.GetBytes(param);
+
+                string responseContent = null;
+
+                try
+                {
+                    using (var writer = request.GetRequestStream())
+                    {
+                        writer.Write(byteArray, 0, byteArray.Length);
+                    }
+
+                    using (var response = request.GetResponse() as HttpWebResponse)
+                    {
+                        using (var reader = new StreamReader(response.GetResponseStream()))
+                        {
+                            responseContent = reader.ReadToEnd();
+                        }
+                    }
+                }
+                catch (WebException ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                    System.Diagnostics.Debug.WriteLine(new StreamReader(ex.Response.GetResponseStream()).ReadToEnd());
+
+                    return false;
+                }
+
+                System.Diagnostics.Debug.WriteLine(responseContent);
+
+
+
+            }
+
+            return true;
+
+        }
+        public bool PushNotificationForEdit(string Message, string deviceIDs, int ID, string type)
+        {
+            var AppId = ConfigurationManager.AppSettings["OneSignalAppID"];
+
+            var DevIDs = deviceIDs;
+
+            var request = WebRequest.Create("https://onesignal.com/api/v1/notifications") as HttpWebRequest;
+
+            request.KeepAlive = true;
+            request.Method = "POST";
+            request.ContentType = "application/json; charset=utf-8";
+
+            var serializer = new JavaScriptSerializer();
+            var obj = new
+            {
+                app_id = AppId,
+                contents = new { en = Message },
+                data = new { ComplaintID = ID, PushType = type },
+                include_player_ids = new string[] { DevIDs }
+            };
+
+
+
+            var param = serializer.Serialize(obj);
+            byte[] byteArray = Encoding.UTF8.GetBytes(param);
+
+            string responseContent = null;
+
+            try
+            {
+                using (var writer = request.GetRequestStream())
+                {
+                    writer.Write(byteArray, 0, byteArray.Length);
+                }
+
+                using (var response = request.GetResponse() as HttpWebResponse)
+                {
+                    using (var reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        responseContent = reader.ReadToEnd();
+                    }
+                }
+            }
+            catch (WebException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                System.Diagnostics.Debug.WriteLine(new StreamReader(ex.Response.GetResponseStream()).ReadToEnd());
+
+                return false;
+            }
+
+            System.Diagnostics.Debug.WriteLine(responseContent);
+
+
+
+
+
+            return true;
+
+        }
+        public bool PushNotificationForWasa(string Message, List<string> deviceIDs, int ID, string type)
+        {
+            var AppId = ConfigurationManager.AppSettings["OneSignalAppIDForWasa"];
+
+            var DevIDs = deviceIDs;
+            foreach (var item in DevIDs)
+            {
+                var request = WebRequest.Create("https://onesignal.com/api/v1/notifications") as HttpWebRequest;
+
+                request.KeepAlive = true;
+                request.Method = "POST";
+                request.ContentType = "application/json; charset=utf-8";
+
+                var serializer = new JavaScriptSerializer();
+                var obj = new
+                {
+                    app_id = AppId,
+                    contents = new { en = Message },
+                    data = new { ComplaintID = ID, PushType = type },
+                    include_player_ids = new string[] { item }
+                };
+
+
+
+                var param = serializer.Serialize(obj);
+                byte[] byteArray = Encoding.UTF8.GetBytes(param);
+
+                string responseContent = null;
+
+                try
+                {
+                    using (var writer = request.GetRequestStream())
+                    {
+                        writer.Write(byteArray, 0, byteArray.Length);
+                    }
+
+                    using (var response = request.GetResponse() as HttpWebResponse)
+                    {
+                        using (var reader = new StreamReader(response.GetResponseStream()))
+                        {
+                            responseContent = reader.ReadToEnd();
+                        }
+                    }
+                }
+                catch (WebException ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                    System.Diagnostics.Debug.WriteLine(new StreamReader(ex.Response.GetResponseStream()).ReadToEnd());
+
+                    return false;
+                }
+
+                System.Diagnostics.Debug.WriteLine(responseContent);
+
+
+
+            }
+
+            return true;
+
+        }
+
+
         public JsonResult GetCurrentComplaintDetail(int ComplaintId)
         {
             var Response = ManageRetailer.GetCurrentComplaintDetail(ComplaintId);

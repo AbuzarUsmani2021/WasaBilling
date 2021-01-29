@@ -469,10 +469,10 @@
 	body {
 	 	padding: 0px 5px 5px 5px !important;
 	}
-    #header .brand {
+   /* #header .brand {
         margin-top: -5px !important;
         padding: 5px 35px !important;
-    }
+    }*/
 
     .navbar-inverse .brand, .navbar-inverse .nav > li > a{
         color: #fff !important;

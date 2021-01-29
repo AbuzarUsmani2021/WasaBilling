@@ -1541,10 +1541,11 @@ namespace FOS.Setup
                 {
                     CRC = dbContext.ClientRemarks.Where(u => u.ComplaintID == ComplaintId).Select(u => new ComplaintClientRemarks
                     {
+                        ID=u.ID,
                         DateTime = u.RemarksDate.ToString(),
                         RemarksByName = u.RemarksByName,
                         ClientRemarks = u.ClientRemarks
-                    }).ToList();
+                    }).OrderByDescending(u=>u.ID).ToList();
 
                 }
             }
@@ -2897,7 +2898,7 @@ namespace FOS.Setup
                     UpdateComplaintID = u.ID,
                     UpdateFaulttypeId = u.FaultTypeId,
                     UpdateFaulttypeDetailId=u.FaultTypeDetailID,
-                    UpdateFaultTypeDetailOtherRemarks = dbContext.JobsDetails.Where(x => x.JobID == u.ID).Select(x => x.PRemarks).FirstOrDefault(),
+                    UpdateFaultTypeDetailOtherRemarks = dbContext.JobsDetails.Where(x => x.JobID == u.ID).Select(x => x.ActivityType).FirstOrDefault(),
                     UpdatePriorityId = u.PriorityId,
                     UpdateComplaintTypeID = u.ComplainttypeID,
                     UpdateSalesOficerID = dbContext.JobsDetails.Where(x => x.JobID == u.ID).OrderByDescending(x=>x.ID).Select(x => x.AssignedToSaleOfficer).FirstOrDefault(),
@@ -2969,37 +2970,39 @@ namespace FOS.Setup
             return CP;
 
         }
-        //public static List<ComplaintProgress> GetComplaintChildDataForWASA(int ComplaintId)
-        //{
+        public static List<ComplaintProgress> GetComplaintChildDataForKSB(int ComplaintId)
+        {
 
-        //    List<ComplaintProgress> CP = new List<ComplaintProgress>();
+            List<ComplaintProgress> CP = new List<ComplaintProgress>();
 
-        //    try
-        //    {
-        //        using (FOSDataModel dbContext = new FOSDataModel())
-        //        {
-        //            CP = dbContext.JobsDetails.Where(u => u.JobID == ComplaintId && u.IsPublished == 1).Select(u => new ComplaintProgress
-        //            {
-        //                ProgressID = u.ID,
-        //                ComplaintID = (int)u.JobID,
-        //                DateTime = u.DateComplete.ToString(),
-        //                FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == u.ChildFaultTypeID).Select(p => p.Name).FirstOrDefault(),
-        //                FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == u.ChildFaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
-        //                ComplaintStatus = dbContext.ComplaintStatus.Where(x => x.Id == u.ChildStatusID).Select(x => x.Name).FirstOrDefault(),
-        //                FaultTypeDetailRemarks = u.ActivityType,
-        //                ProgressStatusID = u.ProgressStatusID,
-        //                ProgressRemarks = u.PRemarks
-        //            }).OrderByDescending(u => u.ProgressID).ToList();
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    CP = dbContext.Tbl_ComplaintHistory.Where(u => u.JobID == ComplaintId).Select(u => new ComplaintProgress
+                    {
+                        ProgressID = u.ID,
+                        ComplaintID = (int)u.JobID,
+                        DateTime = u.CreatedDate.ToString(),
+                        FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == u.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                        FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == u.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                        ComplaintStatus = dbContext.ComplaintStatus.Where(x => x.Id == u.ComplaintStatusId).Select(x => x.Name).FirstOrDefault(),
+                        AssignedFS = dbContext.SaleOfficers.Where(x => x.ID == u.AssignedToSaleOfficer).Select(x => x.Name).FirstOrDefault(),
+                        FaultTypeDetailRemarks = u.FaultTypeDetailRemarks,
+                        ProgressStatusID = u.ProgressStatusID,
+                        ProgressRemarks = u.UpdateRemarks,
+                        IsPublish=u.IsPublished
+                    }).OrderByDescending(u => u.ProgressID).ToList();
 
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-        //    return CP;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return CP;
 
-        //}
+        }
 
 
 
