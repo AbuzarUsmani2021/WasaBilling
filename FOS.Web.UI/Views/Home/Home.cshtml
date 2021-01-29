@@ -11,6 +11,26 @@
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
     }
+    .SMS {
+        padding: 8px 12px 8px;
+        background-color: #2196F3;
+        color: white;
+        opacity: 0.83;
+        transition: opacity 0.6s;
+        margin-bottom: 15px;
+        font-weight: bold;
+        width: 240px;
+    }
+    .MYSMS {
+        padding: 8px 12px 8px;
+        background-color:#1969b1;
+        color: white;
+        opacity: 0.83;
+        transition: opacity 0.6s;
+        margin-bottom: 15px;
+        font-weight: bold;
+        width: 240px;
+    }
 
     #ChildStatus_paginate {
         margin-bottom: 7px;
@@ -133,7 +153,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <div class="span12">
-                        <div class="span6" style="border-style: solid; padding: 10px;margin-bottom: 10px;">
+                        <div class="span6" style="border-style: groove; padding: 10px;margin-bottom: 10px;">
                             <div class="span12">
                                 <h4 class="modal-title text-center" style="font-weight: 900;color: black; padding-bottom: 0px;"><strong> Actual Complaint's Status</strong></h4>
                                 <hr />
@@ -184,7 +204,7 @@
 
                             </div>
                         </div>
-                        <div class="span6" style="border-style: solid; padding: 10px;margin-bottom: 10px;">
+                        <div class="span6" style="border-style: groove; padding: 10px;margin-bottom: 10px;">
                             <div class="span12">
                                 <h4 class="modal-title text-center" style="font-weight: 900;color: black; padding-bottom: 0px;"><strong>Complaint's Current Status</strong></h4>
                                 <hr />
@@ -251,7 +271,7 @@
                         </div>
 
                     </div>
-                    <div class="span12" style=" margin-left: 0px; border-style: solid;margin-bottom: 20px;">
+                    <div class="span12" style=" margin-left: 0px; border-style: groove;margin-bottom: 20px;">
                         <div class="widget-title text-center" style=" background-color: #1969b1;">
                             <h4><strong>Client Remarks</strong></h4>
                         </div>
@@ -266,7 +286,7 @@
                             <tbody id="RemarksData"></tbody>
                         </table>
                     </div>
-                    <div class="span12" style=" margin-left: 0px; border-style: solid;margin-bottom: 20px;">
+                    <div class="span12" style=" margin-left: 0px; border-style: groove;margin-bottom: 20px;">
                         <div class="widget-title text-center" style=" background-color: #1969b1;">
                             <h4><strong> Child Progress Detail</strong></h4>
                         </div>
@@ -311,6 +331,39 @@
                                     <div class="control-group text-center" style="margin-top: 4px;">
                                         <button class="btn btn-primary"><i class="icon-ok icon-white"></i><span onclick="AddRemarksCreate()"> Add</span></button>
                                         <button type="button" id="ResetRemarks" class="btn btn-info"><i class="icon-ban-circle icon-white"></i><span></span> Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="ChatBoxModel" class="modal fade" role="dialog" style="top:35%; -webkit-border-radius: 0px; left:35%; width:430px; display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #1969b1;">
+                <button type="button" class="close" style="color:white;" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-weight: 900;color: white;" id="SiteNamePlusCode"></h4>
+            </div>
+            <div class="modal-body" style="padding: 12px 23px 40px;">
+                <div class="form-group">
+                    <div class="control-group">
+                        <div class="controls">
+                            <div class="span12" id="GetSMS" style=" overflow-y: scroll; height: 250px;">
+
+                            </div>
+                            <div class="span12">
+                                <div class="span6">
+                                    <input class="hidden" id="SendSMSComplaintId" />
+                                    <input type="text" placeholder="Enter Message.." style="width:300px;" id="ComplaintSMS" />
+
+                                </div>
+                                <div class="span6">
+                                    <div class="control-group text-center" style="float:right;">
+                                        <button class="btn btn-primary" style=" padding: 6px 6px 4px 6px"><i class="icon-ok icon-white"></i><span onclick="SendSMS()"><strong> Send</strong></span></button>
                                     </div>
                                 </div>
                             </div>
@@ -809,10 +862,12 @@
             type: "GET",
             url: url,
             success: function (Response) {
+
                 $("#UpdateComplaintID").val(Response.UpdateComplaintID);
                 $("#UpdateFaulttypeId").val(Response.UpdateFaulttypeId);
                 $("#UpdateFaulttypeDetailId").val(Response.UpdateFaulttypeDetailId);
-                if (Response.UpdateFaulttypeDetailId == 3030 || Response.UpdateFaulttypeDetailId == 3042 || Response.UpdateFaulttypeDetailId == 3049) {
+                if (Response.UpdateFaulttypeDetailId == 3030 || Response.UpdateFaulttypeDetailId == 3042 || Response.UpdateFaulttypeDetailId == 3049)
+                {
                     $("#UpdateFaultTypeDetailOtherRemarksBox").show();
                     $("#UpdateFaultTypeDetailOtherRemarks").show();
                 }
@@ -829,12 +884,13 @@
                 $("#UpdateProgressStatusOtherRemarks").val(Response.UpdateProgressStatusOtherRemarks);
                 $("#UpdateTime").val(Response.ReslovedHours);
                 $("#UpdatePerson").val(Response.UpdatePerson);
-                //$("#UpdateProgressRemarks").val(Response.UpdateProgressRemarks);
 
             }
         })
     }
     //Get Update Complaint END
+
+
     // Post Update  Complaint Start
     function PostUpdateComplaint() {
         var data = new FormData();
@@ -918,14 +974,7 @@
                     $("#ApplyFilter").click(function () {
                         table.clear().draw();
                     });
-
-            var UpdateCheck = "0";
-            var DeleteCheck = "0";
-            if (UpdateCheck == "@HttpContext.Current.Session["UpdateCheck"]") { $(".edit").css("display", "none"); }
-
-                else {
-
-                $(".Detail").on("click", function () {
+                    $(".Detail").on("click", function () {
                     var ComplaintID = ($(this).attr("data-id"));
                     $.ajax({
                         type: "GET",
@@ -943,21 +992,23 @@
                             $("#ActualPersonName").html(Response.Name);
                             $("#ActualInitialRemarks").html(Response.Remarks);
                             $("#ActualComplaintStatus").html(Response.StatusName);
-                            if (Response.Picture1 != "")
+                            if (Response.Picture1 == "" || Response.Picture1 == null || Response.Picture1 == "null")
                             {
-                                $("#ActualPicture1").attr('src',Response.Picture1);
+                                $("#ActualPicture1").attr('src', "/Images/KSB_Logo.png");
+
+                            }
+                            else {
+                                $("#ActualPicture1").attr('src', Response.Picture1);
+                            }
+                            if (Response.Picture2 == "" || Response.Picture2 == null || Response.Picture2 == "null")
+                            {
+                                $("#ActualPicture2").attr('src', "/Images/KSB_Logo.png");
+
                             }
                             else
                             {
-                                $("#ActualPicture1").attr('src',"/Images/no-image-available.png.jpg");
-                            }
-                            if (Response.Picture2 != "")
-                            {
-                                $("#ActualPicture2").attr('src',Response.Picture2);
-                             }
-                            else
-                            {
-                                $("#ActualPicture2").attr('src', "/Images/no-image-available.png.jpg");
+                                $("#ActualPicture2").attr('src', Response.Picture2);
+
                             }
             }
                     });
@@ -975,9 +1026,21 @@
                             $("#LaunchTime").html(Response.CreatedDate);
                             $("#LaunchBy").html(Response.LaunchedByName);
                             $("#FaultType").html(Response.FaultTypeName);
-                            $("#FaultTypeDetail").html(Response.FaultTypesDetailName);
+                            if (Response.FaultTypesDetailName == null || Response.FaultTypesDetailName == "") {
+                                $("#FaultTypeDetail").html("null");
+                            }
+                            else
+                            {
+                                $("#FaultTypeDetail").html(Response.FaultTypesDetailName);
+                            }
                             $("#ComplaintStatus").html(Response.StatusName);
-                            $("#ProgressStatusName").html(Response.ProgressStatusName);
+                            if (Response.ProgressStatusName == null || Response.ProgressStatusName == "")
+                            {
+                                $("#ProgressStatusName").html("null");
+                            }
+                            else {
+                                $("#ProgressStatusName").html(Response.ProgressStatusName);
+                            }
                             $("#LastUpdated").html(Response.LastUpdated);
                             //$("#ProgressStatusOtherRemarks").html(Response.ProgressStatusOtherRemarks);
                             //$("#Name").html(Response.Name);
@@ -989,7 +1052,7 @@
                             }
                             else
                             {
-                                $("#Picture1").attr('src',"/Images/no-image-available.png.jpg");
+                                $("#Picture1").attr('src', "/Images/KSB_Logo.png");
                             }
                             if (Response.Picture2 != null)
                             {
@@ -997,7 +1060,7 @@
                              }
                             else
                             {
-                                $("#Picture2").attr('src',"/Images/no-image-available.png.jpg");
+                                $("#Picture2").attr('src', "/Images/KSB_Logo.png");
                             }
             }
                     });
@@ -1028,13 +1091,19 @@
                     $.ajax({
                         type: "POST",
                         data: { ComplaintId: ComplaintID },
-                        url: "@Url.Action("GetComplaintChildData", "Complaint")",
+                        url: "@Url.Action("GetComplaintChildDataForKSB", "Complaint")",
                         dataType: 'JSON',
                         success: function (Response)
                         {
                             $("#ChildStatus").empty();
                             $.each(Response, function (i, item) {
-                                var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.AssignedFS + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; color:white;margin-bottom:5px; margin-right:5px; ' onclick='ChildEdit(" + item.ProgressID + ")' ><b>Edit</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildEdit(" + item.ProgressID + ")' ><b>Delete</b></a><a href='#' class='btn text-center' style='background-color:#1969b1;margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildEdit(" + item.ProgressID + ")' ><b>Publish</b></a>" + "</td>");
+                                if (item.IsPublish == 0) {
+                                    var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.AssignedFS + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; color:white;margin-bottom:5px; margin-right:5px; ' onclick='ChildEdit(" + item.ProgressID + ")' ><b>Edit</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildDelete(" + item.ProgressID + ")' ><b>Delete</b></a><a href='#' class='btn text-center' style='background-color:#1969b1;margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildPublish(" + item.ProgressID + ")' ><b>Publish</b></a>" + "</td>");
+                                }
+                                else
+                                {
+                                    var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.AssignedFS + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; color:white;margin-bottom:5px; margin-right:5px; ' onclick='ChildEdit(" + item.ProgressID + ")' ><b>Edit</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildDelete(" + item.ProgressID + ")' ><b>Delete</b></a></td>");
+                                }
 
                                 //var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a>" + "</td>");
                                     $("#ChildStatus").append(divHtml);
@@ -1047,42 +1116,9 @@
                         scrollTop: $("#main-content").offset().top
                     }, 500);
                 });
-            }
 
-            if (UpdateCheck == "@HttpContext.Current.Session["DeleteCheck"]") { $(".delete").css("display", "none"); }
-                else {
 
-                $(".delete").on("click", function () {
 
-                    var RetailerID = $(this).attr("data-id");
-
-                    // confirm dialog
-                    alertify.confirm("Are You Sure You Want To Delete This Record ?  ", function (e) {
-                        if (e) {
-
-                            $.ajax({
-                                type: "POST",
-                                url: "@Url.Action("DeleteRetailer", "Retailer")",
-                                data: { retailerID: RetailerID },
-                                success: function (data) {
-
-                                    if (data == "0") {
-                                        alertify.success('Record Deleted Successfully');
-                                        var table = $('#datatab').DataTable();
-                                        table.row(this).remove().draw(false);
-                                    }
-
-                                    else { alertify.error('An Error Occured, Try Again...'); }
-                                }
-
-                            });
-
-                        } else { }
-                    });
-
-                });
-
-            }
         },
                 "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                     //$("td:first", nRow).html(iDisplayIndex + 1);
@@ -1132,7 +1168,7 @@
                         {
                             //return '<button class="btn Detail" style="background-color: #1969b1; color:white; margin-bottom: 5px;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" >' + 'Detail' + '</button>';
 
-                            return '<button class="btn Detail" style="background-color: #1969b1; color:white; margin-bottom: 5px;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" >' + 'Detail' + '</button>&nbsp;<button class="btn" style="background-color: #1969b1; color:white; margin-bottom: 5px;" onclick="AddRemarks(' + row.ID + ')" >' + 'Remarks' + '</button>&nbsp;<button class="btn Update" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=UpdateComplaint(' + row.ID + ') >' + ' SMS' + '</button>&nbsp;<button class="btn Update" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=UpdateComplaint(' + row.ID + ') >' + 'Update' + '</button>';
+                            return '<button class="btn Detail" style="background-color: #1969b1; color:white; margin-bottom: 5px;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" >' + 'Detail' + '</button>&nbsp;<button class="btn" style="background-color: #1969b1; color:white; margin-bottom: 5px;" onclick="AddRemarks(' + row.ID + ')" >' + 'Remarks' + '</button>&nbsp;<button class="btn Update" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=ChatBox(' + row.ID + ') >' + ' SMS' + '</button>&nbsp;<button class="btn Update" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=UpdateComplaint(' + row.ID + ') >' + 'Update' + '</button>';
                             //return '<a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-info-circle" style="font-size:20px;"></i></a>' + '<span style="font-size:25px;">|</span><a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-plus-circle" style="font-size:20px;"></i></a>' + '<span style="font-size:25px;">|</span><a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-comments" style="font-size:20px;"></i></a>' + '<span style="font-size:25px;">|</span><a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-edit" style="font-size:20px;"></i></a>';
 
                         }
@@ -1141,12 +1177,12 @@
 
             });
 
-        table = $('#datatab').DataTable();
-        setInterval(function () {
-            var info = table.page.info();
-            var pageNum = (info.page < info.pages) ? info.page + 1 : 1;
-            table.page(pageNum).draw(false);
-        }, 3000000);
+        //table = $('#datatab').DataTable();
+        //setInterval(function () {
+        //    var info = table.page.info();
+        //    var pageNum = (info.page < info.pages) ? info.page + 1 : 1;
+        //    table.page(pageNum).draw(false);
+        //}, 3000000);
     }
     function ChildView(ProgressID) {
         var url = "/Complaint/GetProgressIDData?ProgressID=" + ProgressID;
@@ -1159,7 +1195,13 @@
                 $("#ChildViewDateTime").html(Response.DateTime);
                 $("#ChildViewFaultTypeFaultTypeDetail").html(Response.FaultTypeFinalName);
                 $("#ChildViewComplaintStatus").html(Response.ComplaintStatus);
-                $("#ChildViewAssignedFS").html(Response.AssignedFS);
+                if (Response.AssignedFS == null || Response.AssignedFS == "") {
+                    $("#ChildViewAssignedFS").html("null");
+                }
+                else {
+                    $("#ChildViewAssignedFS").html(Response.AssignedFS);
+
+                }
                 $("#ChildViewProgressStatus").html(Response.ProgressStatusName);
                 $("#ChildViewProgressRemarks").html(Response.ProgressRemarks);
                 if (Response.Picture1 != null) {
@@ -1167,7 +1209,7 @@
                 }
                 else
                 {
-                    $("#ChildViewPicture1").attr('src', "/Images/no-image-available.png.jpg");
+                    $("#ChildViewPicture1").attr('src', "/Images/KSB_Logo.png");
                 }
                 if (Response.Picture2 != null)
                 {
@@ -1175,7 +1217,7 @@
                 }
                 else
                 {
-                    $("#ChildViewPicture2").attr('src', "/Images/no-image-available.png.jpg");
+                    $("#ChildViewPicture2").attr('src', "/Images/KSB_Logo.png");
                 }
 
 
@@ -1224,69 +1266,105 @@
             }
         })
     }
+    function ChildDelete(ProgressID) {
+        var url = "/Complaint/DeleteProgressIDData?ProgressID=" + ProgressID;
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (Result) {
+
+                if (Result == true)
+                {
+                    $('#myModal').modal('hide');
+                    $('#datatab').DataTable().ajax.reload();
+
+                alertify.success("Complaint Status Deleted Successfully.");
+                }
+
+
+            }
+        })
+    }
+    function ChildPublish(ProgressID) {
+        var url = "/Complaint/ProgressPublish?ProgressID=" + ProgressID;
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (Result) {
+
+                if (Result == true) {
+                    $('#myModal').modal('hide');
+                    $('#datatab').DataTable().ajax.reload();
+
+                    alertify.success("Complaint Status Published Successfully.");
+                }
+
+
+            }
+        })
+    }
+    function SendSMS() {
+        var data = new FormData();
+        var SOID = "@HttpContext.Current.Session["SORelationID"]";
+        data.append("SOID", SOID );
+        data.append("ComplaintId", $("#SendSMSComplaintId").val());
+        data.append("Remarks", $("#ComplaintSMS").val());
+        $.ajax({
+            type: "Post",
+            url: "/Complaint/PostSMS",
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: data,
+            success: function (result) {
+                if (result == true) {
+                    $('#ChatBoxModel').modal('hide');
+                    $("#ComplaintSMS").val()
+                    alertify.success("Message has sent  successfully.");
+                }
+            }
+        })
+
+    }
+    function ChatBox(ComplaintID) {
+        var url = "/Complaint/GetChatBoxData?ComplaintID=" + ComplaintID;
+        $("#ChatBoxModel").modal();
+        $('html, body').animate({
+            scrollTop: $("#main-content").offset().top
+        }, 500);
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (Response)
+            {
+                $("#GetSMS").empty();
+                if (Response.length == 0)
+                {
+                    var divHtml1 = $('<p style="text-align: center">').html("<strong>Not Any Message Found Against This Complaint</strong></p>");
+                    $("#GetSMS").append(divHtml1);
+                }
+                else {
+                    $.each(Response, function (i, item) {
+                        $("#SiteNamePlusCode").html(item.SiteName);
+                        $("#SendSMSComplaintId").val(item.ComplaintID);
+                        if (item.SOID == "@HttpContext.Current.Session["SORelationID"]") {
+                            var divHtml = $("<div class='MYSMS' Style='float:right;'>").html("<div>" + item.SaleOfficerName + " | " + item.ShopName + "</div><hr style='color:white;margin-top:6px;'><p style='margin-top:5px;'>" + item.Remarks + "</p></div>");
+                            $("#GetSMS").append(divHtml);
+                        }
+                        else
+                        {
+                            var divHtml = $("<div class='SMS' Style='float:left;'>").html("<div>" + item.SaleOfficerName + " | " + item.ShopName + "</div><hr style='color:white;margin-top:6px;'><p style='margin-top:5px;'>" + item.Remarks + "</p></div>");
+                            $("#GetSMS").append(divHtml);
+                        }
+
+                    });
+                }
 
 
 
-
-    // Post Update  Complaint Start
-    //$(function () {
-    //    $("#PostUpdateComplaint").click(function () {
-    //        var data = new FormData();
-    //        var files = $("#UpdatePicture1").get(0).files;
-    //        if (files.length > 0) {
-    //            data.append("UpdatePicture1", files[0]);
-    //        }
-    //        var files2 = $("#UpdatePicture2").get(0).files;
-    //        if (files2.length > 0) {
-    //            console.log(files2[0]);
-    //            data.append("UpdatePicture2", files2[0]);
-    //        }
-    //        data.append("UpdateComplaintID", $("#UpdateComplaintID").val());
-    //        data.append("UpdateFaulttypeId", $("#UpdateFaulttypeId").val());
-    //        data.append("UpdateFaulttypeDetailId", $("#UpdateFaulttypeDetailId").val());
-    //        data.append("UpdateFaultTypeDetailOtherRemarks", $("#UpdateFaultTypeDetailOtherRemarks").val());
-    //        data.append("UpdatePriorityId", $("#UpdatePriorityId").val());
-    //        data.append("UpdateComplaintTypeID", $("#UpdateComplaintTypeID").val());
-    //        data.append("UpdateSalesOficerID", $("#UpdateSalesOficerID").val());
-    //        data.append("UpdateStatusID", $("#UpdateStatusID").val());
-    //        data.append("UpdateProgressStatusId", $("#UpdateProgressStatusId").val());
-    //        data.append("UpdateTime", $("#UpdateTime").val());
-    //        data.append("UpdatePerson", $("#UpdatePerson").val());
-    //        data.append("UpdateProgressRemarks", $("#UpdateProgressRemarks").val());
-    //        data.append("UpdatePicture1", $("#UpdatePicture1").val());
-    //        data.append("UpdatePicture2", $("#UpdatePicture2").val());
-
-    //        var settings = {
-    //            type: "Post",
-    //            url: "/Home/PostUpdateComplaint",
-    //            contentType: false,
-    //            processData: false,
-    //            cache: false,
-    //            data: data,
-    //            success: function (result) {
-
-    //                if (result == true)
-    //                {
-    //                    $('#UpdateComplaint').modal('hide');
-    //                    alertify.success("Complaint Status Updated Successfully.");
-    //                }
-
-    //            }
-    //        };
-    //        $.ajax(settings);
-    //        return false;
-
-
-
-
-    //    });
-    //});
-    // Post Update Complaint Start END
-
-    //Add Remarks Start
-
-    //Add Remarks Start
-
+            }
+        })
+    }
     function AddRemarks(ComplaintID) {
         $("#AddRemarksModel").modal();
         $("#ComplaintIdAddRemark").val(ComplaintID);
@@ -1322,8 +1400,6 @@
     $('#ResetRemarks').click(function () {
         $("#AddRemark").val("");
     });
-   
-    //Add Remarks END
     function UpdateDateTime() {
         var data = new FormData();
         data.append("UpdateDateTimeComplaintID", $("#UpdateDateTimeComplaintID").val());
@@ -1352,13 +1428,9 @@
         };
         $.ajax(settings);
     }
-
-
     $('#ResetUpdateDateTime').click(function () {
         $("#UpdateDateTime").val("");
     });
-
-    //Add Remarks END
 
     //Upload-Picture1 Start
     $('#UpdatePicture1UserImage').click(function () {

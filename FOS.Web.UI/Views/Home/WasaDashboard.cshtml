@@ -481,9 +481,19 @@
                             $("#LaunchTime").html(Response.CreatedDate);
                             $("#LaunchBy").html(Response.LaunchedByName);
                             $("#FaultType").html(Response.FaultTypeName);
-                            $("#FaultTypeDetail").html(Response.FaultTypesDetailName);
+                            if (Response.FaultTypesDetailName == null || Response.FaultTypesDetailName == "") {
+                                $("#FaultTypeDetail").html("null");
+                            }
+                            else {
+                                $("#FaultTypeDetail").html(Response.FaultTypesDetailName);
+                            }
                             $("#ComplaintStatus").html(Response.StatusName);
-                            $("#ProgressStatusName").html(Response.ProgressStatusName);
+                            if (Response.ProgressStatusName == null || Response.ProgressStatusName == "") {
+                                $("#ProgressStatusName").html("null");
+                            }
+                            else {
+                                $("#ProgressStatusName").html(Response.ProgressStatusName);
+                            }
                             $("#LastUpdated").html(Response.LastUpdated);
                             //$("#ProgressStatusOtherRemarks").html(Response.ProgressStatusOtherRemarks);
                             //$("#Name").html(Response.Name);
@@ -619,7 +629,7 @@
             var info = table.page.info();
             var pageNum = (info.page < info.pages) ? info.page + 1 : 1;
             table.page(pageNum).draw(false);
-        }, 30000);
+        }, 30000000);
     }
     function ChildView(ProgressID) {
         var url = "/Complaint/GetProgressIDData?ProgressID=" + ProgressID;

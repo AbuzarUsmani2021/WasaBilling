@@ -2589,7 +2589,7 @@ namespace FOS.Web.UI.Controllers
                             int totalElapsedHoursinint = Convert.ToInt32(totalElapsedHours);
                             if (itm.ResolvedHours == null)
                             {
-                                if (totalElapsedHoursinint >= 5)
+                                if (totalElapsedHoursinint >= 1)
                                 {
                                     comlist.Exceed = 1;
                                 }

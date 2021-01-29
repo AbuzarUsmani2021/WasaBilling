@@ -301,8 +301,8 @@ namespace FOS.Web.UI.Controllers
             var Complaintdata = new KSBComplaintData();
 
             Complaintdata.Projects = FOS.Setup.ManageCity.GetProjectsListForReport();
-            Complaintdata.Cities = FOS.Setup.ManageCity.GetCityList();
-            Complaintdata.faultTypes = FOS.Setup.ManageCity.GetFaultTypesList();
+            Complaintdata.Cities = FOS.Setup.ManageCity.GetCityListForReport();
+            Complaintdata.faultTypes = FOS.Setup.ManageCity.GetFaultTypesListForReport();
             Complaintdata.complaintStatuses = FOS.Setup.ManageCity.GetComplaintStatusListForReport();
             Complaintdata.WorkDone = FOS.Setup.ManageCity.GetWorkDoneList();
             Complaintdata.SaleOfficers = FOS.Setup.ManageCity.GetSOList();

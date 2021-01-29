@@ -36,6 +36,7 @@ namespace FOS.Shared
         public string ProgressRemarks { get; set; }
         public string Picture1 { get; set; }
         public string Picture2 { get; set; }
+        public int? IsPublish { get; set; }
 
 
 

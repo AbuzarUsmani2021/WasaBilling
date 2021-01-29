@@ -217,6 +217,42 @@ namespace FOS.Setup
             return city;
         }
 
+        public static List<CityData> GetCityListForReport()
+        {
+            List<CityData> city = new List<CityData>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    city = dbContext.Cities.Where(c => c.IsDeleted == false && c.IsActive == true)
+                            .Select
+                            (
+                                u => new CityData
+                                {
+                                    ID = u.ID,
+                                    Name = u.Name,
+                                    //RegionID = u.RegionID,
+                                    //RegionName = u.Region.Name,
+                                    //ShortCode = u.ShortCode,
+                                    //LastUpdate = u.LastUpdate
+                                }).OrderBy(x => x.Name).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            city.Insert(0, new CityData
+            {
+                ID = 0,
+                Name = "All"
+            });
+
+            return city;
+        }
+
 
         public static List<RegionData> GetRegionList()
         {
@@ -281,6 +317,39 @@ namespace FOS.Setup
 
             return city;
         }
+        public static List<FaultTypeData> GetFaultTypesListForReport()
+        {
+            List<FaultTypeData> city = new List<FaultTypeData>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    city = dbContext.FaultTypes
+                            .Select
+                            (
+                                u => new FaultTypeData
+                                {
+                                    Id = u.Id,
+                                    Name = u.Name,
+
+                                }).OrderBy(x => x.Name).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            city.Insert(0, new FaultTypeData
+            {
+                Id = 0,
+                Name = "All"
+            });
+
+
+            return city;
+        }
+
 
 
 
@@ -432,7 +501,7 @@ namespace FOS.Setup
             city.Insert(0, new ComplaintStatus
             {
                 ID = 0,
-                Name = "--Select Complaint's Status--"
+                Name = "All"
             });
 
 
@@ -466,7 +535,7 @@ namespace FOS.Setup
             WD.Insert(0, new Workdone
             {
                 ID = 0,
-                Name = "--Select Work Done Status--"
+                Name = "All"
             });
 
 
@@ -499,7 +568,7 @@ namespace FOS.Setup
             SO.Insert(0, new SaleOfficerData
             {
                 ID = 0,
-                Name = "--Select Launched By--"
+                Name = "All"
             });
 
 
@@ -532,7 +601,7 @@ namespace FOS.Setup
             SO.Insert(0, new SaleOfficerData
             {
                 ID = 0,
-                Name = "--Select Field Officer--"
+                Name = "All"
             });
 
 
@@ -663,7 +732,7 @@ namespace FOS.Setup
                 city.Insert(0, new ComplaintStatus
                 {
                     ID = 0,
-                    Name = "--Select Project--"
+                    Name = "All"
                 });
             }
             catch (Exception)
