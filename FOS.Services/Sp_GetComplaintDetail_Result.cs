@@ -11,21 +11,39 @@ namespace FOS.DataLayer
 {
     using System;
     
-    public partial class Sp_GetProgressView1_3_Result1
+    public partial class Sp_GetComplaintDetail_Result
     {
+        public int id { get; set; }
+        public Nullable<int> jobid { get; set; }
+        public Nullable<int> zoneid { get; set; }
+        public string SiteName { get; set; }
+        public string SiteCode { get; set; }
         public string Picture1 { get; set; }
         public string Picture2 { get; set; }
         public string Picture3 { get; set; }
+        public string Video { get; set; }
+        public string Audio { get; set; }
         public Nullable<System.DateTime> JobDate { get; set; }
         public Nullable<int> ProgressStatusID { get; set; }
         public string ProgressStatusName { get; set; }
         public string ProgressStatusOtherRemarks { get; set; }
         public string PRemarks { get; set; }
-        public string SaleofficerName { get; set; }
+        public string AssignedSaleofficerName { get; set; }
         public Nullable<int> FaultTypeId { get; set; }
         public Nullable<int> FaultTypeDetailID { get; set; }
         public Nullable<int> ComplaintStatusID { get; set; }
         public string FaultTypeDetailOtherRemarks { get; set; }
         public string faultTypeDetailRemarks { get; set; }
+        public Nullable<System.DateTime> ComplaintlaunchedAt { get; set; }
+        public Nullable<System.DateTime> UpdatedAT { get; set; }
+        public string ticketno { get; set; }
+        public string FaultTypeName { get; set; }
+        public string ComplaintStatusName { get; set; }
+        public string LaunchedByName { get; set; }
+        public string FaultTypeDetailName { get; set; }
+        public string Project { get; set; }
+        public string Zone { get; set; }
+        public string ComplaintTypeName { get; set; }
+        public string WorkDoneStatus { get; set; }
     }
 }

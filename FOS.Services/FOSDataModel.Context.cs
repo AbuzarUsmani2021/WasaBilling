@@ -3738,15 +3738,6 @@ namespace FOS.DataLayer
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetProgressListFinal1_1_Result1>("Sp_GetProgressListFinal1_1", stockIDParameter);
         }
     
-        public virtual ObjectResult<Sp_GetProgressView1_3_Result1> Sp_GetProgressView1_3(Nullable<int> stockID)
-        {
-            var stockIDParameter = stockID.HasValue ?
-                new ObjectParameter("StockID", stockID) :
-                new ObjectParameter("StockID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetProgressView1_3_Result1>("Sp_GetProgressView1_3", stockIDParameter);
-        }
-    
         public virtual ObjectResult<Sp_KSBChildNotificationsforCC_Result2> Sp_KSBChildNotificationsforCC(Nullable<int> complaintID, Nullable<int> sOID)
         {
             var complaintIDParameter = complaintID.HasValue ?
@@ -3797,6 +3788,89 @@ namespace FOS.DataLayer
                 new ObjectParameter("dateTo", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_MyComplaintListRemarksFinal_Result>("Sp_MyComplaintListRemarksFinal", regionIDParameter, dateFromParameter, dateToParameter);
+        }
+    
+        public virtual ObjectResult<Sp_GetProgressView1_3_Result> Sp_GetProgressView1_3(Nullable<int> stockID)
+        {
+            var stockIDParameter = stockID.HasValue ?
+                new ObjectParameter("StockID", stockID) :
+                new ObjectParameter("StockID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetProgressView1_3_Result>("Sp_GetProgressView1_3", stockIDParameter);
+        }
+    
+        public virtual ObjectResult<Sp_GetComplaintDetail_Result> Sp_GetComplaintDetail(Nullable<System.DateTime> startdate, Nullable<System.DateTime> enddate, Nullable<int> projectID, Nullable<int> zoneID, Nullable<int> faulttypeID, Nullable<int> complaintStatus, Nullable<int> launchedByID, Nullable<int> assignedToID)
+        {
+            var startdateParameter = startdate.HasValue ?
+                new ObjectParameter("startdate", startdate) :
+                new ObjectParameter("startdate", typeof(System.DateTime));
+    
+            var enddateParameter = enddate.HasValue ?
+                new ObjectParameter("enddate", enddate) :
+                new ObjectParameter("enddate", typeof(System.DateTime));
+    
+            var projectIDParameter = projectID.HasValue ?
+                new ObjectParameter("ProjectID", projectID) :
+                new ObjectParameter("ProjectID", typeof(int));
+    
+            var zoneIDParameter = zoneID.HasValue ?
+                new ObjectParameter("ZoneID", zoneID) :
+                new ObjectParameter("ZoneID", typeof(int));
+    
+            var faulttypeIDParameter = faulttypeID.HasValue ?
+                new ObjectParameter("faulttypeID", faulttypeID) :
+                new ObjectParameter("faulttypeID", typeof(int));
+    
+            var complaintStatusParameter = complaintStatus.HasValue ?
+                new ObjectParameter("ComplaintStatus", complaintStatus) :
+                new ObjectParameter("ComplaintStatus", typeof(int));
+    
+            var launchedByIDParameter = launchedByID.HasValue ?
+                new ObjectParameter("launchedByID", launchedByID) :
+                new ObjectParameter("launchedByID", typeof(int));
+    
+            var assignedToIDParameter = assignedToID.HasValue ?
+                new ObjectParameter("assignedToID", assignedToID) :
+                new ObjectParameter("assignedToID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetComplaintDetail_Result>("Sp_GetComplaintDetail", startdateParameter, enddateParameter, projectIDParameter, zoneIDParameter, faulttypeIDParameter, complaintStatusParameter, launchedByIDParameter, assignedToIDParameter);
+        }
+    
+        public virtual ObjectResult<Sp_GetComplaintSummary_Result> Sp_GetComplaintSummary(Nullable<System.DateTime> startdate, Nullable<System.DateTime> enddate, Nullable<int> projectID, Nullable<int> zoneID, Nullable<int> faulttypeID, Nullable<int> complaintStatus, Nullable<int> launchedByID, Nullable<int> assignedToID)
+        {
+            var startdateParameter = startdate.HasValue ?
+                new ObjectParameter("startdate", startdate) :
+                new ObjectParameter("startdate", typeof(System.DateTime));
+    
+            var enddateParameter = enddate.HasValue ?
+                new ObjectParameter("enddate", enddate) :
+                new ObjectParameter("enddate", typeof(System.DateTime));
+    
+            var projectIDParameter = projectID.HasValue ?
+                new ObjectParameter("ProjectID", projectID) :
+                new ObjectParameter("ProjectID", typeof(int));
+    
+            var zoneIDParameter = zoneID.HasValue ?
+                new ObjectParameter("ZoneID", zoneID) :
+                new ObjectParameter("ZoneID", typeof(int));
+    
+            var faulttypeIDParameter = faulttypeID.HasValue ?
+                new ObjectParameter("faulttypeID", faulttypeID) :
+                new ObjectParameter("faulttypeID", typeof(int));
+    
+            var complaintStatusParameter = complaintStatus.HasValue ?
+                new ObjectParameter("ComplaintStatus", complaintStatus) :
+                new ObjectParameter("ComplaintStatus", typeof(int));
+    
+            var launchedByIDParameter = launchedByID.HasValue ?
+                new ObjectParameter("launchedByID", launchedByID) :
+                new ObjectParameter("launchedByID", typeof(int));
+    
+            var assignedToIDParameter = assignedToID.HasValue ?
+                new ObjectParameter("assignedToID", assignedToID) :
+                new ObjectParameter("assignedToID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetComplaintSummary_Result>("Sp_GetComplaintSummary", startdateParameter, enddateParameter, projectIDParameter, zoneIDParameter, faulttypeIDParameter, complaintStatusParameter, launchedByIDParameter, assignedToIDParameter);
         }
     }
 }

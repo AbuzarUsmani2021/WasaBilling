@@ -188,8 +188,8 @@ namespace FOS.Web.UI.Controllers.API
     {
         public int? ComplaintID { get; set; }
         public string TicketNo { get; set; }
-        public DateTime? LaunchDate { get; set; }
-        public DateTime? LastDate { get; set; }
+        public DateTime LaunchDate { get; set; }
+        public DateTime LastDate { get; set; }
         public string SiteName { get; set; }
 
         public string LaunchedByName { get; set; }
@@ -201,8 +201,22 @@ namespace FOS.Web.UI.Controllers.API
         public string FaultType { get; set; }
         public string FaultTypeDetail { get; set; }
         public string FaultTypeDetailOther { get; set; }
+        public string Project { get; set; }
+        public string Zone { get; set; }
+        public string ComplaintType { get; set; }
+        public string WorkDoneStatus { get; set; }
+        public string ProgressStatusName { get; set; }
+        public string ProgressStatusOtherName { get; set; }
         public string SaleOfficerName { get; set; }
+        public string TimeElapse { get; set; }
+        public TimeSpan ElapseTime
+        {
+            get
+            {
 
+                return LastDate.Subtract(LaunchDate);
+            }
+        }
         public string InitialRemarks { get; set; }
         public List<ClientRemarks> ClientRemarks { get; set; }
         public string ProgressRemarks { get; set; }

@@ -27,6 +27,8 @@ namespace FOS.Web.UI.Controllers.API
         {
             try
             {
+                Random random = new Random();
+                int randomNumber = random.Next(5, 99999999);
                 var filename = "";
                 var ctx = HttpContext.Current;
                 var uploadPath = System.Web.HttpContext.Current.Server.MapPath(@"~/ComplaintVideos/");
@@ -44,6 +46,7 @@ namespace FOS.Web.UI.Controllers.API
                     {
                          filename = (file.Headers.ContentDisposition.FileName);
                         filename = filename.Trim('"');
+                        filename = randomNumber + filename;
                         var loc = file.LocalFileName;
 
                         var filepath = Path.Combine(uploadPath, filename);
@@ -64,6 +67,7 @@ namespace FOS.Web.UI.Controllers.API
                     {
                         filename = (file.Headers.ContentDisposition.FileName);
                         filename = filename.Trim('"');
+                        filename = randomNumber + filename;
                         var loc = file.LocalFileName;
 
                         var filepath = Path.Combine(uploadPath, filename);

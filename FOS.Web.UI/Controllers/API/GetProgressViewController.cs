@@ -43,6 +43,8 @@ namespace FOS.Web.UI.Controllers.API
                         comlist.Picture1 = item.Picture1;
                         comlist.Picture2 = item.Picture2;
                         comlist.Picture3 = item.Picture3;
+                        comlist.Video = item.Video;
+                        comlist.Audio = item.Audio;
                         comlist.ProgressStatusID = item.ProgressStatusID;
                         comlist.LaunchDate = item.JobDate;
                         comlist.ProgressStatusName = item.ProgressStatusName;
@@ -112,6 +114,8 @@ namespace FOS.Web.UI.Controllers.API
         public int? AssignedSaleOfficerID { get; set; }
         public string TicketNo { get; set; }
         public string Picture1 { get; set; }
+        public string Video { get; set; }
+        public string Audio { get; set; }
         public string Picture2 { get; set; }
         public string Picture3 { get; set; }
         public string AssignedSaleOfficerName { get; set; }
