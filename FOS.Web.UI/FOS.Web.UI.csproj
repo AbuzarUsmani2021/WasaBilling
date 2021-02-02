@@ -1083,6 +1083,7 @@
     <Content Include="Views\Dropdowns\AllDropdowns.cshtml" />
     <Content Include="Views\Home\WasaDashboard.cshtml" />
     <Content Include="Views\Reports\ComplaintsReport.cshtml" />
+    <Content Include="Views\Reports\ComplaintDetailReport.cshtml" />
     <None Include="WeeklyReport.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>WeeklyReport.Designer.cs</LastGenOutput>

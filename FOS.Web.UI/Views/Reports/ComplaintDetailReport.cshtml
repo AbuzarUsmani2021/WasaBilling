@@ -224,7 +224,7 @@
                 window.open("@Url.Action("CityMonthWiseIntakeReport", "Retailer")" + "?StartingDate=" + $("#StartingDate1").val() + "&EndingDate=" + $("#StartingDate2").val() + "&TID=" + $("#TID").val() + "&Shoptypeid=" + $("#Shoptypeid").val() + "&message=" + message + "", "_top");
             }*@
         //else {
-        window.open("@Url.Action("ComplaintSummaryrpt", "Reports")" + "?ProjectID=" + $("#ProjectId").val() + "&CityID=" + $("#CityID").val()  + "&FaulttypeID=" + $("#FaulttypeId").val() + "&StatusID=" + $("#StatusID").val() + "&WorkDoneID=" + $("#WorkDoneID").val() + "&SaleOfficerID=" + $("#SaleOfficerID").val() + "&FieldOfficerID=" + $("#FieldOfficerID").val()+ "&sdate=" + $sdate+"&edate=" + $edate);
+        window.open("@Url.Action("ComplaintDetailrpt", "Reports")" + "?ProjectID=" + $("#ProjectId").val() + "&CityID=" + $("#CityID").val()  + "&FaulttypeID=" + $("#FaulttypeId").val() + "&StatusID=" + $("#StatusID").val() + "&WorkDoneID=" + $("#WorkDoneID").val() + "&SaleOfficerID=" + $("#SaleOfficerID").val() + "&FieldOfficerID=" + $("#FieldOfficerID").val()+ "&sdate=" + $sdate+"&edate=" + $edate);
         //}
     });
 

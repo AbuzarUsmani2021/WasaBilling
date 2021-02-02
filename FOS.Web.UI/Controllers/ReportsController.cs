@@ -342,7 +342,7 @@ namespace FOS.Web.UI.Controllers
                     comlist.ComplaintStatus = items.ComplaintStatusName;
                     comlist.FaultType = items.FaultTypeName;
                     comlist.FaultTypeDetail = items.FaultTypeDetailName;
-                    comlist.FaultTypeDetailOther = items.FaultTypeDetailOtherRemarks;
+                    comlist.FaultTypeDetailOther = items.faultTypeDetailRemarks;
                     comlist.ComplaintType = items.ComplaintTypeName;
                     comlist.Zone = items.Zone;
                     comlist.Project = items.Project;
@@ -401,6 +401,95 @@ namespace FOS.Web.UI.Controllers
                          retailer.ComplaintStatus,
                           retailer.ProgressStatusName,
                            retailer.ProgressRemarks,
+                           retailer.WorkDoneStatus,
+                    srNo++
+
+
+                    ));
+                }
+                Response.Write(sw.ToString());
+                Response.End();
+
+            }
+            catch (Exception exp)
+            {
+                Log.Instance.Error(exp, "Report Not Working");
+
+            }
+
+        }
+
+
+        public ActionResult ComplaintDetailReport()
+        {
+            var Complaintdata = new KSBComplaintData();
+
+            Complaintdata.Projects = FOS.Setup.ManageCity.GetProjectsListForReport();
+            Complaintdata.Cities = FOS.Setup.ManageCity.GetCityListForReport();
+            Complaintdata.faultTypes = FOS.Setup.ManageCity.GetFaultTypesListForReport();
+            Complaintdata.complaintStatuses = FOS.Setup.ManageCity.GetComplaintStatusListForReport();
+            Complaintdata.WorkDone = FOS.Setup.ManageCity.GetWorkDoneList();
+            Complaintdata.SaleOfficers = FOS.Setup.ManageCity.GetSOList();
+            Complaintdata.FieldOfficers = FOS.Setup.ManageCity.GetFieldOfficerList();
+
+            return View(Complaintdata);
+        }
+
+
+        public void ComplaintDetailrpt(int ProjectID, int CityID, int FaulttypeID, int StatusID, int WorkDoneID, int SaleOfficerID, int FieldOfficerID, string sdate, string edate)
+        {
+
+
+            try
+            {
+           
+                DateTime start = Convert.ToDateTime(string.IsNullOrEmpty(sdate) ? DateTime.Now.ToString() : sdate);
+                DateTime end = Convert.ToDateTime(string.IsNullOrEmpty(edate) ? DateTime.Now.ToString() : edate);
+                DateTime final = end.AddDays(1);
+                ManageRetailer objRetailers = new ManageRetailer();
+                var result = db.Sp_GetComplaintDetail(start, final, ProjectID, CityID, FaulttypeID, StatusID, SaleOfficerID, FieldOfficerID).ToList();
+              
+
+
+
+                // Example data
+
+
+                // sw.WriteLine("\"SR No\",\"ComplaintDate\",\"Complaint No\",\"SiteID\",\"SiteName\",\"Project\",\"Zone\",\"FaultType\",\"Fault Type Detail\",\"Fault Type Detail Other Remarks\",\"Complaint Type\",\"Launched By\",\"Launch At\",\"Updated At\",\"Elapse Time\",\"Complaint Status\",\"Progress Status\",\"Updated Remarks\",\"Work Done\"");
+
+                // Example data
+                StringWriter sw = new StringWriter();
+
+                sw.WriteLine("\"SR No\",\"ComplaintDate\",\"Complaint No\",\"SiteID\",\"SiteName\",\"Project\",\"Zone\",\"FaultType\",\"Fault Type Detail\",\"Fault Type Detail Other Remarks\",\"Complaint Type\",\"Launched By\",\"Launch At\",\"Updated At\",\"Complaint Status\",\"Progress Status\",\"Updated Remarks\",\"Work Done\"");
+
+                Response.ClearContent();
+                Response.AddHeader("content-disposition", "attachment;filename=ComplaintDetail" + DateTime.Now + ".csv");
+                Response.ContentType = "application/octet-stream";
+
+                //   var retailers = ManageRetailer.GetRetailersForExportinExcel();
+
+                int srNo = 1;
+                foreach (var retailer in result)
+                {
+                    sw.WriteLine(string.Format("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\",\"{11}\",\"{12}\",\"{13}\",\"{14}\",\"{15}\",\"{16}\",\"{17}\"",
+                    srNo,
+                    retailer.ComplaintlaunchedAt,
+                    // retailer.Name,
+                    retailer.ticketno,
+                    retailer.SiteCode,
+                    retailer.SiteName,
+                    retailer.Project,
+                    retailer.Zone,
+                    retailer.FaultTypeName,
+                    retailer.FaultTypeDetailName,
+                    retailer.faultTypeDetailRemarks,
+                    retailer.ComplaintTypeName,
+                     retailer.LaunchedByName,
+                      retailer.ComplaintlaunchedAt,
+                       retailer.UpdatedAT,
+                         retailer.ComplaintStatusName,
+                          retailer.ProgressStatusName,
+                           retailer.PRemarks,
                            retailer.WorkDoneStatus,
                     srNo++
 

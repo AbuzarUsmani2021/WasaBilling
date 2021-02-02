@@ -59,7 +59,7 @@ namespace FOS.Web.UI.Controllers.API
 
                                 comlist.ComplaintID = items.ComplaintID;
                                 comlist.SiteCode = items.SiteCode;
-                                comlist.LaunchDate = items.LaunchDate;
+                                comlist.LaunchDate = (DateTime)items.LaunchDate;
                                 comlist.SaleOfficerName = items.SaleOfficerName;
                                 comlist.SiteID = items.SiteID;
                                 comlist.SiteName = items.SiteName;
