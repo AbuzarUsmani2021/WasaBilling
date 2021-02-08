@@ -13,8 +13,8 @@
     }
     .SMS {
         padding: 8px 12px 8px;
-        background-color: #2196F3;
-        color: white;
+        background-color: #ccc;
+        color: black;
         opacity: 0.83;
         transition: opacity 0.6s;
         margin-bottom: 15px;
@@ -23,8 +23,8 @@
     }
     .MYSMS {
         padding: 8px 12px 8px;
-        background-color:#1969b1;
-        color: white;
+        background-color: #ccc;
+        color: black;
         opacity: 0.83;
         transition: opacity 0.6s;
         margin-bottom: 15px;
@@ -193,12 +193,11 @@
                             </div>
                             <div class="span12">
                                 <div class="span6" style="margin-left:0px; margin-bottom:0px; border-style: solid;">
-                                    <img src="~/Images/no-image-available.png.jpg" style="width:221px; height:215px;" id="ActualPicture1" />
+                                    <img src="~/Images/KSB_Logo_New.jpg" style="width:221px; height:215px;" id="ActualPicture1" />
                                 </div>
                                 <div class="span6" style="margin-left:6px; border-style: solid;">
-                                    <img src="~/Images/no-image-available.png.jpg" style="width:221px; height:215px;" id="ActualPicture2" />
+                                    <img src="~/Images/KSB_Logo_New.jpg" style="width:221px; height:215px;" id="ActualPicture2" />
                                 </div>
-
 
 
 
@@ -258,10 +257,10 @@
                             </div>
                             <div class="span12">
                                 <div class="span6" style="margin-left:0px; margin-bottom:0px; border-style: solid;">
-                                    <img src="~/Images/no-image-available.png.jpg" style="width:221px; height:215px;" id="Picture1" />
+                                    <img src="~/Images/KSB_Logo_New.jpg" style="width:221px; height:215px;" id="Picture1" />
                                 </div>
                                 <div class="span6" style="margin-left:6px; border-style: solid;">
-                                    <img src="~/Images/no-image-available.png.jpg" style="width:221px; height:215px;" id="Picture2" />
+                                    <img src="~/Images/KSB_Logo_New.jpg" style="width:221px; height:215px;" id="Picture2" />
                                 </div>
 
 
@@ -288,7 +287,7 @@
                     </div>
                     <div class="span12" style=" margin-left: 0px; border-style: groove;margin-bottom: 20px;">
                         <div class="widget-title text-center" style=" background-color: #1969b1;">
-                            <h4><strong> Child Progress Detail</strong></h4>
+                            <h4><strong>Progress Detail</strong></h4>
                         </div>
                         <table class="table table-striped table-hover table-bordered">
                             <thead>
@@ -358,7 +357,7 @@
                             <div class="span12">
                                 <div class="span6">
                                     <input class="hidden" id="SendSMSComplaintId" />
-                                    <input type="text" placeholder="Enter Message.." style="width:300px;" id="ComplaintSMS" />
+                                    <input type="text" autocomplete="off" placeholder="Enter Message.." style="width:300px;" id="ComplaintSMS" />
 
                                 </div>
                                 <div class="span6">
@@ -412,7 +411,7 @@
         <div class="modal-content">
             <div class="modal-header" style="background-color: #1969b1;">
                 <button type="button" class="close" style="color:white;" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" style="font-weight: 900;color: white;"><strong>View Child Detail</strong></h4>
+                <h4 class="modal-title" style="font-weight: 900;color: white;"><strong>View Progress Detail</strong></h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
@@ -462,51 +461,54 @@
         <div class="modal-content">
             <div class="modal-header" style="background-color: #1969b1;">
                 <button type="button" class="close" style="color:white;" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" style="font-weight: 900;color: white;"><strong>Edit Child Detail</strong></h4>
+                <h4 class="modal-title" style="font-weight: 900;color: white;"><strong>Edit Progress Detail</strong></h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <div class="span12">
                         <div class="span3" style="margin-top: 0px;">
+                            <input id="EditComplaintID" name="EditComplaintID" class="hidden" type="text" value="">
+                            <input id="JobDetailID" name="JobDetailID" class="hidden" type="text" value="">
+                            <input id="JobDetailID" name="JobDetailID" class="hidden" type="text" value="">
+
+
+
                             <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Select Fault Type: *</label>
+                                <label class="control-label">Fault Type:*</label>
                                 <div class="controls" style="margin-left: 0px">
-                                    @Html.DropDownListFor(model => model.FaulttypeId, new SelectList(Model.faultTypes, "Id", "Name"), new { @class = "Areas" })
+                                    @Html.DropDownListFor(model => model.EditFaulttypeId, new SelectList(Model.faultTypes, "Id", "Name"), new { @class = "Areas" })
                                     @Html.HiddenFor(model => model.FaulttypeId)
                                 </div>
                             </div>
                             <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Select Fault Type Detail:</label>
+                                <label class="control-label">Fault Type Detail:</label>
                                 <div class="controls" style="margin-left: 0px">
-                                    @Html.DropDownListFor(model => model.FaulttypeDetailId, new SelectList(Model.faultTypesDetail, "Id", "Name"), new { @class = "Areas" })
+                                    @Html.DropDownListFor(model => model.EditFaulttypeDetailId, new SelectList(Model.faultTypesDetail, "Id", "Name"), new { @class = "Areas" })
                                     @Html.HiddenFor(model => model.FaulttypeDetailId)
                                 </div>
                             </div>
-                            <div class="control-group" style="margin-bottom: 10px" id="OtherRemarks">
-                                <label class="control-label" style="">Other Remarks:</label>
+                            <div class="control-group" style="margin-bottom: 10px" id="EditOtherRemarksBox">
+                                <label class="control-label" style="">Fault Type Detail Other Remarks:</label>
                                 <div class="controls" style="margin-left: 0px">
-                                    @Html.EditorFor(model => model.FaultTypeDetailOtherRemarks)
+                                    @Html.EditorFor(model => model.EditFaultTypeDetailOtherRemarks)
                                 </div>
                             </div>
                             <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Select Priority *</label>
+                                <label class="control-label">Priority:</label>
                                 <div class="controls" style="margin-left: 0px">
-                                    @Html.DropDownListFor(model => model.PriorityId, new SelectList(Model.priorityDatas, "ID", "Name"), new { @class = "Areas" })
-                                    @Html.HiddenFor(model => model.PriorityId)
+                                    @Html.DropDownListFor(model => model.EditPriorityId, new SelectList(Model.priorityDatas, "ID", "Name"), new { @class = "Areas" })
                                 </div>
                             </div>
                             <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Complaint Type *</label>
+                                <label class="control-label">Complaint Type:</label>
                                 <div class="controls" style="margin-left: 0px">
-                                    @Html.DropDownListFor(model => model.ComplaintTypeID, new SelectList(Model.ComplaintTypes, "ID", "Name"), new { @class = "Areas" })
-                                    @Html.HiddenFor(model => model.ComplaintTypeID)
+                                    @Html.DropDownListFor(model => model.EditComplaintTypeID, new SelectList(Model.ComplaintTypes, "ID", "Name"), new { @class = "Areas" })
                                 </div>
                             </div>
                             <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Assign FS : *</label>
+                                <label class="control-label">Assign FS:</label>
                                 <div class="controls" style="margin-left: 0px">
-                                    @Html.DropDownListFor(model => model.SalesOficerID, new SelectList(Model.FieldOfficers, "ID", "Name"), new { @class = "Areas" })
-                                    @Html.HiddenFor(model => model.SalesOficerID)
+                                    @Html.DropDownListFor(model => model.EditSalesOficerID, new SelectList(Model.FieldOfficers, "ID", "Name"), new { @class = "Areas" })
                                 </div>
                             </div>
 
@@ -514,24 +516,28 @@
                         </div>
                         <div class="span3" style="margin-top: 0px;">
                             <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Select Complaint Status: *</label>
+                                <label class="control-label">Complaint Status:</label>
                                 <div class="controls" style="margin-left: 0px">
-                                    @Html.DropDownListFor(model => model.StatusID, new SelectList(Model.complaintStatuses, "ID", "Name"), new { @class = "Areas", @Value = "2003" })
-                                    @Html.HiddenFor(model => model.StatusID)
+                                    @Html.DropDownListFor(model => model.EditStatusID, new SelectList(Model.complaintStatuses, "ID", "Name"), new { @class = "Areas", @Value = "2003" })
                                 </div>
                             </div>
 
 
                             <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Progress Status *</label>
+                                <label class="control-label">Progress Status:</label>
                                 <div class="controls" style="margin-left: 0px">
-                                    @Html.DropDownListFor(model => model.ProgressStatusId, new SelectList(Model.ProgressStatus, "ID", "Name"), new { @class = "Areas" })
-                                    @Html.HiddenFor(model => model.ProgressStatusId)
+                                    @Html.DropDownListFor(model => model.EditProgressStatusId, new SelectList(Model.ProgressStatus, "ID", "Name"), new { @class = "Areas" })
+                                </div>
+                            </div>
+                            <div class="control-group" style="margin-bottom: 10px" id="EditProgressStatusOtherRemarksBox">
+                                <label class="control-label" style="">Progress Status Others Remarks:</label>
+                                <div class="controls" style="margin-left: 0px">
+                                    @Html.EditorFor(model => model.EditProgressStatusOtherRemarks)
                                 </div>
                             </div>
                             <div class="control-group " style="margin-bottom: 0px">
                                 <label class="control-label" style="">Timeline for resolution:</label>
-                                <select class="Areas" id="Time" name="Time">
+                                <select class="Areas" id="EditTime" name="Time">
                                     <option selected value="0">--Select Time For Resolution--</option>
 
                                 </select>
@@ -539,13 +545,13 @@
                             <div class="control-group" style="margin-bottom: 0px">
                                 <label class="control-label" style="">Person Name:</label>
                                 <div class="controls" style="margin-left: 0px">
-                                    @Html.TextBoxFor(model => model.Name, new { placeholder = "Enter Contact Person Name:" })
+                                    @Html.TextBoxFor(model => model.EditName, new { placeholder = "Enter Contact Person Name:" })
                                 </div>
                             </div>
                             <div class="control-group" style="margin-bottom: 10px; padding-top:20px;">
                                 <label class="control-label" style="">Complaint Progress Remarks:</label>
                                 <div class="controls" style="margin-left: 0px">
-                                    @Html.TextAreaFor(model => model.Remarks, new { @style = "height:97px; width:202px; margin: 0px 0px 10px;", placeholder = "Enter Progress Remarks:" })
+                                    @Html.TextAreaFor(model => model.EditRemarks, new { @style = "height:22px; width:202px; margin: 0px 0px 10px;", placeholder = "Enter Progress Remarks:" })
                                 </div>
                             </div>
                         </div>
@@ -557,36 +563,36 @@
                         <!--</div>-->
                         <div class="span3" style="margin-top: 0px;">
                             <div class="user-profile-image">
-                                <input type="file" name="ChildEditPicture1" style="display:none" ; class="hidden" id="ChildEditPicture1" />
-                                <img src="/Images/no-image-available.png.jpg" class="img-responsive" id="ChildEditUserImage" />
-                                <div class="upload-photo" style="width:230px;bottom:-310px;">
+                                <input type="file" name="ChildEditPicture1" @*style="display:none" ; class="hidden"*@ id="ChildEditPicture1" />
+                                <img src="~/Images/KSB_Logo_New.jpg" class="img-responsive" id="ChildEditUserImage" />
+                                <div class="upload-photo" style="width:230px;bottom:-310px;" id="EditUploadPicture1">
                                     <img src="/Images/upload.png" class="img-responsive" />
                                 </div>
-                                <div class="remove-photo" style="top:21px;right:304px;">
+                                <div class="remove-photo" style="top:21px;right:304px;" id="EditRemovePicture1" >
                                     <span class="fa fa-window-close"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="span3" style="margin-top: 0px;">
                             <div class="user-profile-image">
-                                <input type="file" name="ChildEditPicture2" style="display:none" ; class="hidden" id="ChildEditPicture2" />
-                                <img src="/Images/no-image-available.png.jpg" class="img-responsive" id="ChildEditUserImage2" />
-                                <div class="upload-photo" style="width:230px;bottom:-310px;">
+                                <input type="file" name="ChildEditPicture2" @*style="display:none" ; class="hidden"*@ id="ChildEditPicture2" />
+                                <img src="~/Images/KSB_Logo_New.jpg" class="img-responsive" id="ChildEditUserImage2" />
+                                <div class="upload-photo" style="width:230px;bottom:-310px;" id="EditUploadPicture2" >
                                     <img src="/Images/upload.png" class="img-responsive" />
                                 </div>
-                                <div class="remove-photo" id="remove-photo2" style="top:21px;right:56px;">
+                                <div class="remove-photo" id="EditRemovePicture1" style="top:21px;right:56px;">
                                     <span class="fa fa-window-close"></span>
                                 </div>
                             </div>
                         </div>
 
-                        @*<div class="control-group" style="margin-top: 10px">
+                        <div class="control-group" style="margin-top: 10px">
                             <div class="form-actions" style="padding-left: 0px;  margin-top: 16px;">
-                                <button type="submit" id="btnNew" class="btn btn-primary" style="margin-top: 50px;margin-left: 208px;width: 100px;">
-                                    <span id="EditUpdate">Update</span>
+                                <button type="submit" class="btn btn-primary" style="margin-top: 50px;margin-left: 208px;width: 100px;">
+                                    <span onclick="PostEditComplaint()" class="bold"><i class="icon-ok icon-white"></i> Update</span>
                                 </button>
                             </div>
-                        </div>*@
+                        </div>
                     </div>
                 </div>
             </div>
@@ -607,13 +613,13 @@
                         <div class="span3" style="margin-top: 0px;">
                             <div class="control-group" style="margin-bottom: 10px">
                                 <input id="UpdateComplaintID" name="UpdateComplaintID" class="hidden" type="text" value="">
-                                <label class="control-label">Select Fault Type: *</label>
+                                <label class="control-label">Fault Type:*</label>
                                 <div class="controls" style="margin-left: 0px">
                                     @Html.DropDownListFor(model => model.UpdateFaulttypeId, new SelectList(Model.faultTypes, "Id", "Name"), new { @class = "Areas" })
                                 </div>
                             </div>
                             <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Select Fault Type Detail:</label>
+                                <label class="control-label">Fault Type Detail:</label>
                                 <div class="controls" style="margin-left: 0px">
                                     @Html.DropDownListFor(model => model.UpdateFaulttypeDetailId, new SelectList(Model.faultTypesDetail, "Id", "Name"), new { @class = "Areas" })
 
@@ -626,19 +632,19 @@
                                 </div>
                             </div>
                             <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Select Priority *</label>
+                                <label class="control-label">Priority:</label>
                                 <div class="controls" style="margin-left: 0px">
                                     @Html.DropDownListFor(model => model.UpdatePriorityId, new SelectList(Model.priorityDatas, "ID", "Name"), new { @class = "Areas" })
                                 </div>
                             </div>
                             <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Complaint Type *</label>
+                                <label class="control-label">Complaint Type:</label>
                                 <div class="controls" style="margin-left: 0px">
                                     @Html.DropDownListFor(model => model.UpdateComplaintTypeID, new SelectList(Model.ComplaintTypes, "ID", "Name"), new { @class = "Areas" })
                                 </div>
                             </div>
                             <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Assign FS : *</label>
+                                <label class="control-label">Assign FS: </label>
                                 <div class="controls" style="margin-left: 0px">
                                     @Html.DropDownListFor(model => model.UpdateSalesOficerID, new SelectList(Model.FieldOfficers, "ID", "Name"), new { @class = "Areas" })
                                 </div>
@@ -646,13 +652,13 @@
                         </div>
                         <div class="span3" style="margin-top: 0px;">
                             <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Select Complaint Status: *</label>
+                                <label class="control-label">Complaint Status:</label>
                                 <div class="controls" style="margin-left: 0px">
                                     @Html.DropDownListFor(model => model.UpdateStatusID, new SelectList(Model.complaintStatuses, "ID", "Name"), new { @class = "Areas", @Value = "2003" })
                                 </div>
                             </div>
                             <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Progress Status *</label>
+                                <label class="control-label">Progress Status:</label>
                                 <div class="controls" style="margin-left: 0px">
                                     @Html.DropDownListFor(model => model.UpdateProgressStatusId, new SelectList(Model.ProgressStatus, "ID", "Name"), new { @class = "Areas" })
                                 </div>
@@ -685,7 +691,7 @@
                         <div class="span3" style="margin-top: 0px;">
                             <div class="user-profile-image">
                                 <input type="file" name="UpdatePicture1" style="display:none" ; class="hidden" id="UpdatePicture1" />
-                                <img src="/Images/no-image-available.png.jpg" class="img-responsive" id="UpdatePicture1UserImage" />
+                                <img src="/Images/KSB_Logo_New.jpg" class="img-responsive" id="UpdatePicture1UserImage" />
                                 <div class="upload-photo" style="width:230px;bottom:-310px;" id="UpdateUploadPicture1">
                                     <img src="/Images/upload.png" class="img-responsive" />
                                 </div>
@@ -697,7 +703,7 @@
                         <div class="span3" style="margin-top: 0px;">
                             <div class="user-profile-image">
                                 <input type="file" name="UpdatePicture2" style="display:none" ; class="hidden" id="UpdatePicture2" />
-                                <img src="/Images/no-image-available.png.jpg" class="img-responsive" id="UpdatePicture2UserImage" />
+                                <img src="/Images/KSB_Logo_New.jpg" class="img-responsive" id="UpdatePicture2UserImage" />
                                 <div class="upload-photo" style="width:230px;bottom:-310px;" id="UpdateUploadPicture2">
                                     <img src="/Images/upload.png" class="img-responsive" />
                                 </div>
@@ -709,7 +715,7 @@
                         <div class="control-group" style="margin-top: 10px">
                             <div style="padding-left: 0px;  margin-top: 16px;">
                                 <button  class="btn btn-primary" onclick="PostUpdateComplaint()" style="margin-top: 50px;margin-left: 208px;width: 100px;">
-                                    <strong>Update</strong>
+                                    <strong><i class="icon-ok icon-white"></i> Update</strong>
                                 </button>
                             </div>
                         </div>
@@ -730,9 +736,15 @@
         //Get Update Complaint Start
         $("#UpdateFaultTypeDetailOtherRemarksBox").hide();
         $("#UpdateProgressStatusOtherRemarksBox").hide();
+        $("#EditOtherRemarksBox").hide();
+        $("#EditProgressStatusOtherRemarksBox").hide();
         for (var a = 1; a < 101; a++) {
             var divHtml = '<option value="' + a + '">' + a + '</option>'
             $("#UpdateTime").append(divHtml);
+        }
+        for (var a = 1; a < 101; a++) {
+            var divHtml = '<option value="' + a + '">' + a + '</option>'
+            $("#EditTime").append(divHtml);
         }
         //Get Update Complaint END
 
@@ -751,6 +763,82 @@
     });
 
     //Get Update Complaint Start
+    function UpdateComplaint(ComplaintID) {
+        GetUpdateLoadFaultTypeDetails(ComplaintID);
+        GetUpdateLoadProgressStatusDetails(ComplaintID);
+        $('html, body').animate({
+            scrollTop: $("#main-content").offset().top
+        }, 500);
+        $("#UpdateComplaint").modal();
+        $("#ComplaintID").val(ComplaintID);
+        var url = "/Complaint/GetUpdateComplaint?ComplaintID=" + ComplaintID;
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (Response) {
+
+                debugger
+                $("#UpdateComplaintID").val(Response.UpdateComplaintID);
+                $("#UpdateFaulttypeId").val(Response.UpdateFaulttypeId);
+                $("#UpdateFaulttypeDetailId").val(Response.UpdateFaulttypeDetailId);
+                if (Response.UpdateFaulttypeDetailId == 3030 || Response.UpdateFaulttypeDetailId == 3042 || Response.UpdateFaulttypeDetailId == 3049) {
+                    $("#UpdateFaultTypeDetailOtherRemarksBox").show();
+                    $("#UpdateFaultTypeDetailOtherRemarks").show();
+                }
+                $("#UpdateFaultTypeDetailOtherRemarks").val(Response.UpdateFaultTypeDetailOtherRemarks);
+                $("#UpdatePriorityId").val(Response.UpdatePriorityId);
+                $("#UpdateComplaintTypeID").val(Response.UpdateComplaintTypeID);
+                $("#UpdateSalesOficerID").val(Response.UpdateSalesOficerID);
+                $("#UpdateStatusID").val(Response.UpdateStatusID);
+                $("#UpdateProgressStatusId").val(Response.UpdateProgressStatusId);
+                if (Response.UpdateProgressStatusId == 2018 || Response.UpdateProgressStatusId == 2031 || Response.UpdateProgressStatusId == 2035) {
+                    $("#UpdateProgressStatusOtherRemarksBox").show();
+                    $("#UpdateProgressStatusOtherRemarks").show();
+                }
+                $("#UpdateProgressStatusOtherRemarks").val(Response.UpdateProgressStatusOtherRemarks);
+                $("#UpdateTime").val(Response.ReslovedHours);
+                $("#UpdatePerson").val(Response.UpdatePerson);
+            }
+        })
+    }
+    function GetUpdateLoadFaultTypeDetails(ComplaintID)
+    {
+        var ClientID = ComplaintID ;
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetFaultTypeDetailListForFaulttypeID", "Complaint")",
+            data: { ClientID: ClientID},
+            success: function (json) {
+
+                var $el = $("#UpdateFaulttypeDetailId");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+
+
+            }
+        });
+    }
+    function GetUpdateLoadProgressStatusDetails(ComplaintID)
+    {
+        var ClientID = ComplaintID ;
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetUpdateProgressStatusListForFaulttypeID", "Complaint")",
+            data: { ClientID: ClientID},
+            success: function (json) {
+
+                var $el = $("#UpdateProgressStatusId");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+
+
+            }
+        });
+    }
     $("#UpdateFaulttypeId").change(function () {
         UpdateLoadFaultTypeDetails();
         UpdateLoadProgressStatusDetails();
@@ -849,46 +937,357 @@
             }
         });
     }
-    function UpdateComplaint(ComplaintID) {
+   
+
+    //Upload-Picture1 Start
+    $('#UpdatePicture1UserImage').click(function () {
+        $('#UpdatePicture1').trigger('click');
+    });
+    $('#UpdateUploadPicture1').click(function () {
+        $('#UpdatePicture1').trigger('click');
+    });
+    $('#UpdatePicture1').change(function ()
+    {
+        if (this.files && this.files[0]) {
+            var fileReader = new FileReader();
+            fileReader.readAsDataURL(this.files[0]);
+            fileReader.onload = function (x) {
+                $('#UpdatePicture1UserImage').attr('src', x.target.result);
+
+            }
+        }
+
+    });
+    $('#UpdateRemovePicture1').click(function ()
+    {
+        $('#UpdatePicture1UserImage').attr('src', "/Images/KSB_Logo_New.jpg");
+        $('#UpdatePicture1').val("");
+    });
+    //Upload-Picture1 End
+
+    //Upload-Picture2 Start
+    $('#UpdatePicture2UserImage').click(function () {
+        UploadClickEvent2();
+    });
+    $('#UpdateUploadPicture2').click(function () {
+        UploadClickEvent2();
+    });
+    function UploadClickEvent2() {
+        $('#UpdatePicture2').trigger('click');
+    }
+    $('#UpdatePicture2').change(function () {
+        if (this.files && this.files[0]) {
+            var fileReader = new FileReader();
+            fileReader.readAsDataURL(this.files[0]);
+            fileReader.onload = function (x) {
+                $('#UpdatePicture2UserImage').attr('src', x.target.result);
+
+            }
+        }
+
+    });
+    $('#UpdateRemovePicture2').click(function () {
+        $('#UpdatePicture2UserImage').attr('src', "/Images/KSB_Logo_New.jpg");
+        $('#UpdatePicture2').val("");
+
+
+    });
+    //Upload-Picture2 End
+    //Get Update Complaint END
+
+    //Get Edit Complaint Start
+    function ChildEdit(ProgressChildID,ComplaintID) {
+        GetEditLoadFaultTypeDetails(ComplaintID);
+        GetEditLoadProgressStatusDetails(ComplaintID);
         $('html, body').animate({
             scrollTop: $("#main-content").offset().top
         }, 500);
-
-        $("#UpdateComplaint").modal();
-        $("#ComplaintID").val(ComplaintID);
-        var url = "/Complaint/GetUpdateComplaint?ComplaintID=" + ComplaintID;
-
+        $("#EditChildRecord").modal();
+        var url = "/Complaint/GetEditComplaint?ProgressChildID=" + ProgressChildID;
         $.ajax({
             type: "GET",
             url: url,
-            success: function (Response) {
-
-                $("#UpdateComplaintID").val(Response.UpdateComplaintID);
-                $("#UpdateFaulttypeId").val(Response.UpdateFaulttypeId);
-                $("#UpdateFaulttypeDetailId").val(Response.UpdateFaulttypeDetailId);
-                if (Response.UpdateFaulttypeDetailId == 3030 || Response.UpdateFaulttypeDetailId == 3042 || Response.UpdateFaulttypeDetailId == 3049)
+            success: function (Response)
+            {
+                
+                $("#ProgressChildID").val(Response.ProgressChildID);
+                $("#EditComplaintID").val(Response.ComplaintID);
+                $("#JobDetailID").val(Response.JobDetailID);
+                $("#EditFaulttypeId").val(Response.FaultTypeID);
+                $("#EditFaulttypeDetailId").val(Response.FaultTypeDetailID);
+                if (Response.EditFaulttypeDetailId == 3030 || Response.EditFaulttypeDetailId == 3042 || Response.EditFaulttypeDetailId == 3049)
                 {
-                    $("#UpdateFaultTypeDetailOtherRemarksBox").show();
-                    $("#UpdateFaultTypeDetailOtherRemarks").show();
+                    $("#EditOtherRemarksBox").show();
                 }
-                $("#UpdateFaultTypeDetailOtherRemarks").val(Response.UpdateFaultTypeDetailOtherRemarks);
-                $("#UpdatePriorityId").val(Response.UpdatePriorityId);
-                $("#UpdateComplaintTypeID").val(Response.UpdateComplaintTypeID);
-                $("#UpdateSalesOficerID").val(Response.UpdateSalesOficerID);
-                $("#UpdateStatusID").val(Response.UpdateStatusID);
-                $("#UpdateProgressStatusId").val(Response.UpdateProgressStatusId);
-                if (Response.UpdateProgressStatusId == 2018 || Response.UpdateProgressStatusId == 2031 || Response.UpdateProgressStatusId == 2035) {
-                    $("#UpdateProgressStatusOtherRemarksBox").show();
-                    $("#UpdateProgressStatusOtherRemarks").show();
+                $("#EditFaultTypeDetailOtherRemarks").val(Response.FaultTypeDetailRemarks);
+                $("#EditPriorityId").val(Response.PriorityID);
+                $("#EditComplaintTypeID").val(Response.ComplaintTypeID);
+                $("#EditSalesOficerID").val(Response.AssignedFSID);
+                $("#EditStatusID").val(Response.ComplaintStatusID);
+                $("#EditProgressStatusId").val(Response.ProgressStatusID);
+                if (Response.EditProgressStatusId == 2018 || Response.EditProgressStatusId == 2031 || Response.EditProgressStatusId == 2035)
+                {
+                    $("#EditProgressStatusOtherRemarksBox").show();
                 }
-                $("#UpdateProgressStatusOtherRemarks").val(Response.UpdateProgressStatusOtherRemarks);
-                $("#UpdateTime").val(Response.ReslovedHours);
-                $("#UpdatePerson").val(Response.UpdatePerson);
+                $("#EditProgressStatusOtherRemarks").val(Response.ProgressStatusOtherRemarks);
+                $("#EditTime").val(Response.EditTime);
+                $("#EditName").val(Response.EditPerson);
+                $("#EditRemarks").val(Response.ProgressRemarks);    
+                if (Response.Picture1 != null) {
+                    $("#ChildEditUserImage").attr('src', Response.Picture1);
+                    $("#ChildEditPicture1").val(Response.Picture1);
+                }
+                else
+                {
+                    $("#ChildEditUserImage").attr('src', "/Images/KSB_Logo_New.jpg");
+                }
+                if (Response.Picture2 != null) {
+                    $("#ChildEditUserImage2").attr('src', Response.Picture2);
+                    $("#ChildEditPicture2").val(Response.Picture2);
 
+                }
+                else {
+                    $("#ChildEditUserImage2").attr('src', "/Images/KSB_Logo_New.jpg");
+                }
             }
         })
     }
-    //Get Update Complaint END
+    function GetEditLoadFaultTypeDetails(ComplaintID)
+    {
+        var ClientID = ComplaintID ;
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetFaultTypeDetailListForFaulttypeID", "Complaint")",
+            data: { ClientID: ClientID},
+            success: function (json) {
+
+                var $el = $("#EditFaulttypeDetailId");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+
+
+            }
+        });
+    }
+    function GetEditLoadProgressStatusDetails(ComplaintID)
+    {
+        var ClientID = ComplaintID ;
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetUpdateProgressStatusListForFaulttypeID", "Complaint")",
+            data: { ClientID: ClientID},
+            success: function (json) {
+
+                var $el = $("#EditProgressStatusId");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+
+
+            }
+        });
+    }
+    $("#EditFaulttypeId").change(function () {
+        EditLoadFaultTypeDetails();
+        EditLoadProgressStatusDetails();
+    });
+    function EditLoadFaultTypeDetails() {
+           var ClientID = $("#EditFaulttypeId").val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetFaultTypeDetailList", "Complaint")",
+            data: { ClientID: ClientID},
+            success: function (json) {
+
+                var $el = $("#EditFaulttypeDetailId");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+
+
+            }
+        });
+    }
+    function EditLoadProgressStatusDetails() {
+        var ClientID = $("#EditFaulttypeId").val();
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetProgressDetailList", "Complaint")",
+            data: { ClientID: ClientID},
+            success: function (json) {
+
+                var $el = $("#EditProgressStatusId");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+
+
+            }
+        });
+        }
+    $("#EditFaulttypeDetailId").change(function () {
+        if ($("#EditFaulttypeDetailId").val() == '3030') {
+            $("#EditOtherRemarksBox").show();
+        }
+        else if ($("#EditFaulttypeDetailId").val() == '3042') {
+            $("#EditOtherRemarksBox").show();
+        }
+        else if ($("#EditFaulttypeDetailId").val() == '3049') {
+            $("#EditOtherRemarksBox").show();
+        }
+        else
+        {
+            $("#EditOtherRemarksBox").hide();
+        }
+    });
+    $("#EditProgressStatusId").change(function () {
+        if ($("#EditProgressStatusId").val() == '2018') {
+            $("#EditProgressStatusOtherRemarksBox").show();
+        }
+        else if ($("#EditProgressStatusId").val() == '2031') {
+            $("#EditProgressStatusOtherRemarksBox").show();
+        }
+        else if ($("#EditProgressStatusId").val() == '2035') {
+            $("#EditProgressStatusOtherRemarksBox").show();
+        }
+        else {
+            $("#EditProgressStatusOtherRemarksBox").hide();
+        }
+    });
+    $("#EditStatusID").change(function () {
+        if ($("#EditStatusID").val() == '3')
+            {
+            EditWorkDoneStatusDetails();
+            }
+            else
+            {
+            EditLoadProgressStatusDetails();
+            }
+    });
+    function EditWorkDoneStatusDetails() {
+        var ClientID = $("#EditFaulttypeId").val();
+         $.ajax({
+            type: "POST",
+            url: "@Url.Action("WorkDoneDetailList", "Complaint")",
+             data: { ClientID: ClientID },
+            success: function (json) {
+
+                var $el = $("#EditProgressStatusId");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+
+
+            }
+        });
+    }
+
+    //Upload-Picture1 Start
+    $('#ChildEditUserImage').click(function () {
+        UploadClickEvent();
+    });
+    $('#EditUploadPicture1').click(function () {
+        UploadClickEvent();
+    });
+    function UploadClickEvent() {
+        $('#ChildEditPicture1').trigger('click');
+    }
+    $('#ChildEditPicture1').change(function () {
+        if (this.files && this.files[0]) {
+            var fileReader = new FileReader();
+            fileReader.readAsDataURL(this.files[0]);
+            fileReader.onload = function (x) {
+                $('#ChildEditUserImage').attr('src', x.target.result);
+
+            }
+        }
+
+    });
+    $('#EditRemovePicture1').click(function () {
+        $('#ChildEditUserImage').attr('src', "/Images/KSB_Logo_New.jpg");
+    });
+    //Upload-Picture1 End
+
+
+    //Upload-Picture2 Start
+    $('#ChildEditUserImage2').click(function () {
+        $('#ChildEditPicture2').trigger('click');
+    });
+    $('#EditUploadPicture2').click(function () {
+        $('#ChildEditPicture2').trigger('click');
+    });
+    $('#ChildEditPicture2').change(function () {
+        if (this.files && this.files[0]) {
+            var fileReader = new FileReader();
+            fileReader.readAsDataURL(this.files[0]);
+            fileReader.onload = function (x) {
+                $('#ChildEditUserImage2').attr('src', x.target.result);
+
+            }
+        }
+
+    });
+    $('#EditRemovePicture2').click(function () {
+        $('#ChildEditUserImage2').attr('src', "/Images/KSB_Logo_New.jpg");
+    });
+    //Upload-Picture2 End
+
+    //Get Edit Complaint END
+
+      // Post EDIT  Complaint Start
+    function PostEditComplaint() {
+        var data = new FormData();
+        var files = $("#ChildEditPicture1").get(0).files;
+        if (files.length > 0) {
+            data.append("ChildEditPicture1", files[0]);
+        }
+        var files2 = $("#ChildEditPicture2").get(0).files;
+        if (files2.length > 0) {
+            console.log(files2[0]);
+            data.append("ChildEditPicture2", files2[0]);
+        }
+        var RoleID = "@HttpContext.Current.Session["RoleID"]";
+        data.append("RoleID", RoleID);
+        data.append("JobDetailID", $("#JobDetailID").val());
+        data.append("EditComplaintID", $("#EditComplaintID").val());
+        data.append("EditFaulttypeId", $("#EditFaulttypeId").val());
+        data.append("EditFaulttypeDetailId", $("#EditFaulttypeDetailId").val());
+        data.append("EditFaultTypeDetailOtherRemarks", $("#EditFaultTypeDetailOtherRemarks").val());
+        data.append("EditPriorityId", $("#EditPriorityId").val());
+        data.append("EditComplaintTypeID", $("#EditComplaintTypeID").val());
+        data.append("EditSalesOficerID", $("#EditSalesOficerID").val());
+        data.append("EditStatusID", $("#EditStatusID").val());
+        data.append("EditProgressStatusId", $("#EditProgressStatusId").val());
+        data.append("EditProgressStatusOtherRemarks", $("#EditProgressStatusOtherRemarks").val());
+        data.append("EditTime", $("#EditTime").val());
+        data.append("EditName", $("#EditName").val());
+        data.append("EditRemarks", $("#EditRemarks").val());
+
+        $.ajax({
+            type: "Post",
+            url: "/Home/PostEditComplaint",
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: data,
+            success: function (result) {
+                if (result == true) {
+                    $('#EditChildRecord').modal('hide');
+                    alertify.success("Complaint Status Edited Successfully.");
+                }
+                $('#datatab').DataTable().ajax.reload();
+            }
+        })
+
+    }
+    // Post Update Complaint Start END
 
 
     // Post Update  Complaint Start
@@ -994,15 +1393,14 @@
                             $("#ActualComplaintStatus").html(Response.StatusName);
                             if (Response.Picture1 == "" || Response.Picture1 == null || Response.Picture1 == "null")
                             {
-                                $("#ActualPicture1").attr('src', "/Images/KSB_Logo.png");
-
+                                $("#ActualPicture1").attr('src', "/Images/KSB_Logo_New.jpg");
                             }
                             else {
                                 $("#ActualPicture1").attr('src', Response.Picture1);
                             }
                             if (Response.Picture2 == "" || Response.Picture2 == null || Response.Picture2 == "null")
                             {
-                                $("#ActualPicture2").attr('src', "/Images/KSB_Logo.png");
+                                $("#ActualPicture2").attr('src', "/Images/KSB_Logo_New.jpg");
 
                             }
                             else
@@ -1052,7 +1450,7 @@
                             }
                             else
                             {
-                                $("#Picture1").attr('src', "/Images/KSB_Logo.png");
+                                $("#Picture1").attr('src', "/Images/KSB_Logo_New.jpg");
                             }
                             if (Response.Picture2 != null)
                             {
@@ -1060,7 +1458,7 @@
                              }
                             else
                             {
-                                $("#Picture2").attr('src', "/Images/KSB_Logo.png");
+                                $("#Picture2").attr('src', "/Images/KSB_Logo_New.jpg");
                             }
             }
                     });
@@ -1098,11 +1496,11 @@
                             $("#ChildStatus").empty();
                             $.each(Response, function (i, item) {
                                 if (item.IsPublish == 0) {
-                                    var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.AssignedFS + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; color:white;margin-bottom:5px; margin-right:5px; ' onclick='ChildEdit(" + item.ProgressID + ")' ><b>Edit</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildDelete(" + item.ProgressID + ")' ><b>Delete</b></a><a href='#' class='btn text-center' style='background-color:#1969b1;margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildPublish(" + item.ProgressID + ")' ><b>Publish</b></a>" + "</td>");
+                                    var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.AssignedFS + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; color:white;margin-bottom:5px; margin-right:5px; ' onclick='ChildEdit(" + item.ProgressID + ',' + item.ComplaintID + ")' ><b>Edit</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildDelete(" + item.ProgressID + ")' ><b>Delete</b></a><a href='#' class='btn text-center' style='background-color:#1969b1;margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildPublish(" + item.ProgressID + ")' ><b>Publish</b></a>" + "</td>");
                                 }
                                 else
                                 {
-                                    var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.AssignedFS + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; color:white;margin-bottom:5px; margin-right:5px; ' onclick='ChildEdit(" + item.ProgressID + ")' ><b>Edit</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildDelete(" + item.ProgressID + ")' ><b>Delete</b></a></td>");
+                                    var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.AssignedFS + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; color:white;margin-bottom:5px; margin-right:5px; ' onclick='ChildEdit(" + item.ProgressID + ',' + item.ComplaintID + ")' ><b>Edit</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildDelete(" + item.ProgressID + ")' ><b>Delete</b></a></td>");
                                 }
 
                                 //var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a>" + "</td>");
@@ -1168,7 +1566,7 @@
                         {
                             //return '<button class="btn Detail" style="background-color: #1969b1; color:white; margin-bottom: 5px;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" >' + 'Detail' + '</button>';
 
-                            return '<button class="btn Detail" style="background-color: #1969b1; color:white; margin-bottom: 5px;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" >' + 'Detail' + '</button>&nbsp;<button class="btn" style="background-color: #1969b1; color:white; margin-bottom: 5px;" onclick="AddRemarks(' + row.ID + ')" >' + 'Remarks' + '</button>&nbsp;<button class="btn Update" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=ChatBox(' + row.ID + ') >' + ' SMS' + '</button>&nbsp;<button class="btn Update" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=UpdateComplaint(' + row.ID + ') >' + 'Update' + '</button>';
+                            return '<button class="btn bold Detail" style="background-color: #1969b1; color:white; margin-bottom: 5px;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" >' + 'Detail' + '</button>&nbsp;<button class="btn bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" onclick="AddRemarks(' + row.ID + ')" >' + 'Remarks' + '</button>&nbsp;<button class="btn Update bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=ChatBox(' + row.ID + ') >' + ' SMS' + '</button>&nbsp;<button class="btn bold Update" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=UpdateComplaint(' + row.ID + ') >' + 'Update' + '</button>';
                             //return '<a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-info-circle" style="font-size:20px;"></i></a>' + '<span style="font-size:25px;">|</span><a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-plus-circle" style="font-size:20px;"></i></a>' + '<span style="font-size:25px;">|</span><a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-comments" style="font-size:20px;"></i></a>' + '<span style="font-size:25px;">|</span><a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-edit" style="font-size:20px;"></i></a>';
 
                         }
@@ -1209,7 +1607,7 @@
                 }
                 else
                 {
-                    $("#ChildViewPicture1").attr('src', "/Images/KSB_Logo.png");
+                    $("#ChildViewPicture1").attr('src', "/Images/KSB_Logo_New.jpg");
                 }
                 if (Response.Picture2 != null)
                 {
@@ -1217,50 +1615,9 @@
                 }
                 else
                 {
-                    $("#ChildViewPicture2").attr('src', "/Images/KSB_Logo.png");
+                    $("#ChildViewPicture2").attr('src', "/Images/KSB_Logo_New.jpg");
                 }
 
-
-
-            }
-        })
-    }
-    function ChildEdit(ProgressID) {
-        var url = "/Complaint/GetProgressIDData?ProgressID=" + ProgressID;
-        $("#EditChildRecord").modal();
-        $.ajax({
-            type: "GET",
-            url: url,
-            success: function (Response) {
-                $("#ViewChildRecord").css("display", "block");
-                //$("#ID").value(Response.ID);
-
-                $("#FaulttypeId").val(Response.FaultTypeID);
-                $("#FaulttypeDetailId").val(Response.FaultTypeDetailID);
-                //$("#FaultTypeDetailOtherRemarks").html(Response.);
-                $("#PriorityId").val(Response.PriorityID);
-                $("#ComplaintTypeID").val(Response.ComplaintTypeID);
-                $("#SalesOficerID").val(Response.ProgressRemarks);
-                $("#StatusID").html(Response.ProgressRemarks);
-                $("#ProgressStatusId").html(Response.ProgressRemarks);
-                $("#Time").html(Response.ProgressRemarks);
-                $("#Name").html(Response.ProgressRemarks);
-                $("#Remarks").html(Response.ProgressRemarks);
-
-                if (Response.Picture1 != "") {
-                    $("#ChildEditPicture1").attr('src', Response.Picture1);
-                }
-                else
-                {
-                    $("#ChildEditPicture1").attr('src', "/Images/no-image-available.png.jpg");
-                }
-                if (Response.Picture2 != "") {
-                    $("#ChildEditPicture2").attr('src', Response.Picture2);
-                }
-                else
-                {
-                    $("#ChildEditPicture2").attr('src', "/Images/no-image-available.png.jpg");
-                }
 
 
             }
@@ -1317,17 +1674,19 @@
             cache: false,
             data: data,
             success: function (result) {
-                if (result == true) {
-                    $('#ChatBoxModel').modal('hide');
-                    $("#ComplaintSMS").val()
-                    alertify.success("Message has sent  successfully.");
-                }
+
+                ChatBox(result);
+                $("#ComplaintSMS").val("");
+                alertify.success("Message has sent successfully.");
+
             }
         })
 
     }
     function ChatBox(ComplaintID) {
         var url = "/Complaint/GetChatBoxData?ComplaintID=" + ComplaintID;
+        $("#SendSMSComplaintId").val(ComplaintID);
+        $("#ComplaintSMS").val("");
         $("#ChatBoxModel").modal();
         $('html, body').animate({
             scrollTop: $("#main-content").offset().top
@@ -1340,20 +1699,23 @@
                 $("#GetSMS").empty();
                 if (Response.length == 0)
                 {
+                    $("#ComplaintSMS").val("");
+                    $("#SiteNamePlusCode").html("");
                     var divHtml1 = $('<p style="text-align: center">').html("<strong>Not Any Message Found Against This Complaint</strong></p>");
                     $("#GetSMS").append(divHtml1);
                 }
                 else {
                     $.each(Response, function (i, item) {
+                        $("#ComplaintSMS").val("");
                         $("#SiteNamePlusCode").html(item.SiteName);
                         $("#SendSMSComplaintId").val(item.ComplaintID);
                         if (item.SOID == "@HttpContext.Current.Session["SORelationID"]") {
-                            var divHtml = $("<div class='MYSMS' Style='float:right;'>").html("<div>" + item.SaleOfficerName + " | " + item.ShopName + "</div><hr style='color:white;margin-top:6px;'><p style='margin-top:5px;'>" + item.Remarks + "</p></div>");
+                            var divHtml = $("<div class='MYSMS' Style='float:right;'>").html("<div>" + item.SaleOfficerName + " </br><span style='font-size:12px'> " + item.ShopName + "</span></div><hr style='color:black;margin-top:6px;'><p style='margin-top:5px;'>" + item.Remarks + "</p></div>");
                             $("#GetSMS").append(divHtml);
                         }
                         else
                         {
-                            var divHtml = $("<div class='SMS' Style='float:left;'>").html("<div>" + item.SaleOfficerName + " | " + item.ShopName + "</div><hr style='color:white;margin-top:6px;'><p style='margin-top:5px;'>" + item.Remarks + "</p></div>");
+                            var divHtml = $("<div class='SMS' Style='float:left;'>").html("<div>" + item.SaleOfficerName + "  </br><span style='font-size:12px'>  " + item.ShopName + "</span></div><hr style='color:black;margin-top:6px;'><p style='margin-top:5px;'>" + item.Remarks + "</p></div>");
                             $("#GetSMS").append(divHtml);
                         }
 
@@ -1432,57 +1794,5 @@
         $("#UpdateDateTime").val("");
     });
 
-    //Upload-Picture1 Start
-    $('#UpdatePicture1UserImage').click(function () {
-        UploadClickEvent();
-    });
-    $('#UpdateUploadPicture1').click(function () {
-        UploadClickEvent();
-    });
-    function UploadClickEvent() {
-        $('#UpdatePicture1').trigger('click');
-    }
-    $('#UpdatePicture1').change(function () {
-        if (this.files && this.files[0]) {
-            var fileReader = new FileReader();
-            fileReader.readAsDataURL(this.files[0]);
-            fileReader.onload = function (x) {
-                $('#UpdatePicture1UserImage').attr('src', x.target.result);
-
-            }
-        }
-
-    });
-    $('#UpdateRemovePicture1').click(function () {
-        $('#UpdatePicture1UserImage').attr('src', "/Images/no-image-available.png.jpg");
-    });
-    //Upload-Picture1 End
-
-
-    //Upload-Picture2 Start
-    $('#UpdatePicture2UserImage').click(function () {
-        UploadClickEvent2();
-    });
-    $('#UpdateUploadPicture2').click(function () {
-        UploadClickEvent2();
-    });
-    function UploadClickEvent2() {
-        $('#UpdatePicture2').trigger('click');
-    }
-    $('#UpdatePicture2').change(function () {
-        if (this.files && this.files[0]) {
-            var fileReader = new FileReader();
-            fileReader.readAsDataURL(this.files[0]);
-            fileReader.onload = function (x) {
-                $('#UpdatePicture2UserImage').attr('src', x.target.result);
-
-            }
-        }
-
-    });
-    $('#UpdateRemovePicture2').click(function () {
-        $('#UpdatePicture2UserImage').attr('src', "/Images/no-image-available.png.jpg");
-
-    });
-    //Upload-Picture2 End
+    
 </script>

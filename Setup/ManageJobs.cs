@@ -2936,6 +2936,34 @@ namespace FOS.Setup
 
             }
         }
+        public static ComplaintProgress GetEditComplaint(int ProgressID)
+        {
+
+            using (FOSDataModel dbContext = new FOSDataModel())
+            {
+                return dbContext.Tbl_ComplaintHistory.Where(u => u.ID == ProgressID && u.IsPublished == 1).Select(u => new ComplaintProgress
+                {
+                    ProgressID = u.ID,
+                    ComplaintID=(int)u.JobID,
+                    JobDetailID=u.JobDetailID,
+                    FaultTypeID = u.FaultTypeId,
+                    FaultTypeDetailID=u.FaultTypeDetailID,
+                    FaultTypeDetailRemarks = u.FaultTypeDetailRemarks,
+                    PriorityID=u.PriorityId,
+                    AssignedFSID=u.AssignedToSaleOfficer,
+                    ComplaintStatusID=u.ComplaintStatusId,
+                    ComplaintTypeID=u.ComplainttypeID,
+                    ProgressStatusID =u.ProgressStatusID,
+                    ProgressStatusOtherRemarks=u.ProgressStatusRemarks,
+                    EditTime=dbContext.Jobs.Where(x=>x.ID==(int)u.JobID).Select(x=>x.ResolvedHours).FirstOrDefault(),
+                    EditPerson=u.PersonName,
+                    ProgressRemarks=u.UpdateRemarks,
+                    Picture1=u.Picture1,
+                    Picture2=u.Picture2
+                }).First();
+
+            }
+        }
 
 
         public static List<ComplaintProgress> GetComplaintChildData(int ComplaintId)
