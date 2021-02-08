@@ -50,7 +50,15 @@
             font-size: 17px;
             padding-right: 0px;
             padding-left: 0px;
-            width: 500px;
+            width: 880px;
+        }
+        .Marqueetag2 {
+            padding-top: 18px;
+            color: white;
+            font-size: 17px;
+            padding-right: 0px;
+            padding-left: 0px;
+            width: 950px;
         }
     </style>
 </head>
@@ -62,38 +70,67 @@
 
 
     <div id="header" class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner">
 
-                <!-- BEGIN LOGO -->
-                <a class="brand" style="width:52px;height:53px;">
-                    <img src="~/Images/WASALahoreLogo2.jpg" />
-                </a>
-                <a class="brand" style="padding-top: 14px; color:white; font-size:17px;">
-                    <span><strong>WASA LAHORE</strong></span>
-                    <strong><small style="font-size: 70%;float: right;margin-top: -1px;margin-right: 21px;">Powered By KSB</small></strong>
-                </a>
-                <!-- END LOGO -->
-
-                <!--BEGIN SIDEBAR TOGGLE-->
-                <div class="sidebar-toggle-box hidden-phone">
-                    <div class="icon-reorder tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
-
-                </div>
-                <!--END SIDEBAR TOGGLE-->
-                @*<a class="brand">
-                    <marquee class="Marqueetag" behavior="scroll" direction="left" scrollamount="3" onmouseout="this.start();" onmouseover="this.stop();" >
-                        <strong>MAINTENANCE OF TUBE WELLS INSTALLED BY WASA IN LAHORE</strong>
-                    </marquee>
-                </a>*@
-        <div style="float:right;">
-            <a class="brand" style="padding-left:0px;width:52px; height:53px; float:right;padding-right:0px;">
-                <img src="~/Images/brand.gif" />
+        <div class="navbar-inner" id="WASA">
+            <!-- BEGIN LOGO -->
+            <a class="brand" style="width:52px;height:53px;">
+                <img src="~/Images/WASALahoreLogo2.jpg" />
             </a>
-           <a type="button" class="btn" style=" padding-top: 7px; margin-top: 14px; background-color: white; color: black; padding-bottom: 5px; margin-left: 0px; /* margin: 23px; */ margin-right: 29px;" href="@Url.Action("Logout", "AdminPanel")"><i class="icon-key"></i><strong> LOGOUT</strong></a>
-        </div>
-                
+            <a class="brand" style="padding-top: 14px; color:white; font-size:17px;">
+                <span><strong>WASA LAHORE</strong></span>
+                <strong><small style="font-size: 70%;float: right;margin-top: -1px;margin-right: 21px;">Powered By KSB</small></strong>
+            </a>
+            <!-- END LOGO -->
+            <!--BEGIN SIDEBAR TOGGLE-->
+            <div class="sidebar-toggle-box hidden-phone" style="margin-right:0px;">
+                <div class="icon-reorder tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+
+            </div>
+            <!--END SIDEBAR TOGGLE-->
+            <a class="brand">
+                <marquee class="Marqueetag" behavior="scroll" direction="left" scrollamount="3" onmouseout="this.start();" onmouseover="this.stop();">
+                    <strong>MAINTENANCE OF TUBE WELLS INSTALLED BY WASA IN LAHORE</strong>
+                </marquee>
+            </a>
+            <div style="float:right;">
+                <a class="brand" style="padding-left:0px;width:52px; height:53px; float:right;padding-right:0px;">
+                    <img src="~/Images/brand.gif" />
+                </a>
+                <a type="button" class="btn" style=" padding-top: 7px; margin-top: 14px; background-color: white; color: black; padding-bottom: 5px; margin-left: 0px; /* margin: 23px; */ margin-right: 29px;" href="@Url.Action("Logout", "AdminPanel")"><i class="icon-key"></i><strong> LOGOUT</strong></a>
+            </div>
+
 
         </div>
+
+        <div class="navbar-inner" id="KSB">
+            <!-- BEGIN LOGO -->
+            <a class="brand" style="width:68px;height:53px;">
+                <img src="~/Images/KSB_Logo_New.jpg" style="height:53px;" />
+            </a>
+            <a class="brand" style="padding-top: 20px; color:white; font-size:17px; width:120px; padding-right:0px;">
+                <span><strong>KSB PUMPS</strong></span>
+            </a>
+            <!-- END LOGO -->
+            <!--BEGIN SIDEBAR TOGGLE-->
+            <div class="sidebar-toggle-box hidden-phone" style="margin-right:0px;">
+                <div class="icon-reorder tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+
+            </div>
+            <!--END SIDEBAR TOGGLE-->
+            <a class="brand">
+                <marquee class="Marqueetag2" behavior="scroll" direction="left" scrollamount="3" onmouseout="this.start();" onmouseover="this.stop();">
+                    <strong>MAINTENANCE OF TUBE WELLS INSTALLED BY WASA IN LAHORE</strong>
+                </marquee>
+            </a>
+            <div style="float:right;">
+              
+                <a type="button" class="btn" style=" padding-top: 7px; margin-top: 14px; background-color: white; color: black; padding-bottom: 5px; margin-left: 0px; /* margin: 23px; */ margin-right: 20px;" href="@Url.Action("Logout", "AdminPanel")"><i class="icon-key"></i><strong> LOGOUT</strong></a>
+            </div>
+
+
+        </div>
+
+
     </div>
     <!-- END HEADER -->
     <!-- BEGIN CONTAINER -->
@@ -132,32 +169,6 @@
 
 
 
-    <script>
-
-        $(document).ready(function () {
-
-            @*$('#TerritorialsJobs').click(function () {
-                $('#JobTypeModal').show();
-                $('#JobTypeModal').hide();
-                $('#JobTypeModal').css("left", "35%");
-            });
-
-@*            $('#M').click(function () {
-                window.location = "@Url.Action("MonthlyJobWork", "Job")";
-            });* @
-
-            $('#W').click(function () {
-                window.location = "@ Url.Action("WeeklyJobWork", "Job")";
-            });
-
-            $('#D').click(function () {
-                window.location = "@ Url.Action("DailyJobWork", "Job")";
-            });*@
-
-        });
-
-
-    </script>
 
 
 
@@ -259,6 +270,16 @@
 
         $(document).ready(function () {
             Getcount();
+          var TeamID = @HttpContext.Current.Session["TeamID"];
+            if (TeamID== 4) {
+                $("#WASA").show();
+                $("#KSB").hide();
+            }
+            else
+            {
+                $("#WASA").hide();
+                $("#KSB").show();
+            }
         });
     </script>
 

@@ -1,44 +1,25 @@
 ﻿@model FOS.Shared.KSBComplaintData
 @{
-    ViewBag.Title = "Add New Complaint | WASA LAHORE";
+    ViewBag.Title = "Add New Complaint";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    #map-canvas {
-        width: 100%;
-        height: 474px;
-    }
-</style>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="~/Content/Style/UploadPhoto.css" rel="stylesheet" />
-
 <br />
-
 <div class="row-fluid">
     <div class="span12">
-        <!-- BEGIN EXAMPLE TABLE widget-->
         <div class="widget green">
-
             <div class="widget-title text-center">
                 <h4><strong>Add New Complaint</strong></h4>
             </div>
-
-            <div class="widget-body" style="">
-                <div>
-                    <div class="clearfix">
-                        <div class="btn-group pull-right"></div>
-                    </div>
-                    @using (Html.BeginForm("NewComplaint", "Complaint", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            <div class="widget-body">
+            @using (Html.BeginForm("NewComplaint", "Complaint", FormMethod.Post, new { enctype = "multipart/form-data" }))
                     {
-
                         @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true)
-
                         <div class="form-group">
-
                             <div class="span12">
-
                                 <div class="span3" style="margin-top: 0px;">
                                     <div class="control-group hidden" style="margin-bottom: 10px">
                                         <label class="control-label">Select Client:*</label>
@@ -92,7 +73,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="span3" style="margin-top: 0px;">
                                     <div class="control-group" style="margin-bottom: 10px">
                                         <label class="control-label">Select Fault Type: *</label>
@@ -132,14 +112,11 @@
                                             @Html.TextAreaFor(model => model.Remarks, new { @style = "height:96px; width:202px; margin: 0px 0px 10px;", placeholder = "Enter Issue:" })
                                         </div>
                                     </div>
-
                                 </div>
-
-
                                 <div class="span3" style="margin-top: 0px;">
                                     <div class="user-profile-image">
                                         <input type="file" name="Picture1" style="display:none" ; class="hidden" id="Picture1" />
-                                        <img src="/Images/no-image-available.png.jpg" class="img-responsive" id="Picture1UserImage" />
+                                        <img src="/Images/KSB_Logo_New.jpg" class="img-responsive" id="Picture1UserImage" />
                                         <div class="upload-photo" style="width:296px;bottom:163px;">
                                             <img src="/Images/upload.png" class="img-responsive" />
                                         </div>
@@ -151,7 +128,7 @@
                                 <div class="span3" style="margin-top: 0px;">
                                     <div class="user-profile-image">
                                         <input type="file" name="Picture2" style="display:none" ; class="hidden" id="Picture2" />
-                                        <img src="/Images/no-image-available.png.jpg" class="img-responsive" id="Picture2UserImage" />
+                                        <img src="/Images/KSB_Logo_New.jpg" class="img-responsive" id="Picture2UserImage" />
                                         <div class="upload-photo" id="upload-photo2" style="width:296px;bottom:163px;">
                                             <img src="/Images/upload.png" class="img-responsive" />
                                         </div>
@@ -166,138 +143,66 @@
                                         <button type="button" id="btnRefresh" class="btn btn-info"><i class="icon-ban-circle icon-white" style="padding-right: 8px"></i><b> Reset</b></button>
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
-
                     }
-
-                </div>
             </div>
-
         </div>
-        <!-- END EXAMPLE TABLE widget-->
     </div>
 </div>
 
-@*<script src="https://maps.googleapis.com/maps/api/js"></script>*@
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7X3GhN_ShrwYqU1Wc0gJbX3CMOMPZIs4"></script>
 
 <script>
 
-    $("#file1").change(function () {
-        readURL(this);
+    $(document).ready(function () {
+        $("#FaultTypeDetailOtherRemarks").hide();
+        $("#OtherRemarks").hide();
+
     });
-    $("#file2").change(function () {
-        readURL1(this);
+    $("#ProjectId").change(function () {
+
+        LoadCities($(this).val());
     });
-    $("#file3").change(function () {
-        readURL2(this);
+    $("#CityID").change(function () {
+        LoadAreas($(this).val());
     });
-    $("#file4").change(function () {
-        readURL3(this);
+    $("#AreaID").change(function () {
+        LoadSubDivision($(this).val());
     });
-    $("#file5").change(function () {
-        readURL4(this);
+    $("#SubDivisionID").change(function () {
+
+        LoadSites();
     });
-    $("#file6").change(function () {
-        readURL5(this);
+    $("#SiteId").change(function () {
+
+        LoadSiteID();
+    });
+    $("#FaulttypeId").change(function () {
+
+        LoadFaultTypeDetails();
+        LoadProgressStatusDetails();
+    });
+    $("#FaulttypeDetailId").change(function () {
+        if ($("#FaulttypeDetailId").val() == '3030') {
+            $("#FaultTypeDetailOtherRemarks").show();
+            $("#OtherRemarks").show();
+        }
+        else if ($("#FaulttypeDetailId").val() == '3042') {
+            $("#FaultTypeDetailOtherRemarks").show();
+            $("#OtherRemarks").show();
+        }
+        else if ($("#FaulttypeDetailId").val() == '3049') {
+            $("#FaultTypeDetailOtherRemarks").show();
+            $("#OtherRemarks").show();
+        }
+        else {
+            $("#FaultTypeDetailOtherRemarks").hide();
+            $("#OtherRemarks").hide();
+        }
+
     });
 
-    function readURL(input) {
 
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $('#blah').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    function readURL1(input) {
-
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $('#blah1').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    function readURL2(input) {
-
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $('#blah2').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    function readURL3(input) {
-
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $('#blah3').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    function readURL4(input) {
-
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $('#blah4').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    function readURL5(input) {
-
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $('#blah5').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    function LoadDealer() {
-
-        var regionID = $("#SaleOfficerID").val();
-
-        $.ajax({
-            type: "POST",
-            data: { id: regionID },
-            url: "@Url.Action("GetDealerListBySaleOfficerID", "Retailer")",
-            dataType: 'json',
-            success: function (json) {
-                var $el = $("#DealerID");
-                $el.empty(); // remove old options
-                $.each(json, function (value, key) {
-                    $el.append($("<option></option>")
-                            .attr("value", key.ID).text(key.Name));
-                });
-            }
-        });
-
-    }
     function LoadCities(RegionalHeadID) {
 
         $.ajax({
@@ -354,160 +259,7 @@
 
         });
     }
-
-
-
-    $(document).ready(function () {
-        $("#FaultTypeDetailOtherRemarks").hide();
-        $("#OtherRemarks").hide();
-
-        $("#ClientId").change(function () {
-
-            LoadProjects($(this).val());
-            LoadDealers($(this).val());
-
-
-        });
-        $("#ProjectId").change(function () {
-
-            LoadCities($(this).val());
-        });
-        $("#CityID").change(function () {
-            LoadAreas($(this).val());
-        });
-        $("#AreaID").change(function () {
-            LoadSubDivision($(this).val());
-        });
-        $("#SubDivisionID").change(function () {
-
-            LoadSites();
-        });
-        $("#SiteId").change(function () {
-
-            LoadSiteID();
-        });
-        $("#FaulttypeId").change(function () {
-
-            LoadFaultTypeDetails();
-            LoadProgressStatusDetails();
-        });
-        $("#FaulttypeDetailId").change(function () {
-            if ($("#FaulttypeDetailId").val() == '3030') {
-                $("#FaultTypeDetailOtherRemarks").show();
-                $("#OtherRemarks").show();
-            }
-            else if ($("#FaulttypeDetailId").val() == '3042') {
-                $("#FaultTypeDetailOtherRemarks").show();
-                $("#OtherRemarks").show();
-            }
-            else if ($("#FaulttypeDetailId").val() == '3049') {
-                $("#FaultTypeDetailOtherRemarks").show();
-                $("#OtherRemarks").show();
-            }
-            else {
-                $("#FaultTypeDetailOtherRemarks").hide();
-                $("#OtherRemarks").hide();
-            }
-
-        });
-        function LoadProjects(ClientID) {
-
-            try {
-                $.ajax({
-                    type: "POST",
-                    data: { RegionalHeadID: ClientID },
-                    url: "@Url.Action("GetAllProjects", "Job")",
-                    success: function (json) {
-
-                        var $el = $("#ProjectId");
-                        $el.empty(); // remove old options
-                        $.each(json, function (value, key) {
-                            $el.append($("<option></option>")
-                                .val(key.ID).text(key.Name));
-                        });
-                    }
-
-                });
-            } catch (e) {
-            }
-
-        }
-        function LoadDealers(RegionalHeadID) {
-
-            try {
-                $.ajax({
-                    type: "POST",
-                    data: { RegionalHeadID: RegionalHeadID },
-                    url: "@Url.Action("GetAllDealersListRelatedToRegionalHead", "Dealer")",
-                    success: function (json) {
-
-                        var $el = $("#DealerID");
-                        $el.empty(); // remove old options
-                        $.each(json, function (value, key) {
-                            $el.append($("<option></option>")
-                                    .val(key.ID).text(key.Name));
-                        });
-                    }
-
-                });
-            } catch (e) {
-            }
-
-        }
-        function LoadFaultTypeDetails() {
-            var ClientID = $("#FaulttypeId").val();
-
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("GetFaultTypeDetailList", "Complaint")",
-            data: { ClientID: ClientID},
-            success: function (json) {
-
-                var $el = $("#FaulttypeDetailId");
-                $el.empty(); // remove old options
-                $.each(json, function (value, key) {
-                    $el.append($("<option></option>").val(key.ID).text(key.Name));
-                });
-
-
-            }
-        });
-        }
-        function LoadProgressStatusDetails() {
-            var ClientID = $("#FaulttypeId").val();
-
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("GetProgressDetailList", "Complaint")",
-            data: { ClientID: ClientID},
-            success: function (json) {
-
-                var $el = $("#ProgressStatusId");
-                $el.empty(); // remove old options
-                $.each(json, function (value, key) {
-                    $el.append($("<option></option>").val(key.ID).text(key.Name));
-                });
-
-
-            }
-        });
-    }
-        function LoadSiteID() {
-            var ClientID = $("#SiteId").val();
-
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("GetSiteId", "Complaint")",
-            data: { ClientID: ClientID},
-            success: function (json) {
-
-                $('#DisableSiteID').val(json);
-
-
-            }
-        });
-        }
-        function LoadSites() {
+    function LoadSites() {
               var ClientID = $("#ClientId").val();
               var ProjectID = $("#ProjectId").val();
               var CityID = $("#CityID").val();
@@ -528,13 +280,41 @@
 
             }
         });
-        }
-        $("#btnRefresh").click(function () {
-            ClearForm();
+    }
+    function LoadSiteID() {
+            var ClientID = $("#SiteId").val();
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetSiteId", "Complaint")",
+            data: { ClientID: ClientID},
+            success: function (json) {
+
+                $('#DisableSiteID').val(json);
+
+
+            }
         });
-    });
+        }
+    function LoadFaultTypeDetails() {
+            var ClientID = $("#FaulttypeId").val();
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetFaultTypeDetailList", "Complaint")",
+            data: { ClientID: ClientID},
+            success: function (json) {
+
+                var $el = $("#FaulttypeDetailId");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
 
 
+            }
+        });
+        }
     function ClearForm() {
         $('#ProjectId').val(0);
         $('#CityID').val(0);
@@ -549,11 +329,15 @@
         $('#Name').val("");
         $('#Remarks').val("");
         $('#Picture1').val("");
-        $("#Picture1UserImage").attr('src', "/Images/no-image-available.png.jpg");
+        $("#Picture1UserImage").attr('src', "/Images/KSB_Logo_New.jpg");
         $('#Picture2').val("");
-        $("#Picture2UserImage").attr('src', "/Images/no-image-available.png.jpg");
-
+        $("#Picture2UserImage").attr('src', "/Images/KSB_Logo_New.jpg");
     }
+    $("#btnRefresh").click(function () {
+            ClearForm();
+        });
+
+
 
     //Upload-Picture1 Start
     $('#Picture1UserImage').click(function () {
@@ -577,13 +361,9 @@
 
     });
     $('.remove-photo').click(function () {
-        $('#Picture1UserImage').attr('src', "/Images/no-image-available.png.jpg");
+        $('#Picture1UserImage').attr('src', "/Images/KSB_Logo_New.jpg");
     });
     //Upload-Picture1 End
-
-
-
-
 
     //Upload-Picture2 Start
     $('#Picture2UserImage').click(function () {
@@ -607,7 +387,7 @@
 
     });
     $('#remove-photo2').click(function () {
-        $('#Picture2UserImage').attr('src', "/images/no-image-available.png.jpg");
+        $('#Picture2UserImage').attr('src', "/images/KSB_Logo_New.jpg");
 
     });
     //Upload-Picture2 End

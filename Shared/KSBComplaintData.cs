@@ -9,6 +9,33 @@ namespace FOS.Shared
 {
     public class KSBComplaintData
     {
+
+
+        //Edit Complaint Only CC Start
+        public int EditFaulttypeId { get; set; }
+        public int ProgressID { get; set; }
+
+        public int EditFaulttypeDetailId { get; set; }
+        public string EditFaultTypeDetailOtherRemarks { get; set; }
+        public int EditPriorityId { get; set; }
+        public int EditComplaintTypeID { get; set; }
+        public int EditSalesOficerID { get; set; }
+        public int? JobDetailID { get; set; }
+        public int? EditTime { get; set; }
+        public string EditPerson { get; set; }
+
+        public int EditStatusID { get; set; }
+        public int EditProgressStatusId { get; set; }
+        public string EditProgressStatusOtherRemarks { get; set; }
+        public string EditName { get; set; }
+        public string EditRemarks { get; set; }
+        public string ChildEditPicture1 { get; set; }
+        public string ChildEditPicture2 { get; set; }
+
+
+
+        //Edit Complaint Only CC END
+
         public int ID { get; set; }
         public int? ClientId { get; set; }
         public int? SaleOfficerID { get; set; }

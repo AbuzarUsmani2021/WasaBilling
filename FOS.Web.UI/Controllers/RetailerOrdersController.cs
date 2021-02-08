@@ -2309,7 +2309,7 @@ namespace FOS.Web.UI.Controllers
                         comlist.ResolvedAt = itm.ResolvedAt;
                         if (itm.ElapseTime != null)
                         {
-                            if (itm.StatusID == 3)
+                            if (itm.StatusID == 3 ||itm.StatusID==1003)
                             {
                             var format = itm.ResolveTime;
                             var totalhours = string.Format("{0:#,##0}:{1:mm}", Math.Truncate(format.TotalHours), format);
@@ -2548,8 +2548,8 @@ namespace FOS.Web.UI.Controllers
                         comlist.ResolvedAt = itm.ResolvedAt;
                         if (itm.ElapseTime != null)
                         {
-                            if (itm.StatusID == 3)
-                            {
+                        if (itm.StatusID == 3 || itm.StatusID == 1003)
+                        {
 
                             var format = itm.ResolveTime;
                             var totalhours = string.Format("{0:#,##0}:{1:mm}", Math.Truncate(format.TotalHours), format);

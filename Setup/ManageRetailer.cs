@@ -2070,12 +2070,12 @@ namespace FOS.Setup
                         CreatedDate = u.CreatedDate.ToString(),
                         LaunchedByName = dbContext.SaleOfficers.Where(p => p.ID == u.SaleOfficerID).Select(p => p.Name).FirstOrDefault(),
                         FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == u.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
-                        FaultTypeDetailOtherRemarks= dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.ActivityType).FirstOrDefault(),
+                        FaultTypeDetailOtherRemarks= dbContext.JobsDetails.Where(p => p.JobID == u.ID && p.IsPublished==1).OrderByDescending(x => x.ID).Select(p => p.ActivityType).FirstOrDefault(),
                         FaultTypesDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == u.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
                         StatusName = dbContext.ComplaintStatus.Where(p => p.Id == u.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
-                        LastUpdated = dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.JobDate).FirstOrDefault().ToString(),
-                        Picture1 = dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.Picture1).FirstOrDefault(),
-                        Picture2 = dbContext.JobsDetails.Where(p => p.JobID == u.ID).OrderByDescending(x => x.ID).Select(p => p.Picture2).FirstOrDefault(),
+                        LastUpdated = dbContext.JobsDetails.Where(p => p.JobID == u.ID && p.IsPublished == 1).OrderByDescending(x => x.ID).Select(p => p.JobDate).FirstOrDefault().ToString(),
+                        Picture1 = dbContext.JobsDetails.Where(p => p.JobID == u.ID && p.IsPublished == 1).OrderByDescending(x => x.ID).Select(p => p.Picture1).FirstOrDefault(),
+                        Picture2 = dbContext.JobsDetails.Where(p => p.JobID == u.ID && p.IsPublished == 1).OrderByDescending(x => x.ID).Select(p => p.Picture2).FirstOrDefault(),
                         //ComplaintType = dbContext.ComplaintTypes.Where(p => p.ID == u.ComplainttypeID).Select(p => p.Name).FirstOrDefault(),
                         //Name = u.PersonName,
                         //Remarks = u.InitialRemarks,
@@ -2572,232 +2572,232 @@ namespace FOS.Setup
         }
 
 
-        public static int AddUpdateComplaint(KSBComplaintData obj, string file1, string file2)
-        {
+        //public static int AddUpdateComplaint(KSBComplaintData obj, string file1, string file2)
+        //{
 
-            int Res = 0;
-            using (TransactionScope scope = new TransactionScope())
-            {
-                using (FOSDataModel dbContext = new FOSDataModel())
-                {
-                    Job retailerObj = new Job();
-                    if (obj.ID == 0)
-                    {
-                        var data = dbContext.Retailers.Where(x => x.ID == obj.SiteId).FirstOrDefault();
-                        var dateAndTime = DateTime.Now;
-                        int year = dateAndTime.Year;
-                        int month = dateAndTime.Month;
-                        string finalMonth = month.ToString().PadLeft(2, '0');
-                        int day = dateAndTime.Day;
-                        string finalday = day.ToString().PadLeft(2, '0');
-                        var datein = string.Format("{0}{1}{2}", year, finalMonth, finalday);
-                        DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
-                        DateTime dtFromToday = dtFromTodayUtc.Date;
-                        DateTime dtToToday = dtFromToday.AddDays(1);
-                        if (data.ZoneID == 7)
-                        {
-                            var Id1 = "O3";
+        //    int Res = 0;
+        //    using (TransactionScope scope = new TransactionScope())
+        //    {
+        //        using (FOSDataModel dbContext = new FOSDataModel())
+        //        {
+        //            Job retailerObj = new Job();
+        //            if (obj.ID == 0)
+        //            {
+        //                var data = dbContext.Retailers.Where(x => x.ID == obj.SiteId).FirstOrDefault();
+        //                var dateAndTime = DateTime.Now;
+        //                int year = dateAndTime.Year;
+        //                int month = dateAndTime.Month;
+        //                string finalMonth = month.ToString().PadLeft(2, '0');
+        //                int day = dateAndTime.Day;
+        //                string finalday = day.ToString().PadLeft(2, '0');
+        //                var datein = string.Format("{0}{1}{2}", year, finalMonth, finalday);
+        //                DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
+        //                DateTime dtFromToday = dtFromTodayUtc.Date;
+        //                DateTime dtToToday = dtFromToday.AddDays(1);
+        //                if (data.ZoneID == 7)
+        //                {
+        //                    var Id1 = "O3";
 
-                            var counter = dbContext.Jobs.Where(x => x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday && x.RegionID == data.RegionID && x.ZoneID == data.ZoneID).OrderByDescending(u => u.ID).Select(u => u.TicketNo).FirstOrDefault();
-
-
-                            if (counter == null)
-                            {
-                                var ticketCount = 1;
-                                string s = ticketCount.ToString().PadLeft(3, '0');
-                                retailerObj.TicketNo = datein + "-" + Id1 + "-" + s;
-                            }
-                            else
-                            {
-                                var splittedcounter = counter.Split('-');
-                                var val = splittedcounter[2];
-                                int value = Convert.ToInt32(val) + 1;
-                                string s = value.ToString().PadLeft(3, '0');
-                                retailerObj.TicketNo = datein + "-" + Id1 + "-" + s;
-                            }
-                        }
-                        else if (data.ZoneID == 8)
-                        {
-                            var Id2 = "O2";
-
-                            var counter = dbContext.Jobs.Where(x => x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday && x.RegionID == data.RegionID && x.ZoneID == data.ZoneID).OrderByDescending(u => u.ID).Select(u => u.TicketNo).FirstOrDefault();
+        //                    var counter = dbContext.Jobs.Where(x => x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday && x.RegionID == data.RegionID && x.ZoneID == data.ZoneID).OrderByDescending(u => u.ID).Select(u => u.TicketNo).FirstOrDefault();
 
 
-                            if (counter == null)
-                            {
-                                var ticketCount = 1;
-                                string s = ticketCount.ToString().PadLeft(3, '0');
-                                retailerObj.TicketNo = datein + "-" + Id2 + "-" + s;
-                            }
-                            else
-                            {
-                                var splittedcounter = counter.Split('-');
-                                var val = splittedcounter[2];
-                                int value = Convert.ToInt32(val) + 1;
-                                string s = value.ToString().PadLeft(3, '0');
+        //                    if (counter == null)
+        //                    {
+        //                        var ticketCount = 1;
+        //                        string s = ticketCount.ToString().PadLeft(3, '0');
+        //                        retailerObj.TicketNo = datein + "-" + Id1 + "-" + s;
+        //                    }
+        //                    else
+        //                    {
+        //                        var splittedcounter = counter.Split('-');
+        //                        var val = splittedcounter[2];
+        //                        int value = Convert.ToInt32(val) + 1;
+        //                        string s = value.ToString().PadLeft(3, '0');
+        //                        retailerObj.TicketNo = datein + "-" + Id1 + "-" + s;
+        //                    }
+        //                }
+        //                else if (data.ZoneID == 8)
+        //                {
+        //                    var Id2 = "O2";
 
-                                retailerObj.TicketNo = datein + "-" + Id2 + "-" + s;
-                            }
-
-                        }
-                        else if (data.ZoneID == 9)
-                        {
-                            var Id3 = "O1";
-
-                            var counter = dbContext.Jobs.Where(x => x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday && x.RegionID == data.RegionID && x.ZoneID == data.ZoneID).OrderByDescending(u => u.ID).Select(u => u.TicketNo).FirstOrDefault();
+        //                    var counter = dbContext.Jobs.Where(x => x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday && x.RegionID == data.RegionID && x.ZoneID == data.ZoneID).OrderByDescending(u => u.ID).Select(u => u.TicketNo).FirstOrDefault();
 
 
-                            if (counter == null)
-                            {
-                                var ticketCount = 1;
-                                string s = ticketCount.ToString().PadLeft(3, '0');
-                                retailerObj.TicketNo = datein + "-" + Id3 + "-" + s;
-                            }
-                            else
-                            {
-                                var splittedcounter = counter.Split('-');
-                                var val = splittedcounter[2];
-                                int value = Convert.ToInt32(val) + 1;
-                                string s = value.ToString().PadLeft(3, '0');
+        //                    if (counter == null)
+        //                    {
+        //                        var ticketCount = 1;
+        //                        string s = ticketCount.ToString().PadLeft(3, '0');
+        //                        retailerObj.TicketNo = datein + "-" + Id2 + "-" + s;
+        //                    }
+        //                    else
+        //                    {
+        //                        var splittedcounter = counter.Split('-');
+        //                        var val = splittedcounter[2];
+        //                        int value = Convert.ToInt32(val) + 1;
+        //                        string s = value.ToString().PadLeft(3, '0');
 
-                                retailerObj.TicketNo = datein + "-" + Id3 + "-" + s;
-                            }
+        //                        retailerObj.TicketNo = datein + "-" + Id2 + "-" + s;
+        //                    }
 
-                        }
-                        //ADD New Retailer 
-                        retailerObj.ID = dbContext.Jobs.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
-                        retailerObj.PersonName = obj.Name;
-                        retailerObj.ResolvedAt = DateTime.UtcNow.AddHours(5);
-                        retailerObj.SiteID = obj.SiteId;
-                        retailerObj.RegionID = obj.ClientId;         // Client Id is region id in retailers table
-                        retailerObj.ZoneID = obj.ProjectId;         // Zone Id is Project id in retailers table 
-                        retailerObj.CityID = obj.CityID;
-                        retailerObj.Areas = obj.AreaID.ToString();
-                        retailerObj.SubDivisionID = obj.SubDivisionID;
-                        retailerObj.ComplaintStatusId = 2003;
-                        retailerObj.FaultTypeId = obj.FaulttypeId;
-                        retailerObj.LaunchedById = obj.SaleOfficerID;
-                        retailerObj.FaultTypeDetailID = obj.FaulttypeDetailId;
-                        retailerObj.PriorityId = 0;
-                        retailerObj.IsActive = true;
-                        retailerObj.Status = true;
-                        retailerObj.InitialRemarks = obj.Remarks;
-                        retailerObj.ComplainttypeID = obj.ComplaintTypeID;
-                        retailerObj.CreatedDate = DateTime.UtcNow.AddHours(5);
-                        retailerObj.SaleOfficerID = obj.SaleOfficerID;
-                        dbContext.Jobs.Add(retailerObj);
+        //                }
+        //                else if (data.ZoneID == 9)
+        //                {
+        //                    var Id3 = "O1";
 
-                        JobsDetail jobDetail = new JobsDetail();
-                        jobDetail.ID = dbContext.JobsDetails.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
-                        jobDetail.JobID = retailerObj.ID;
-                        //jobDetail.FaultTypeDetailRemarks = obj.FaultTypeDetailOtherRemarks;
-                        //jobDetail.ProgressStatusRemarks = obj.ProgressStatusOtherRemarks;
-                        jobDetail.ActivityType = obj.FaultTypeDetailOtherRemarks;
-                        jobDetail.RetailerID = obj.SiteId;
-                        jobDetail.JobDate = DateTime.UtcNow.AddHours(5);
-                        jobDetail.SalesOficerID = obj.SaleOfficerID;
-                        if (obj.Picture1 == "" || obj.Picture1 == null)
-                        {
-                            jobDetail.Picture1 = null;
-                        }
-                        else
-                        {
-                            jobDetail.Picture1 = file1;
-                        }
-                        if (obj.Picture2 == "" || obj.Picture2 == null)
-                        {
-                            jobDetail.Picture2 = null;
-                        }
-                        else
-                        {
-                            jobDetail.Picture2 = file2;
-                        }
-                        dbContext.JobsDetails.Add(jobDetail);
+        //                    var counter = dbContext.Jobs.Where(x => x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday && x.RegionID == data.RegionID && x.ZoneID == data.ZoneID).OrderByDescending(u => u.ID).Select(u => u.TicketNo).FirstOrDefault();
 
 
+        //                    if (counter == null)
+        //                    {
+        //                        var ticketCount = 1;
+        //                        string s = ticketCount.ToString().PadLeft(3, '0');
+        //                        retailerObj.TicketNo = datein + "-" + Id3 + "-" + s;
+        //                    }
+        //                    else
+        //                    {
+        //                        var splittedcounter = counter.Split('-');
+        //                        var val = splittedcounter[2];
+        //                        int value = Convert.ToInt32(val) + 1;
+        //                        string s = value.ToString().PadLeft(3, '0');
+
+        //                        retailerObj.TicketNo = datein + "-" + Id3 + "-" + s;
+        //                    }
+
+        //                }
+        //                //ADD New Retailer 
+        //                retailerObj.ID = dbContext.Jobs.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
+        //                retailerObj.PersonName = obj.Name;
+        //                retailerObj.ResolvedAt = DateTime.UtcNow.AddHours(5);
+        //                retailerObj.SiteID = obj.SiteId;
+        //                retailerObj.RegionID = obj.ClientId;         // Client Id is region id in retailers table
+        //                retailerObj.ZoneID = obj.ProjectId;         // Zone Id is Project id in retailers table 
+        //                retailerObj.CityID = obj.CityID;
+        //                retailerObj.Areas = obj.AreaID.ToString();
+        //                retailerObj.SubDivisionID = obj.SubDivisionID;
+        //                retailerObj.ComplaintStatusId = 2003;
+        //                retailerObj.FaultTypeId = obj.FaulttypeId;
+        //                retailerObj.LaunchedById = obj.SaleOfficerID;
+        //                retailerObj.FaultTypeDetailID = obj.FaulttypeDetailId;
+        //                retailerObj.PriorityId = 0;
+        //                retailerObj.IsActive = true;
+        //                retailerObj.Status = true;
+        //                retailerObj.InitialRemarks = obj.Remarks;
+        //                retailerObj.ComplainttypeID = obj.ComplaintTypeID;
+        //                retailerObj.CreatedDate = DateTime.UtcNow.AddHours(5);
+        //                retailerObj.SaleOfficerID = obj.SaleOfficerID;
+        //                dbContext.Jobs.Add(retailerObj);
+
+        //                JobsDetail jobDetail = new JobsDetail();
+        //                jobDetail.ID = dbContext.JobsDetails.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
+        //                jobDetail.JobID = retailerObj.ID;
+        //                //jobDetail.FaultTypeDetailRemarks = obj.FaultTypeDetailOtherRemarks;
+        //                //jobDetail.ProgressStatusRemarks = obj.ProgressStatusOtherRemarks;
+        //                jobDetail.ActivityType = obj.FaultTypeDetailOtherRemarks;
+        //                jobDetail.RetailerID = obj.SiteId;
+        //                jobDetail.JobDate = DateTime.UtcNow.AddHours(5);
+        //                jobDetail.SalesOficerID = obj.SaleOfficerID;
+        //                if (obj.Picture1 == "" || obj.Picture1 == null)
+        //                {
+        //                    jobDetail.Picture1 = null;
+        //                }
+        //                else
+        //                {
+        //                    jobDetail.Picture1 = file1;
+        //                }
+        //                if (obj.Picture2 == "" || obj.Picture2 == null)
+        //                {
+        //                    jobDetail.Picture2 = null;
+        //                }
+        //                else
+        //                {
+        //                    jobDetail.Picture2 = file2;
+        //                }
+        //                dbContext.JobsDetails.Add(jobDetail);
 
 
 
 
 
 
-                        Tbl_ComplaintHistory history = new Tbl_ComplaintHistory();
-                        history.JobID = retailerObj.ID;
-                        history.JobDetailID = jobDetail.ID;
-                        history.FaultTypeDetailRemarks = obj.FaultTypeDetailOtherRemarks;
-                        history.ProgressStatusRemarks = obj.ProgressStatusOtherRemarks;
-                        history.FaultTypeId = obj.FaulttypeId;
-                        history.FaultTypeDetailID = obj.FaulttypeDetailId;
-                        history.TicketNo = retailerObj.TicketNo;
-                        history.ComplaintStatusId = 2003;
-                        history.InitialRemarks = obj.Remarks;
-                        history.LaunchedById = obj.SaleOfficerID;
-                        history.ComplainttypeID = retailerObj.ComplainttypeID;
-                        history.Picture1 = jobDetail.Picture1;
-                        history.Picture2 = jobDetail.Picture2;
-                        history.SiteID = obj.SiteId;
-                        history.PriorityId = 0;
-                        history.IsActive = true;
-                        history.IsPublished = 1;
-                        history.CreatedDate = DateTime.UtcNow.AddHours(5);
-                        history.PersonName = retailerObj.PersonName;
-                        dbContext.Tbl_ComplaintHistory.Add(history);
 
 
-                        ComplaintNotification notify = new ComplaintNotification();
-                        notify.ID = dbContext.ComplaintNotifications.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
-                        notify.JobID = retailerObj.ID;
-                        notify.JobDetailID = jobDetail.ID;
-                        notify.ComplaintHistoryID = history.ID;
-                        notify.IsSiteIDChanged = true;
-                        notify.IsSiteCodeChanged = true;
-                        notify.IsFaulttypeIDChanged = true;
-                        notify.IsFaulttypeDetailIDChanged = true;
-                        notify.IsPriorityIDChanged = true;
-                        notify.IsComplaintStatusIDChanged = true;
-                        notify.IsPersonNameChanged = true;
-                        notify.IsPicture1Changed = true;
-                        notify.IsPicture2Changed = true;
-                        notify.IsProgressStatusIDChanged = false;
-                        notify.IsProgressStatusRemarksChanged = false;
-                        notify.IsFaulttypeDetailRemarksChanged = true;
-                        notify.IsAssignedSaleOfficerChanged = false;
-                        notify.IsUpdateRemarksChanged = false;
-                        notify.IsSeen = false;
-                        notify.CreatedDate = DateTime.UtcNow.AddHours(5);
-                        dbContext.ComplaintNotifications.Add(notify);
-
-                        var IDs = dbContext.SOZoneAndTowns.Where(x => x.CityID == data.CityID && x.AreaID == data.AreaID).Select(x => x.SOID).Distinct().ToList();
-                        foreach (var item in IDs)
-                        {
-                            NotificationSeen seen = new NotificationSeen();
-                            seen.JobID = retailerObj.ID;
-                            seen.JobDetailID = jobDetail.ID;
-                            seen.ComplainthistoryID = history.ID;
-                            seen.ComplaintNotificationID = notify.ID;
-                            seen.IsSeen = false;
-                            seen.SOID = item;
-                            dbContext.NotificationSeens.Add(seen);
-                            dbContext.SaveChanges();
-
-                        }
-                        // Add Token Detail ...
-                        TokenDetail tokenDetail = new TokenDetail();
-                        tokenDetail.TokenName = obj.Token;
-                        tokenDetail.Action = "Add New Complaint";
-                        tokenDetail.ProcessedDateTime = DateTime.Now;
-                        dbContext.TokenDetails.Add(tokenDetail);
-                        //END
-                    }
-                    dbContext.SaveChanges();
-                    Res = 1;
-                    scope.Complete();
-                }
-            }
+        //                Tbl_ComplaintHistory history = new Tbl_ComplaintHistory();
+        //                history.JobID = retailerObj.ID;
+        //                history.JobDetailID = jobDetail.ID;
+        //                history.FaultTypeDetailRemarks = obj.FaultTypeDetailOtherRemarks;
+        //                history.ProgressStatusRemarks = obj.ProgressStatusOtherRemarks;
+        //                history.FaultTypeId = obj.FaulttypeId;
+        //                history.FaultTypeDetailID = obj.FaulttypeDetailId;
+        //                history.TicketNo = retailerObj.TicketNo;
+        //                history.ComplaintStatusId = 2003;
+        //                history.InitialRemarks = obj.Remarks;
+        //                history.LaunchedById = obj.SaleOfficerID;
+        //                history.ComplainttypeID = retailerObj.ComplainttypeID;
+        //                history.Picture1 = jobDetail.Picture1;
+        //                history.Picture2 = jobDetail.Picture2;
+        //                history.SiteID = obj.SiteId;
+        //                history.PriorityId = 0;
+        //                history.IsActive = true;
+        //                history.IsPublished = 1;
+        //                history.CreatedDate = DateTime.UtcNow.AddHours(5);
+        //                history.PersonName = retailerObj.PersonName;
+        //                dbContext.Tbl_ComplaintHistory.Add(history);
 
 
-            return Res;
-        }
+        //                ComplaintNotification notify = new ComplaintNotification();
+        //                notify.ID = dbContext.ComplaintNotifications.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
+        //                notify.JobID = retailerObj.ID;
+        //                notify.JobDetailID = jobDetail.ID;
+        //                notify.ComplaintHistoryID = history.ID;
+        //                notify.IsSiteIDChanged = true;
+        //                notify.IsSiteCodeChanged = true;
+        //                notify.IsFaulttypeIDChanged = true;
+        //                notify.IsFaulttypeDetailIDChanged = true;
+        //                notify.IsPriorityIDChanged = true;
+        //                notify.IsComplaintStatusIDChanged = true;
+        //                notify.IsPersonNameChanged = true;
+        //                notify.IsPicture1Changed = true;
+        //                notify.IsPicture2Changed = true;
+        //                notify.IsProgressStatusIDChanged = false;
+        //                notify.IsProgressStatusRemarksChanged = false;
+        //                notify.IsFaulttypeDetailRemarksChanged = true;
+        //                notify.IsAssignedSaleOfficerChanged = false;
+        //                notify.IsUpdateRemarksChanged = false;
+        //                notify.IsSeen = false;
+        //                notify.CreatedDate = DateTime.UtcNow.AddHours(5);
+        //                dbContext.ComplaintNotifications.Add(notify);
+
+        //                var IDs = dbContext.SOZoneAndTowns.Where(x => x.CityID == data.CityID && x.AreaID == data.AreaID).Select(x => x.SOID).Distinct().ToList();
+        //                foreach (var item in IDs)
+        //                {
+        //                    NotificationSeen seen = new NotificationSeen();
+        //                    seen.JobID = retailerObj.ID;
+        //                    seen.JobDetailID = jobDetail.ID;
+        //                    seen.ComplainthistoryID = history.ID;
+        //                    seen.ComplaintNotificationID = notify.ID;
+        //                    seen.IsSeen = false;
+        //                    seen.SOID = item;
+        //                    dbContext.NotificationSeens.Add(seen);
+        //                    dbContext.SaveChanges();
+
+        //                }
+        //                // Add Token Detail ...
+        //                TokenDetail tokenDetail = new TokenDetail();
+        //                tokenDetail.TokenName = obj.Token;
+        //                tokenDetail.Action = "Add New Complaint";
+        //                tokenDetail.ProcessedDateTime = DateTime.Now;
+        //                dbContext.TokenDetails.Add(tokenDetail);
+        //                //END
+        //            }
+        //            dbContext.SaveChanges();
+        //            Res = 1;
+        //            scope.Complete();
+        //        }
+        //    }
+
+
+        //    return Res;
+        //}
 
 
 

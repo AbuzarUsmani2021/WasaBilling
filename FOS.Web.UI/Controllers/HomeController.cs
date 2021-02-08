@@ -461,7 +461,7 @@ namespace FOS.Web.UI.Controllers
 
             return View(objRetailer);
         }
-
+                                
 
         public JsonResult PostUpdateComplaint(KSBComplaintData model)
         {
@@ -1081,9 +1081,14 @@ namespace FOS.Web.UI.Controllers
                     jobDetail.AssignedToSaleOfficer = model.UpdateSalesOficerID;
                     jobDetail.RetailerID = JobObj.SiteID;
                     jobDetail.IsPublished = 0;
-                    jobDetail.ProgressStatusID = JobDet.ProgressStatusID;
+                if (model.UpdateStatusID == 3)
+                {
+                    JobObj.ResolvedAt = DateTime.UtcNow.AddHours(5);
+                }
+                jobDetail.ActivityType = model.UpdateFaultTypeDetailOtherRemarks;
+                    jobDetail.ProgressStatusID = model.UpdateProgressStatusId;
                     jobDetail.ProgressStatusRemarks = model.UpdateProgressStatusOtherRemarks;
-                    jobDetail.WorkDoneID = JobDet.ProgressStatusID;
+                    jobDetail.WorkDoneID = model.UpdateProgressStatusId;
                     jobDetail.SalesOficerID = JobObj.SaleOfficerID;
                     jobDetail.JobDate = DateTime.UtcNow.AddHours(5);
                     jobDetail.ChildFaultTypeDetailID = model.UpdateFaulttypeDetailId;
@@ -1162,7 +1167,7 @@ namespace FOS.Web.UI.Controllers
                     history.JobID = JobObj.ID;
                     history.JobDetailID = jobDetail.ID;
                     history.FaultTypeDetailRemarks = model.UpdateFaultTypeDetailOtherRemarks;
-                    history.ProgressStatusRemarks = jobDetail.ProgressStatusRemarks;
+                    history.ProgressStatusRemarks = model.UpdateProgressStatusOtherRemarks;
                     history.FaultTypeId = model.UpdateFaulttypeId;
                     history.FaultTypeDetailID = model.UpdateFaulttypeDetailId;
                     history.ComplaintStatusId = model.UpdateStatusID;
@@ -1181,9 +1186,7 @@ namespace FOS.Web.UI.Controllers
                     history.CreatedDate = DateTime.UtcNow.AddHours(5);
                     db.Tbl_ComplaintHistory.Add(history);
 
-
                     var secondLastdata = db.Tbl_ComplaintHistory.OrderByDescending(s => s.ID).FirstOrDefault();
-
                     if (secondLastdata == null)
                     {
                         var data = db.Tbl_ComplaintHistory.FirstOrDefault();
@@ -1335,7 +1338,6 @@ namespace FOS.Web.UI.Controllers
                             db.SaveChanges();
                         }
                     }
-
                     else
                     {
                         ComplaintNotification notify = new ComplaintNotification();
@@ -1486,8 +1488,7 @@ namespace FOS.Web.UI.Controllers
                             db.SaveChanges();
                         }
                     }
-               
-
+              
                 string type = "Progress";
                 string message = "There Is An Update in Complaint No" + JobObj.TicketNo + " Which Is Performed By Field Staff. Kindly Publish it.";
 
@@ -1537,6 +1538,93 @@ namespace FOS.Web.UI.Controllers
                 }
                 result = true;
             }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult PostEditComplaint(KSBComplaintData obj)
+        {
+            int result = 1;
+            var jobDetail = new JobsDetail();
+            var job = new Job();
+            var comHis = new Tbl_ComplaintHistory();
+
+            jobDetail = db.JobsDetails.Where(u => u.ID == obj.JobDetailID).FirstOrDefault();
+            jobDetail.PRemarks = obj.EditRemarks;
+            jobDetail.AssignedToSaleOfficer = obj.EditSalesOficerID;
+            jobDetail.ProgressStatusID = obj.EditProgressStatusId;
+            jobDetail.ProgressStatusRemarks = obj.EditProgressStatusOtherRemarks;
+            jobDetail.JobDate = DateTime.UtcNow.AddHours(5);
+            jobDetail.IsPublished = 1;
+            jobDetail.ChildFaultTypeDetailID = obj.EditFaulttypeDetailId;
+            jobDetail.ChildFaultTypeID = obj.EditFaulttypeId;
+            jobDetail.ChildStatusID = obj.EditStatusID;
+            jobDetail.ChildAssignedSaleOfficerID = obj.EditSalesOficerID;
+            if (Request.Files["ChildEditPicture1"] != null)
+            {
+                var file = Request.Files["ChildEditPicture1"];
+                if (file.FileName != null)
+                {
+                    string filename = Path.GetFileName(file.FileName);
+                    var extension = System.IO.Path.GetExtension(filename).ToLower();
+                    var path = HostingEnvironment.MapPath(Path.Combine("/Images/ComplaintImages/", filename));
+                    file.SaveAs(path);
+                    obj.ChildEditPicture1 = "/Images/ComplaintImages/" + filename;
+
+                }
+            }
+            if (Request.Files["ChildEditPicture2"] != null)
+            {
+                var file = Request.Files["ChildEditPicture2"];
+                if (file.FileName != null)
+                {
+                    string filename = Path.GetFileName(file.FileName);
+                    var extension = System.IO.Path.GetExtension(filename).ToLower();
+                    var path = HostingEnvironment.MapPath(Path.Combine("/Images/ComplaintImages/", filename));
+                    file.SaveAs(path);
+                    obj.ChildEditPicture2 = "/Images/ComplaintImages/" + filename;
+
+                }
+            }
+            if (obj.ChildEditPicture1 == "" || obj.ChildEditPicture1 == null)
+            {
+                jobDetail.Picture1 = null;
+            }
+            else
+            {
+                jobDetail.Picture1 = obj.ChildEditPicture1;
+            }
+            if (obj.ChildEditPicture2 == "" || obj.ChildEditPicture2 == null)
+            {
+                jobDetail.Picture2 = null;
+            }
+            else
+            {
+                jobDetail.Picture2 = obj.ChildEditPicture2;
+            }
+
+            job = db.Jobs.Where(x => x.ID == jobDetail.JobID).FirstOrDefault();
+            job.FaultTypeId = obj.EditFaulttypeId;
+            job.FaultTypeDetailID = obj.EditFaulttypeDetailId;
+            job.PriorityId = obj.EditPriorityId;
+            job.ResolvedHours = obj.EditTime;
+            job.PersonName = obj.EditName;
+            job.ComplaintStatusId = obj.EditStatusID;
+
+            comHis = db.Tbl_ComplaintHistory.Where(x => x.ID ==obj.ProgressID).FirstOrDefault();
+            comHis.SiteID = job.SiteID;
+            comHis.FaultTypeId = obj.EditFaulttypeId;
+            comHis.PriorityId = obj.EditPriorityId;
+            comHis.ComplaintStatusId = obj.EditStatusID;
+            comHis.FaultTypeDetailID = obj.EditFaulttypeDetailId;
+            comHis.Picture1 = obj.ChildEditPicture1;
+            comHis.Picture2 = obj.ChildEditPicture2;
+            comHis.ProgressStatusID = obj.EditProgressStatusId;
+            comHis.IsPublished = 1;
+            comHis.FaultTypeDetailRemarks = obj.EditFaultTypeDetailOtherRemarks;
+            comHis.ProgressStatusRemarks = obj.EditProgressStatusOtherRemarks;
+            comHis.AssignedToSaleOfficer = obj.EditSalesOficerID;
+            comHis.UpdateRemarks = obj.EditRemarks;
+            db.SaveChanges();
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
