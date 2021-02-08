@@ -18,11 +18,12 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using Microsoft.Reporting.WebForms;
+using FOS.Web.UI.Controllers.API;
 
 namespace FOS.Web.UI.Controllers
 {
     public class ReportsController : Controller
-    {
+    { FOSDataModel db = new FOSDataModel();
 
         #region FOS Wise Date/Month Wise Intake Delivered Report-1A
         [HttpGet]
@@ -310,26 +311,115 @@ namespace FOS.Web.UI.Controllers
 
             return View(Complaintdata);
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+    
 
-        public ActionResult PostComplaintsReport(KSBComplaintData ComplaintReportData)
+        public void ComplaintSummaryrpt(int ProjectID, int CityID, int FaulttypeID, int StatusID, int WorkDoneID, int SaleOfficerID,int FieldOfficerID, string sdate, string edate)
         {
-            Boolean Result = true;
 
 
-
-            if (Result == true)
+            try
             {
-                return Content("1");
+                List<MyComplaintList> list = new List<MyComplaintList>();
+                MyComplaintList comlist;
+                DateTime start = Convert.ToDateTime(string.IsNullOrEmpty(sdate) ? DateTime.Now.ToString() : sdate);
+                DateTime end = Convert.ToDateTime(string.IsNullOrEmpty(edate) ? DateTime.Now.ToString() : edate);
+                DateTime final = end.AddDays(1);
+                ManageRetailer objRetailers = new ManageRetailer();
+                var result = db.Sp_GetComplaintSummary(start, final, ProjectID, CityID, FaulttypeID, StatusID, SaleOfficerID, FieldOfficerID).ToList();
+                foreach (var items in result)
+                {
+                    comlist = new MyComplaintList();
+
+
+                    
+                    comlist.SiteCode = items.SiteCode;
+                    comlist.LaunchDate = (DateTime) items.ComplaintlaunchedAt;
+                    comlist.SaleOfficerName = items.AssignedSaleofficerName;
+                    comlist.SiteCode = items.SiteCode;
+                    comlist.SiteName = items.SiteName;
+                    comlist.TicketNo = items.ticketno;
+                    comlist.LaunchedByName = items.LaunchedByName;
+                    comlist.ComplaintStatus = items.ComplaintStatusName;
+                    comlist.FaultType = items.FaultTypeName;
+                    comlist.FaultTypeDetail = items.FaultTypeDetailName;
+                    comlist.FaultTypeDetailOther = items.FaultTypeDetailOtherRemarks;
+                    comlist.ComplaintType = items.ComplaintTypeName;
+                    comlist.Zone = items.Zone;
+                    comlist.Project = items.Project;
+                    comlist.WorkDoneStatus = items.WorkDoneStatus;
+                    comlist.ProgressStatusName = items.ProgressStatusName;
+                    comlist.ProgressStatusOtherName = items.ProgressStatusOtherRemarks;
+                    comlist.ProgressRemarks = items.PRemarks;
+                    comlist.LastDate = (DateTime)items.UpdatedAT;
+
+                    var format = (DateTime) items.UpdatedAT - (DateTime)items.ComplaintlaunchedAt;
+                    var totalhours = string.Format("{0:#,##0}:{1:mm}", Math.Truncate(format.TotalHours), format);
+                    //var totalElapsedHours = format.TotalHours();
+                    comlist.TimeElapse = totalhours;
+
+                    list.Add(comlist);
+                }
+
+
+
+                // Example data
+            
+
+                // sw.WriteLine("\"SR No\",\"ComplaintDate\",\"Complaint No\",\"SiteID\",\"SiteName\",\"Project\",\"Zone\",\"FaultType\",\"Fault Type Detail\",\"Fault Type Detail Other Remarks\",\"Complaint Type\",\"Launched By\",\"Launch At\",\"Updated At\",\"Elapse Time\",\"Complaint Status\",\"Progress Status\",\"Updated Remarks\",\"Work Done\"");
+
+                // Example data
+                StringWriter sw = new StringWriter();
+
+                sw.WriteLine("\"SR No\",\"ComplaintDate\",\"Complaint No\",\"SiteID\",\"SiteName\",\"Project\",\"Zone\",\"FaultType\",\"Fault Type Detail\",\"Fault Type Detail Other Remarks\",\"Complaint Type\",\"Launched By\",\"Launch At\",\"Updated At\",\"Elapse Time\",\"Complaint Status\",\"Progress Status\",\"Updated Remarks\",\"Work Done\"");
+
+                Response.ClearContent();
+                Response.AddHeader("content-disposition", "attachment;filename=ComplaintSummary" + DateTime.Now + ".csv");
+                Response.ContentType = "application/octet-stream";
+
+                //   var retailers = ManageRetailer.GetRetailersForExportinExcel();
+
+                int srNo = 1;
+                foreach (var retailer in list)
+                {
+                    sw.WriteLine(string.Format("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\",\"{11}\",\"{12}\",\"{13}\",\"{14}\",\"{15}\",\"{16}\",\"{17}\",\"{18}\"",
+                    srNo,
+                    retailer.LaunchDate,
+                    // retailer.Name,
+                    retailer.TicketNo,
+                    retailer.SiteCode,
+                    retailer.SiteName,
+                    retailer.Project,
+                    retailer.Zone,
+                    retailer.FaultType,
+                    retailer.FaultTypeDetail,
+                    retailer.FaultTypeDetailOther,
+                    retailer.ComplaintType,
+                     retailer.LaunchedByName,
+                      retailer.LaunchDate,
+                       retailer.LastDate,
+                        retailer.ElapseTime,
+                         retailer.ComplaintStatus,
+                          retailer.ProgressStatusName,
+                           retailer.ProgressRemarks,
+                           retailer.WorkDoneStatus,
+                    srNo++
+
+
+                    ));
+                }
+                Response.Write(sw.ToString());
+                Response.End();
+
             }
-            else 
+            catch (Exception exp)
             {
-                return Content("0");
+                Log.Instance.Error(exp, "Report Not Working");
+
             }
+
         }
 
-            public ActionResult FOSPlanning()
+        public ActionResult FOSPlanning()
         {
             int RHID = FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser();
             List<RegionalHeadData> regionalHeadData = new List<RegionalHeadData>();

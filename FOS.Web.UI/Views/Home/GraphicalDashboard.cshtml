@@ -25,35 +25,7 @@
 <div class="row-fluid">
     <div class="span12">
         <h3 class="page-title"></h3>
-        <ul class="breadcrumb">
-            <li>
-                <h6 style="font-weight: normal; color:black"> From Date</h6>
-                <div class="controls">
-                    <input class="text-box single-line" id="StartingDate1" name="StartingDate1" style="height: 22px; width: 202px; margin-bottom: 0px;">
-                </div>
-            </li>
-            <li style="margin-left:30px">
-                <h6> To Date</h6>
-                <div class="controls">
-                    <input class="text-box single-line" id="StartingDate2" name="StartingDate2" style="height: 22px; width: 202px; margin-bottom: 0px;">
-                </div>
-            </li>
-            <li style="margin-left:30px">
-                <h6> Project</h6>
-                <div class="controls" style="margin-left: 0px">
-                    @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.SaleOfficers, "ID", "Name"), new { @class = "" })
-                    @Html.HiddenFor(model => model.ProjectId)
-                    @Html.ValidationMessageFor(model => model.ProjectId)
-                </div>
-            </li>
-            <li style="margin-left:30px">
-                <button type="submit" id="btnNew" class="btn btn-primary">
-                    <i class="icon-ok icon-white" style="padding-right: 2px"></i><span style="width:50px" id="create">Apply Filter</span>
-                </button>
-
-                <input type="button" id="btnAction" value="Detail" onclick="location.href='@Url.Action("FilteredDashboard", "Home")?sdate=' + document.getElementById('StartingDate1').value +'&edate='+document.getElementById('StartingDate2').value + '&TID='+document.getElementById('ProjectId').value " />
-            </li>
-        </ul>
+        
         <!-- END PAGE TITLE & BREADCRUMB-->
     </div>
 </div>
@@ -200,13 +172,10 @@
                 <a href="~/Reports/RetailerInfo" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Site Information Report </a>
             </div>
 
+           
             <div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
                 @*<a data-toggle="modal" data-target="#ChooseDates1" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">FOS Wise Order Intake/Delivered Report</a>*@
-                <a href="#" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Vendor Information Report </a>
-            </div>
-            <div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
-                @*<a data-toggle="modal" data-target="#ChooseDates1" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">FOS Wise Order Intake/Delivered Report</a>*@
-                <a href="#" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Complaint Summary Report </a>
+                <a href="~/Reports/ComplaintsReport" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Complaint Summary Report </a>
             </div>
             <div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
                 @*<a data-toggle="modal" data-target="#ChooseDates1" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">FOS Wise Order Intake/Delivered Report</a>*@

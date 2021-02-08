@@ -402,7 +402,13 @@
     <Compile Include="Sp_GetComplaintDetails_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Sp_GetComplaintDetail_Result.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Sp_GetComplaintForEdit_Result.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_GetComplaintSummary_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Sp_GetCurrentdateRetailersList1_1_Result.cs">
@@ -541,9 +547,6 @@
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Sp_GetProgressView1_3_Result.cs">
-      <DependentUpon>FOSDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Sp_GetProgressView1_3_Result1.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Sp_GetProgressView_Result.cs">
