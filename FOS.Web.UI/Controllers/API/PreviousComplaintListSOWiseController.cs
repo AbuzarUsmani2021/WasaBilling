@@ -56,7 +56,7 @@ namespace FOS.Web.UI.Controllers.API
 
                                     comlist.ComplaintID = item.ComplaintID;
                                     comlist.SiteCode = item.SiteCode;
-                                    comlist.LaunchDate = item.LaunchDate;
+                                    comlist.LaunchDate = (DateTime)item.LaunchDate;
                                     comlist.SiteID = item.SiteID;
                                     comlist.SiteName = item.SiteName;
                                     comlist.TicketNo = item.TicketNo;
@@ -113,7 +113,7 @@ namespace FOS.Web.UI.Controllers.API
                                         comlist = new MyComplaintList();
                                         comlist.ComplaintID = item.ComplaintID;
                                         comlist.SiteCode = item.SiteCode;
-                                        comlist.LaunchDate = item.LaunchDate;
+                                        comlist.LaunchDate = (DateTime)item.LaunchDate;
                                         comlist.SiteID = item.SiteID;
                                         comlist.SiteName = item.SiteName;
                                         comlist.TicketNo = item.TicketNo;

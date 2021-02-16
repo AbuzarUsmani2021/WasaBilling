@@ -45,45 +45,152 @@ namespace FOS.Web.UI.Controllers.API
             
                 string type = "Registraion";
                 string message = "Complaint Remarks against ComplaintNo " + data.TicketNo + " is punched by client. Kindly Visit it:";
-                var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 2).Select(x => x.ID).ToList();
-                List<string> list = new List<string>();
-                foreach (var item in SOIds)
+                //var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 2).Select(x => x.ID).ToList();
+                //List<string> list = new List<string>();
+                //foreach (var item in SOIds)
+                //{
+                //    var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                //    if (id != null)
+                //    {
+                //        foreach (var items in id)
+                //        {
+                //            list.Add(items);
+                //        }
+                //    }
+                //}
+
+                //if (list != null)
+                //{
+                //    var result = new CommonController().PushNotificationForRegistration(message, list, rm.ComplaintID, type, data.ZoneID);
+                //}
+
+                //// Notification Send to Wasa
+
+                //var AreaID = Convert.ToInt32(data.Areas);
+
+                //var IdsforWasa = db.SOZoneAndTowns.Where(x => x.CityID == data.CityID && x.AreaID == AreaID).Select(x => x.SOID).Distinct().ToList();
+                //List<string> list2 = new List<string>();
+                //foreach (var item in IdsforWasa)
+                //{
+                //    var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
+                //    if (id != null)
+                //    {
+                //        foreach (var items in id)
+                //        {
+                //            list2.Add(items);
+                //        }
+                //    }
+                //}
+                //if (list2 != null)
+                //{
+                //    var result2 = new CommonController().PushNotificationForWasa(message, list2, rm.ComplaintID, type);
+                //}
+
+
+                if (data.ZoneID != 9)
                 {
-                    var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
-                    if (id != null)
+                    var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 2).Select(x => x.ID).ToList();
+                    List<string> list = new List<string>();
+                    foreach (var item in SOIds)
                     {
-                        foreach (var items in id)
+                        var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                        if (id.Count > 0)
                         {
-                            list.Add(items);
+                            foreach (var items in id)
+                            {
+                                list.Add(items);
+                            }
                         }
                     }
-                }
 
-                if (list != null)
-                {
-                    var result = new CommonController().PushNotificationForRegistration(message, list, rm.ComplaintID, type, data.ZoneID);
-                }
-
-                // Notification Send to Wasa
-
-                var AreaID = Convert.ToInt32(data.Areas);
-
-                var IdsforWasa = db.SOZoneAndTowns.Where(x => x.CityID == data.CityID && x.AreaID == AreaID).Select(x => x.SOID).Distinct().ToList();
-                List<string> list2 = new List<string>();
-                foreach (var item in IdsforWasa)
-                {
-                    var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
-                    if (id != null)
+                    if (list != null)
                     {
-                        foreach (var items in id)
+                        var result = new CommonController().PushNotificationForRegistration(message, list, retailerObj.ID, type, data.ZoneID);
+                    }
+
+                    // Notification For KSB Management
+                    var SOIdss = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 1).Select(x => x.ID).ToList();
+                    List<string> list1 = new List<string>();
+                    foreach (var item in SOIdss)
+                    {
+                        var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                        if (id.Count > 0)
                         {
-                            list2.Add(items);
+                            foreach (var items in id)
+                            {
+                                list1.Add(items);
+                            }
                         }
                     }
+
+                    if (list1 != null)
+                    {
+                        var result = new CommonController().PushNotificationForRegistration(message, list1, retailerObj.ID, type, data.ZoneID);
+                    }
+
+                    // Notification Send to Wasa
+
+                    var AreaID = Convert.ToInt32(data.Areas);
+
+                    var IdsforWasa = db.SOZoneAndTowns.Where(x => x.CityID == data.CityID && x.AreaID == AreaID).Select(x => x.SOID).Distinct().ToList();
+                    List<string> list2 = new List<string>();
+                    foreach (var item in IdsforWasa)
+                    {
+                        var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
+                        if (id.Count > 0)
+                        {
+                            foreach (var items in id)
+                            {
+                                list2.Add(items);
+                            }
+                        }
+                    }
+                    if (list2 != null)
+                    {
+                        var result2 = new CommonController().PushNotificationForWasa(message, list2, retailerObj.ID, type);
+                    }
                 }
-                if (list2 != null)
+                else
                 {
-                    var result2 = new CommonController().PushNotificationForWasa(message, list2, rm.ComplaintID, type);
+                    // Notification For Progressive Management
+                    var SOIdss = db.SaleOfficers.Where(x => x.RegionalHeadID == 6 && x.RoleID == 2).Select(x => x.ID).ToList();
+                    List<string> list1 = new List<string>();
+                    foreach (var item in SOIdss)
+                    {
+                        var id = db.OneSignalUsers.Where(x => x.UserID == item).Select(x => x.OneSidnalUserID).ToList();
+                        if (id.Count > 0)
+                        {
+                            foreach (var items in id)
+                            {
+                                list1.Add(items);
+                            }
+                        }
+                        if (list1 != null)
+                        {
+                            var result = new CommonController().PushNotificationForRegistration(message, list1, retailerObj.ID, type, data.ZoneID);
+                        }
+                    }
+
+
+                    var AreaID = Convert.ToInt32(data.Areas);
+
+                    var IdsforWasa = db.SOZoneAndTowns.Where(x => x.CityID == data.CityID && x.AreaID == AreaID).Select(x => x.SOID).Distinct().ToList();
+                    List<string> list2 = new List<string>();
+                    foreach (var item in IdsforWasa)
+                    {
+                        var id = db.OneSignalUsers.Where(x => x.UserID == item && x.HeadID == 4).Select(x => x.OneSidnalUserID).ToList();
+                        if (id.Count > 0)
+                        {
+                            foreach (var items in id)
+                            {
+                                list2.Add(items);
+                            }
+                        }
+                    }
+                    if (list2 != null)
+                    {
+                        var result2 = new CommonController().PushNotificationForWasa(message, list2, retailerObj.ID, type);
+                    }
                 }
 
 
