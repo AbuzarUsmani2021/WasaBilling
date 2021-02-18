@@ -67,7 +67,7 @@ namespace FOS.Web.UI.Controllers
                 {
                     pageUrl = string.IsNullOrEmpty(returnUrl) ? string.Format("{0}/Home/WasaDashboard", Settings.AppPath) : returnUrl;
                 }
-                else
+                else if (TeamID == 5 || TeamID == 6)
                 {
                     pageUrl = string.IsNullOrEmpty(returnUrl) ? string.Format("{0}/Home/Home", Settings.AppPath) : returnUrl;
                 }

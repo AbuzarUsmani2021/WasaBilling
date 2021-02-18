@@ -203,7 +203,7 @@ namespace FOS.Web.UI.Controllers
         }
         public JsonResult UpdateCompaintDateTime(DateTime UpdateDateTime, int UpdateDateTimeComplaintID)
         {
-            var result = false;
+            var result = UpdateDateTimeComplaintID;
             if (UpdateDateTime != null)
             {
                 Tbl_ComplaintHistory ComplaintHistorydata = db.Tbl_ComplaintHistory.Where(x => x.JobID == UpdateDateTimeComplaintID).OrderByDescending(x => x.ID).FirstOrDefault();
@@ -218,7 +218,7 @@ namespace FOS.Web.UI.Controllers
                 JobData.ResolvedAt = UpdateDateTime;
                 db.SaveChanges();
 
-                result = true;
+                result = UpdateDateTimeComplaintID;
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
