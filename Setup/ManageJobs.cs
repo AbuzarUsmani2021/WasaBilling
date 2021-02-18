@@ -1593,7 +1593,7 @@ namespace FOS.Setup
                                                TicketNo = job.TicketNo,
                                                SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                                dateformat = job.CreatedDate.ToString(),
-                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
@@ -1627,7 +1627,7 @@ namespace FOS.Setup
                                                TicketNo = job.TicketNo,
                                                SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                                dateformat = job.CreatedDate.ToString(),
-                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
@@ -1659,7 +1659,7 @@ namespace FOS.Setup
                                                TicketNo = job.TicketNo,
                                                SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                                dateformat = job.CreatedDate.ToString(),
-                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                ResolvedHours = job.ResolvedHours,
@@ -1693,7 +1693,7 @@ namespace FOS.Setup
                                                TicketNo = job.TicketNo,
                                                SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                                dateformat = job.CreatedDate.ToString(),
-                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
@@ -1728,7 +1728,7 @@ namespace FOS.Setup
                                                TicketNo = job.TicketNo,
                                                SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                                dateformat = job.CreatedDate.ToString(),
-                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                ResolvedHours = job.ResolvedHours,
@@ -1761,7 +1761,7 @@ namespace FOS.Setup
                                                TicketNo = job.TicketNo,
                                                SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                                dateformat = job.CreatedDate.ToString(),
-                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                ResolvedHours = job.ResolvedHours,
@@ -1794,7 +1794,7 @@ namespace FOS.Setup
                                                TicketNo = job.TicketNo,
                                                SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                                dateformat = job.CreatedDate.ToString(),
-                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                ResolvedHours = job.ResolvedHours,
                                                d1 = date,
@@ -1827,7 +1827,7 @@ namespace FOS.Setup
                                                TicketNo = job.TicketNo,
                                                SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                                dateformat = job.CreatedDate.ToString(),
-                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID && x.IsPublished==1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                ResolvedHours=job.ResolvedHours,
                                                d1 = date,
@@ -1864,7 +1864,7 @@ namespace FOS.Setup
                                                TicketNo = job.TicketNo,
                                                SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                                dateformat = job.CreatedDate.ToString(),
-                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
@@ -1896,7 +1896,7 @@ namespace FOS.Setup
                                                TicketNo = job.TicketNo,
                                                SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                                dateformat = job.CreatedDate.ToString(),
-                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                ResolvedHours = job.ResolvedHours,
@@ -1929,7 +1929,7 @@ namespace FOS.Setup
                                                TicketNo = job.TicketNo,
                                                SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                                dateformat = job.CreatedDate.ToString(),
-                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                d1 = date,
                                                ResolvedHours = job.ResolvedHours,
@@ -1962,7 +1962,7 @@ namespace FOS.Setup
                                                TicketNo = job.TicketNo,
                                                SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                                dateformat = job.CreatedDate.ToString(),
-                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                               UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                                ComplaintTypeName = job.ComplaintType.Name,
                                                ResolvedHours = job.ResolvedHours,
                                                d1 = date,
@@ -2016,7 +2016,7 @@ namespace FOS.Setup
                                            TicketNo = job.TicketNo,
                                            SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                            dateformat = job.CreatedDate.ToString(),
-                                           UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                           UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                            ComplaintTypeName = job.ComplaintType.Name,
                                            d1 = date,
                                            d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
@@ -2049,7 +2049,7 @@ namespace FOS.Setup
                                            TicketNo = job.TicketNo,
                                            SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                            dateformat = job.CreatedDate.ToString(),
-                                           UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                           UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                            ComplaintTypeName = job.ComplaintType.Name,
                                            d1 = date,
                                            d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
@@ -2082,7 +2082,7 @@ namespace FOS.Setup
                                            ResolvedHours = job.ResolvedHours,
                                            SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                            dateformat = job.CreatedDate.ToString(),
-                                           UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                           UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                            ComplaintTypeName = job.ComplaintType.Name,
                                            d1 = date,
                                            d2 = (DateTime)(job.CreatedDate.HasValue ? job.CreatedDate : date),
@@ -2116,7 +2116,7 @@ namespace FOS.Setup
                                            TicketNo = job.TicketNo,
                                            SiteCode = dbContext.Retailers.Where(p => p.ID == job.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
                                            dateformat = job.CreatedDate.ToString(),
-                                           UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
+                                           UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == job.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString(),
                                            ComplaintTypeName = job.ComplaintType.Name,
                                            ResolvedHours = job.ResolvedHours,
                                            d1 = date,
@@ -2178,7 +2178,7 @@ namespace FOS.Setup
                                     comlist.TicketNo = items.TicketNo;
                                     comlist.SiteCode = dbContext.Retailers.Where(p => p.ID == items.SiteID).Select(p => p.RetailerCode).FirstOrDefault();
                                     comlist.dateformat = items.CreatedDate.ToString();
-                                    comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
+                                    comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
                                     comlist.ComplaintTypeName = items.ComplaintType.Name;
                                     comlist.d1 = date;
                                     comlist.ResolvedHours = items.ResolvedHours;
@@ -2245,7 +2245,7 @@ namespace FOS.Setup
                                     comlist.TicketNo = items.TicketNo;
                                     comlist.SiteCode = dbContext.Retailers.Where(p => p.ID == items.SiteID).Select(p => p.RetailerCode).FirstOrDefault();
                                     comlist.dateformat = items.CreatedDate.ToString();
-                                    comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
+                                    comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
                                     comlist.ComplaintTypeName = items.ComplaintType.Name;
                                     comlist.d1 = date;
                                     comlist.ResolvedHours = items.ResolvedHours;
@@ -2312,7 +2312,7 @@ namespace FOS.Setup
                                     comlist.TicketNo = items.TicketNo;
                                     comlist.SiteCode = dbContext.Retailers.Where(p => p.ID == items.SiteID).Select(p => p.RetailerCode).FirstOrDefault();
                                     comlist.dateformat = items.CreatedDate.ToString();
-                                    comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
+                                    comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
                                     comlist.ComplaintTypeName = items.ComplaintType.Name;
                                     comlist.d1 = date;
                                     comlist.ResolvedHours = items.ResolvedHours;
@@ -2381,7 +2381,7 @@ namespace FOS.Setup
                                     comlist.TicketNo = items.TicketNo;
                                     comlist.SiteCode = dbContext.Retailers.Where(p => p.ID == items.SiteID).Select(p => p.RetailerCode).FirstOrDefault();
                                     comlist.dateformat = items.CreatedDate.ToString();
-                                    comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
+                                    comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
                                     comlist.ComplaintTypeName = items.ComplaintType.Name;
                                     comlist.d1 = date;
                                     comlist.ResolvedHours = items.ResolvedHours;
@@ -2458,7 +2458,7 @@ namespace FOS.Setup
                                     comlist.TicketNo = items.TicketNo;
                                     comlist.SiteCode = dbContext.Retailers.Where(p => p.ID == items.SiteID).Select(p => p.RetailerCode).FirstOrDefault();
                                     comlist.dateformat = items.CreatedDate.ToString();
-                                    comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
+                                    comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID && x.IsPublished==1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
                                     comlist.ComplaintTypeName = items.ComplaintType.Name;
                                     comlist.d1 = date;
                                     comlist.ResolvedHours = items.ResolvedHours;
@@ -2523,7 +2523,7 @@ namespace FOS.Setup
                                     comlist.TicketNo = items.TicketNo;
                                     comlist.SiteCode = dbContext.Retailers.Where(p => p.ID == items.SiteID).Select(p => p.RetailerCode).FirstOrDefault();
                                     comlist.dateformat = items.CreatedDate.ToString();
-                                    comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
+                                    comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
                                     comlist.ComplaintTypeName = items.ComplaintType.Name;
                                     comlist.d1 = date;
                                     comlist.ResolvedHours = items.ResolvedHours;
@@ -2588,7 +2588,7 @@ namespace FOS.Setup
                                     comlist.TicketNo = items.TicketNo;
                                     comlist.SiteCode = dbContext.Retailers.Where(p => p.ID == items.SiteID).Select(p => p.RetailerCode).FirstOrDefault();
                                     comlist.dateformat = items.CreatedDate.ToString();
-                                    comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
+                                    comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
                                     comlist.ComplaintTypeName = items.ComplaintType.Name;
                                     comlist.d1 = date;
                                     comlist.ResolvedHours = items.ResolvedHours;
@@ -2657,7 +2657,7 @@ namespace FOS.Setup
                                     comlist.TicketNo = items.TicketNo;
                                     comlist.SiteCode = dbContext.Retailers.Where(p => p.ID == items.SiteID).Select(p => p.RetailerCode).FirstOrDefault();
                                     comlist.dateformat = items.CreatedDate.ToString();
-                                    comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
+                                    comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
                                     comlist.ComplaintTypeName = items.ComplaintType.Name;
                                     comlist.d1 = date;
                                     comlist.ResolvedHours = items.ResolvedHours;
@@ -2718,7 +2718,7 @@ namespace FOS.Setup
                 var soid = dbContext.Users.Where(x => x.ID == userID).Select(x => x.SOIDRelation).FirstOrDefault();
                 var data = dbContext.SOZoneAndTowns.Where(x => x.SOID == soid).Distinct().ToList();
                 var date = DateTime.UtcNow.AddHours(5);
-                    if (From != null && To != null)
+                    if (From != null && To != null && Project!=0)
                     {
                     DateTime FromDate = Convert.ToDateTime(From);
                     DateTime ToDate = Convert.ToDateTime(To).AddDays(1);
@@ -2744,7 +2744,7 @@ namespace FOS.Setup
                             comlist.ResolvedHours = items.ResolvedHours;
                             comlist.SiteCode = dbContext.Retailers.Where(p => p.ID == items.SiteID).Select(p => p.RetailerCode).FirstOrDefault();
                             comlist.dateformat = items.CreatedDate.ToString();
-                            comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
+                            comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
                             comlist.ComplaintTypeName = items.ComplaintType.Name;
                             comlist.d1 = date;
                             comlist.d2 = (DateTime)(items.CreatedDate.HasValue ? items.CreatedDate : date);
@@ -2756,7 +2756,45 @@ namespace FOS.Setup
                     }
 
                     }
-                    else
+               else if (From != null && To != null && Project == 0)
+                {
+                    DateTime FromDate = Convert.ToDateTime(From);
+                    DateTime ToDate = Convert.ToDateTime(To).AddDays(1);
+                    foreach (var item in data)
+                    {
+                        var AreaID = item.AreaID.ToString();
+                        var data2 = dbContext.Jobs.Where(x=> x.CityID == item.CityID && x.Areas == AreaID && x.CreatedDate >= FromDate && x.CreatedDate <= ToDate).ToList();
+                        foreach (var items in data2)
+                        {
+                            comlist = new JobsDetailData();
+                            comlist.ID = items.ID;
+                            comlist.JobID = items.ID;
+                            comlist.RetailerID = items.SiteID;
+                            comlist.RetailerName = dbContext.Retailers.Where(p => p.ID == items.SiteID).Select(p => p.Name).FirstOrDefault();
+                            comlist.FaultTypeID = items.FaultTypeId;
+                            comlist.FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == items.FaultTypeId).Select(p => p.Name).FirstOrDefault();
+                            comlist.FaultTypeDetailID = items.FaultTypeDetailID;
+                            comlist.FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == items.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault();
+                            comlist.StatusID = items.ComplaintStatusId;
+                            comlist.StatusName = dbContext.ComplaintStatus.Where(p => p.Id == items.ComplaintStatusId).Select(p => p.Name).FirstOrDefault();
+                            comlist.SaleOfficerName = items.SaleOfficer.Name;
+                            comlist.TicketNo = items.TicketNo;
+                            comlist.ResolvedHours = items.ResolvedHours;
+                            comlist.SiteCode = dbContext.Retailers.Where(p => p.ID == items.SiteID).Select(p => p.RetailerCode).FirstOrDefault();
+                            comlist.dateformat = items.CreatedDate.ToString();
+                            comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
+                            comlist.ComplaintTypeName = items.ComplaintType.Name;
+                            comlist.d1 = date;
+                            comlist.d2 = (DateTime)(items.CreatedDate.HasValue ? items.CreatedDate : date);
+                            comlist.ResolvedAt = (DateTime)items.ResolvedAt;
+                            doneJobData.Add(comlist);
+                        }
+
+
+                    }
+
+                }
+               else if (From == null && To == null && Project != 0)
                     {
                     DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
                     DateTime dtFromToday = dtFromTodayUtc.Date;
@@ -2786,7 +2824,49 @@ namespace FOS.Setup
                             comlist.TicketNo = items.TicketNo;
                             comlist.SiteCode = dbContext.Retailers.Where(p => p.ID == items.SiteID).Select(p => p.RetailerCode).FirstOrDefault();
                             comlist.dateformat = items.CreatedDate.ToString();
-                            comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
+                            comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
+                            comlist.ComplaintTypeName = items.ComplaintType.Name;
+                            comlist.d1 = date;
+                            comlist.ResolvedHours = items.ResolvedHours;
+                            comlist.d2 = (DateTime)(items.CreatedDate.HasValue ? items.CreatedDate : date);
+                            comlist.ResolvedAt = (DateTime)items.ResolvedAt;
+                            doneJobData.Add(comlist);
+                        }
+
+
+                    }
+                }
+               else if (From == null && To == null && Project == 0)
+                {
+                    DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
+                    DateTime dtFromToday = dtFromTodayUtc.Date;
+                    DateTime dtToToday = dtFromToday.AddDays(1);
+                    foreach (var item in data)
+                    {
+                        var AreaID = item.AreaID.ToString();
+                        var data2 = (from job in dbContext.Jobs
+                                     where ((job.CityID == item.CityID && job.Areas == AreaID) && job.CreatedDate >= dtFromToday && job.CreatedDate <= dtToToday) ||
+                                           ((job.CityID == item.CityID && job.Areas == AreaID) && job.ResolvedAt >= dtFromToday && job.ResolvedAt <= dtToToday) ||
+                                           ((job.CityID == item.CityID && job.Areas == AreaID) && (job.ComplaintStatusId == 2003 || job.ComplaintStatusId == 4))
+                                     select job);
+                        foreach (var items in data2)
+                        {
+                            comlist = new JobsDetailData();
+                            comlist.ID = items.ID;
+                            comlist.JobID = items.ID;
+                            comlist.RetailerID = items.SiteID;
+                            comlist.RetailerName = dbContext.Retailers.Where(p => p.ID == items.SiteID).Select(p => p.Name).FirstOrDefault();
+                            comlist.FaultTypeID = items.FaultTypeId;
+                            comlist.FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == items.FaultTypeId).Select(p => p.Name).FirstOrDefault();
+                            comlist.FaultTypeDetailID = items.FaultTypeDetailID;
+                            comlist.FaultTypeDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == items.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault();
+                            comlist.StatusID = items.ComplaintStatusId;
+                            comlist.StatusName = dbContext.ComplaintStatus.Where(p => p.Id == items.ComplaintStatusId).Select(p => p.Name).FirstOrDefault();
+                            comlist.SaleOfficerName = items.SaleOfficer.Name;
+                            comlist.TicketNo = items.TicketNo;
+                            comlist.SiteCode = dbContext.Retailers.Where(p => p.ID == items.SiteID).Select(p => p.RetailerCode).FirstOrDefault();
+                            comlist.dateformat = items.CreatedDate.ToString();
+                            comlist.UpdatedAt = dbContext.JobsDetails.Where(x => x.JobID == items.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.JobDate).FirstOrDefault().ToString();
                             comlist.ComplaintTypeName = items.ComplaintType.Name;
                             comlist.d1 = date;
                             comlist.ResolvedHours = items.ResolvedHours;

@@ -1,7 +1,7 @@
 ﻿@model FOS.Shared.KSBComplaintData
 
 @{
-    ViewBag.Title = "KSB | O&M";
+    ViewBag.Title = "KSB | O&M - Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
@@ -103,7 +103,7 @@
     <div class="grid-item">
         <label>Project:</label>
         <div class="controls" style="margin-left: 0px">
-            @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.SaleOfficers, "ID", "Name"), new { @class = "" })
+            @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects, "ID", "Name"), new { @class = "" })
         </div>
     </div>
     <div class="grid-item" style="margin-top: 28px;">

@@ -712,6 +712,7 @@
     <Content Include="Images\JBD_LOGO.jpg" />
     <Content Include="Images\KSB_Logo_New.jpg" />
     <Content Include="Images\KSB_Logo.png" />
+    <Content Include="Images\logo.png" />
     <Content Include="Images\Logo1.gif" />
     <Content Include="Content\Font\myriadproregular.eot" />
     <Content Include="Content\Font\myriadproregular.ttf" />
