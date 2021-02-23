@@ -351,7 +351,7 @@ namespace FOS.Web.UI.Controllers
 
         //    return count;
         //}
-
+        [CustomAuthorize]
         public ActionResult GraphicalDashboard()
         {
             var objRetailer = new KSBComplaintData();

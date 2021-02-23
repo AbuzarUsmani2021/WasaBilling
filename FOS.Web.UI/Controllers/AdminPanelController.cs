@@ -40,7 +40,7 @@ namespace FOS.Web.UI.Controllers
         }
 
         //Session Create/Login Method...
-        public JsonResult UserAuth(string userName, string password, string returnUrl)
+        public JsonResult UserAuth(string userName, string password)
         {
             string pageUrl = "";
             Log.Instance.Info("A new user is trying to sign in");
@@ -65,11 +65,11 @@ namespace FOS.Web.UI.Controllers
 
                 if (TeamID == 4)
                 {
-                    pageUrl = string.IsNullOrEmpty(returnUrl) ? string.Format("{0}/Home/WasaDashboard", Settings.AppPath) : returnUrl;
+                    pageUrl = string.Format("{0}/Home/WasaDashboard", Settings.AppPath);
                 }
                 else if (TeamID == 5 || TeamID == 6)
                 {
-                    pageUrl = string.IsNullOrEmpty(returnUrl) ? string.Format("{0}/Home/Home", Settings.AppPath) : returnUrl;
+                    pageUrl = string.Format("{0}/Home/Home", Settings.AppPath);
                 }
             }
             else
