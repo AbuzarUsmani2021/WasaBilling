@@ -43,7 +43,7 @@ namespace FOS.Web.UI.Controllers.API
                 //var IDs = db.SOZoneAndTowns.Where(x => x.CityID == data.CityID && x.AreaID == AreaID).Select(x => x.SOID).Distinct().ToList();
 
             
-                string type = "Registraion";
+                string type = "Remarks";
                 string message = "Complaint Remarks against ComplaintNo " + data.TicketNo + " is punched by client. Kindly Visit it:";
                 //var SOIds = db.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID == 2).Select(x => x.ID).ToList();
                 //List<string> list = new List<string>();
@@ -105,7 +105,7 @@ namespace FOS.Web.UI.Controllers.API
 
                     if (list != null)
                     {
-                        var result = new CommonController().PushNotificationForRegistration(message, list, retailerObj.ID, type, data.ZoneID);
+                        var result = new CommonController().PushNotificationForRegistration(message, list, rm.ComplaintID, type, data.ZoneID);
                     }
 
                     // Notification For KSB Management
@@ -125,7 +125,7 @@ namespace FOS.Web.UI.Controllers.API
 
                     if (list1 != null)
                     {
-                        var result = new CommonController().PushNotificationForRegistration(message, list1, retailerObj.ID, type, data.ZoneID);
+                        var result = new CommonController().PushNotificationForRegistration(message, list1, rm.ComplaintID, type, data.ZoneID);
                     }
 
                     // Notification Send to Wasa
@@ -147,7 +147,7 @@ namespace FOS.Web.UI.Controllers.API
                     }
                     if (list2 != null)
                     {
-                        var result2 = new CommonController().PushNotificationForWasa(message, list2, retailerObj.ID, type);
+                        var result2 = new CommonController().PushNotificationForWasa(message, list2, rm.ComplaintID, type);
                     }
                 }
                 else
@@ -167,7 +167,7 @@ namespace FOS.Web.UI.Controllers.API
                         }
                         if (list1 != null)
                         {
-                            var result = new CommonController().PushNotificationForRegistration(message, list1, retailerObj.ID, type, data.ZoneID);
+                            var result = new CommonController().PushNotificationForRegistration(message, list1, rm.ComplaintID, type, data.ZoneID);
                         }
                     }
 
@@ -189,7 +189,7 @@ namespace FOS.Web.UI.Controllers.API
                     }
                     if (list2 != null)
                     {
-                        var result2 = new CommonController().PushNotificationForWasa(message, list2, retailerObj.ID, type);
+                        var result2 = new CommonController().PushNotificationForWasa(message, list2, rm.ComplaintID, type);
                     }
                 }
 

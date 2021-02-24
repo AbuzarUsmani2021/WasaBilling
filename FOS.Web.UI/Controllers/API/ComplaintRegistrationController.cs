@@ -40,7 +40,7 @@ namespace FOS.Web.UI.Controllers.API
 
                 if (data.ZoneID == 7)
                 {
-                    var Id1 = "O3";
+                    var Id1 = data.ProjectCode;
 
                     var counter = db.Jobs.Where(x => x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday && x.RegionID == data.RegionID && x.ZoneID == data.ZoneID).OrderByDescending(u => u.ID).Select(u => u.TicketNo).FirstOrDefault();
 
@@ -62,7 +62,7 @@ namespace FOS.Web.UI.Controllers.API
                 }
                 else if (data.ZoneID == 8)
                 {
-                    var Id2 = "O2";
+                    var Id2 = data.ProjectCode;
 
                     var counter = db.Jobs.Where(x => x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday && x.RegionID == data.RegionID && x.ZoneID == data.ZoneID).OrderByDescending(u => u.ID).Select(u => u.TicketNo).FirstOrDefault();
 
@@ -86,7 +86,7 @@ namespace FOS.Web.UI.Controllers.API
                 }
                 else if (data.ZoneID == 9)
                 {
-                    var Id3 = "O1";
+                    var Id3 = data.ProjectCode;
 
                     var counter = db.Jobs.Where(x => x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday && x.RegionID == data.RegionID && x.ZoneID == data.ZoneID).OrderByDescending(u => u.ID).Select(u => u.TicketNo).FirstOrDefault();
 

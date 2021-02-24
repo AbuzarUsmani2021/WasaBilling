@@ -429,8 +429,15 @@ namespace FOS.Web.UI.Controllers.API
 
             if (roleID != 3)
             {
+                var Projects = db.SOProjects.Where(x => x.SaleOfficerID == SOID).Select(x => x.ProjectID).Distinct();
 
-                Count = db.Jobs.Select(x => x.ID).Count();
+
+                foreach (var item in Projects)
+                {
+                    Count += db.Sp_KSBNotificationCountForCC(item,SOID,dtFromToday,dtToToday).Count();
+                }
+
+               
 
             }
             else

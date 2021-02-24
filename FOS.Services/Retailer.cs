@@ -100,6 +100,7 @@ namespace FOS.DataLayer
         public Nullable<int> Capacity { get; set; }
         public Nullable<decimal> SWL { get; set; }
         public string Year_of_In { get; set; }
+        public string ProjectCode { get; set; }
     
         public virtual Area Area { get; set; }
         public virtual City City { get; set; }

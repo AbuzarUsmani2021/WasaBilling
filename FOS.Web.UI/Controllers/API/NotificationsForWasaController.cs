@@ -19,6 +19,10 @@ namespace FOS.Web.UI.Controllers.API
         public IHttpActionResult Get(int ProjectID,int RoleID, int SOID)
         {
             FOSDataModel dbContext = new FOSDataModel();
+            DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
+
+            DateTime dtFromToday = dtFromTodayUtc.Date;
+            DateTime dtToToday = dtFromToday.AddDays(1);
             try
             {
                
@@ -28,7 +32,7 @@ namespace FOS.Web.UI.Controllers.API
                     List<NotificationsForWasa> list = new List<NotificationsForWasa>();
                     NotificationsForWasa comlist;
 
-                    var result = db.Sp_KSBNotificationsforCC(ProjectID).ToList();
+                    var result = db.Sp_KSBNotificationsforCC(ProjectID, dtFromToday, dtToToday).ToList();
 
                     var IDS = dbContext.SOZoneAndTowns.Where(x => x.SOID == SOID).Select(x => x.AreaID).ToList();
 

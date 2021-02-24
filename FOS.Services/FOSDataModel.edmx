@@ -919,6 +919,7 @@
           <Property Name="Capacity" Type="int" />
           <Property Name="SWL" Type="decimal" Precision="18" Scale="0" />
           <Property Name="Year_of_In" Type="varchar" MaxLength="50" />
+          <Property Name="ProjectCode" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="RetailersForApproval">
           <Key>
@@ -3245,8 +3246,16 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Parameter Name="ComplaintID" Type="int" Mode="In" />
           <Parameter Name="SOID" Type="int" Mode="In" />
         </Function>
+        <Function Name="Sp_KSBNotificationCountForCC" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProjectID" Type="int" Mode="In" />
+          <Parameter Name="RegionID" Type="int" Mode="In" />
+          <Parameter Name="dateFrom" Type="date" Mode="In" />
+          <Parameter Name="dateTo" Type="date" Mode="In" />
+        </Function>
         <Function Name="Sp_KSBNotificationsforCC" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RegionID" Type="int" Mode="In" />
+          <Parameter Name="dateFrom" Type="date" Mode="In" />
+          <Parameter Name="dateTo" Type="date" Mode="In" />
         </Function>
         <Function Name="sp_MarketInformation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StartingDate" Type="date" Mode="In" />
@@ -5916,9 +5925,6 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
             <Parameter Name="ComplaintID" Mode="In" Type="Int32" />
             <Parameter Name="SOID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="Sp_KSBNotificationsforCC" ReturnType="Collection(FOS_WallCoatModel.Sp_KSBNotificationsforCC_Result1)">
-          <Parameter Name="RegionID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="Sp_WasaChildNotifications" ReturnType="Collection(FOS_WallCoatModel.Sp_WasaChildNotifications_Result)">
             <Parameter Name="ComplaintID" Mode="In" Type="Int32" />
             <Parameter Name="SOID" Mode="In" Type="Int32" />
@@ -5997,6 +6003,17 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
             <Parameter Name="ComplaintStatus" Mode="In" Type="Int32" />
             <Parameter Name="launchedByID" Mode="In" Type="Int32" />
             <Parameter Name="assignedToID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_KSBNotificationsforCC" ReturnType="Collection(FOS_WallCoatModel.Sp_KSBNotificationsforCC_Result)">
+            <Parameter Name="RegionID" Mode="In" Type="Int32" />
+            <Parameter Name="dateFrom" Mode="In" Type="DateTime" />
+            <Parameter Name="dateTo" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_KSBNotificationCountForCC" ReturnType="Collection(Int32)">
+            <Parameter Name="ProjectID" Mode="In" Type="Int32" />
+            <Parameter Name="RegionID" Mode="In" Type="Int32" />
+            <Parameter Name="dateFrom" Mode="In" Type="DateTime" />
+            <Parameter Name="dateTo" Mode="In" Type="DateTime" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="AreasRelatedtoCities_Result">
@@ -7809,6 +7826,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <NavigationProperty Name="AddPurposeOfVisits" Relationship="FOS_WallCoatModel.FK_AddPurposeOfVisit_Retailers" FromRole="Retailer" ToRole="AddPurposeOfVisit" />
           <NavigationProperty Name="AddSiteStatus" Relationship="FOS_WallCoatModel.FK_AddSiteStatus_Retailers" FromRole="Retailer" ToRole="AddSiteStatu" />
           <NavigationProperty Name="AddStaffLists" Relationship="FOS_WallCoatModel.FK_AddStaffList_Retailers" FromRole="Retailer" ToRole="AddStaffList" />
+          <Property Name="ProjectCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Retailers_Areas">
           <End Type="FOS_WallCoatModel.Area" Role="Area" Multiplicity="0..1" />
@@ -10567,20 +10585,6 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="Sp_KSBNotificationsforCC_Result">
-          <Property Type="Int32" Name="ComplaintID" Nullable="false" />
-          <Property Type="String" Name="TicketNo" Nullable="true" MaxLength="100" />
-          <Property Type="DateTime" Name="LaunchDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="SiteID" Nullable="true" />
-          <Property Type="String" Name="SiteCode" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="ComplaintStatusId" Nullable="true" />
-          <Property Type="String" Name="StatusName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="InitialRemarks" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="FaulttypeName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="FaulttypedetailName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="LaunchedByName" Nullable="true" MaxLength="50" />
-        </ComplexType>
         <ComplexType Name="Sp_KSBChildNotificationsforCC_Result">
           <Property Type="Int32" Name="ComplaintID" Nullable="true" />
           <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
@@ -11044,22 +11048,6 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Property Type="String" Name="UpdateRemarks" Nullable="true" MaxLength="500" />
           <Property Type="Boolean" Name="IsUpdateRemarksChanged" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="Sp_KSBNotificationsforCC_Result1">
-          <Property Type="Int32" Name="ComplaintID" Nullable="false" />
-          <Property Type="String" Name="TicketNo" Nullable="true" MaxLength="100" />
-          <Property Type="DateTime" Name="LaunchDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="SiteID" Nullable="true" />
-          <Property Type="String" Name="SiteCode" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="ComplaintStatusId" Nullable="true" />
-          <Property Type="String" Name="StatusName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="InitialRemarks" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="FaulttypeName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="FaulttypedetailName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="LaunchedByName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="areas" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="cityid" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="Sp_WasaChildNotifications_Result">
           <Property Type="Int32" Name="ComplaintID" Nullable="true" />
           <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
@@ -11400,6 +11388,22 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Property Type="String" Name="Zone" Nullable="true" MaxLength="80" />
           <Property Type="String" Name="ComplaintTypeName" Nullable="true" MaxLength="500" />
           <Property Type="String" Name="WorkDoneStatus" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="Sp_KSBNotificationsforCC_Result">
+          <Property Type="Int32" Name="ComplaintID" Nullable="false" />
+          <Property Type="String" Name="TicketNo" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="LaunchDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="SiteID" Nullable="true" />
+          <Property Type="String" Name="SiteCode" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ComplaintStatusId" Nullable="true" />
+          <Property Type="String" Name="StatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="InitialRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="FaulttypeName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FaulttypedetailName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LaunchedByName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="areas" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="cityid" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -12791,6 +12795,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySetMapping Name="Retailers">
             <EntityTypeMapping TypeName="FOS_WallCoatModel.Retailer">
               <MappingFragment StoreEntitySet="Retailers">
+                <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
                 <ScalarProperty Name="Year_of_In" ColumnName="Year_of_In" />
                 <ScalarProperty Name="SWL" ColumnName="SWL" />
                 <ScalarProperty Name="Capacity" ColumnName="Capacity" />
@@ -15603,26 +15608,6 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Sp_KSBNotificationsforCC" FunctionName="FOS_WallCoatModel.Store.Sp_KSBNotificationsforCC">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_KSBNotificationsforCC_Result1">
-                <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
-                <ScalarProperty Name="TicketNo" ColumnName="TicketNo" />
-                <ScalarProperty Name="LaunchDate" ColumnName="LaunchDate" />
-                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
-                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
-                <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
-                <ScalarProperty Name="ComplaintStatusId" ColumnName="ComplaintStatusId" />
-                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
-                <ScalarProperty Name="InitialRemarks" ColumnName="InitialRemarks" />
-                <ScalarProperty Name="FaulttypeName" ColumnName="FaulttypeName" />
-                <ScalarProperty Name="FaulttypedetailName" ColumnName="FaulttypedetailName" />
-                <ScalarProperty Name="LaunchedByName" ColumnName="LaunchedByName" />
-                <ScalarProperty Name="areas" ColumnName="areas" />
-                <ScalarProperty Name="cityid" ColumnName="cityid" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="Sp_WasaChildNotifications" FunctionName="FOS_WallCoatModel.Store.Sp_WasaChildNotifications">
             <ResultMapping>
               <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_WasaChildNotifications_Result">
@@ -15877,6 +15862,27 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_KSBNotificationsforCC" FunctionName="FOS_WallCoatModel.Store.Sp_KSBNotificationsforCC">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_KSBNotificationsforCC_Result">
+                <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
+                <ScalarProperty Name="TicketNo" ColumnName="TicketNo" />
+                <ScalarProperty Name="LaunchDate" ColumnName="LaunchDate" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+                <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
+                <ScalarProperty Name="ComplaintStatusId" ColumnName="ComplaintStatusId" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="InitialRemarks" ColumnName="InitialRemarks" />
+                <ScalarProperty Name="FaulttypeName" ColumnName="FaulttypeName" />
+                <ScalarProperty Name="FaulttypedetailName" ColumnName="FaulttypedetailName" />
+                <ScalarProperty Name="LaunchedByName" ColumnName="LaunchedByName" />
+                <ScalarProperty Name="areas" ColumnName="areas" />
+                <ScalarProperty Name="cityid" ColumnName="cityid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_KSBNotificationCountForCC" FunctionName="FOS_WallCoatModel.Store.Sp_KSBNotificationCountForCC" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

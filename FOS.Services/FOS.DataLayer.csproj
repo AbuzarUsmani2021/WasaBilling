@@ -639,9 +639,6 @@
     <Compile Include="Sp_KSBNotificationsforCC_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Sp_KSBNotificationsforCC_Result1.cs">
-      <DependentUpon>FOSDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="sp_MarketInformation_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
