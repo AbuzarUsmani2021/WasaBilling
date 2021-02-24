@@ -29,7 +29,11 @@ namespace FOS.Web.UI.Controllers.API
 
                 if (inModel.UserName != null && inModel.Password != null)
                 {
+
+
                     var SO = db.SaleOfficers.Where(s => s.UserName.ToLower().Equals(inModel.UserName.ToLower()) && s.Password.ToLower().Equals(inModel.Password.ToLower())).FirstOrDefault();
+
+                   
                     
                     if (SO != null)
                     {
@@ -229,6 +233,7 @@ namespace FOS.Web.UI.Controllers.API
         public string UserName { get; set; }
         public string Password { get; set; }
         public string OneSignalUserID { get; set; }
+        public string IMEI { get; set; }
     }
 
     public class City

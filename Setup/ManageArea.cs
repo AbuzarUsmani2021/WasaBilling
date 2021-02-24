@@ -750,7 +750,7 @@ namespace FOS.Setup
                         ComplaintID = a.ComplaintID,
                        LaunchAt=a.DateInstall,
                        SOID=a.SOID,
-                       SaleOfficerName=dbContext.SaleOfficers.Where(x=>x.ID==a.SOID).Select(x=>x.Name).FirstOrDefault(),
+                       SaleOfficerName=dbContext.SaleOfficers.Where(x=>x.ID==a.SOID).Select(x=>x.Name).FirstOrDefault()+ "(" + dbContext.SaleOfficers.Where(x => x.ID == a.SOID).Select(x => x.UserName).FirstOrDefault() + ")",
                        SiteName= SiteName.Name+"("+SiteName.RetailerCode + ")",
                        
                     }).ToList();

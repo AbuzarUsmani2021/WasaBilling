@@ -25,5 +25,7 @@ namespace FOS.DataLayer
         public string FaulttypeName { get; set; }
         public string FaulttypedetailName { get; set; }
         public string LaunchedByName { get; set; }
+        public string areas { get; set; }
+        public Nullable<int> cityid { get; set; }
     }
 }

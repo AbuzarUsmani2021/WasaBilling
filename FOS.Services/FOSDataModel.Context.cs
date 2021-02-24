@@ -3751,15 +3751,6 @@ namespace FOS.DataLayer
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_KSBChildNotificationsforCC_Result2>("Sp_KSBChildNotificationsforCC", complaintIDParameter, sOIDParameter);
         }
     
-        public virtual ObjectResult<Sp_KSBNotificationsforCC_Result1> Sp_KSBNotificationsforCC(Nullable<int> regionID)
-        {
-            var regionIDParameter = regionID.HasValue ?
-                new ObjectParameter("RegionID", regionID) :
-                new ObjectParameter("RegionID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_KSBNotificationsforCC_Result1>("Sp_KSBNotificationsforCC", regionIDParameter);
-        }
-    
         public virtual ObjectResult<Sp_WasaChildNotifications_Result> Sp_WasaChildNotifications(Nullable<int> complaintID, Nullable<int> sOID)
         {
             var complaintIDParameter = complaintID.HasValue ?
@@ -3871,6 +3862,44 @@ namespace FOS.DataLayer
                 new ObjectParameter("assignedToID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetComplaintSummary_Result>("Sp_GetComplaintSummary", startdateParameter, enddateParameter, projectIDParameter, zoneIDParameter, faulttypeIDParameter, complaintStatusParameter, launchedByIDParameter, assignedToIDParameter);
+        }
+    
+        public virtual ObjectResult<Sp_KSBNotificationsforCC_Result> Sp_KSBNotificationsforCC(Nullable<int> regionID, Nullable<System.DateTime> dateFrom, Nullable<System.DateTime> dateTo)
+        {
+            var regionIDParameter = regionID.HasValue ?
+                new ObjectParameter("RegionID", regionID) :
+                new ObjectParameter("RegionID", typeof(int));
+    
+            var dateFromParameter = dateFrom.HasValue ?
+                new ObjectParameter("dateFrom", dateFrom) :
+                new ObjectParameter("dateFrom", typeof(System.DateTime));
+    
+            var dateToParameter = dateTo.HasValue ?
+                new ObjectParameter("dateTo", dateTo) :
+                new ObjectParameter("dateTo", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_KSBNotificationsforCC_Result>("Sp_KSBNotificationsforCC", regionIDParameter, dateFromParameter, dateToParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> Sp_KSBNotificationCountForCC(Nullable<int> projectID, Nullable<int> regionID, Nullable<System.DateTime> dateFrom, Nullable<System.DateTime> dateTo)
+        {
+            var projectIDParameter = projectID.HasValue ?
+                new ObjectParameter("ProjectID", projectID) :
+                new ObjectParameter("ProjectID", typeof(int));
+    
+            var regionIDParameter = regionID.HasValue ?
+                new ObjectParameter("RegionID", regionID) :
+                new ObjectParameter("RegionID", typeof(int));
+    
+            var dateFromParameter = dateFrom.HasValue ?
+                new ObjectParameter("dateFrom", dateFrom) :
+                new ObjectParameter("dateFrom", typeof(System.DateTime));
+    
+            var dateToParameter = dateTo.HasValue ?
+                new ObjectParameter("dateTo", dateTo) :
+                new ObjectParameter("dateTo", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("Sp_KSBNotificationCountForCC", projectIDParameter, regionIDParameter, dateFromParameter, dateToParameter);
         }
     }
 }
