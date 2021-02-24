@@ -240,6 +240,7 @@
     <Compile Include="Common\Settings.cs" />
     <Compile Include="Common\Token\TokenAttribute.cs" />
     <Compile Include="Common\UserManager.cs" />
+    <Compile Include="Controllers\API\ReadallController.cs" />
     <Compile Include="Controllers\API\GetSitesRelatedToTownController.cs" />
     <Compile Include="Controllers\API\VideoAudioController.cs" />
     <Compile Include="Controllers\API\SiteEquipmentRegistrationController.cs" />

@@ -1012,6 +1012,8 @@
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="RegionID" Type="int" />
           <Property Name="RoleID" Type="int" />
+          <Property Name="IMEI" Type="varchar" MaxLength="500" />
+          <Property Name="AppUserWasaOrKSB" Type="int" />
         </EntityType>
         <EntityType Name="SalesOfficerJobs">
           <Key>
@@ -9719,6 +9721,8 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <NavigationProperty Name="TblReminders" Relationship="FOS_WallCoatModel.FK_TblReminders_SaleOfficers" FromRole="SaleOfficer" ToRole="TblReminder" />
           <NavigationProperty Name="Areas" Relationship="FOS_WallCoatModel.SaleOfficerAreas" FromRole="SaleOfficer" ToRole="Area" />
           <NavigationProperty Name="OneSignalUsers" Relationship="FOS_WallCoatModel.FK_OneSignalUsers_SaleOfficers" FromRole="SaleOfficer" ToRole="OneSignalUser" />
+          <Property Name="IMEI" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="AppUserWasaOrKSB" Type="Int32" />
         </EntityType>
         <Association Name="FK_AccessLog_SaleOfficers">
           <End Type="FOS_WallCoatModel.SaleOfficer" Role="SaleOfficer" Multiplicity="1" />
@@ -14787,6 +14791,8 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySetMapping Name="SaleOfficers">
             <EntityTypeMapping TypeName="FOS_WallCoatModel.SaleOfficer">
               <MappingFragment StoreEntitySet="SaleOfficers">
+                <ScalarProperty Name="AppUserWasaOrKSB" ColumnName="AppUserWasaOrKSB" />
+                <ScalarProperty Name="IMEI" ColumnName="IMEI" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="RegionID" ColumnName="RegionID" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
