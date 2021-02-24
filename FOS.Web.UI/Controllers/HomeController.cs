@@ -52,15 +52,22 @@ namespace FOS.Web.UI.Controllers
                 {
                     regId = FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser();
                 }
-                int TeamID =(int) Session["TeamID"];
-                List<SaleOfficerData> SaleOfficerObj = ManageSaleOffice.GetProjects(TeamID);
-                var objSaleOff = SaleOfficerObj.FirstOrDefault();
 
-                List<DealerData> DealerObj = ManageDealer.GetAllDealersListRelatedToRegionalHead(regId);
+
+
+            int TeamID = (int)Session["TeamID"];
+            //    List<SaleOfficerData> SaleOfficerObj = ManageSaleOffice.GetProjects(TeamID);
+            //    var objSaleOff = SaleOfficerObj.FirstOrDefault();
+
+            List<DealerData> DealerObj = ManageDealer.GetAllDealersListRelatedToRegionalHead(regId);
 
               
                 objRetailer.Client = regionalHeadData;
-                objRetailer.SaleOfficers = SaleOfficerObj;
+                //Get Projects start
+                var soid = Convert.ToInt32(Session["SORelationID"]);
+                var ListOfProjects = db.SOProjects.Where(x => x.SaleOfficerID == soid).Select(x => x.ProjectID).Distinct().ToList();
+                objRetailer.Projects = FOS.Setup.ManageSaleOffice.GetProjectsListForDashboard(ListOfProjects);
+                //Get Projects END
                 objRetailer.Cities = FOS.Setup.ManageCity.GetCityList();
                 objRetailer.priorityDatas = FOS.Setup.ManageCity.GetPrioritiesList();
                 objRetailer.faultTypes = FOS.Setup.ManageCity.GetFaultTypesList();
@@ -76,7 +83,7 @@ namespace FOS.Web.UI.Controllers
 
 
             // ViewBag.rptid = "";
-            ViewBag.retailers = ManageRetailer.GetRetailerForGrid().Count();
+                ViewBag.retailers = ManageRetailer.GetRetailerForGrid().Count();
                 ViewBag.Towns = db.Areas.Where(x => x.IsActive == true).Count();
                 ViewBag.SubDivisions = db.SubDivisions.Count();
 
@@ -196,7 +203,7 @@ namespace FOS.Web.UI.Controllers
         }
         public JsonResult UpdateCompaintDateTime(DateTime UpdateDateTime, int UpdateDateTimeComplaintID)
         {
-            var result = false;
+            var result = UpdateDateTimeComplaintID;
             if (UpdateDateTime != null)
             {
                 Tbl_ComplaintHistory ComplaintHistorydata = db.Tbl_ComplaintHistory.Where(x => x.JobID == UpdateDateTimeComplaintID).OrderByDescending(x => x.ID).FirstOrDefault();
@@ -211,7 +218,7 @@ namespace FOS.Web.UI.Controllers
                 JobData.ResolvedAt = UpdateDateTime;
                 db.SaveChanges();
 
-                result = true;
+                result = UpdateDateTimeComplaintID;
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -344,7 +351,7 @@ namespace FOS.Web.UI.Controllers
 
         //    return count;
         //}
-
+        [CustomAuthorize]
         public ActionResult GraphicalDashboard()
         {
             var objRetailer = new KSBComplaintData();
@@ -1766,14 +1773,19 @@ namespace FOS.Web.UI.Controllers
                 regId = FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser();
             }
 
-            List<SaleOfficerData> SaleOfficerObj = ManageSaleOffice.GetProjectsData();
-            var objSaleOff = SaleOfficerObj.FirstOrDefault();
+            //List<SaleOfficerData> SaleOfficerObj = ManageSaleOffice.GetProjectsData();
+            //var objSaleOff = SaleOfficerObj.FirstOrDefault();
 
             List<DealerData> DealerObj = ManageDealer.GetAllDealersListRelatedToRegionalHead(regId);
 
 
             objRetailer.Client = regionalHeadData;
-            objRetailer.SaleOfficers = SaleOfficerObj;
+            //objRetailer.SaleOfficers = SaleOfficerObj;
+            //Get Projects start
+            var soid = Convert.ToInt32(Session["SORelationID"]);
+            var ListOfProjects = db.SOProjects.Where(x => x.SaleOfficerID == soid).Select(x => x.ProjectID).Distinct().ToList();
+            objRetailer.Projects = FOS.Setup.ManageSaleOffice.GetProjectsListForDashboard(ListOfProjects);
+            //Get Projects END
             objRetailer.Cities = FOS.Setup.ManageCity.GetCityList();
             objRetailer.priorityDatas = FOS.Setup.ManageCity.GetPrioritiesList();
             objRetailer.faultTypes = FOS.Setup.ManageCity.GetFaultTypesList();
@@ -1788,30 +1800,30 @@ namespace FOS.Web.UI.Controllers
             objRetailer.ComplaintTypes = FOS.Setup.ManageCity.GetComplaintTypeList();
 
 
-            var userID = Convert.ToInt32(Session["UserID"]);
+            //var userID = Convert.ToInt32(Session["UserID"]);
 
-            if (userID == 1025)
-            {
-                objRetailer.Projects = FOS.Setup.ManageCity.GetProjectsList();
-            }
-            else if(userID == 1026|| userID == 1027)
-            {
-                var soid = db.Users.Where(x => x.ID == userID).Select(x => x.SOIDRelation).FirstOrDefault();
+            //if (userID == 1025)
+            //{
+            //    objRetailer.Projects = FOS.Setup.ManageCity.GetProjectsList();
+            //}
+            //else if(userID == 1026|| userID == 1027)
+            //{
+            //    var soid = db.Users.Where(x => x.ID == userID).Select(x => x.SOIDRelation).FirstOrDefault();
 
-                var list = db.SOProjects.Where(x => x.SaleOfficerID == soid).Select(x => x.ProjectID).Distinct().ToList();
+            //    var list = db.SOProjects.Where(x => x.SaleOfficerID == soid).Select(x => x.ProjectID).Distinct().ToList();
 
-                var Projectlist= FOS.Setup.ManageCity.GetProjectsListForUsers(list);
-                objRetailer.Projects = Projectlist;
-            }
-            else
-            {
-                var soid = db.Users.Where(x => x.ID == userID).Select(x => x.SOIDRelation).FirstOrDefault();
+            //    var Projectlist= FOS.Setup.ManageCity.GetProjectsListForUsers(list);
+            //    objRetailer.Projects = Projectlist;
+            //}
+            //else
+            //{
+            //    var soid = db.Users.Where(x => x.ID == userID).Select(x => x.SOIDRelation).FirstOrDefault();
 
-                var list = db.SOProjects.Where(x => x.SaleOfficerID == soid).Select(x => x.ProjectID).Distinct().ToList();
+            //    var list = db.SOProjects.Where(x => x.SaleOfficerID == soid).Select(x => x.ProjectID).Distinct().ToList();
 
-                var Projectlist = FOS.Setup.ManageCity.GetProjectsListForSDOS(list);
-                objRetailer.Projects = Projectlist;
-            }
+            //    var Projectlist = FOS.Setup.ManageCity.GetProjectsListForSDOS(list);
+            //    objRetailer.Projects = Projectlist;
+            //}
 
 
             // ViewBag.rptid = "";

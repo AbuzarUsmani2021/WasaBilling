@@ -931,48 +931,37 @@ namespace FOS.Setup
             return saleOfficerData;
             
         }
-        public static List<SaleOfficerData> GetProjects(int TeamID)
+        public static List<ComplaintStatus> GetProjectsListForDashboard(List<int?> list)
         {
-            List<SaleOfficerData> saleOfficerData = new List<SaleOfficerData>();
-
+            List<ComplaintStatus> city = new List<ComplaintStatus>();
+            ComplaintStatus comlist;
             try
             {
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                    if (TeamID == 5)
+
+                    foreach (var item in list)
                     {
-                        saleOfficerData = dbContext.Zones.Where(x => x.ProjectCode == 7 || x.ProjectCode == 8)
-                                                    .Select(
-                                                        u => new SaleOfficerData
-                                                        {
-                                                            ID = u.ID,
-                                                            Name = u.Name,
-                                                        }).OrderBy(x => x.Name).ToList();
+                        comlist = new ComplaintStatus();
+                        comlist.ID = item;
+                        comlist.Name = dbContext.Zones.Where(x => x.ID == item).Select(x => x.Name).FirstOrDefault();
+                        city.Add(comlist);
                     }
-                    else if (TeamID == 6)
-                    {
-                        saleOfficerData = dbContext.Zones.Where(x => x.ProjectCode == 9)
-                                                    .Select(
-                                                        u => new SaleOfficerData
-                                                        {
-                                                            ID = u.ID,
-                                                            Name = u.Name,
-                                                        }).OrderBy(x => x.Name).ToList();
-                    }
+
                 }
+                city.Insert(0, new ComplaintStatus
+                {
+                    ID = 0,
+                    Name = "--All--"
+                });
 
             }
             catch (Exception)
             {
                 throw;
             }
-            saleOfficerData.Insert(0, new SaleOfficerData
-            {
-                ID = 0,
-                Name = "All"
-            });
-            return saleOfficerData;
 
+            return city;
         }
 
 

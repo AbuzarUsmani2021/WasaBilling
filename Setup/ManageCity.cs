@@ -1255,6 +1255,40 @@ namespace FOS.Setup
                 throw;
             }
         }
+        public static List<CityData> GetWorkDoneStatusListForFaulttypeID(int ClientID)
+        {
+            List<CityData> cityList;
+
+            try
+            {
+
+
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    cityList = dbContext.WorkDones.Where(c => c.FaulttypeID == ClientID && c.IsActive == true).OrderBy(c => c.Name)
+                                .Select(
+                                    u => new CityData
+                                    {
+                                        ID = u.ID,
+                                        Name = u.Name,
+
+                                    }).ToList();
+                }
+                var ctyList = cityList.OrderBy(x => x.Name).ToList();
+                ctyList.Insert(0, new CityData
+                {
+                    ID = 0,
+                    Name = "--Select Work Done Status--"
+                });
+                return ctyList;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
 
 
         public static List<CityData> WorkDoneDetailList(int ClientID, string selectText = "Select")

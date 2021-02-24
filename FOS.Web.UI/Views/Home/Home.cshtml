@@ -1,7 +1,7 @@
 ﻿@model FOS.Shared.KSBComplaintData
 
 @{
-    ViewBag.Title = "WASA LAHORE | Today Complaints";
+    ViewBag.Title = "KSB | O&M - Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
@@ -103,7 +103,7 @@
     <div class="grid-item">
         <label>Project:</label>
         <div class="controls" style="margin-left: 0px">
-            @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.SaleOfficers, "ID", "Name"), new { @class = "" })
+            @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects, "ID", "Name"), new { @class = "" })
         </div>
     </div>
     <div class="grid-item" style="margin-top: 28px;">
@@ -471,7 +471,13 @@
                             <input id="JobDetailID" name="JobDetailID" class="hidden" type="text" value="">
                             <input id="JobDetailID" name="JobDetailID" class="hidden" type="text" value="">
 
+                            <div class="control-group" style="margin-bottom: 10px">
+                                <label class="control-label">DateTime:</label>
+                                <div class="controls" style="margin-left: 0px">
+                                    <input type="datetime-local" id="EditDateTime">
 
+                                </div>
+                            </div>
 
                             <div class="control-group" style="margin-bottom: 10px">
                                 <label class="control-label">Fault Type:*</label>
@@ -762,10 +768,164 @@
 
     });
 
+    //Detail Start
+    function Detail(ComplaintID) {
+        $("#myModal").modal();
+
+            var ComplaintID = (ComplaintID);
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("GetActualComplaintDetail", "Complaint")",
+                        data: { ComplaintId: ComplaintID },
+                        success: function (Response)
+             {
+                            $("#ActualSiteCode").html(Response.SiteCode);
+                            $("#ActualSiteName").html(Response.SiteName);
+                            $("#ActualComplaintNo").html(Response.TicketNo);
+                            $("#ActualLaunchTime").html(Response.CreatedDate);
+                            $("#ActualLaunchBy").html(Response.LaunchedByName);
+                            $("#ActualFaultType").html(Response.FaultTypeName);
+                            $("#ActualFaultTypeDetail").html(Response.FaultTypesDetailName);
+                            $("#ActualPersonName").html(Response.Name);
+                            $("#ActualInitialRemarks").html(Response.Remarks);
+                            $("#ActualComplaintStatus").html(Response.StatusName);
+                            if (Response.Picture1 == "" || Response.Picture1 == null || Response.Picture1 == "null")
+                            {
+                                $("#ActualPicture1").attr('src', "/Images/KSB_Logo_New.jpg");
+                            }
+                            else {
+                                $("#ActualPicture1").attr('src', Response.Picture1);
+                            }
+                            if (Response.Picture2 == "" || Response.Picture2 == null || Response.Picture2 == "null")
+                            {
+                                $("#ActualPicture2").attr('src', "/Images/KSB_Logo_New.jpg");
+
+                            }
+                            else
+                            {
+                                $("#ActualPicture2").attr('src', Response.Picture2);
+
+                            }
+            }
+                    });
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("GetCurrentComplaintDetail", "Complaint")",
+                        data: { ComplaintId: ComplaintID },
+                        success: function (Response)
+             {
+                            $("#myModal").css("display", "block");
+                            $("#UpdateDateTimeComplaintID").val(Response.ID);
+                            $("#SiteCode").html(Response.SiteCode);
+                            $("#SiteName").html(Response.SiteName);
+                            $("#ComplaintNo").html(Response.TicketNo);
+                            $("#LaunchTime").html(Response.CreatedDate);
+                            $("#LaunchBy").html(Response.LaunchedByName);
+                            $("#FaultType").html(Response.FaultTypeName);
+                            if (Response.FaultTypesDetailName == null || Response.FaultTypesDetailName == "") {
+                                $("#FaultTypeDetail").html("null");
+                            }
+                            else
+                            {
+                                $("#FaultTypeDetail").html(Response.FaultTypesDetailName);
+                            }
+                            $("#ComplaintStatus").html(Response.StatusName);
+                            if (Response.ProgressStatusName == null || Response.ProgressStatusName == "")
+                            {
+                                $("#ProgressStatusName").html("null");
+                            }
+                            else {
+                                $("#ProgressStatusName").html(Response.ProgressStatusName);
+                            }
+                            $("#LastUpdated").html(Response.LastUpdated);
+                            //$("#ProgressStatusOtherRemarks").html(Response.ProgressStatusOtherRemarks);
+                            //$("#Name").html(Response.Name);
+                            //$("#InitialRemarks").html(Response.Remarks);
+                            //$("#ComplaintType").html(Response.ComplaintType);
+                            if (Response.Picture1 != null)
+                            {
+                                $("#Picture1").attr('src',Response.Picture1);
+                            }
+                            else
+                            {
+                                $("#Picture1").attr('src', "/Images/KSB_Logo_New.jpg");
+                            }
+                            if (Response.Picture2 != null)
+                            {
+                                $("#Picture2").attr('src',Response.Picture2);
+                             }
+                            else
+                            {
+                                $("#Picture2").attr('src', "/Images/KSB_Logo_New.jpg");
+                            }
+            }
+                    });
+                    $.ajax({
+                        type: "POST",
+                        data: { ComplaintId: ComplaintID },
+                        url: "@Url.Action("GetComplaintClientRemarks", "Complaint")",
+                        dataType: 'JSON',
+                        success: function (Response)
+                        {
+                            $("#RemarksData").empty();
+                            if (Response.length == 0)
+                            {
+                                var divHtml1 = $('<tr>').html("<td style='text-align:center;' colspan='3'>" + "<strong>No Any Client Remark Found Against This complaint</strong>" + "</td>");
+
+                                $("#RemarksData").append(divHtml1);
+                            }
+                            else
+                            {
+                                $.each(Response, function (i, item) {
+                                    var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.RemarksByName + "</td><td style='text-align:center;'>" + item.ClientRemarks + "</td>");
+                                    $("#RemarksData").append(divHtml);
+                                });
+                            }
+                        }
+
+                    });
+                    $.ajax({
+                        type: "POST",
+                        data: { ComplaintId: ComplaintID },
+                        url: "@Url.Action("GetComplaintChildDataForKSB", "Complaint")",
+                        dataType: 'JSON',
+                        success: function (Response)
+                        {
+                            $("#ChildStatus").empty();
+                            $.each(Response, function (i, item) {
+                                if (item.IsPublish == 0) {
+                                    var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.AssignedFS + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; color:white;margin-bottom:5px; margin-right:5px; ' onclick='ChildEdit(" + item.ProgressID + ',' + item.ComplaintID + ',' + item.ComplaintStatusID +")' ><b>Edit</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildDelete(" + item.ProgressID + ")' ><b>Delete</b></a><a href='#' class='btn text-center' style='background-color:#1969b1;margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildPublish(" + item.ProgressID + ")' ><b>Publish</b></a>" + "</td>");
+                                }
+                                else
+                                {
+                                    var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.AssignedFS + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; color:white;margin-bottom:5px; margin-right:5px; ' onclick='ChildEdit(" + item.ProgressID + ',' + item.ComplaintID + ',' + item.ComplaintStatusID +")' ><b>Edit</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildDelete(" + item.ProgressID + ")' ><b>Delete</b></a></td>");
+                                }
+
+                                //var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a>" + "</td>");
+                                    $("#ChildStatus").append(divHtml);
+                                });
+
+                        }
+
+                    });
+                    $('html, body').animate({
+                        scrollTop: $("#main-content").offset().top
+                    }, 500);
+
+    }
+    //Detail END
+
     //Get Update Complaint Start
-    function UpdateComplaint(ComplaintID) {
+    function UpdateComplaint(ComplaintID,ComplaintStatusID) {
         GetUpdateLoadFaultTypeDetails(ComplaintID);
-        GetUpdateLoadProgressStatusDetails(ComplaintID);
+        if (ComplaintStatusID == 3)
+        {
+            GetUpdateWorkDoneStatusDetails(ComplaintID);
+        }
+        else
+        {
+            GetUpdateLoadProgressStatusDetails(ComplaintID);
+        }
         $('html, body').animate({
             scrollTop: $("#main-content").offset().top
         }, 500);
@@ -776,8 +936,6 @@
             type: "GET",
             url: url,
             success: function (Response) {
-
-                debugger
                 $("#UpdateComplaintID").val(Response.UpdateComplaintID);
                 $("#UpdateFaulttypeId").val(Response.UpdateFaulttypeId);
                 $("#UpdateFaulttypeDetailId").val(Response.UpdateFaulttypeDetailId);
@@ -839,6 +997,26 @@
             }
         });
     }
+    function GetUpdateWorkDoneStatusDetails(ComplaintID)
+    {
+        var ClientID = ComplaintID ;
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetWorkDoneStatusListForFaulttypeID", "Complaint")",
+            data: { ClientID: ClientID},
+            success: function (json) {
+
+                var $el = $("#UpdateProgressStatusId");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+
+
+            }
+        });
+    }
+
     $("#UpdateFaulttypeId").change(function () {
         UpdateLoadFaultTypeDetails();
         UpdateLoadProgressStatusDetails();
@@ -937,7 +1115,7 @@
             }
         });
     }
-   
+
 
     //Upload-Picture1 Start
     $('#UpdatePicture1UserImage').click(function () {
@@ -996,9 +1174,16 @@
     //Get Update Complaint END
 
     //Get Edit Complaint Start
-    function ChildEdit(ProgressChildID,ComplaintID) {
+    function ChildEdit(ProgressChildID, ComplaintID, ComplaintStatusID) {
         GetEditLoadFaultTypeDetails(ComplaintID);
-        GetEditLoadProgressStatusDetails(ComplaintID);
+        if (ComplaintStatusID == 3)
+        {
+            EditWorkDoneStatusDetails(ComplaintID);
+        }
+        else
+        {
+            GetEditLoadProgressStatusDetails(ComplaintID);
+        }
         $('html, body').animate({
             scrollTop: $("#main-content").offset().top
         }, 500);
@@ -1009,11 +1194,12 @@
             url: url,
             success: function (Response)
             {
-                
+
                 $("#ProgressChildID").val(Response.ProgressChildID);
                 $("#EditComplaintID").val(Response.ComplaintID);
                 $("#JobDetailID").val(Response.JobDetailID);
                 $("#EditFaulttypeId").val(Response.FaultTypeID);
+                $("#EditDateTime").val(Response.EditDateTime);
                 $("#EditFaulttypeDetailId").val(Response.FaultTypeDetailID);
                 if (Response.EditFaulttypeDetailId == 3030 || Response.EditFaulttypeDetailId == 3042 || Response.EditFaulttypeDetailId == 3049)
                 {
@@ -1032,7 +1218,7 @@
                 $("#EditProgressStatusOtherRemarks").val(Response.ProgressStatusOtherRemarks);
                 $("#EditTime").val(Response.EditTime);
                 $("#EditName").val(Response.EditPerson);
-                $("#EditRemarks").val(Response.ProgressRemarks);    
+                $("#EditRemarks").val(Response.ProgressRemarks);
                 if (Response.Picture1 != null) {
                     $("#ChildEditUserImage").attr('src', Response.Picture1);
                     $("#ChildEditPicture1").val(Response.Picture1);
@@ -1078,6 +1264,24 @@
             type: "POST",
             url: "@Url.Action("GetUpdateProgressStatusListForFaulttypeID", "Complaint")",
             data: { ClientID: ClientID},
+            success: function (json) {
+
+                var $el = $("#EditProgressStatusId");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+
+
+            }
+        });
+    }
+    function EditWorkDoneStatusDetails(ComplaintID) {
+        var ClientID = ComplaintID;
+         $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetWorkDoneStatusListForFaulttypeID", "Complaint")",
+             data: { ClientID: ClientID },
             success: function (json) {
 
                 var $el = $("#EditProgressStatusId");
@@ -1170,24 +1374,6 @@
             EditLoadProgressStatusDetails();
             }
     });
-    function EditWorkDoneStatusDetails() {
-        var ClientID = $("#EditFaulttypeId").val();
-         $.ajax({
-            type: "POST",
-            url: "@Url.Action("WorkDoneDetailList", "Complaint")",
-             data: { ClientID: ClientID },
-            success: function (json) {
-
-                var $el = $("#EditProgressStatusId");
-                $el.empty(); // remove old options
-                $.each(json, function (value, key) {
-                    $el.append($("<option></option>").val(key.ID).text(key.Name));
-                });
-
-
-            }
-        });
-    }
 
     //Upload-Picture1 Start
     $('#ChildEditUserImage').click(function () {
@@ -1327,11 +1513,33 @@
             cache: false,
             data: data,
             success: function (result) {
-                if (result == true) {
+                if (result == true)
+                {
                     $('#UpdateComplaint').modal('hide');
                     alertify.success("Complaint Status Updated Successfully.");
+                    $('#UpdateProgressRemarks').val("");
+                    $('#UpdateComplaintID').val(0);
+                    $('#UpdateFaulttypeId').val(0);
+                    $('#UpdateFaulttypeDetailId').val(0);
+                    $('#UpdateFaultTypeDetailOtherRemarks').val("");
+                    $('#UpdatePriorityId').val(0);
+                    $('#UpdateComplaintTypeID').val(0);
+                    $('#UpdateSalesOficerID').val(0);
+                    $('#UpdateStatusID').val(0);
+                    $('#UpdateProgressStatusId').val(0);
+                    $('#UpdateProgressStatusOtherRemarks').val("");
+                    $('#UpdateTime').val(0);
+                    $('#UpdatePerson').val("");
+                    $('#UpdatePicture1').val("");
+                    $('#UpdatePicture2').val("");
+                    $("#UpdatePicture2UserImage").attr('src', "/Images/KSB_Logo_New.jpg");
+                    $("#UpdatePicture1UserImage").attr('src', "/Images/KSB_Logo_New.jpg");
+                    $("#UpdateFaultTypeDetailOtherRemarksBox").hide();
+                    $("#UpdateProgressStatusOtherRemarksBox").hide();
+                    $("#EditOtherRemarksBox").hide();
+                    $("#EditProgressStatusOtherRemarksBox").hide();
+                    $('#datatab').DataTable().ajax.reload();
                 }
-                $('#datatab').DataTable().ajax.reload();
             }
         })
 
@@ -1373,149 +1581,6 @@
                     $("#ApplyFilter").click(function () {
                         table.clear().draw();
                     });
-                    $(".Detail").on("click", function () {
-                    var ComplaintID = ($(this).attr("data-id"));
-                    $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("GetActualComplaintDetail", "Complaint")",
-                        data: { ComplaintId: ComplaintID },
-                        success: function (Response)
-             {
-                            $("#ActualSiteCode").html(Response.SiteCode);
-                            $("#ActualSiteName").html(Response.SiteName);
-                            $("#ActualComplaintNo").html(Response.TicketNo);
-                            $("#ActualLaunchTime").html(Response.CreatedDate);
-                            $("#ActualLaunchBy").html(Response.LaunchedByName);
-                            $("#ActualFaultType").html(Response.FaultTypeName);
-                            $("#ActualFaultTypeDetail").html(Response.FaultTypesDetailName);
-                            $("#ActualPersonName").html(Response.Name);
-                            $("#ActualInitialRemarks").html(Response.Remarks);
-                            $("#ActualComplaintStatus").html(Response.StatusName);
-                            if (Response.Picture1 == "" || Response.Picture1 == null || Response.Picture1 == "null")
-                            {
-                                $("#ActualPicture1").attr('src', "/Images/KSB_Logo_New.jpg");
-                            }
-                            else {
-                                $("#ActualPicture1").attr('src', Response.Picture1);
-                            }
-                            if (Response.Picture2 == "" || Response.Picture2 == null || Response.Picture2 == "null")
-                            {
-                                $("#ActualPicture2").attr('src', "/Images/KSB_Logo_New.jpg");
-
-                            }
-                            else
-                            {
-                                $("#ActualPicture2").attr('src', Response.Picture2);
-
-                            }
-            }
-                    });
-                    $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("GetCurrentComplaintDetail", "Complaint")",
-                        data: { ComplaintId: ComplaintID },
-                        success: function (Response)
-             {
-                            $("#myModal").css("display", "block");
-                            $("#UpdateDateTimeComplaintID").val(Response.ID);
-                            $("#SiteCode").html(Response.SiteCode);
-                            $("#SiteName").html(Response.SiteName);
-                            $("#ComplaintNo").html(Response.TicketNo);
-                            $("#LaunchTime").html(Response.CreatedDate);
-                            $("#LaunchBy").html(Response.LaunchedByName);
-                            $("#FaultType").html(Response.FaultTypeName);
-                            if (Response.FaultTypesDetailName == null || Response.FaultTypesDetailName == "") {
-                                $("#FaultTypeDetail").html("null");
-                            }
-                            else
-                            {
-                                $("#FaultTypeDetail").html(Response.FaultTypesDetailName);
-                            }
-                            $("#ComplaintStatus").html(Response.StatusName);
-                            if (Response.ProgressStatusName == null || Response.ProgressStatusName == "")
-                            {
-                                $("#ProgressStatusName").html("null");
-                            }
-                            else {
-                                $("#ProgressStatusName").html(Response.ProgressStatusName);
-                            }
-                            $("#LastUpdated").html(Response.LastUpdated);
-                            //$("#ProgressStatusOtherRemarks").html(Response.ProgressStatusOtherRemarks);
-                            //$("#Name").html(Response.Name);
-                            //$("#InitialRemarks").html(Response.Remarks);
-                            //$("#ComplaintType").html(Response.ComplaintType);
-                            if (Response.Picture1 != null)
-                            {
-                                $("#Picture1").attr('src',Response.Picture1);
-                            }
-                            else
-                            {
-                                $("#Picture1").attr('src', "/Images/KSB_Logo_New.jpg");
-                            }
-                            if (Response.Picture2 != null)
-                            {
-                                $("#Picture2").attr('src',Response.Picture2);
-                             }
-                            else
-                            {
-                                $("#Picture2").attr('src', "/Images/KSB_Logo_New.jpg");
-                            }
-            }
-                    });
-                    $.ajax({
-                        type: "POST",
-                        data: { ComplaintId: ComplaintID },
-                        url: "@Url.Action("GetComplaintClientRemarks", "Complaint")",
-                        dataType: 'JSON',
-                        success: function (Response)
-                        {
-                            $("#RemarksData").empty();
-                            if (Response.length == 0)
-                            {
-                                var divHtml1 = $('<tr>').html("<td style='text-align:center;' colspan='3'>" + "<strong>No Any Client Remark Found Against This complaint</strong>" + "</td>");
-
-                                $("#RemarksData").append(divHtml1);
-                            }
-                            else
-                            {
-                                $.each(Response, function (i, item) {
-                                    var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.RemarksByName + "</td><td style='text-align:center;'>" + item.ClientRemarks + "</td>");
-                                    $("#RemarksData").append(divHtml);
-                                });
-                            }
-                        }
-
-                    });
-                    $.ajax({
-                        type: "POST",
-                        data: { ComplaintId: ComplaintID },
-                        url: "@Url.Action("GetComplaintChildDataForKSB", "Complaint")",
-                        dataType: 'JSON',
-                        success: function (Response)
-                        {
-                            $("#ChildStatus").empty();
-                            $.each(Response, function (i, item) {
-                                if (item.IsPublish == 0) {
-                                    var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.AssignedFS + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; color:white;margin-bottom:5px; margin-right:5px; ' onclick='ChildEdit(" + item.ProgressID + ',' + item.ComplaintID + ")' ><b>Edit</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildDelete(" + item.ProgressID + ")' ><b>Delete</b></a><a href='#' class='btn text-center' style='background-color:#1969b1;margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildPublish(" + item.ProgressID + ")' ><b>Publish</b></a>" + "</td>");
-                                }
-                                else
-                                {
-                                    var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.AssignedFS + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; color:white;margin-bottom:5px; margin-right:5px; ' onclick='ChildEdit(" + item.ProgressID + ',' + item.ComplaintID + ")' ><b>Edit</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildDelete(" + item.ProgressID + ")' ><b>Delete</b></a></td>");
-                                }
-
-                                //var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a>" + "</td>");
-                                    $("#ChildStatus").append(divHtml);
-                                });
-
-                        }
-
-                    });
-                    $('html, body').animate({
-                        scrollTop: $("#main-content").offset().top
-                    }, 500);
-                });
-
-
 
         },
                 "fnRowCallback": function (nRow, aData, iDisplayIndex) {
@@ -1566,7 +1631,7 @@
                         {
                             //return '<button class="btn Detail" style="background-color: #1969b1; color:white; margin-bottom: 5px;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" >' + 'Detail' + '</button>';
 
-                            return '<button class="btn bold Detail" style="background-color: #1969b1; color:white; margin-bottom: 5px;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" >' + 'Detail' + '</button>&nbsp;<button class="btn bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" onclick="AddRemarks(' + row.ID + ')" >' + 'Remarks' + '</button>&nbsp;<button class="btn Update bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=ChatBox(' + row.ID + ') >' + ' SMS' + '</button>&nbsp;<button class="btn bold Update" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=UpdateComplaint(' + row.ID + ') >' + 'Update' + '</button>';
+                            return '<button class="btn bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" onclick="Detail(' + row.ID + ')">' + 'Detail' + '</button>&nbsp;<button class="btn bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" onclick="AddRemarks(' + row.ID + ')" >' + 'Remarks' + '</button>&nbsp;<button class="btn Update bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=ChatBox(' + row.ID + ') >' + ' SMS' + '</button>&nbsp;<button class="btn bold Update" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=UpdateComplaint('+row.ID+ ','+row.StatusID+')>' + 'Update' + '</button>';
                             //return '<a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-info-circle" style="font-size:20px;"></i></a>' + '<span style="font-size:25px;">|</span><a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-plus-circle" style="font-size:20px;"></i></a>' + '<span style="font-size:25px;">|</span><a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-comments" style="font-size:20px;"></i></a>' + '<span style="font-size:25px;">|</span><a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-edit" style="font-size:20px;"></i></a>';
 
                         }
@@ -1575,12 +1640,9 @@
 
             });
 
-        //table = $('#datatab').DataTable();
-        //setInterval(function () {
-        //    var info = table.page.info();
-        //    var pageNum = (info.page < info.pages) ? info.page + 1 : 1;
-        //    table.page(pageNum).draw(false);
-        //}, 3000000);
+        setInterval(function () {
+            $('#datatab').DataTable().ajax.reload();
+        }, 30000);
     }
     function ChildView(ProgressID) {
         var url = "/Complaint/GetProgressIDData?ProgressID=" + ProgressID;
@@ -1775,17 +1837,11 @@
             data: data,
             success: function (result)
             {
-                if (result == true)
-                {
                     $('#UpdateComplaintTime').modal('hide');
                     alertify.success("DateTime has Updated Successfully.");
                     $("#UpdateDateTime").val("");
                     $('#datatab').DataTable().ajax.reload();
-                }
-                else
-                {
-                    alertify.error("DateTime Not Updated Successfully.");
-                }
+                     Detail(result);
             }
         };
         $.ajax(settings);
@@ -1794,5 +1850,5 @@
         $("#UpdateDateTime").val("");
     });
 
-    
+
 </script>

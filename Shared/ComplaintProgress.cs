@@ -14,6 +14,9 @@ namespace FOS.Shared
         public int? JobDetailID { get; set; }
 
         public string DateTime { get; set; }
+
+        public DateTime? EditDateTime { get; set; }
+
         public int? PriorityID { get; set; }
         public int? ComplaintStatusID { get; set; }
 

@@ -629,7 +629,7 @@
             var info = table.page.info();
             var pageNum = (info.page < info.pages) ? info.page + 1 : 1;
             table.page(pageNum).draw(false);
-        }, 30000000);
+        }, 30000);
     }
     function ChildView(ProgressID) {
         var url = "/Complaint/GetProgressIDData?ProgressID=" + ProgressID;

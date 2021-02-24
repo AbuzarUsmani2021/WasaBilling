@@ -467,6 +467,12 @@ namespace FOS.Web.UI.Controllers
             var result = FOS.Setup.ManageCity.GetUpdateProgressStatusListForFaulttypeID((int)Faulttypeid);
             return Json(result);
         }
+        public JsonResult GetWorkDoneStatusListForFaulttypeID(int ClientID)
+        {
+            int? Faulttypeid = db.Tbl_ComplaintHistory.Where(x => x.JobID == ClientID).Select(x => x.FaultTypeId).FirstOrDefault();
+            var result = FOS.Setup.ManageCity.GetWorkDoneStatusListForFaulttypeID((int)Faulttypeid);
+            return Json(result);
+        }
 
         public JsonResult WorkDoneDetailList(int ClientID)
         {

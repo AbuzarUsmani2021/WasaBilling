@@ -40,7 +40,7 @@ namespace FOS.Web.UI.Controllers
         }
 
         //Session Create/Login Method...
-        public JsonResult UserAuth(string userName, string password, string returnUrl)
+        public JsonResult UserAuth(string userName, string password)
         {
             string pageUrl = "";
             Log.Instance.Info("A new user is trying to sign in");
@@ -51,55 +51,37 @@ namespace FOS.Web.UI.Controllers
             {
                 bool UserRoleStatus = RoleRegionalHeadExist(userId);
                 ViewBag.res = userId.ToString();
-
                 Log.Instance.Info("Correct credentials");
-
                 SessionManager.Store("UserName", userName.ToString());
                 SessionManager.Store("UserID", userId);
                 SessionManager.Store("UserPages", Common.CurrentUser.GetUserPages(userId));
                 SessionManager.Store("RoleID", Common.CurrentUser.GetUserRole(userId));
                 SessionManager.Store("TeamID", Common.CurrentUser.GetUserTeamID(userId));
                 SessionManager.Store("SORelationID", Common.CurrentUser.User_SOIDRelation(userId));
-
-
-
-
                 SetRegionalHeadIDRelatedToUser(userId);
-
                 FormsAuthentication.SetAuthCookie(userName, false);
+
+                var TeamID = (int)Session["TeamID"];
+
+                if (TeamID == 4)
+                {
+                    pageUrl = string.Format("{0}/Home/WasaDashboard", Settings.AppPath);
+                }
+                else if (TeamID == 5 || TeamID == 6)
+                {
+                    pageUrl = string.Format("{0}/Home/Home", Settings.AppPath);
+                }
             }
             else
             {
-                Log.Instance.Info("Login failed");
+                Log.Instance.Info("Incorrect userName or password ");
                 SessionManager.Destroy("UserName");
+                SessionManager.Destroy("UserID");
+                SessionManager.Destroy("UserPages");
+                SessionManager.Destroy("RoleID");
+                SessionManager.Destroy("TeamID");
+                SessionManager.Destroy("SORelationID");
             }
-            var TeamID = (int)Session["TeamID"];
-
-            if (TeamID==4)
-            {
-                pageUrl = string.IsNullOrEmpty(returnUrl) ? string.Format("{0}/Home/WasaDashboard", Settings.AppPath) : returnUrl;
-            }
-            else
-            {
-                 pageUrl = string.IsNullOrEmpty(returnUrl) ? string.Format("{0}/Home/Home", Settings.AppPath) : returnUrl;
-            }
-            
-
-           
-            //return Json(new { status = userId, url =pageUrl }, JsonRequestBehavior.AllowGet);
-            return Json(new { status = response, url = pageUrl }, JsonRequestBehavior.AllowGet);
-            //New Home Page Logic
-            //string pageUrl;
-            //bool DashboardAccess = Common.CurrentUser.IsValidUserPageUrl("/Home/Home");
-            //if (!DashboardAccess)
-            //{
-            //    pageUrl = string.IsNullOrEmpty(returnUrl) ? string.Format("{0}/Home/UserHome", Settings.AppPath) : returnUrl;
-            //}
-            //else
-            //{
-            //    pageUrl = string.IsNullOrEmpty(returnUrl) ? string.Format("{0}/Home/Home", Settings.AppPath) : returnUrl;
-            //}
-            //return Json(new { status = userId, url =pageUrl }, JsonRequestBehavior.AllowGet);
             return Json(new { status = response, url = pageUrl }, JsonRequestBehavior.AllowGet);
         }
 
@@ -108,11 +90,14 @@ namespace FOS.Web.UI.Controllers
         {
             Session["AppAuth"] = false;
             Session["UserName"] = null;
-
+            Session["UserID"] = null;
+            Session["UserPages"] = null;
+            Session["RoleID"] = null;
+            Session["TeamID"] = null;
+            Session["SORelationID"] = null;
             FormsAuthentication.SignOut();
             Session.Abandon();
             Session.RemoveAll();
-
             Response.Redirect("~/AdminPanel/login");
         }
 
