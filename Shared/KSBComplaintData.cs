@@ -36,6 +36,32 @@ namespace FOS.Shared
 
         //Edit Complaint Only CC END
 
+        //ComplaintReport Start
+        public List<ComplaintStatus> Projects { get; set; }
+        public String ProjectIDs { get; set; }
+        public List<CityData> Cities { get; set; }
+        public String CitiesIDs { get; set; }
+        public List<AreaData> Areas { get; set; }
+        public String AreasIDs { get; set; }
+        public List<SubDivisionData> SubDivisions { get; set; }
+        public String SubDivisionsIDs { get; set; }
+        public List<RetailerData> Sites { get; set; }
+        public String SitesIDs { get; set; }
+        public List<FaultTypeData> faultTypes { get; set; }
+        public String FaultTypesIDs { get; set; }
+        public List<ComplaintStatus> complaintStatuses { get; set; }
+        public String complaintStatusesIDs { get; set; }
+        public List<Workdone> WorkDone { get; set; }
+        public String WorkDoneIDs { get; set; }
+        public List<ComplaintLaunchedBy> LaunchedBy { get; set; }
+        public String LaunchedByIDs { get; set; }
+        public List<SaleOfficerData> FieldOfficers { get; set; }
+        public String FieldOfficersIDs { get; set; }
+
+        //ComplaintReport END
+
+
+
         public int ID { get; set; }
         public int? ClientId { get; set; }
         public int? SaleOfficerID { get; set; }
@@ -65,7 +91,6 @@ namespace FOS.Shared
         public int? RegionID { get; set; }
         public string RegionName { get; set; }
         public int ProjectId { get; set; }
-        public String ProjectIDD { get; set; }
 
         public int? CityID { get; set; }
         public Nullable<int> ZoneId { get; set; }
@@ -139,27 +164,19 @@ namespace FOS.Shared
         public string UpdateProgressRemarks { get; set; }
 
 
-        public List<CityData> Cities { get; set; }
         public List<RegionData> Regions { get; set; }
-        public List<AreaData> Areas { get; set; }
         public List<RegionData> Client { get; set; }
-        public List<FaultTypeData> faultTypes { get; set; }
+      
         public List<PriorityData> priorityDatas { get; set; }
-        public List<SaleOfficerData> FieldOfficers { get; set; }
+   
 
-        public List<ComplaintStatus> complaintStatuses { get; set; }
         public List<ComplaintStatus> ProgressStatus { get; set; }
         public List<ComplaintStatus> ComplaintTypes { get; set; }
 
-        public List<Workdone> WorkDone { get; set; }
 
-        public List<ComplaintStatus> Projects { get; set; }
         public List<FaultTypeData> faultTypesDetail { get; set; }
         public List<int?> UpdatefaultTypesDetail { get; set; }
 
-        public List<ComplaintLaunchedBy> LaunchedBy { get; set; }
-        public List<SubDivisionData> SubDivisions { get; set; }
-        public List<RetailerData> Sites { get; set; }
         public List<SaleOfficerData> SaleOfficers { get; set; }
     }
 }
