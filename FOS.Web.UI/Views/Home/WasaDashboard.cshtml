@@ -89,10 +89,10 @@
     </div>
     <div class="grid-item" style="margin-top: 28px;">
         <button type="submit" id="ApplyFilter" class="btn btn-primary">
-            <i class="icon-ok icon-white" style="padding-right: 2px"></i><span style="width:50px">Apply Filter</span>
+            <i class="icon-ok icon-white" style="padding-right: 2px"></i><span style="width:50px"><strong>Apply Filter</strong></span>
         </button>
         <button type="submit" id="Clear" class="btn btn-primary">
-            <i class="icon-remove icon-white" style="padding-right: 2px"></i><span style="width:50px">Clear</span>
+            <i class="icon-remove icon-white" style="padding-right: 2px"></i><span style="width:50px"><strong>Clear</strong></span>
         </button>
     </div>
 
@@ -407,7 +407,7 @@
                 "ajax":
                 {
                     "type": "POST",
-                    "url": '@Url.Action("WasaDashboardDataHandler", "RetailerOrders")',
+                    "url": '@Url.Action("HomeComplaintsDataHandler", "RetailerOrders")',
                     "contentType": 'application/json; charset=utf-8',
                     'data': function (data) {
                         data.StartingDate1 = $('#StartingDate1').val();
@@ -615,7 +615,7 @@
                         {
                             //return '<button class="btn Detail" style="background-color: #1969b1; color:white; margin-bottom: 5px;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" >' + 'Detail' + '</button>';
 
-                            return '<button class="btn Detail" style="background-color: #1969b1; color:white; margin-bottom: 5px;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" >' + 'Detail' + '</button>&nbsp;<button class="btn" style="background-color: #1969b1; color:white; margin-bottom: 5px;" onclick="AddRemarks(' + row.ID + ')">' + 'Remarks' + '</button>';
+                            return '<button class="btn Detail bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" >' + 'Detail' + '</button>&nbsp;<button class="btn bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" onclick="AddRemarks(' + row.ID + ')">' + 'Remarks' + '</button>';
                             //return '<a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-info-circle" style="font-size:20px;"></i></a>' + '<span style="font-size:25px;">|</span><a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-plus-circle" style="font-size:20px;"></i></a>' + '<span style="font-size:25px;">|</span><a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-comments" style="font-size:20px;"></i></a>' + '<span style="font-size:25px;">|</span><a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-edit" style="font-size:20px;"></i></a>';
 
                         }
