@@ -108,6 +108,7 @@
     <Compile Include="PriorityData.cs" />
     <Compile Include="SiteEquipmentDetailData.cs" />
     <Compile Include="SchemeData.cs" />
+    <Compile Include="SOZoneTownProject.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Workdone.cs" />
     <Compile Include="ZoneData.cs" />

@@ -10,6 +10,11 @@
 <script src='~/Scripts/lib/jquery-ui.min.js'></script>
 <script src='~/Scripts/lib/fullcalendar.min.js'></script>
 <link href="~/Content/Style/jquery-ui.min.css" rel="stylesheet" />
+<style>
+    .ui-datepicker {
+        width: 205px;
+    }
+</style>
 <br />
 <div class="row-fluid">
     <div class="span12">
@@ -21,83 +26,104 @@
             {
                 @Html.AntiForgeryToken()
 
-                <div class="widget-body form-horizontal">
-
-                    <div class="control-group" style="margin-bottom: 14px;">
-                        <label class="control-label">Starting Date *</label>
-                        <div class="controls">
-                            <input class="text-box single-line" id="StartingDate1" name="StartingDate1" autocomplete="off" style="height: 22px; width: 202px; margin-bottom: 0px;">
-                        </div>
-                    </div>
-
-                    <div class="control-group" style="margin-bottom: 14px;">
-                        <label class="control-label">Ending Date *</label>
-                        <div class="controls">
-                            <input class="text-box single-line" id="StartingDate2" name="StartingDate2" autocomplete="off" style="height: 22px; width: 202px; margin-bottom: 0px;">
-                        </div>
-                    </div>
-
-
-                    <div class="control-group">
-                        <label class="control-label">Project:</label>
-                        <div class="controls">
-                            @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects, "ID", "Name"), new { @class = "" })
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label">Zone:</label>
-                        <div class="controls">
-                            @Html.DropDownListFor(model => model.CityID, new SelectList(Model.Cities, "ID", "Name"), new { @class = "" })
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label"> Fault Type:</label>
-                        <div class="controls">
-                            @Html.DropDownListFor(model => model.FaulttypeId, new SelectList(Model.faultTypes, "Id", "Name"), new { @class = "Areas" })
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Complaint Status:</label>
-                        <div class="controls">
-                            @Html.DropDownListFor(model => model.StatusID, new SelectList(Model.complaintStatuses, "Id", "Name"), new { @class = "Areas" })
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label">Work Done Status:</label>
-                        <div class="controls">
-                            @Html.DropDownListFor(model => model.WorkDoneID, new SelectList(Model.WorkDone, "Id", "Name"), new { @class = "Areas" })
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label">Launched By:</label>
-                        <div class="controls">
-                            @Html.DropDownListFor(model => model.SaleOfficerID, new SelectList(Model.SaleOfficers, "Id", "Name"), new { @class = "Areas" })
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label">Field officer:</label>
-                        <div class="controls">
-                            @Html.DropDownListFor(model => model.FieldOfficerID, new SelectList(Model.FieldOfficers, "Id", "Name"), new { @class = "Areas" })
-                        </div>
-                    </div>
-
-
-
-
-                    <div class="control-group" style="border-top: 1px solid #e5e5e5;">
-                        <div style="margin-top:10px; margin-left:135px;">
-                            <button type="submit" id="btnNew" class="btn btn-primary"><i class="icon-ok icon-white"></i> Generate</button>
-                            <button type="button" id="Reset" class="btn btn-info"><i class="icon-ban-circle icon-white"></i> Reset</button>
-                        </div>
-
-                    </div>
+        <div class="widget-body form-horizontal">
+            <div class="control-group">
+                <label class="control-label">Project:</label>
+                <div class="controls">
+                    @Html.DropDownListFor(model => model.Projects, new SelectList(Model.Projects, "ID", "Name"))
+                    @Html.HiddenFor(model => model.ProjectIDs)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Zone:</label>
+                <div class="controls">
+                    @Html.DropDownListFor(model => model.Cities, new SelectList(Model.Cities, "ID", "Name"))
+                    @Html.TextBoxFor(model => model.CitiesIDs)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Towns:</label>
+                <div class="controls">
+                    @Html.DropDownListFor(model => model.Areas, new SelectList(Model.Areas, "ID", "Name"))
+                    @Html.HiddenFor(model => model.AreasIDs)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Subdivisions:</label>
+                <div class="controls">
+                    @Html.DropDownListFor(model => model.SubDivisions, new SelectList(Model.SubDivisions, "ID", "Name"))
+                    @Html.HiddenFor(model => model.SubDivisionsIDs)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Sites:</label>
+                <div class="controls">
+                    @Html.DropDownListFor(model => model.Sites, new SelectList(Model.Sites, "ID", "Name"))
+                    @Html.HiddenFor(model => model.SitesIDs)
+                </div>
+            </div>
+            <div class="control-group" style="margin-bottom: 14px;">
+                <label class="control-label">Starting Date *</label>
+                <div class="controls">
+                    <input class="text-box single-line" id="StartingDate1" name="StartingDate1" autocomplete="off" placeholder="DD-MM-YYYY" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                </div>
+            </div>
+            <div class="control-group" style="margin-bottom: 14px;">
+                <label class="control-label">Ending Date *</label>
+                <div class="controls">
+                    <input class="text-box single-line" id="StartingDate2" name="StartingDate2" autocomplete="off" placeholder="DD-MM-YYYY" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label"> Fault Type:</label>
+                <div class="controls">
+                    @Html.DropDownListFor(model => model.faultTypes, new SelectList(Model.faultTypes, "Id", "Name"))
+                    @Html.HiddenFor(model => model.FaultTypesIDs)
 
                 </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Complaint Status:</label>
+                <div class="controls">
+                    @Html.DropDownListFor(model => model.complaintStatuses, new SelectList(Model.complaintStatuses, "Id", "Name"))
+                    @Html.HiddenFor(model => model.complaintStatusesIDs)
+
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Work Done Status:</label>
+                <div class="controls">
+                    @Html.DropDownListFor(model => model.WorkDone, new SelectList(Model.WorkDone, "Id", "Name"))
+                    @Html.HiddenFor(model => model.WorkDoneIDs)
+
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Launched By:</label>
+                <div class="controls">
+                    @Html.DropDownListFor(model => model.LaunchedBy, new SelectList(Model.LaunchedBy, "Id", "Name"))
+                    @Html.HiddenFor(model => model.LaunchedByIDs)
+
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Field officer:</label>
+                <div class="controls">
+                    @Html.DropDownListFor(model => model.FieldOfficers, new SelectList(Model.FieldOfficers, "Id", "Name"))
+                    @Html.HiddenFor(model => model.FieldOfficersIDs)
+
+                </div>
+            </div>
+
+            <div class="control-group" style="border-top: 1px solid #e5e5e5;">
+                <div style="margin-top:10px; margin-left:135px;">
+                    <button type="submit" id="btnNew" class="btn btn-primary"><i class="icon-ok icon-white"></i> Generate</button>
+                    <button type="button" id="Reset" class="btn btn-info"><i class="icon-ban-circle icon-white"></i> Reset</button>
+                </div>
+
+            </div>
+
+        </div>
             }
         </div>
     </div>
@@ -105,6 +131,122 @@
 
 
 <script>
+
+    $(document).ready(function () {
+
+        $('#Projects').change(function () {
+            $('#ProjectIDs').val($('#Projects').multipleSelect('getSelects'));
+        }).multipleSelect({
+            filter: true
+        });
+
+        $('#Cities').change(function () {
+            $('#CitiesIDs').val($('#Cities').multipleSelect('getSelects'));
+        }).multipleSelect({
+            filter: true
+        });
+
+
+        $('#Areas').change(function () {
+            $('#AreasIDs').val($('#Areas').multipleSelect('getSelects'));
+        }).multipleSelect({
+            filter: true
+        });
+
+        $('#SubDivisions').change(function () {
+            $('#SubDivisionsIDs').val($('#SubDivisions').multipleSelect('getSelects'));
+        }).multipleSelect({
+            filter: true
+        });
+
+        $('#Sites').change(function () {
+            $('#SitesIDs').val($('#Sites').multipleSelect('getSelects'));
+        }).multipleSelect({
+            filter: true
+        });
+
+        $('#StartingDate1').datepicker(
+            {
+                dateFormat: 'dd-M-yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1950:2100'
+            });
+        $('#StartingDate2').datepicker(
+            {
+                dateFormat: 'dd-M-yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1950:2100'
+            });
+
+        $('#faultTypes').change(function () {
+            $('#FaultTypesIDs').val($('#faultTypes').multipleSelect('getSelects'));
+        }).multipleSelect({
+            filter: true
+        });
+
+        $('#complaintStatuses').change(function () {
+            $('#complaintStatusesIDs').val($('#complaintStatuses').multipleSelect('getSelects'));
+        }).multipleSelect({
+            filter: true
+        });
+
+        $('#WorkDone').change(function () {
+            $('#WorkDoneIDs').val($('#WorkDone').multipleSelect('getSelects'));
+        }).multipleSelect({
+            filter: true
+        });
+
+        $('#LaunchedBy').change(function () {
+            $('#LaunchedByIDs').val($('#LaunchedBy').multipleSelect('getSelects'));
+        }).multipleSelect({
+            filter: true
+        });
+
+        $('#FieldOfficers').change(function () {
+            $('#FieldOfficersIDs').val($('#FieldOfficers').multipleSelect('getSelects'));
+        }).multipleSelect({
+            filter: true
+        });
+
+
+
+    });
+
+
+
+    $('#CitiesIDs').val().change(function () {
+
+    });
+
+    $("#CitiesIDs").on("input", function () {
+       var ClientID = $("#CitiesIDs").val();
+        debugger
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetTownFromZone", "Reports")",
+            data: { ClientID: ClientID},
+            success: function (json) {
+
+                var $el = $("#Areas");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
 
 
 
@@ -172,23 +314,7 @@
         $('#SaleOfficerID').val(0);
         $('#FieldOfficerID').val(0);
     }
-    $(document).ready(function () {
 
-        $('#StartingDate1').datepicker(
-            {
-                dateFormat: 'dd-M-yy',
-                changeMonth: true,
-                changeYear: true,
-                yearRange: '1950:2100'
-            });
-        $('#StartingDate2').datepicker(
-            {
-                dateFormat: 'dd-M-yy',
-                changeMonth: true,
-                changeYear: true,
-                yearRange: '1950:2100'
-            });
-    });
 
     function OnSuccess(response)
     {

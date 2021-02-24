@@ -303,15 +303,25 @@ namespace FOS.Web.UI.Controllers
 
             Complaintdata.Projects = FOS.Setup.ManageCity.GetProjectsListForReport();
             Complaintdata.Cities = FOS.Setup.ManageCity.GetCityListForReport();
+            Complaintdata.Areas = FOS.Setup.ManageCity.GetAreaListForReport();
+            Complaintdata.SubDivisions = FOS.Setup.ManageCity.GetSubdivisionsListForReport();
+            Complaintdata.Sites = FOS.Setup.ManageCity.GetSitesListForReport();
             Complaintdata.faultTypes = FOS.Setup.ManageCity.GetFaultTypesListForReport();
             Complaintdata.complaintStatuses = FOS.Setup.ManageCity.GetComplaintStatusListForReport();
-            Complaintdata.WorkDone = FOS.Setup.ManageCity.GetWorkDoneList();
-            Complaintdata.SaleOfficers = FOS.Setup.ManageCity.GetSOList();
-            Complaintdata.FieldOfficers = FOS.Setup.ManageCity.GetFieldOfficerList();
+            Complaintdata.WorkDone = FOS.Setup.ManageCity.GetWorkDoneListForReport();
+            Complaintdata.LaunchedBy = FOS.Setup.ManageCity.GetLaunchedByListforReport();
+            Complaintdata.FieldOfficers = FOS.Setup.ManageCity.GetFieldOfficerListForReport();
 
             return View(Complaintdata);
         }
-    
+
+     
+        public JsonResult GetTownFromZone(string ClientID)
+        {
+            var result = "ht";  /*FOS.Setup.ManageCity.GetProgressDetailListForReport(ClientID, "--Select Progress Status--")*/
+            return Json(result);
+        }
+
 
         public void ComplaintSummaryrpt(int ProjectID, int CityID, int FaulttypeID, int StatusID, int WorkDoneID, int SaleOfficerID,int FieldOfficerID, string sdate, string edate)
         {
@@ -428,9 +438,9 @@ namespace FOS.Web.UI.Controllers
             Complaintdata.Cities = FOS.Setup.ManageCity.GetCityListForReport();
             Complaintdata.faultTypes = FOS.Setup.ManageCity.GetFaultTypesListForReport();
             Complaintdata.complaintStatuses = FOS.Setup.ManageCity.GetComplaintStatusListForReport();
-            Complaintdata.WorkDone = FOS.Setup.ManageCity.GetWorkDoneList();
-            Complaintdata.SaleOfficers = FOS.Setup.ManageCity.GetSOList();
-            Complaintdata.FieldOfficers = FOS.Setup.ManageCity.GetFieldOfficerList();
+            Complaintdata.WorkDone = FOS.Setup.ManageCity.GetWorkDoneListForReport();
+            //Complaintdata.SaleOfficers = FOS.Setup.ManageCity.GetSOListForReport();
+            Complaintdata.FieldOfficers = FOS.Setup.ManageCity.GetFieldOfficerListForReport();
 
             return View(Complaintdata);
         }
