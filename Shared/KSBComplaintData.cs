@@ -38,6 +38,8 @@ namespace FOS.Shared
 
         //ComplaintReport Start
         public List<ComplaintStatus> Projects { get; set; }
+        public IEnumerable<RegionData> SOProjects { get; set; }
+
         public String ProjectIDs { get; set; }
         public List<CityData> Cities { get; set; }
         public String CitiesIDs { get; set; }
