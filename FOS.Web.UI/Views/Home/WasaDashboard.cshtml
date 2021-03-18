@@ -94,6 +94,12 @@
         <button type="submit" id="Clear" class="btn btn-primary">
             <i class="icon-remove icon-white" style="padding-right: 2px"></i><span style="width:50px"><strong>Clear</strong></span>
         </button>
+        <button id="StartAutoPagination" class="btn btn-primary">
+            <i class="icon-ok icon-white" style="padding-right: 2px"></i><span style="width:50px"><strong> Start AP</strong></span>
+        </button>
+        <button id="EndAutoPagination" class="btn btn-primary">
+            <i class="icon-remove icon-white" style="padding-right: 2px"></i><span style="width:50px"><strong>Stop AP</strong></span>
+        </button>
     </div>
 
 
@@ -624,12 +630,36 @@
 
             });
 
-        table = $('#datatab').DataTable();
-        setInterval(function () {
+        var interval=  setInterval(function () {
             var info = table.page.info();
-            var pageNum = (info.page < info.pages) ? info.page + 1 : 1;
+            var pageNum;
+            if (info.recordsTotal != info.recordsDisplay) {
+                 pageNum = (info.page < info.pages) ? info.page + 1 : 1;
+            }
+            else
+            {
+                pageNum = 0;
+            }
             table.page(pageNum).draw(false);
         }, 30000);
+
+        $('#EndAutoPagination').click(function () {
+            clearInterval(interval);
+        });
+        $('#StartAutoPagination').click(function () {
+            setInterval(function () {
+                var info = table.page.info();
+                var pageNum;
+                if (info.recordsTotal != info.recordsDisplay) {
+                    pageNum = (info.page < info.pages) ? info.page + 1 : 1;
+                }
+                else {
+                    pageNum = 0;
+                }
+                table.page(pageNum).draw(false);
+            }, 30000);
+        });
+      
     }
     function ChildView(ProgressID) {
         var url = "/Complaint/GetProgressIDData?ProgressID=" + ProgressID;

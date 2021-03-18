@@ -38,27 +38,30 @@ namespace FOS.Shared
 
         //ComplaintReport Start
         public List<ComplaintStatus> Projects { get; set; }
-        public IEnumerable<RegionData> SOProjects { get; set; }
 
-        public String ProjectIDs { get; set; }
+        public int ProjectId { get; set; }
+
+        //public IEnumerable<RegionData> SOProjects { get; set; }
+
+        //public String ProjectIDs { get; set; }
         public List<CityData> Cities { get; set; }
-        public String CitiesIDs { get; set; }
+        public int? CityID { get; set; }
         public List<AreaData> Areas { get; set; }
-        public String AreasIDs { get; set; }
+        public int AreaID { get; set; }
         public List<SubDivisionData> SubDivisions { get; set; }
-        public String SubDivisionsIDs { get; set; }
+        public int? SubDivisionID { get; set; }
         public List<RetailerData> Sites { get; set; }
-        public String SitesIDs { get; set; }
+        //public int SiteId { get; set; }
         public List<FaultTypeData> faultTypes { get; set; }
-        public String FaultTypesIDs { get; set; }
+        public int? FaulttypeId { get; set; }
         public List<ComplaintStatus> complaintStatuses { get; set; }
-        public String complaintStatusesIDs { get; set; }
+        public Nullable<int> StatusID { get; set; }
         public List<Workdone> WorkDone { get; set; }
-        public String WorkDoneIDs { get; set; }
+        public int? WorkDoneID { get; set; }
         public List<ComplaintLaunchedBy> LaunchedBy { get; set; }
-        public String LaunchedByIDs { get; set; }
+        public Nullable<int> LaunchedByID { get; set; }
         public List<SaleOfficerData> FieldOfficers { get; set; }
-        public String FieldOfficersIDs { get; set; }
+        public int FieldOfficersID { get; set; }
 
         //ComplaintReport END
 
@@ -92,9 +95,7 @@ namespace FOS.Shared
 
         public int? RegionID { get; set; }
         public string RegionName { get; set; }
-        public int ProjectId { get; set; }
 
-        public int? CityID { get; set; }
         public Nullable<int> ZoneId { get; set; }
         public string ZoneName { get; set; }
         public string CItyName { get; set; }
@@ -102,6 +103,8 @@ namespace FOS.Shared
         public string RetailerName { get; set; }
 
         public string FaultTypeName { get; set; }
+        public int SiteId { get; set; }
+
         public int? ComplaintTypeID { get; set; }
         public int? UpdateComplaintTypeID { get; set; }
 
@@ -112,32 +115,25 @@ namespace FOS.Shared
         public string UpdateProgressStatusOtherRemarks { get; set; }
 
         public string ProgressStatusOtherRemarks { get; set; }
-        public Nullable<int> LaunchedByID { get; set; }
         public string LaunchedByName { get; set; }
         public string Name { get; set; }
 
 
         public string DisableSiteID { get; set; }
 
-        public Nullable<int> StatusID { get; set; }
         public Nullable<int> UpdateStatusID { get; set; }
 
         public string StatusName { get; set; }
         public Nullable<int> RetailerID { get; set; }
-        public int? SubDivisionID { get; set; }
         public int UpdateComplaintID { get; set; }
         public int? UpdateTime { get; set; }
 
 
         public string SubDivisionName { get; set; }
-        public int AreaID { get; set; }
-        public int SiteId { get; set; }
-        public int? FaulttypeId { get; set; }
         public int? UpdateFaulttypeId { get; set; }
         public int? SalesOficerID { get; set; }
         public int? UpdateSalesOficerID { get; set; }
 
-        public int? WorkDoneID { get; set; }
 
 
         public int? PriorityId { get; set; }

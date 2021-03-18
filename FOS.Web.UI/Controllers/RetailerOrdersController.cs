@@ -2302,9 +2302,9 @@ namespace FOS.Web.UI.Controllers
 
                         if (itm.FaultTypeDetailID == 3030 || itm.FaultTypeDetailID == 3042 || itm.FaultTypeDetailID == 3049)
                         {
-                            comlist.FaultTypeDetailName ="Others/" + db.JobsDetails.Where(x => x.JobID == itm.ID).OrderByDescending(x => x.ID).FirstOrDefault().ActivityType;
+                            comlist.FaultTypeDetailName ="Others/" + db.Tbl_ComplaintHistory.Where(x => x.JobID == itm.ID).OrderByDescending(x => x.ID).FirstOrDefault().FaultTypeDetailRemarks;
                         } 
-                        var ProgressID = db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).FirstOrDefault();
+                        var ProgressID = db.Tbl_ComplaintHistory.Where(x => x.JobID == itm.JobID && x.IsPublished==1).OrderByDescending(x => x.ID).FirstOrDefault();
                         if (itm.StatusName == "Resolved")
                         {
                             comlist.ProgressStatus = db.WorkDones.Where(x => x.ID == ProgressID.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
@@ -2317,7 +2317,7 @@ namespace FOS.Web.UI.Controllers
                         }
                         if (comlist.ProgressStatus == "Others")
                         {
-                            comlist.ProgressStatus = "Others/" + db.JobsDetails.Where(x => x.JobID == itm.JobID).OrderByDescending(x => x.ID).Select(x => x.ProgressStatusRemarks).FirstOrDefault();
+                            comlist.ProgressStatus = "Others/" + db.Tbl_ComplaintHistory.Where(x => x.JobID == itm.JobID && x.IsPublished==1).OrderByDescending(x => x.ID).Select(x => x.ProgressStatusRemarks).FirstOrDefault();
                         }
                         list.Add(comlist);
                 }

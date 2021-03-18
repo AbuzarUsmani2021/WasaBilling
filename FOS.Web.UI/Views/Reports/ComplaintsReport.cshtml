@@ -22,42 +22,35 @@
             <div class="widget-title text-center">
                 <h4><strong>Complaint Summary Report</strong></h4>
             </div>
-            @using (Ajax.BeginForm("ComplaintsReport", "Reports", new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @class = "form-horizontal" }))
-            {
-                @Html.AntiForgeryToken()
-
+        
         <div class="widget-body form-horizontal">
             <div class="span6">
                 <div class="control-group">
                     <label class="control-label">Project:</label>
                     <div class="controls">
-                        @Html.DropDownListFor(model => model.SOProjects, new SelectList(Model.SOProjects, "ID", "Name"))
-                        @Html.HiddenFor(model => model.ProjectIDs)
+                        @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects, "ID", "Name"))
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Zone:</label>
                     <div class="controls">
-                        @Html.DropDownListFor(model => model.Cities, new SelectList(Model.Cities, "ID", "Name"))
-                        @Html.HiddenFor(model => model.CitiesIDs)
+                        @Html.DropDownListFor(model => model.CityID, new SelectList(Model.Cities, "ID", "Name"))
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Towns:</label>
                     <div class="controls">
-                        @Html.DropDownListFor(model => model.Areas, new SelectList(Model.Areas, "ID", "Name"))
-                        @Html.HiddenFor(model => model.AreasIDs)
+                        @Html.DropDownListFor(model => model.AreaID, new SelectList(Model.Areas, "ID", "Name"))
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Subdivisions:</label>
                     <div class="controls">
-                        @Html.DropDownListFor(model => model.SubDivisions, new SelectList(Model.SubDivisions, "ID", "Name"))
-                        @Html.HiddenFor(model => model.SubDivisionsIDs)
+                        @Html.DropDownListFor(model => model.SubDivisionID, new SelectList(Model.SubDivisions, "ID", "Name"))
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">Sites:</label>
+                    <label class="control-label">Sites :</label>
                     <div class="controls">
                         @Html.DropDownListFor(model => model.Sites, new SelectList(Model.Sites, "ID", "Name"))
                         @Html.HiddenFor(model => model.SitesIDs)
@@ -80,40 +73,35 @@
                 <div class="control-group">
                     <label class="control-label"> Fault Type:</label>
                     <div class="controls">
-                        @Html.DropDownListFor(model => model.faultTypes, new SelectList(Model.faultTypes, "Id", "Name"))
-                        @Html.HiddenFor(model => model.FaultTypesIDs)
+                        @Html.DropDownListFor(model => model.FaulttypeId, new SelectList(Model.faultTypes, "Id", "Name"))
 
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Complaint Status:</label>
                     <div class="controls">
-                        @Html.DropDownListFor(model => model.complaintStatuses, new SelectList(Model.complaintStatuses, "Id", "Name"))
-                        @Html.HiddenFor(model => model.complaintStatusesIDs)
+                        @Html.DropDownListFor(model => model.StatusID, new SelectList(Model.complaintStatuses, "Id", "Name"),new { onchange = @"form.submit()" })
 
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Work Done Status:</label>
                     <div class="controls">
-                        @Html.DropDownListFor(model => model.WorkDone, new SelectList(Model.WorkDone, "Id", "Name"))
-                        @Html.HiddenFor(model => model.WorkDoneIDs)
+                        @Html.DropDownListFor(model => model.WorkDoneID, new SelectList(Model.WorkDone, "Id", "Name"))
 
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Launched By:</label>
                     <div class="controls">
-                        @Html.DropDownListFor(model => model.LaunchedBy, new SelectList(Model.LaunchedBy, "Id", "Name"))
-                        @Html.HiddenFor(model => model.LaunchedByIDs)
+                        @Html.DropDownListFor(model => model.LaunchedByID, new SelectList(Model.LaunchedBy, "Id", "Name"))
 
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Field officer:</label>
                     <div class="controls">
-                        @Html.DropDownListFor(model => model.FieldOfficers, new SelectList(Model.FieldOfficers, "Id", "Name"))
-                        @Html.HiddenFor(model => model.FieldOfficersIDs)
+                        @Html.DropDownListFor(model => model.FieldOfficersID, new SelectList(Model.FieldOfficers, "Id", "Name"))
 
                     </div>
                 </div>
@@ -122,7 +110,7 @@
             <div class="span12 text-center" style=" margin: 0px;">
                 <div class="control-group" style="border-top: 1px solid #e5e5e5;">
                     <div style="margin-top:10px;">
-                        <button type="submit" id="GenerateReportInPDF" class="btn btn-primary"><i class="icon-ok icon-white"></i><strong> Generate in PDF</strong></button>
+                        <button  id="GenerateReportInPDF" class="btn btn-primary"><i class="icon-ok icon-white"></i><strong> Generate in PDF</strong></button>
                         <button type="submit" id="" class="btn btn-primary"><i class="icon-ok icon-white"></i><strong> Generate in Excel</strong></button>
                         <button type="button" id="Reset" class="btn btn-info"><i class="icon-ban-circle icon-white"></i><strong> Reset</strong></button>
                     </div>
@@ -132,7 +120,7 @@
 
 
         </div>
-            }
+            
         </div>
     </div>
 </div>
@@ -142,36 +130,7 @@
 
     $(document).ready(function () {
 
-        $('#SOProjects').change(function () {
-            $('#ProjectIDs').val($('#SOProjects').multipleSelect('getSelects'));
-            $("#ProjectIDs").change();
-        }).multipleSelect({
-            filter: true
-        });
 
-        $('#Cities').change(function () {
-            $('#CitiesIDs').val($('#Cities').multipleSelect('getSelects'));
-        }).multipleSelect({
-            filter: true
-        });
-
-        $('#Areas').change(function () {
-            $('#AreasIDs').val($('#Areas').multipleSelect('getSelects'));
-        }).multipleSelect({
-            filter: true
-        });
-
-        $('#SubDivisions').change(function () {
-            $('#SubDivisionsIDs').val($('#SubDivisions').multipleSelect('getSelects'));
-        }).multipleSelect({
-            filter: true
-        });
-
-        $('#Sites').change(function () {
-            $('#SitesIDs').val($('#Sites').multipleSelect('getSelects'));
-        }).multipleSelect({
-            filter: true
-        });
 
         $('#StartingDate').datepicker(
             {
@@ -188,33 +147,8 @@
                 yearRange: '1950:2100'
             });
 
-        $('#faultTypes').change(function () {
-            $('#FaultTypesIDs').val($('#faultTypes').multipleSelect('getSelects'));
-        }).multipleSelect({
-            filter: true
-        });
-
-        $('#complaintStatuses').change(function () {
-            $('#complaintStatusesIDs').val($('#complaintStatuses').multipleSelect('getSelects'));
-        }).multipleSelect({
-            filter: true
-        });
-
-        $('#WorkDone').change(function () {
-            $('#WorkDoneIDs').val($('#WorkDone').multipleSelect('getSelects'));
-        }).multipleSelect({
-            filter: true
-        });
-
-
-        $('#LaunchedBy').change(function () {
-            $('#LaunchedByIDs').val($('#LaunchedBy').multipleSelect('getSelects'));
-        }).multipleSelect({
-            filter: true
-        });
-
-        $('#FieldOfficers').change(function () {
-            $('#FieldOfficersIDs').val($('#FieldOfficers').multipleSelect('getSelects'));
+        $('#Sites').change(function () {
+            $('#SitesIDs').val($('#Sites').multipleSelect('getSelects'));
         }).multipleSelect({
             filter: true
         });
@@ -224,27 +158,21 @@
     });
 
 
-    $("#ProjectIDs").change(function () {
-       var ClientID = $("#ProjectIDs").val();
+    $("#ProjectId").change(function () {
+        var ClientID = $("#ProjectId").val();
         $.ajax({
             type: "POST",
             url: "@Url.Action("GetZoneFromProject", "Reports")",
             data: { ClientID: ClientID},
             success: function (json)
             {
-                var $el = $("#Cities");
+                var $el = $("#CityID");
                 $el.empty(); // remove old options
                 $.each(json, function (value, key) {
                     $el.append($("<option></option>").val(key.ID).text(key.Name));
                 });
-                $('#Cities').change(function () {
-                    $('#CitiesIDs').val($('#Cities').multipleSelect('getSelects'));
-                    $("#CitiesIDs").change();
-                    $("#LaunchedByIDs").change();
+                $("#CityID").change();
 
-                }).multipleSelect({
-                    filter: true
-                });
             }
         });
         $.ajax({
@@ -254,16 +182,12 @@
             success: function (json)
             {
                 if (json != null) {
-                    var $el = $("#LaunchedBy");
+                    var $el = $("#LaunchedByID");
                     $el.empty(); // remove old options
                     $.each(json, function (value, key) {
                         $el.append($("<option></option>").val(key.ID).text(key.Name));
                     });
-                    $('#LaunchedBy').change(function () {
-                        $('#LaunchedByIDs').val($('#LaunchedBy').multipleSelect('getSelects'));
-                    }).multipleSelect({
-                        filter: true
-                    });
+
                 }
 
             }
@@ -275,16 +199,12 @@
             success: function (json)
             {
                 if (json != null) {
-                    var $el = $("#FieldOfficers");
+                    var $el = $("#FieldOfficersID");
                     $el.empty(); // remove old options
                     $.each(json, function (value, key) {
                         $el.append($("<option></option>").val(key.ID).text(key.Name));
                     });
-                    $('#FieldOfficers').change(function () {
-                        $('#FieldOfficersIDs').val($('#FieldOfficers').multipleSelect('getSelects'));
-                    }).multipleSelect({
-                        filter: true
-                    });
+
                 }
 
             }
@@ -292,54 +212,52 @@
 
     });
 
-    $("#CitiesIDs").change(function () {
-        var ClientID = $("#CitiesIDs").val();
+    $("#CityID").change(function () {
+        var ClientID = $("#CityID").val();
         $.ajax({
             type: "POST",
             url: "@Url.Action("GetTownFromZone", "Reports")",
             data: { ClientID: ClientID},
             success: function (json)
             {
-                var $el = $("#Areas");
+                var $el = $("#AreaID");
                 $el.empty(); // remove old options
                 $.each(json, function (value, key) {
                     $el.append($("<option></option>").val(key.ID).text(key.Name));
                 });
-                $('#Areas').change(function () {
-                    $('#AreasIDs').val($('#Areas').multipleSelect('getSelects'));
-                    //$("#AreasIDs").change();
-                }).multipleSelect({
-                    filter: true
-                });
+                $("#AreaID").change();
+
+
             }
         });
     });
 
-    $("#Areas").change(function () {
-        var ClientID = $("#AreasIDs").val();
+    $("#AreaID").change(function () {
+        var ClientID = $("#AreaID").val();
+        var CityID = $("#CityID").val();
+
+        debugger
         $.ajax({
             type: "POST",
             url: "@Url.Action("GetSubdivisionFromTown", "Reports")",
-            data: { ClientID: ClientID},
+            data: { ClientID: ClientID, CityID: CityID},
             success: function (json)
             {
-                var $el = $("#SubDivisions");
+                if (json.length != 0)
+                {
+                var $el = $("#SubDivisionID");
                 $el.empty(); // remove old options
                 $.each(json, function (value, key) {
                     $el.append($("<option></option>").val(key.ID).text(key.Name));
                 });
-                $('#SubDivisions').change(function () {
-                    $('#SubDivisionsIDs').val($('#SubDivisions').multipleSelect('getSelects'));
-                    //$("#SubDivisionsIDs").change();
-                }).multipleSelect({
-                    filter: true
-                });
+                 $("#SubDivisionID").change();
+                }
             }
         });
     });
 
-    $("#SubDivisions").change(function () {
-        var ClientID = $("#SubDivisionsIDs").val();
+    $("#SubDivisionID").change(function () {
+        var ClientID = $("#SubDivisionID").val();
         $.ajax({
             type: "POST",
             url: "@Url.Action("GetSiteFromSubdivision", "Reports")",
@@ -356,7 +274,6 @@
 
                     $('#Sites').change(function () {
                         $('#SitesIDs').val($('#Sites').multipleSelect('getSelects'));
-                        //$("#complaintStatusesIDs").change();
                     }).multipleSelect({
                         filter: true
                     });
@@ -366,29 +283,24 @@
         });
     });
 
-    $("#complaintStatuses").change(function () {
-        var ClientID = $("#FaultTypesIDs").val();
-        var ClientId = $("#complaintStatusesIDs").val();
+
+    $("#StatusID").change(function () {
+        var FaultTypeID = $("#FaulttypeId").val();
+        var StatusID = $("#StatusID").val();
         $.ajax({
             type: "POST",
             url: "@Url.Action("GetWorkDoneFromStatus", "Reports")",
             data: {
-                ClientID: ClientID,
-                Name: ClientId
+                FaultTypeID: FaultTypeID,
+                StatusID: StatusID
                 },
             success: function (json)
             {
                 if (json.length != 0) {
-                    var $el = $("#WorkDone");
+                    var $el = $("#WorkDoneID");
                     $el.empty(); // remove old options
                     $.each(json, function (value, key) {
                         $el.append($("<option></option>").val(key.ID).text(key.Name));
-                    });
-
-                    $('#WorkDone').change(function () {
-                        $('#WorkDoneIDs').val($('#WorkDone').multipleSelect('getSelects'));
-                    }).multipleSelect({
-                        filter: true
                     });
                 }
 
@@ -397,39 +309,18 @@
     });
 
 
-
+    
 
     $('#GenerateReportInPDF').click(function () {
 
-       window.open("@Url.Action("GetComplaintsReport", "Reports")"+"?SitesIDs=" + $("#SitesIDs").val() + "&StartingDate=" + $("#StartingDate").val() + "&EndingDate=" + $("#EndingDate").val() + "&FaultTypesIDs=" + $("#FaultTypesIDs").val() + "&complaintStatusesIDs=" + $("#complaintStatusesIDs").val() + "&WorkDoneIDs=" + $("#WorkDoneIDs").val() + "&LaunchedByIDs=" + $("#LaunchedByIDs").val() + "&FieldOfficersIDs=" + $("#FieldOfficersIDs").val());
+        window.open("@Url.Action("GetComplaintsReport", "Reports")" + "?SitesIDs=" + $("#SitesIDs").val() + "&StartingDate=" + $("#StartingDate").val() + "&EndingDate=" + $("#EndingDate").val() + "&FaulttypeId=" + $("#FaulttypeId").val() + "&StatusID=" + $("#StatusID").val() + "&WorkDoneID=" + $("#WorkDoneID").val() + "&LaunchedByID=" + $("#LaunchedByID").val() + "&FieldOfficersID=" + $("#FieldOfficersID").val());
     });
 
 
 
 
 
-    @*$('#btnNew').click(function () {
 
-        debugger;
-        //var message = "";
-        //for (i = 0; i < sPainters.length ; i++) {
-        //    message += sPainters[i] + ",";
-        //}
-        //var $Shoptypeid = $("#Shoptypeid").val();
-        debugger;
-        var $sdate = $("#StartingDate1").val();
-        var $edate = $("#StartingDate2").val();
-        var $TID = $("#ClientID").val();
-        var $fosid = $("#SaleOfficerID").val();
-        var $cityid = $("#CityID").val();
-        var $areaid = $("#AreaID").val();-->-->
-            if ($("#cbCheck1").is(':checked') == true) {
-                window.open("@Url.Action("CityMonthWiseIntakeReport", "Retailer")" + "?StartingDate=" + $("#StartingDate1").val() + "&EndingDate=" + $("#StartingDate2").val() + "&TID=" + $("#TID").val() + "&Shoptypeid=" + $("#Shoptypeid").val() + "&message=" + message + "", "_top");
-            }
-        <!--<!--//else {
-        window.open("@Url.Action("ComplaintSummaryrpt", "Reports")" + "?ProjectID=" + $("#ProjectId").val() + "&CityID=" + $("#CityID").val()  + "&FaulttypeID=" + $("#FaulttypeId").val() + "&StatusID=" + $("#StatusID").val() + "&WorkDoneID=" + $("#WorkDoneID").val() + "&SaleOfficerID=" + $("#SaleOfficerID").val() + "&FieldOfficerID=" + $("#FieldOfficerID").val()+ "&sdate=" + $sdate+"&edate=" + $edate);
-        //}
-    });*@
 
 
 
@@ -453,31 +344,6 @@
         $('#FieldOfficerID').val(0);
     }
 
-
-    function OnSuccess(response)
-    {
-        if (response == "1")
-        {
-            alertify.success("Report has Successfully Generated.");
-            ClearForm();
-        }
-        else if (response == "0")
-        {
-            alertify.error("Unable To Generate Report.");
-        }
-
-
-    }
-
-    function OnFailure(response) {
-        if (response.status == 422) {
-            var errors = JSON.parse(response.responseText);
-            alertify.error(errors.errors);
-        }
-        else {
-            alertify.error(response);
-        }
-    }
 
 
 </script>

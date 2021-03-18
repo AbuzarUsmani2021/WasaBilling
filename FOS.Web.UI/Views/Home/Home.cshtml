@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
+
+  
     .table-responsive {
         display: block;
         width: 100%;
@@ -112,6 +114,12 @@
         </button>
         <button type="submit" id="Clear" class="btn btn-primary">
             <i class="icon-remove icon-white" style="padding-right: 2px"></i><span style="width:50px"><strong>Clear</strong></span>
+        </button>
+        <button id="StartAutoPagination" class="btn btn-primary">
+            <i class="icon-ok icon-white" style="padding-right: 2px"></i><span style="width:50px"><strong> Start AP</strong></span>
+        </button>
+        <button id="EndAutoPagination" class="btn btn-primary">
+            <i class="icon-remove icon-white" style="padding-right: 2px"></i><span style="width:50px"><strong>Stop AP</strong></span>
         </button>
     </div>
 
@@ -739,22 +747,29 @@
 
     $(document).ready(function () {
 
+     
+
+
+
         //Get Update Complaint Start
         $("#UpdateFaultTypeDetailOtherRemarksBox").hide();
         $("#UpdateProgressStatusOtherRemarksBox").hide();
         $("#EditOtherRemarksBox").hide();
         $("#EditProgressStatusOtherRemarksBox").hide();
-        for (var a = 1; a < 101; a++) {
+        for (var a = 1; a < 201; a++) {
             var divHtml = '<option value="' + a + '">' + a + '</option>'
             $("#UpdateTime").append(divHtml);
         }
-        for (var a = 1; a < 101; a++) {
+        for (var a = 1; a < 201; a++) {
             var divHtml = '<option value="' + a + '">' + a + '</option>'
             $("#EditTime").append(divHtml);
         }
         //Get Update Complaint END
 
         GenerateDetailGrid();
+
+
+
 
           //Calender Start
         $('input[name=StartingDate1]').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
@@ -837,7 +852,13 @@
                             else {
                                 $("#ProgressStatusName").html(Response.ProgressStatusName);
                             }
-                            $("#LastUpdated").html(Response.LastUpdated);
+                            if (Response.LastUpdated == null || Response.LastUpdated == "")
+                            {
+                                $("#LastUpdated").html("null");
+                            }
+                            else {
+                                $("#LastUpdated").html(Response.LastUpdated);
+                            }
                             //$("#ProgressStatusOtherRemarks").html(Response.ProgressStatusOtherRemarks);
                             //$("#Name").html(Response.Name);
                             //$("#InitialRemarks").html(Response.Remarks);
@@ -893,15 +914,22 @@
                         {
                             $("#ChildStatus").empty();
                             $.each(Response, function (i, item) {
-                                if (item.IsPublish == 0) {
-                                    var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.AssignedFS + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; color:white;margin-bottom:5px; margin-right:5px; ' onclick='ChildEdit(" + item.ProgressID + ',' + item.ComplaintID + ',' + item.ComplaintStatusID +")' ><b>Edit</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildDelete(" + item.ProgressID + ")' ><b>Delete</b></a><a href='#' class='btn text-center' style='background-color:#1969b1;margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildPublish(" + item.ProgressID + ")' ><b>Publish</b></a>" + "</td>");
+                                var RoleID = @HttpContext.Current.Session["RoleID"];
+                                if (RoleID == 1 || RoleID == 3)
+                                {
+                                    var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.AssignedFS + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a>" + "</td>");
+
                                 }
                                 else
                                 {
-                                    var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.AssignedFS + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; color:white;margin-bottom:5px; margin-right:5px; ' onclick='ChildEdit(" + item.ProgressID + ',' + item.ComplaintID + ',' + item.ComplaintStatusID +")' ><b>Edit</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildDelete(" + item.ProgressID + ")' ><b>Delete</b></a></td>");
-                                }
 
-                                //var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a>" + "</td>");
+                                    if (item.IsPublish == 0) {
+                                        var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.AssignedFS + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; color:white;margin-bottom:5px; margin-right:5px; ' onclick='ChildEdit(" + item.ProgressID + ',' + item.ComplaintID + ',' + item.ComplaintStatusID + ")' ><b>Edit</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildDelete(" + item.ProgressID + ")' ><b>Delete</b></a><a href='#' class='btn text-center' style='background-color:#1969b1;margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildPublish(" + item.ProgressID + ")' ><b>Publish</b></a>" + "</td>");
+                                    }
+                                    else {
+                                        var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.FaultTypeFinalName + "</td><td style='text-align:center;'>" + item.ComplaintStatus + "</td><td style='text-align:center;'>" + item.AssignedFS + "</td><td style='text-align:center;'>" + item.ProgressStatusName + "</td><td style='text-align:center;'>" + item.ProgressRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='ChildView(" + item.ProgressID + ")' ><b>View</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; color:white;margin-bottom:5px; margin-right:5px; ' onclick='ChildEdit(" + item.ProgressID + ',' + item.ComplaintID + ',' + item.ComplaintStatusID + ")' ><b>Edit</b></a><a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; color:white;margin-bottom:5px; ' onclick='ChildDelete(" + item.ProgressID + ")' ><b>Delete</b></a></td>");
+                                    }
+                                }
                                     $("#ChildStatus").append(divHtml);
                                 });
 
@@ -1172,6 +1200,78 @@
     });
     //Upload-Picture2 End
     //Get Update Complaint END
+
+
+    // Post Update  Complaint Start
+    function PostUpdateComplaint() {
+        var data = new FormData();
+        var files = $("#UpdatePicture1").get(0).files;
+        if (files.length > 0) {
+            data.append("UpdatePicture1", files[0]);
+        }
+        var files2 = $("#UpdatePicture2").get(0).files;
+        if (files2.length > 0) {
+            console.log(files2[0]);
+            data.append("UpdatePicture2", files2[0]);
+        }
+        var RoleID = "@HttpContext.Current.Session["RoleID"]";
+        data.append("RoleID", RoleID );
+        data.append("UpdateComplaintID", $("#UpdateComplaintID").val());
+        data.append("UpdateFaulttypeId", $("#UpdateFaulttypeId").val());
+        data.append("UpdateFaulttypeDetailId", $("#UpdateFaulttypeDetailId").val());
+        data.append("UpdateFaultTypeDetailOtherRemarks", $("#UpdateFaultTypeDetailOtherRemarks").val());
+        data.append("UpdatePriorityId", $("#UpdatePriorityId").val());
+        data.append("UpdateComplaintTypeID", $("#UpdateComplaintTypeID").val());
+        data.append("UpdateSalesOficerID", $("#UpdateSalesOficerID").val());
+        data.append("UpdateStatusID", $("#UpdateStatusID").val());
+        data.append("UpdateProgressStatusId", $("#UpdateProgressStatusId").val());
+        data.append("UpdateProgressStatusOtherRemarks", $("#UpdateProgressStatusOtherRemarks").val());
+        data.append("UpdateTime", $("#UpdateTime").val());
+        data.append("UpdatePerson", $("#UpdatePerson").val());
+        data.append("UpdateProgressRemarks", $("#UpdateProgressRemarks").val());
+        data.append("UpdatePicture1", $("#UpdatePicture1").val());
+        data.append("UpdatePicture2", $("#UpdatePicture2").val());
+        $.ajax({
+            type: "Post",
+            url: "/Home/PostUpdateComplaint",
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: data,
+            success: function (result) {
+                if (result == true)
+                {
+                    $('#UpdateComplaint').modal('hide');
+                    alertify.success("Complaint Status Updated Successfully.");
+                    $('#UpdateProgressRemarks').val("");
+                    $('#UpdateComplaintID').val(0);
+                    $('#UpdateFaulttypeId').val(0);
+                    $('#UpdateFaulttypeDetailId').val(0);
+                    $('#UpdateFaultTypeDetailOtherRemarks').val("");
+                    $('#UpdatePriorityId').val(0);
+                    $('#UpdateComplaintTypeID').val(0);
+                    $('#UpdateSalesOficerID').val(0);
+                    $('#UpdateStatusID').val(0);
+                    $('#UpdateProgressStatusId').val(0);
+                    $('#UpdateProgressStatusOtherRemarks').val("");
+                    $('#UpdateTime').val(0);
+                    $('#UpdatePerson').val("");
+                    $('#UpdatePicture1').val("");
+                    $('#UpdatePicture2').val("");
+                    $("#UpdatePicture2UserImage").attr('src', "/Images/KSB_Logo_New.jpg");
+                    $("#UpdatePicture1UserImage").attr('src', "/Images/KSB_Logo_New.jpg");
+                    $("#UpdateFaultTypeDetailOtherRemarksBox").hide();
+                    $("#UpdateProgressStatusOtherRemarksBox").hide();
+                    $("#EditOtherRemarksBox").hide();
+                    $("#EditProgressStatusOtherRemarksBox").hide();
+                    $('#datatab').DataTable().ajax.reload();
+                }
+            }
+        })
+
+    }
+    // Post Update Complaint Start END
+
 
     //Get Edit Complaint Start
     function ChildEdit(ProgressChildID, ComplaintID, ComplaintStatusID) {
@@ -1476,75 +1576,8 @@
     // Post Update Complaint Start END
 
 
-    // Post Update  Complaint Start
-    function PostUpdateComplaint() {
-        var data = new FormData();
-        var files = $("#UpdatePicture1").get(0).files;
-        if (files.length > 0) {
-            data.append("UpdatePicture1", files[0]);
-        }
-        var files2 = $("#UpdatePicture2").get(0).files;
-        if (files2.length > 0) {
-            console.log(files2[0]);
-            data.append("UpdatePicture2", files2[0]);
-        }
-        var RoleID = "@HttpContext.Current.Session["RoleID"]";
-        data.append("RoleID", RoleID );
-        data.append("UpdateComplaintID", $("#UpdateComplaintID").val());
-        data.append("UpdateFaulttypeId", $("#UpdateFaulttypeId").val());
-        data.append("UpdateFaulttypeDetailId", $("#UpdateFaulttypeDetailId").val());
-        data.append("UpdateFaultTypeDetailOtherRemarks", $("#UpdateFaultTypeDetailOtherRemarks").val());
-        data.append("UpdatePriorityId", $("#UpdatePriorityId").val());
-        data.append("UpdateComplaintTypeID", $("#UpdateComplaintTypeID").val());
-        data.append("UpdateSalesOficerID", $("#UpdateSalesOficerID").val());
-        data.append("UpdateStatusID", $("#UpdateStatusID").val());
-        data.append("UpdateProgressStatusId", $("#UpdateProgressStatusId").val());
-        data.append("UpdateProgressStatusOtherRemarks", $("#UpdateProgressStatusOtherRemarks").val());
-        data.append("UpdateTime", $("#UpdateTime").val());
-        data.append("UpdatePerson", $("#UpdatePerson").val());
-        data.append("UpdateProgressRemarks", $("#UpdateProgressRemarks").val());
-        data.append("UpdatePicture1", $("#UpdatePicture1").val());
-        data.append("UpdatePicture2", $("#UpdatePicture2").val());
-        $.ajax({
-            type: "Post",
-            url: "/Home/PostUpdateComplaint",
-            contentType: false,
-            processData: false,
-            cache: false,
-            data: data,
-            success: function (result) {
-                if (result == true)
-                {
-                    $('#UpdateComplaint').modal('hide');
-                    alertify.success("Complaint Status Updated Successfully.");
-                    $('#UpdateProgressRemarks').val("");
-                    $('#UpdateComplaintID').val(0);
-                    $('#UpdateFaulttypeId').val(0);
-                    $('#UpdateFaulttypeDetailId').val(0);
-                    $('#UpdateFaultTypeDetailOtherRemarks').val("");
-                    $('#UpdatePriorityId').val(0);
-                    $('#UpdateComplaintTypeID').val(0);
-                    $('#UpdateSalesOficerID').val(0);
-                    $('#UpdateStatusID').val(0);
-                    $('#UpdateProgressStatusId').val(0);
-                    $('#UpdateProgressStatusOtherRemarks').val("");
-                    $('#UpdateTime').val(0);
-                    $('#UpdatePerson').val("");
-                    $('#UpdatePicture1').val("");
-                    $('#UpdatePicture2').val("");
-                    $("#UpdatePicture2UserImage").attr('src', "/Images/KSB_Logo_New.jpg");
-                    $("#UpdatePicture1UserImage").attr('src', "/Images/KSB_Logo_New.jpg");
-                    $("#UpdateFaultTypeDetailOtherRemarksBox").hide();
-                    $("#UpdateProgressStatusOtherRemarksBox").hide();
-                    $("#EditOtherRemarksBox").hide();
-                    $("#EditProgressStatusOtherRemarksBox").hide();
-                    $('#datatab').DataTable().ajax.reload();
-                }
-            }
-        })
 
-    }
-    // Post Update Complaint Start END
+
 
     function GenerateDetailGrid() {
 
@@ -1556,6 +1589,7 @@
                 "pagingType": "full_numbers",
                 "info": true,
                 "serverSide": true,
+                "stateSave":true,
                 "bRetrieve": true,
                 "bDestroy": true,
                 "autoWidth": true,
@@ -1629,10 +1663,23 @@
                         "bSortable": false,
                         "mRender": function (data, type, row)
                         {
-                            //return '<button class="btn Detail" style="background-color: #1969b1; color:white; margin-bottom: 5px;" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" >' + 'Detail' + '</button>';
+                            var RoleID = @HttpContext.Current.Session["RoleID"];
+                            {
+                                if (RoleID == 1)
+                                {
+                                    return '<button class="btn bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" onclick="Detail(' + row.ID + ')">' + 'Detail' + '</button>&nbsp;<button class="btn bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" onclick="AddRemarks(' + row.ID + ')" >' + 'Remarks' + '</button>&nbsp;<button class="btn Update bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=ChatBox(' + row.ID + ') >' + ' SMS' + '</button>';
 
-                            return '<button class="btn bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" onclick="Detail(' + row.ID + ')">' + 'Detail' + '</button>&nbsp;<button class="btn bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" onclick="AddRemarks(' + row.ID + ')" >' + 'Remarks' + '</button>&nbsp;<button class="btn Update bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=ChatBox(' + row.ID + ') >' + ' SMS' + '</button>&nbsp;<button class="btn bold Update" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=UpdateComplaint('+row.ID+ ','+row.StatusID+')>' + 'Update' + '</button>';
-                            //return '<a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-info-circle" style="font-size:20px;"></i></a>' + '<span style="font-size:25px;">|</span><a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-plus-circle" style="font-size:20px;"></i></a>' + '<span style="font-size:25px;">|</span><a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-comments" style="font-size:20px;"></i></a>' + '<span style="font-size:25px;">|</span><a href="#" class="Detail" data-id=' + '"' + row.ID + '"' + ' data-toggle="modal" data-target="#myModal" ><i class="fa fa-edit" style="font-size:20px;"></i></a>';
+                                }
+                                else if (RoleID == 2)
+                                {
+                                    return '<button class="btn bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" onclick="Detail(' + row.ID + ')">' + 'Detail' + '</button>&nbsp;<button class="btn bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" onclick="AddRemarks(' + row.ID + ')" >' + 'Remarks' + '</button>&nbsp;<button class="btn Update bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=ChatBox(' + row.ID + ') >' + ' SMS' + '</button>&nbsp;<button class="btn bold Update" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=UpdateComplaint(' + row.ID + ',' + row.StatusID + ')>' + 'Update' + '</button>';
+                                }
+                                else if (RoleID == 3)
+                                {
+                                    return '<button class="btn bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" onclick="Detail(' + row.ID + ')">' + 'Detail' + '</button>&nbsp;<button class="btn bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" onclick="AddRemarks(' + row.ID + ')" >' + 'Remarks' + '</button>&nbsp;<button class="btn Update bold" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=ChatBox(' + row.ID + ') >' + ' SMS' + '</button>&nbsp;<button class="btn bold Update" style="background-color: #1969b1; color:white; margin-bottom: 5px;" ' + 'onclick=UpdateComplaint(' + row.ID + ',' + row.StatusID + ')>' + 'Update' + '</button>';
+                                }
+                            }
+
 
                         }
                     }
@@ -1640,9 +1687,34 @@
 
             });
 
-        setInterval(function () {
-            $('#datatab').DataTable().ajax.reload();
+        var interval = setInterval(function () {
+            var info = table.page.info();
+            var pageNum;
+            if (info.recordsTotal != info.recordsDisplay) {
+                pageNum = (info.page < info.pages) ? info.page + 1 : 1;
+            }
+            else {
+                pageNum = 0;
+            }
+            table.page(pageNum).draw(false);
         }, 30000);
+
+        $('#EndAutoPagination').click(function () {
+            clearInterval(interval);
+        });
+        $('#StartAutoPagination').click(function () {
+            setInterval(function () {
+                var info = table.page.info();
+                var pageNum;
+                if (info.recordsTotal != info.recordsDisplay) {
+                    pageNum = (info.page < info.pages) ? info.page + 1 : 1;
+                }
+                else {
+                    pageNum = 0;
+                }
+                table.page(pageNum).draw(false);
+            }, 30000);
+        });
     }
     function ChildView(ProgressID) {
         var url = "/Complaint/GetProgressIDData?ProgressID=" + ProgressID;
