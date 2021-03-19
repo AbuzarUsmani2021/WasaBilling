@@ -27,7 +27,7 @@ namespace FOS.Web.UI.Controllers.API
             {
                 int flag = 0;
                 jobhistory= db.Tbl_ComplaintHistory.Where(u => u.JobDetailID == obj.ID).FirstOrDefault();
-                if (jobhistory.IsPublished != 1)
+                if (jobhistory.IsPublished == 0)
                 {
                     jobhistory.IsPublished = 1;
                     flag = 1;

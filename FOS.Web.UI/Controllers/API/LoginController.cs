@@ -32,7 +32,7 @@ namespace FOS.Web.UI.Controllers.API
 
                     var SO = db.SaleOfficers.Where(s => s.UserName.ToLower().Equals(inModel.UserName.ToLower()) && s.Password.ToLower().Equals(inModel.Password.ToLower())).FirstOrDefault();
 
-                    if (SO != null && SO.IMEI==null /*&& SO.AppUserWasaOrKSB==inModel.AppUser*/)
+                    if (SO != null && SO.IMEI==null && SO.AppUserWasaOrKSB == inModel.AppUser)
                     {
                         SO.IMEI = inModel.IMEI;
                         db.SaveChanges();
@@ -138,7 +138,7 @@ namespace FOS.Web.UI.Controllers.API
                         };
                     }
 
-                    else if(SO != null && SO.IMEI != null /*&& SO.AppUserWasaOrKSB == inModel.AppUser*/)
+                    else if(SO != null && SO.IMEI != null && SO.AppUserWasaOrKSB == inModel.AppUser)
                     {
                         var SOs = db.SaleOfficers.Where(s => s.UserName.ToLower().Equals(inModel.UserName.ToLower()) && s.IMEI==inModel.IMEI && s.Password.ToLower().Equals(inModel.Password.ToLower())).FirstOrDefault();
 
@@ -260,40 +260,40 @@ namespace FOS.Web.UI.Controllers.API
 
                     }
 
-                    //else if (SO != null && SO.IMEI == null /*&& SO.AppUserWasaOrKSB != inModel.AppUser*/)
-                    //{
+                    else if (SO != null && SO.IMEI == null && SO.AppUserWasaOrKSB != inModel.AppUser)
+                    {
 
-                    //    return new Result<LoginResponse>
-                    //    {
-                    //        Data = null,
-                    //        Message = "Incorrect UserName/Password For the App",
-                    //        ResultType = ResultType.Failure,
-                    //        Exception = null,
-                    //        ValidationErrors = null
-                    //    };
-
-
-
-
-                    //}
-
-
-                    //else if (SO != null && SO.IMEI != null /*&& SO.AppUserWasaOrKSB != inModel.AppUser*/)
-                    //{
-
-                    //    return new Result<LoginResponse>
-                    //    {
-                    //        Data = null,
-                    //        Message = "Incorrect UserName/Password For the App",
-                    //        ResultType = ResultType.Failure,
-                    //        Exception = null,
-                    //        ValidationErrors = null
-                    //    };
+                        return new Result<LoginResponse>
+                        {
+                            Data = null,
+                            Message = "Incorrect UserName/Password For the App",
+                            ResultType = ResultType.Failure,
+                            Exception = null,
+                            ValidationErrors = null
+                        };
 
 
 
 
-                    //}
+                    }
+
+
+                    else if (SO != null && SO.IMEI != null && SO.AppUserWasaOrKSB != inModel.AppUser)
+                    {
+
+                        return new Result<LoginResponse>
+                        {
+                            Data = null,
+                            Message = "Incorrect UserName/Password For the App",
+                            ResultType = ResultType.Failure,
+                            Exception = null,
+                            ValidationErrors = null
+                        };
+
+
+
+
+                    }
 
                     else
                     {

@@ -170,6 +170,7 @@ namespace FOS.Web.UI.Controllers.API
                     db.JobsDetails.Add(jobDetail);
 
                     Tbl_ComplaintHistory history = new Tbl_ComplaintHistory();
+                var i = 1;
                     history.JobID = retailerObj.ID;
                     history.JobDetailID = jobDetail.ID;
                     history.FaultTypeDetailRemarks = rm.FaultTypeDetailOtherRemarks;
@@ -186,7 +187,7 @@ namespace FOS.Web.UI.Controllers.API
                     history.SiteID = rm.SiteId;
                     history.PriorityId = 0;
                     history.IsActive = true;
-                    history.IsPublished = 1;
+                    history.IsPublished = i;
                     history.PersonName = retailerObj.PersonName;
                     history.CreatedDate = DateTime.UtcNow.AddHours(5);
                     db.Tbl_ComplaintHistory.Add(history);
@@ -216,7 +217,7 @@ namespace FOS.Web.UI.Controllers.API
                     notify.CreatedDate= DateTime.UtcNow.AddHours(5);
                     db.ComplaintNotifications.Add(notify);
 
-
+                db.SaveChanges();
 
                 var IDs = db.SOZoneAndTowns.Where(x => x.CityID == data.CityID && x.AreaID == data.AreaID).Select(x => x.SOID).Distinct().ToList();
 

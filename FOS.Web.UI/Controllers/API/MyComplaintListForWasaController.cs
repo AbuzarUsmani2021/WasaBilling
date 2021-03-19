@@ -16,7 +16,7 @@ namespace FOS.Web.UI.Controllers.API
     {
        
 
-        public IHttpActionResult Get(int SOID)
+        public IHttpActionResult Get(int SOID, int ProjectID)
         {
             FOSDataModel dbContext = new FOSDataModel();
             try
@@ -38,7 +38,7 @@ namespace FOS.Web.UI.Controllers.API
 
                    // var data = dbContext.Jobs.Where(x => x.CreatedDate >= dtFromToday && x.CreatedDate <= dtToToday);
 
-                    var result = dbContext.Sp_MyComplaintListForWasa1_1(SOID,dtFromToday,dtToToday).ToList();
+                    var result = dbContext.Sp_MyComplaintListForWasa1_2(ProjectID,dtFromToday,dtToToday).ToList();
 
 
                     

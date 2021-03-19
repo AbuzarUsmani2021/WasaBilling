@@ -103,6 +103,8 @@ namespace FOS.DataLayer
         public Nullable<int> ChildStatusID { get; set; }
         public Nullable<int> ChildAssignedSaleOfficerID { get; set; }
         public string Audio { get; set; }
+        public Nullable<System.DateTime> VideoDate { get; set; }
+        public Nullable<System.DateTime> AudioDate { get; set; }
     
         public virtual Area Area { get; set; }
         public virtual Dealer Dealer { get; set; }

@@ -29,5 +29,6 @@ namespace FOS.DataLayer
         public Nullable<int> ComplaintStatusID { get; set; }
         public string FaultTypeDetailOtherRemarks { get; set; }
         public string faultTypeDetailRemarks { get; set; }
+        public Nullable<int> ispublished { get; set; }
     }
 }
