@@ -1,85 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
-    <ReportItems>
-      <Rectangle Name="Rectangle3">
-        <ReportItems>
-          <Line Name="Line2">
-            <Top>0.23958in</Top>
-            <Height>0in</Height>
-            <Width>2in</Width>
-            <Style>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-            </Style>
-          </Line>
-          <Textbox Name="Textbox132">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>Input </Value>
-                    <Style>
-                      <FontFamily>Book Antiqua</FontFamily>
-                      <FontSize>12pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style>
-                  <TextAlign>Center</TextAlign>
-                </Style>
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox132</rd:DefaultName>
-            <Height>0.23958in</Height>
-            <Width>2.72917in</Width>
-            <ZIndex>1</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Line Name="Line3">
-            <Top>0.23958in</Top>
-            <Left>0.76042in</Left>
-            <Height>1.16667in</Height>
-            <Width>0in</Width>
-            <ZIndex>2</ZIndex>
-            <Style>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-            </Style>
-          </Line>
-        </ReportItems>
-        <KeepTogether>true</KeepTogether>
-        <Top>0.66667in</Top>
-        <Left>1.05083in</Left>
-        <Height>1.40625in</Height>
-        <Width>2.72917in</Width>
-        <Style>
-          <Border>
-            <Style>Solid</Style>
-          </Border>
-        </Style>
-      </Rectangle>
-    </ReportItems>
-    <Height>2.45883in</Height>
+    <Height>2in</Height>
     <Style />
   </Body>
   <Width>8.51959in</Width>
   <Page>
     <PageHeader>
-      <Height>0.92583in</Height>
+      <Height>0.8125in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -118,7 +46,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Director Tubewell Maintenance Division</Value>
+                  <Value>Single Site Report</Value>
                   <Style>
                     <FontFamily>Book Antiqua</FontFamily>
                     <FontSize>18pt</FontSize>
@@ -166,9 +94,128 @@
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>0.33333in</Height>
+      <Height>0.41617in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="ExecutionTime">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!ExecutionTime</Value>
+                  <Style>
+                    <FontFamily>Book Antiqua</FontFamily>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>ExecutionTime</rd:DefaultName>
+          <Top>0.09722in</Top>
+          <Left>0.05083in</Left>
+          <Height>0.25in</Height>
+          <Width>1.63542in</Width>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="PageNumber">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!PageNumber</Value>
+                  <Style>
+                    <FontFamily>Book Antiqua</FontFamily>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>PageNumber</rd:DefaultName>
+          <Top>0.09722in</Top>
+          <Left>8.04042in</Left>
+          <Height>0.25in</Height>
+          <Width>0.28125in</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="RenderFormatName">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!RenderFormat.Name</Value>
+                  <Style>
+                    <FontFamily>Book Antiqua</FontFamily>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>RenderFormatName</rd:DefaultName>
+          <Top>0.09722in</Top>
+          <Left>4.10292in</Left>
+          <Height>0.25in</Height>
+          <Width>0.35417in</Width>
+          <ZIndex>2</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Line Name="Line10">
+          <Height>0in</Height>
+          <Width>8.51959in</Width>
+          <ZIndex>3</ZIndex>
+          <Style>
+            <Border>
+              <Style>Solid</Style>
+            </Border>
+          </Style>
+        </Line>
+      </ReportItems>
       <Style>
         <Border>
           <Style>None</Style>
@@ -308,6 +355,7 @@ xeV9iOipPIm/55P/AN8mjyJv+eT/APfJoug5X2I60dF1m70HVYdQs3IkjPKk8OvdTVLyJv8Ank//AHya
 avoPyoooAQquOg/KtdFXYvyjoO1FFZy2KQu1f7o/Kjav90flRRUDEKr/AHR+VLtX+6PyoooANq/3R+VG1f7o/KiigA2r/dH5UbV/uj8qKKALWnqBdcADg9q16KK5qvxG9PYySBuPA60mB6CiioLDA9BRgegoooAMD0FGB6CiigC9bAbeg6CrAFFFAxaKKKQBRRRQAUUUUAFFFFABRRRQAUUUUAf/2Q==</ImageData>
     </EmbeddedImage>
   </EmbeddedImages>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>90ff25ac-6801-4972-8722-de953e01a23f</rd:ReportID>
 </Report>

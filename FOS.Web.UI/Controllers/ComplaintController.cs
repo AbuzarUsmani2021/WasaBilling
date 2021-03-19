@@ -536,7 +536,7 @@ namespace FOS.Web.UI.Controllers
                 }
                 if (itm.ProgressStatusName == "Others")
                 {
-                    itm.ProgressStatusName = "Others/" + itm.ProgressStatusName;
+                    itm.ProgressStatusName = "Others/" + itm.ProgressStatusOtherRemarks;
                 }
                 if (itm.ProgressRemarks == null || itm.ProgressRemarks == "")
                 {
@@ -574,7 +574,7 @@ namespace FOS.Web.UI.Controllers
                 }
                 if (itm.ProgressStatusName == "Others")
                 {
-                    itm.ProgressStatusName = "Others/" + itm.ProgressStatusName;
+                    itm.ProgressStatusName = "Others/" + itm.ProgressStatusOtherRemarks;
                 }
                 if (itm.ProgressRemarks == null || itm.ProgressRemarks == "")
                 {
@@ -1154,7 +1154,7 @@ namespace FOS.Web.UI.Controllers
             }
             if (Response.ProgressStatusName == "Others")
             {
-                Response.ProgressStatusName = "Other/" + db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).Select(x => x.PRemarks).FirstOrDefault();
+                Response.ProgressStatusName = "Others/" + db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).Select(x => x.ProgressStatusRemarks).FirstOrDefault();
             }
             if (Response.ProgressStatusName == "" || Response.ProgressStatusName == null || Response.ProgressStatusId == null)
             {

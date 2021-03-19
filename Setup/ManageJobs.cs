@@ -2825,6 +2825,7 @@ namespace FOS.Setup
                         AssignedFS = dbContext.SaleOfficers.Where(x => x.ID == u.AssignedToSaleOfficer).Select(x => x.Name).FirstOrDefault(),
                         FaultTypeDetailRemarks=u.FaultTypeDetailRemarks,
                         ProgressStatusID=u.ProgressStatusID,
+                        ProgressStatusOtherRemarks=u.ProgressStatusRemarks,
                         ProgressRemarks=u.UpdateRemarks
                     }).OrderByDescending(u => u.ProgressID).ToList();
 
@@ -2858,6 +2859,7 @@ namespace FOS.Setup
                         AssignedFS = dbContext.SaleOfficers.Where(x => x.ID == u.AssignedToSaleOfficer).Select(x => x.Name).FirstOrDefault(),
                         FaultTypeDetailRemarks = u.FaultTypeDetailRemarks,
                         ProgressStatusID = u.ProgressStatusID,
+                        ProgressStatusOtherRemarks=u.ProgressStatusRemarks,
                         ProgressRemarks = u.UpdateRemarks,
                         IsPublish=u.IsPublished
                     }).OrderByDescending(u => u.ProgressID).ToList();

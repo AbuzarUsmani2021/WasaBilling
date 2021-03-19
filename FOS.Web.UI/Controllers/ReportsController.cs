@@ -518,7 +518,7 @@ namespace FOS.Web.UI.Controllers
 
         public ActionResult GetSingleSiteRReport(int SiteId, DateTime StartingDate, DateTime EndingDate)
         {
-            string typeOfReport = "PDF";
+            string typeOfReport = "Excel";
             List<ComplaintReport> ActualComplaintData = new List<ComplaintReport>();
 
             LocalReport lr = new LocalReport();
@@ -573,11 +573,9 @@ namespace FOS.Web.UI.Controllers
             string deviceInfo =
 
                 "<DeviceInfo>" +
-
                 "<OutputFormat>" + typeOfReport + "</OutputFormat>" +
-
                 "<PageWidth>8.5in</PageWidth>" +
-
+                "<PageLength>11in</PageLength>" +
                 "</DeviceInfo>";
 
 
