@@ -518,7 +518,7 @@ namespace FOS.Web.UI.Controllers
 
         public ActionResult GetSingleSiteRReport(int SiteId, DateTime StartingDate, DateTime EndingDate)
         {
-            string typeOfReport = "Excel";
+            string typeOfReport = "PDF";
             List<ComplaintReport> ActualComplaintData = new List<ComplaintReport>();
 
             LocalReport lr = new LocalReport();

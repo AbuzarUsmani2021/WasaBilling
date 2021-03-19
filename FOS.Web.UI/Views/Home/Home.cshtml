@@ -1690,7 +1690,7 @@
         var interval = setInterval(function () {
             var info = table.page.info();
             var pageNum;
-            if (info.recordsTotal != info.recordsDisplay) {
+            if (info.end != info.recordsDisplay) {
                 pageNum = (info.page < info.pages) ? info.page + 1 : 1;
             }
             else {
@@ -1706,7 +1706,7 @@
             setInterval(function () {
                 var info = table.page.info();
                 var pageNum;
-                if (info.recordsTotal != info.recordsDisplay) {
+                if (info.end != info.recordsDisplay) {
                     pageNum = (info.page < info.pages) ? info.page + 1 : 1;
                 }
                 else {
