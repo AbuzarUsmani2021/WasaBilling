@@ -48,6 +48,8 @@ namespace FOS.DataLayer
         public Nullable<int> FirstAssignedSO { get; set; }
         public string Video { get; set; }
         public string Audio { get; set; }
+        public Nullable<System.DateTime> VideoDate { get; set; }
+        public Nullable<System.DateTime> AudioDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ComplaintNotification> ComplaintNotifications { get; set; }

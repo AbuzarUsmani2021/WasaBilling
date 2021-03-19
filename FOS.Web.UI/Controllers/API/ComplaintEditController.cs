@@ -36,7 +36,7 @@ namespace FOS.Web.UI.Controllers.API
                     // JobObj.InitialRemarks = obj.Remarks;
                     JobObj.FaultTypeDetailID = obj.FaulttypeDetailId;
 
-                    if (obj.StatusID == 3)
+                    if (obj.StatusID == 3 || obj.StatusID==1003)
                     {
                         JobObj.ResolvedAt = DateTime.UtcNow.AddHours(5);
                     }
@@ -654,7 +654,7 @@ namespace FOS.Web.UI.Controllers.API
                     jobDetail.AssignedToSaleOfficer = obj.AssignedToID;
                     jobDetail.RetailerID = JobObj.SiteID;
                     jobDetail.IsPublished = 0;
-                    if (obj.StatusID == 3)
+                    if (obj.StatusID == 3 || obj.StatusID == 1003)
                     {
                         JobObj.ResolvedAt = DateTime.UtcNow.AddHours(5);
                     }

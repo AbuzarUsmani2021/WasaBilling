@@ -45,6 +45,8 @@ namespace FOS.Web.UI.Controllers.API
                         comlist.Picture3 = item.Picture3;
                         comlist.Video = item.Video;
                         comlist.Audio = item.Audio;
+                        //comlist.ComplaintID = jobtblID.TicketNo;
+                        comlist.TicketNo = jobtblID.TicketNo;
                         comlist.ProgressStatusID = item.ProgressStatusID;
                         comlist.LaunchDate = item.JobDate;
                         comlist.ProgressStatusName = item.ProgressStatusName;
@@ -68,6 +70,8 @@ namespace FOS.Web.UI.Controllers.API
                         comlist.SiteID = JobId.RetailerID;
                         comlist.SiteCode = JobId.Retailer.RetailerCode;
                         comlist.SiteName = JobId.Retailer.Name;
+                        comlist.AudioDate = JobId.AudioDate;
+                        comlist.VideoDate = JobId.VideoDate;
                         if (item.ComplaintStatusID == 3)
                         {
                             comlist.ProgressStatusName = db.WorkDones.Where(x => x.ID == item.ProgressStatusID).Select(x => x.Name).FirstOrDefault();
@@ -120,7 +124,8 @@ namespace FOS.Web.UI.Controllers.API
         public string Picture3 { get; set; }
         public string AssignedSaleOfficerName { get; set; }
         public DateTime? LaunchDate { get; set; }
-
+        public DateTime? AudioDate { get; set; }
+        public DateTime? VideoDate { get; set; }
         public string SiteName { get; set; }
         public string ProgressStatusName { get; set; }
         public string ProgressStatusRemarks { get; set; }
@@ -130,12 +135,13 @@ namespace FOS.Web.UI.Controllers.API
         public int? SaleOfficerID { get; set; }
         public string SiteCode { get; set; }
         public int? FaultTypeId { get; set; }
-        public int? IsPublished { get; set; }
+       
         public int? PriorityId { get; set; }
         public int? ComplaintStatusId { get; set; }
         public int? FaultTypeDetailID { get; set; }
         public int? ComplainttypeID { get; set; }
         public int? ComplaintStatusID { get; set; }
+        public int? IsPublished { get; set; }
         public string PriorityName { get; set; }
         public string ComplainttypeName { get; set; }
         public string PersonName { get; set; }

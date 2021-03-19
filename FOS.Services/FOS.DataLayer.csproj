@@ -651,6 +651,9 @@
     <Compile Include="Sp_MyComplaintList1_3_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Sp_MyComplaintList1_4_Result.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Sp_MyComplaintListForFS1_1_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
@@ -658,6 +661,9 @@
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Sp_MyComplaintListForWasa1_1_Result.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_MyComplaintListForWasa1_2_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Sp_MyComplaintListForWasa_Result.cs">

@@ -37,7 +37,8 @@ namespace FOS.Web.UI.Controllers.API
                     retailerObj.Remarks = rm.Remarks;
                     retailerObj.VisitTypeID = rm.VisitTypeId;
                     retailerObj.LaunchDate = DateTime.UtcNow.AddHours(5);
-
+                    retailerObj.Datefrom = Convert.ToDateTime(rm.DateFrom);
+                    retailerObj.Dateto = Convert.ToDateTime(rm.DateTo);
                     retailerObj.IsActive = true;
                     retailerObj.IsDeleted = false;
 
@@ -130,6 +131,8 @@ namespace FOS.Web.UI.Controllers.API
                     retailerObj.IsDeleted = false;
                     retailerObj.Remarks = rm.Remarks;
                     retailerObj.VisitTypeID = rm.VisitTypeId;
+                    retailerObj.Datefrom = Convert.ToDateTime(rm.DateFrom);
+                    retailerObj.Dateto = Convert.ToDateTime(rm.DateTo);
                     retailerObj.LaunchDate = DateTime.UtcNow.AddHours(5);
 
                     if (rm.Picture2 == "" || rm.Picture2 == null)
@@ -241,6 +244,8 @@ namespace FOS.Web.UI.Controllers.API
                     retailerObj.IsDeleted = false;
                     retailerObj.Remarks = rm.Remarks;
                     retailerObj.VisitTypeID = rm.VisitTypeId;
+                    retailerObj.Datefrom = Convert.ToDateTime(rm.DateFrom);
+                    retailerObj.Dateto = Convert.ToDateTime(rm.DateTo);
                     retailerObj.LaunchDate = DateTime.UtcNow.AddHours(5);
 
                     if (rm.Picture2 == "" || rm.Picture2 == null)
@@ -413,7 +418,8 @@ namespace FOS.Web.UI.Controllers.API
 
             public int VisitTypeId { get; set; }
             public string Remarks { get; set; }
-
+            public string DateFrom { get; set; }
+            public string DateTo { get; set; }
             public string SiteStatuses { get; set; }
             public string PurposeOfVisits { get; set; }
             public string StaffLists { get; set; }

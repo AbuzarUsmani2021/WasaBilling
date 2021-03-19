@@ -34,6 +34,8 @@ namespace FOS.DataLayer
         public Nullable<bool> IsActive { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
         public Nullable<int> TimeInHours { get; set; }
+        public Nullable<System.DateTime> Datefrom { get; set; }
+        public Nullable<System.DateTime> Dateto { get; set; }
     
         public virtual Retailer Retailer { get; set; }
         public virtual VisitPurpose VisitPurpose { get; set; }
