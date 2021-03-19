@@ -327,21 +327,27 @@ namespace FOS.Setup
         //Get data Of Complaint Registration END
 
         //Get data Of Complaint Report Start 
-        public static List<ComplaintStatus> GetProjectsListForReport()
+        public static List<ComplaintStatus> GetProjectsListForReport(List<int?> list)
         {
             List<ComplaintStatus> city = new List<ComplaintStatus>();
+            ComplaintStatus comlist;
+
             try
             {
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                    city = dbContext.Zones
-                            .Select
-                            (
-                                u => new ComplaintStatus
-                                {
-                                    ID = u.ID,
-                                    Name = u.Name,
-                                }).OrderBy(x => x.Name).ToList();
+                    foreach (var item in list)
+                    {
+                        comlist = new ComplaintStatus();
+                        comlist.ID = item;
+                        comlist.Name = dbContext.Zones.Where(x => x.ID == item).Select(x => x.Name).FirstOrDefault();
+                        city.Add(comlist);
+                    }
+                    city.Insert(0, new ComplaintStatus
+                    {
+                        ID = 0,
+                        Name = "--Select Project--"
+                    });
                 }
             }
             catch (Exception)
@@ -351,23 +357,29 @@ namespace FOS.Setup
 
             return city;
         }
-        public static List<CityData> GetCityListForReport()
+        public static List<CityData> GetCityListForReport(List<int?> list)
         {
             List<CityData> city = new List<CityData>();
+            CityData comlist;
+
 
             try
             {
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                    city = dbContext.Cities.Where(c => c.IsDeleted == false && c.IsActive == true)
-                            .Select
-                            (
-                                u => new CityData
-                                {
-                                    ID = u.ID,
-                                    Name = u.Name,
-                                }).OrderBy(x => x.Name).ToList();
+                    foreach (var item in list)
+                    {
+                        comlist = new CityData();
+                        comlist.ID =(int) item;
+                        comlist.Name = dbContext.Cities.Where(x => x.ID == item).Select(x => x.Name).FirstOrDefault();
+                        city.Add(comlist);
+                    }
                 }
+                city.Insert(0, new CityData
+                {
+                    ID = 0,
+                    Name = "--Select Zone--"
+                });
             }
             catch (Exception)
             {
@@ -376,22 +388,28 @@ namespace FOS.Setup
 
             return city;
         }
-        public static List<AreaData> GetAreaListForReport()
+        public static List<AreaData> GetAreaListForReport(List<int?> list)
         {
             List<AreaData> city = new List<AreaData>();
+            AreaData comlist;
+
 
             try
             {
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                    city = dbContext.Areas.Where(c => c.IsDeleted == false && c.IsActive == true)
-                            .Select
-                            (
-                                u => new AreaData
-                                {
-                                    ID = u.ID,
-                                    Name = u.Name,
-                                }).OrderBy(x => x.Name).ToList();
+                    foreach (var item in list)
+                    {
+                        comlist = new AreaData();
+                        comlist.ID = (int)item;
+                        comlist.Name = dbContext.Areas.Where(x => x.ID == item).Select(x => x.Name).FirstOrDefault();
+                        city.Add(comlist);
+                    }
+                    city.Insert(0, new AreaData
+                    {
+                        ID = 0,
+                        Name = "--Select Town--"
+                    });
                 }
             }
             catch (Exception)
@@ -418,6 +436,11 @@ namespace FOS.Setup
                                     Name = u.Name,
                                 }).OrderBy(x => x.Name).ToList();
                 }
+                city.Insert(0, new SubDivisionData
+                {
+                    ID = 0,
+                    Name = "--Select Subdivision--"
+                });
             }
             catch (Exception)
             {
@@ -443,6 +466,14 @@ namespace FOS.Setup
                                     Name = u.Name,
                                 }).OrderBy(x => x.Name).ToList();
                 }
+                city.Insert(0, new RetailerData
+                {
+                    ID = 0,
+                    Name = "--Select Site--"
+                });
+            
+
+
             }
             catch (Exception)
             {
@@ -451,6 +482,38 @@ namespace FOS.Setup
 
             return city;
         }
+
+        public static List<FaultTypeData> GetFaultTypesListForReport()
+        {
+            List<FaultTypeData> city = new List<FaultTypeData>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    city = dbContext.FaultTypes
+                            .Select
+                            (
+                                u => new FaultTypeData
+                                {
+                                    Id = u.Id,
+                                    Name = u.Name,
+
+                                }).OrderBy(x => x.Name).ToList();
+                }
+                city.Insert(0, new FaultTypeData
+                {
+                    Id = 0,
+                    Name = "--All--"
+                });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return city;
+        }
+
         public static List<ComplaintStatus> GetComplaintStatusListForReport()
         {
             List<ComplaintStatus> city = new List<ComplaintStatus>();
@@ -469,6 +532,12 @@ namespace FOS.Setup
 
                                 }).OrderBy(x => x.Name).ToList();
                 }
+                city.Insert(0, new ComplaintStatus
+                {
+                    ID = 0,
+                    Name = "--All--"
+                });
+
             }
             catch (Exception)
             {
@@ -494,6 +563,11 @@ namespace FOS.Setup
 
                                 }).OrderBy(x => x.Name).ToList();
                 }
+                WD.Insert(0, new Workdone
+                {
+                    ID = 0,
+                    Name = "--All--"
+                });
             }
             catch (Exception)
             {
@@ -518,6 +592,11 @@ namespace FOS.Setup
 
                                 }).OrderBy(x => x.Name).ToList();
                 }
+                SO.Insert(0, new ComplaintLaunchedBy
+                {
+                    ID = 0,
+                    Name = "--All--"
+                });
             }
             catch (Exception)
             {
@@ -542,6 +621,11 @@ namespace FOS.Setup
                                     Name = u.Name,
                                 }).OrderBy(x => x.Name).ToList();
                 }
+                SO.Insert(0, new SaleOfficerData
+                {
+                    ID = 0,
+                    Name = "--All--"
+                });
             }
             catch (Exception)
             {
@@ -765,32 +849,7 @@ namespace FOS.Setup
         }
 
         
-        public static List<FaultTypeData> GetFaultTypesListForReport()
-        {
-            List<FaultTypeData> city = new List<FaultTypeData>();
-
-            try
-            {
-                using (FOSDataModel dbContext = new FOSDataModel())
-                {
-                    city = dbContext.FaultTypes
-                            .Select
-                            (
-                                u => new FaultTypeData
-                                {
-                                    Id = u.Id,
-                                    Name = u.Name,
-
-                                }).OrderBy(x => x.Name).ToList();
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return city;
-        }
-
+     
 
 
 

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ActualComplaintDataset" targetNamespace="http://tempuri.org/ActualComplaintDataset.xsd" xmlns:mstns="http://tempuri.org/ActualComplaintDataset.xsd" xmlns="http://tempuri.org/ActualComplaintDataset.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="ActualComplaintDataset" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="ActualComplaintDataset" msprop:Generator_UserDSName="ActualComplaintDataset">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ActualComplaintDataset" msprop:Generator_TableClassName="ActualComplaintDatasetDataTable" msprop:Generator_TableVarName="tableActualComplaintDataset" msprop:Generator_TablePropName="_ActualComplaintDataset" msprop:Generator_RowDeletingName="ActualComplaintDatasetRowDeleting" msprop:Generator_RowChangingName="ActualComplaintDatasetRowChanging" msprop:Generator_RowEvHandlerName="ActualComplaintDatasetRowChangeEventHandler" msprop:Generator_RowDeletedName="ActualComplaintDatasetRowDeleted" msprop:Generator_UserTableName="ActualComplaintDataset" msprop:Generator_RowChangedName="ActualComplaintDatasetRowChanged" msprop:Generator_RowEvArgName="ActualComplaintDatasetRowChangeEvent" msprop:Generator_RowClassName="ActualComplaintDatasetRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ActualComplaintSiteCode" msprop:Generator_ColumnVarNameInTable="columnActualComplaintSiteCode" msprop:Generator_ColumnPropNameInRow="ActualComplaintSiteCode" msprop:Generator_ColumnPropNameInTable="ActualComplaintSiteCodeColumn" msprop:Generator_UserColumnName="ActualComplaintSiteCode" type="xs:string" minOccurs="0" />
+              <xs:element name="ActualComplaintSiteName" msprop:Generator_ColumnVarNameInTable="columnActualComplaintSiteName" msprop:Generator_ColumnPropNameInRow="ActualComplaintSiteName" msprop:Generator_ColumnPropNameInTable="ActualComplaintSiteNameColumn" msprop:Generator_UserColumnName="ActualComplaintSiteName" type="xs:string" minOccurs="0" />
+              <xs:element name="ActualComplaintComplaintNo" msprop:Generator_ColumnVarNameInTable="columnActualComplaintComplaintNo" msprop:Generator_ColumnPropNameInRow="ActualComplaintComplaintNo" msprop:Generator_ColumnPropNameInTable="ActualComplaintComplaintNoColumn" msprop:Generator_UserColumnName="ActualComplaintComplaintNo" type="xs:string" minOccurs="0" />
+              <xs:element name="ActualComplaintLaunchedTime" msprop:Generator_ColumnVarNameInTable="columnActualComplaintLaunchedTime" msprop:Generator_ColumnPropNameInRow="ActualComplaintLaunchedTime" msprop:Generator_ColumnPropNameInTable="ActualComplaintLaunchedTimeColumn" msprop:Generator_UserColumnName="ActualComplaintLaunchedTime" type="xs:string" minOccurs="0" />
+              <xs:element name="ActualComplaintLaunchedBy" msprop:Generator_ColumnVarNameInTable="columnActualComplaintLaunchedBy" msprop:Generator_ColumnPropNameInRow="ActualComplaintLaunchedBy" msprop:Generator_ColumnPropNameInTable="ActualComplaintLaunchedByColumn" msprop:Generator_UserColumnName="ActualComplaintLaunchedBy" type="xs:string" minOccurs="0" />
+              <xs:element name="ActualComplaintFaultType" msprop:Generator_ColumnVarNameInTable="columnActualComplaintFaultType" msprop:Generator_ColumnPropNameInRow="ActualComplaintFaultType" msprop:Generator_ColumnPropNameInTable="ActualComplaintFaultTypeColumn" msprop:Generator_UserColumnName="ActualComplaintFaultType" type="xs:string" minOccurs="0" />
+              <xs:element name="ActualComplaintFaultTypeDetail" msprop:Generator_ColumnVarNameInTable="columnActualComplaintFaultTypeDetail" msprop:Generator_ColumnPropNameInRow="ActualComplaintFaultTypeDetail" msprop:Generator_ColumnPropNameInTable="ActualComplaintFaultTypeDetailColumn" msprop:Generator_UserColumnName="ActualComplaintFaultTypeDetail" type="xs:string" minOccurs="0" />
+              <xs:element name="ActualComplaintComplaintStatus" msprop:Generator_ColumnVarNameInTable="columnActualComplaintComplaintStatus" msprop:Generator_ColumnPropNameInRow="ActualComplaintComplaintStatus" msprop:Generator_ColumnPropNameInTable="ActualComplaintComplaintStatusColumn" msprop:Generator_UserColumnName="ActualComplaintComplaintStatus" type="xs:string" minOccurs="0" />
+              <xs:element name="ActualComplaintContactPerson" msprop:Generator_ColumnVarNameInTable="columnActualComplaintContactPerson" msprop:Generator_ColumnPropNameInRow="ActualComplaintContactPerson" msprop:Generator_ColumnPropNameInTable="ActualComplaintContactPersonColumn" msprop:Generator_UserColumnName="ActualComplaintContactPerson" type="xs:string" minOccurs="0" />
+              <xs:element name="ActualComplaintInitialRemarks" msprop:Generator_ColumnVarNameInTable="columnActualComplaintInitialRemarks" msprop:Generator_ColumnPropNameInRow="ActualComplaintInitialRemarks" msprop:Generator_ColumnPropNameInTable="ActualComplaintInitialRemarksColumn" msprop:Generator_UserColumnName="ActualComplaintInitialRemarks" type="xs:string" minOccurs="0" />
+              <xs:element name="ActualComplaintPicture1" msprop:Generator_ColumnVarNameInTable="columnActualComplaintPicture1" msprop:Generator_ColumnPropNameInRow="ActualComplaintPicture1" msprop:Generator_ColumnPropNameInTable="ActualComplaintPicture1Column" msprop:Generator_UserColumnName="ActualComplaintPicture1" type="xs:string" minOccurs="0" />
+              <xs:element name="ActualComplaintPicture2" msprop:Generator_ColumnVarNameInTable="columnActualComplaintPicture2" msprop:Generator_ColumnPropNameInRow="ActualComplaintPicture2" msprop:Generator_ColumnPropNameInTable="ActualComplaintPicture2Column" msprop:Generator_UserColumnName="ActualComplaintPicture2" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,245 @@
+﻿@model FOS.Shared.KSBComplaintData
+@{
+    ViewBag.Title = "ComplaintsReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href='~/Content/Style/fullcalendar.min.css' rel='stylesheet' />
+<link href='~/Content/Style/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+<script src='~/Scripts/lib/moment.min.js'></script>
+<script src='~/Scripts/lib/jquery-ui.min.js'></script>
+<script src='~/Scripts/lib/fullcalendar.min.js'></script>
+<link href="~/Content/Style/jquery-ui.min.css" rel="stylesheet" />
+<style>
+    .ui-datepicker {
+        width: 205px;
+    }
+</style>
+<br />
+<div class="row-fluid">
+    <div class="span12">
+        <div class="widget green" @*style="height:600px;"*@>
+            <div class="widget-title text-center">
+                <h4><strong>Single Site Report</strong></h4>
+            </div>
+
+            <div class="widget-body form-horizontal">
+                <div class="span6">
+                    <div class="control-group">
+                        <label class="control-label">Project:</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects, "ID", "Name"))
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Zone:</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.CityID, new SelectList(Model.Cities, "ID", "Name"))
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Towns:</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.AreaID, new SelectList(Model.Areas, "ID", "Name"))
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Subdivisions:</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.SubDivisionID, new SelectList(Model.SubDivisions, "ID", "Name"))
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Sites :</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.SiteId, new SelectList(Model.Sites, "ID", "Name"))
+                        </div>
+                    </div>
+                    <div class="control-group" style="margin-bottom: 14px;">
+                        <label class="control-label">Starting Date:</label>
+                        <div class="controls">
+                            <input class="text-box single-line" id="StartingDate" name="StartingDate" autocomplete="off" placeholder="DD-MM-YYYY" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                        </div>
+                    </div>
+                    <div class="control-group" style="margin-bottom: 14px;">
+                        <label class="control-label">Ending Date:</label>
+                        <div class="controls">
+                            <input class="text-box single-line" id="EndingDate" name="EndingDate" autocomplete="off" placeholder="DD-MM-YYYY" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                        </div>
+                    </div>
+                </div>
+              
+
+                <div class="span12 text-center" style=" margin: 0px;">
+                    <div class="control-group" style="border-top: 1px solid #e5e5e5;">
+                        <div style="margin-top:10px;">
+                            <button id="GenerateReportInPDF" class="btn btn-primary"><i class="icon-ok icon-white"></i><strong> Generate in PDF</strong></button>
+                            <button type="submit" id="" class="btn btn-primary"><i class="icon-ok icon-white"></i><strong> Generate in Excel</strong></button>
+                            <button type="button" id="Reset" class="btn btn-info"><i class="icon-ban-circle icon-white"></i><strong> Reset</strong></button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+
+
+
+        $('#StartingDate').datepicker(
+            {
+                dateFormat: 'dd-M-yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1950:2100'
+            });
+        $('#EndingDate').datepicker(
+            {
+                dateFormat: 'dd-M-yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1950:2100'
+            });
+
+    
+
+
+
+    });
+
+
+    $("#ProjectId").change(function () {
+        var ClientID = $("#ProjectId").val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetZoneFromProject", "Reports")",
+            data: { ClientID: ClientID},
+            success: function (json)
+            {
+                var $el = $("#CityID");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+                $("#CityID").change();
+
+            }
+        });
+    
+
+    });
+
+    $("#CityID").change(function () {
+        var ClientID = $("#CityID").val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetTownFromZone", "Reports")",
+            data: { ClientID: ClientID},
+            success: function (json)
+            {
+                var $el = $("#AreaID");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+                $("#AreaID").change();
+
+
+            }
+        });
+    });
+
+    $("#AreaID").change(function () {
+        var ClientID = $("#AreaID").val();
+        var CityID = $("#CityID").val();
+
+        debugger
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetSubdivisionFromTown", "Reports")",
+            data: { ClientID: ClientID, CityID: CityID},
+            success: function (json)
+            {
+                if (json.length != 0)
+                {
+                var $el = $("#SubDivisionID");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+                 $("#SubDivisionID").change();
+                }
+            }
+        });
+    });
+
+    $("#SubDivisionID").change(function () {
+        var ClientID = $("#SubDivisionID").val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetSiteFromSubdivision", "Reports")",
+            data: { ClientID: ClientID},
+            success: function (json)
+            {
+                if (json.length != 0)
+                {
+                    var $el = $("#Sites");
+                    $el.empty(); // remove old options
+                    $.each(json, function (value, key) {
+                        $el.append($("<option></option>").val(key.ID).text(key.Name));
+                    });
+
+                }
+
+            }
+        });
+    });
+
+
+
+    $('#GenerateReportInPDF').click(function () {
+
+        window.open("@Url.Action("GetSingleSiteRReport", "Reports")" + "?SiteId=" + $("#SiteId").val() + "&StartingDate=" + $("#StartingDate").val() + "&EndingDate=" + $("#EndingDate").val());
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+    $("#Reset").click(function () {
+        ClearForm();
+
+    });
+
+    function ClearForm() {
+        $('#DateFrom').val("");
+        $('#DateTo').val("");
+        $('#ProjectId').val(0);
+        $('#CityID').val(0);
+        $('#FaulttypeId').val(0);
+        $('#StatusID').val(0);
+        $('#WorkDoneID').val(0);
+        $('#SaleOfficerID').val(0);
+        $('#FieldOfficerID').val(0);
+    }
+
+
+
+</script>
+

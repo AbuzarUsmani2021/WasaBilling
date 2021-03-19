@@ -285,32 +285,7 @@ namespace FOS.Setup
             }
         }
 
-
-        public static IEnumerable<RegionData> GetSOProjects()
-        {
-            IEnumerable<RegionData> RegionList;
-
-
-            using (FOSDataModel dbContext = new FOSDataModel())
-            {
-
-
-                RegionList = from Regions in dbContext.Zones//.Where(r=>r.RegionalHeadRegions.Select(a=>a.RegionalHeadtype == 1).FirstOrDefault())
-
-
-
-                             select new RegionData()
-                             {
-                                 ID = Regions.ID,
-                                 Name = Regions.Name,
-
-                             };
-
-
-                return RegionList.ToList();
-            }
-        }
-
+ 
 
         // Get Regions For RegionalHead In Edit Mode ...
         public static IEnumerable<RegionData> GetRegionForRegionalHeadEdit(int intRegionID , int RegionalHeadType)

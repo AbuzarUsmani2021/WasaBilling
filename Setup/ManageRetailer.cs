@@ -2069,19 +2069,14 @@ namespace FOS.Setup
                         TicketNo = u.TicketNo,
                         CreatedDate = u.CreatedDate.ToString(),
                         LaunchedByName = dbContext.SaleOfficers.Where(p => p.ID == u.SaleOfficerID).Select(p => p.Name).FirstOrDefault(),
-                        FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == u.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
-                        FaultTypeDetailOtherRemarks= dbContext.JobsDetails.Where(p => p.JobID == u.ID && p.IsPublished==1).OrderByDescending(x => x.ID).Select(p => p.ActivityType).FirstOrDefault(),
-                        FaultTypesDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == u.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
-                        StatusName = dbContext.ComplaintStatus.Where(p => p.Id == u.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
-                        LastUpdated = dbContext.JobsDetails.Where(p => p.JobID == u.ID && p.IsPublished == 1).OrderByDescending(x => x.ID).Select(p => p.JobDate).FirstOrDefault().ToString(),
+                        FaultTypeName = dbContext.FaultTypes.Where(p => p.Id == dbContext.Tbl_ComplaintHistory.Where(x => x.JobID == u.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.FaultTypeId).FirstOrDefault()).Select(p => p.Name).FirstOrDefault(),
+                        FaultTypeDetailOtherRemarks= dbContext.Tbl_ComplaintHistory.Where(p => p.JobID == u.ID && p.IsPublished==1).OrderByDescending(x => x.ID).Select(p => p.FaultTypeDetailRemarks).FirstOrDefault(),
+                        FaultTypesDetailName = dbContext.FaultTypeDetails.Where(p => p.ID == dbContext.Tbl_ComplaintHistory.Where(x => x.JobID == u.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.FaultTypeDetailID).FirstOrDefault()).Select(p => p.Name).FirstOrDefault(),
+                        StatusName = dbContext.ComplaintStatus.Where(p => p.Id == dbContext.Tbl_ComplaintHistory.Where(x => x.JobID == u.ID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.ComplaintStatusId).FirstOrDefault()).Select(p => p.Name).FirstOrDefault(),
+                        LastUpdated = dbContext.Tbl_ComplaintHistory.Where(p => p.JobID == u.ID && p.IsPublished == 1).OrderByDescending(x => x.ID).Select(p => p.CreatedDate).FirstOrDefault().ToString(),
                         Picture1 = dbContext.JobsDetails.Where(p => p.JobID == u.ID && p.IsPublished == 1).OrderByDescending(x => x.ID).Select(p => p.Picture1).FirstOrDefault(),
                         Picture2 = dbContext.JobsDetails.Where(p => p.JobID == u.ID && p.IsPublished == 1).OrderByDescending(x => x.ID).Select(p => p.Picture2).FirstOrDefault(),
-                        //ComplaintType = dbContext.ComplaintTypes.Where(p => p.ID == u.ComplainttypeID).Select(p => p.Name).FirstOrDefault(),
-                        //Name = u.PersonName,
-                        //Remarks = u.InitialRemarks,
-                        //ComplaintTypeID = u.ComplainttypeID,
-                        //ResolvedAt = u.ResolvedAt,
-                        //ReslovedHours = u.ResolvedHours,
+
 
                     }).First();
                 }

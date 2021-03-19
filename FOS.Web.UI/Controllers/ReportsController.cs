@@ -297,13 +297,331 @@ namespace FOS.Web.UI.Controllers
         #endregion
 
 
+        [CustomAuthorize]
+
+        
+        // Single Site Report Start
+        public ActionResult SingleSiteReport()
+        {
+            var Complaintdata = new KSBComplaintData();
+
+            //Get Projects start
+            var SoidForFroject = Convert.ToInt32(Session["SORelationID"]);
+            var ListOfProjects = db.SOProjects.Where(x => x.SaleOfficerID == SoidForFroject).Select(x => x.ProjectID).Distinct().ToList();
+            Complaintdata.Projects = FOS.Setup.ManageCity.GetProjectsListForReport(ListOfProjects);
+            //Get Projects END
+
+            //Get Zone start
+            var SoidForZone = Convert.ToInt32(Session["SORelationID"]);
+            var ListOfZones = db.SOZoneAndTowns.Where(x => x.SOID == SoidForZone).Select(x => x.CityID).Distinct().ToList();
+            Complaintdata.Cities = FOS.Setup.ManageCity.GetCityListForReport(ListOfZones);
+            //Get Zone END
+
+            //Get town start
+            var SoidForTown = Convert.ToInt32(Session["SORelationID"]);
+            var ListOfTowns = db.SOZoneAndTowns.Where(x => x.SOID == SoidForTown).Select(x => x.AreaID).Distinct().ToList();
+            Complaintdata.Areas = FOS.Setup.ManageCity.GetAreaListForReport(ListOfTowns);
+            //Get town END
+
+            Complaintdata.SubDivisions = FOS.Setup.ManageCity.GetSubdivisionsListForReport();
+            Complaintdata.Sites = FOS.Setup.ManageCity.GetSitesListForReport();
+
+
+            return View(Complaintdata);
+        }
+        public JsonResult GetZoneFromProject(int ClientID)
+        {
+            CityData comlist;
+            List<CityData> Zones = new List<CityData>();
+
+            if (ClientID == 7 || ClientID == 8)
+            {
+
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    var data2 = dbContext.Cities.Where(x => x.ZoneId == ClientID).ToList();
+                    foreach (var items in data2)
+                    {
+                        comlist = new CityData();
+                        comlist.ID = items.ID;
+                        comlist.Name = items.Name;
+                        Zones.Add(comlist);
+                    }
+                }
+
+
+            }
+            else if (ClientID == 9)
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    Zones = dbContext.Cities.Where(x => x.IsActive == true && x.IsDeleted == false)
+                            .Select
+                            (
+                                u => new CityData
+                                {
+                                    ID = u.ID,
+                                    Name = u.Name,
+                                }).OrderBy(x => x.Name).ToList();
+
+
+                }
+            }
+
+
+
+            return Json(Zones);
+        }
+        public JsonResult GetTownFromZone(int ClientID)
+        {
+            List<CityData> city = new List<CityData>();
+            if (ClientID == 278)
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    city = dbContext.Areas.Where(x => x.CityID == 278 && x.IsActive == true && x.IsDeleted == false)
+                            .Select
+                            (
+                                u => new CityData
+                                {
+                                    ID = u.ID,
+                                    Name = u.Name,
+                                }).OrderBy(x => x.Name).ToList();
+                }
+            }
+            else if (ClientID == 279)
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    city = dbContext.Areas.Where(x => x.CityID == 279 && x.IsActive == true && x.IsDeleted == false)
+                            .Select
+                            (
+                                u => new CityData
+                                {
+                                    ID = u.ID,
+                                    Name = u.Name,
+                                }).OrderBy(x => x.Name).ToList();
+                }
+            }
+            else
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    city = dbContext.Areas.Where(x => x.IsActive == true && x.IsDeleted == false)
+                            .Select
+                            (
+                                u => new CityData
+                                {
+                                    ID = u.ID,
+                                    Name = u.Name,
+                                }).OrderBy(x => x.Name).ToList();
+
+
+                }
+            }
+
+
+
+
+            return Json(city);
+        }
+        public JsonResult GetSubdivisionFromTown(int ClientID, int CityID)
+        {
+            CityData comlist;
+            List<CityData> Subdivions = new List<CityData>();
+            if (ClientID != 0 && CityID != 0)
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    var data2 = dbContext.SubDivisions.Where(x => x.AreaID == ClientID).ToList();
+                    foreach (var items in data2)
+                    {
+                        comlist = new CityData();
+                        comlist.ID = items.ID;
+                        comlist.Name = items.Name;
+                        Subdivions.Add(comlist);
+                    }
+                }
+
+            }
+            else
+            {
+                if (CityID != 0)
+                {
+                    using (FOSDataModel dbContext = new FOSDataModel())
+                    {
+                        var data2 = dbContext.SubDivisions.Where(x => x.CityID == CityID).ToList();
+                        foreach (var items in data2)
+                        {
+                            comlist = new CityData();
+                            comlist.ID = items.ID;
+                            comlist.Name = items.Name;
+                            Subdivions.Add(comlist);
+                        }
+                    }
+
+                }
+                else
+                {
+                    using (FOSDataModel dbContext = new FOSDataModel())
+                    {
+                        var data2 = dbContext.SubDivisions.ToList();
+                        foreach (var items in data2)
+                        {
+                            comlist = new CityData();
+                            comlist.ID = items.ID;
+                            comlist.Name = items.Name;
+                            Subdivions.Add(comlist);
+                        }
+                    }
+
+                }
+
+
+
+
+            }
+
+
+
+
+
+
+
+            return Json(Subdivions);
+        }
+        public JsonResult GetSiteFromSubdivision(int ClientID)
+        {
+            CityData comlist;
+            List<CityData> Sites = new List<CityData>();
+
+            if (ClientID != 0)
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    var data2 = dbContext.Retailers.Where(x => x.SubDivisionID == ClientID).ToList();
+                    foreach (var items in data2)
+                    {
+                        comlist = new CityData();
+                        comlist.ID = items.ID;
+                        comlist.Name = items.Name;
+                        Sites.Add(comlist);
+                    }
+                }
+            }
+            else
+            {
+
+            }
+            return Json(Sites);
+        }
+
+        public ActionResult GetSingleSiteRReport(int SiteId, DateTime StartingDate, DateTime EndingDate)
+        {
+            string typeOfReport = "Excel";
+            List<ComplaintReport> ActualComplaintData = new List<ComplaintReport>();
+
+            LocalReport lr = new LocalReport();
+            string path = Path.Combine(Server.MapPath("~/RDLC(Reports)"), "ComplaintReportinPDF.rdlc");
+            if (System.IO.File.Exists(path))
+            {
+                lr.ReportPath = path;
+            }
+            else
+            {
+                return View("Index");
+            }
+
+                 using (FOSDataModel db = new FOSDataModel())
+                {
+
+                    var ComplaintsIDs = db.Jobs.Where(x => x.SiteID == SiteId && (x.CreatedDate >= StartingDate || x.CreatedDate <= EndingDate)).Select(x => x.ID).ToList();
+                    foreach (var ComplaintId in ComplaintsIDs)
+                    {
+                        var Complaints = db.Tbl_ComplaintHistory.Where(x => x.JobID == ComplaintId && x.IsPublished == 1 && x.SiteID == SiteId && (x.CreatedDate >= StartingDate || x.CreatedDate <= EndingDate)).OrderByDescending(x => x.JobID)
+                            .Select(x => new ComplaintReport
+                            {
+                                ActualComplaintSiteCode = db.Retailers.Where(p => p.ID == x.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
+                                ActualComplaintSiteName = db.Retailers.Where(p => p.ID == x.SiteID).Select(p => p.Name).FirstOrDefault(),
+                                ActualComplaintComplaintNo = x.TicketNo,
+                                ActualComplaintLaunchedTime = x.CreatedDate.ToString(),
+                                ActualComplaintLaunchedBy = db.SaleOfficers.Where(p => p.ID == x.LaunchedById).Select(p => p.Name).FirstOrDefault(),
+                                ActualComplaintFaultType = db.FaultTypes.Where(p => p.Id == x.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                                ActualComplaintFaultTypeDetail = db.FaultTypeDetails.Where(p => p.ID == x.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault() == "Others" ? "Others" + x.FaultTypeDetailRemarks : db.FaultTypeDetails.Where(p => p.ID == x.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                                ActualComplaintComplaintStatus = db.ComplaintStatus.Where(p => p.Id == x.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                                ActualComplaintContactPerson = x.PersonName == null || x.PersonName == "" ? null : x.PersonName,
+                                ActualComplaintInitialRemarks = x.InitialRemarks == null || x.InitialRemarks == "" ? null : x.InitialRemarks,
+                                ActualComplaintPicture1 = x.Picture1 == null ? "/Images/KSB_Logo_New.jpg" : x.Picture1,
+                                ActualComplaintPicture2 = x.Picture2 == null ? "/Images/KSB_Logo_New.jpg" : x.Picture2,
+                            }).FirstOrDefault();
+                        ActualComplaintData.Add(Complaints);
+
+                    }
+                }
+            
+
+
+
+
+            ReportDataSource rd = new ReportDataSource("ActualComplaintDataset", ActualComplaintData);
+
+            lr.DataSources.Add(rd);
+            string reportType = typeOfReport;
+            string mimeType;
+            string encoding;
+            string fileNameExtension;
+            string deviceInfo =
+
+                "<DeviceInfo>" +
+                "<OutputFormat>" + typeOfReport + "</OutputFormat>" +
+                "<PageWidth>8.5in</PageWidth>" +
+                "<PageLength>11in</PageLength>" +
+                "</DeviceInfo>";
+
+
+            Warning[] warning;
+            string[] streams;
+            byte[] renderedBytes;
+
+            renderedBytes = lr.Render(
+                reportType,
+                deviceInfo,
+                out mimeType,
+                out encoding,
+                out fileNameExtension,
+                out streams,
+                out warning);
+
+            return File(renderedBytes, mimeType);
+
+        }
+
+
+
+        // Single Site Report END
+
         public ActionResult ComplaintsReport()
         {
             var Complaintdata = new KSBComplaintData();
 
-            Complaintdata.Projects = FOS.Setup.ManageCity.GetProjectsListForReport();
-            Complaintdata.Cities = FOS.Setup.ManageCity.GetCityListForReport();
-            Complaintdata.Areas = FOS.Setup.ManageCity.GetAreaListForReport();
+            //Get Projects start
+            var SoidForFroject = Convert.ToInt32(Session["SORelationID"]);
+            var ListOfProjects = db.SOProjects.Where(x => x.SaleOfficerID == SoidForFroject).Select(x => x.ProjectID).Distinct().ToList();
+            Complaintdata.Projects = FOS.Setup.ManageCity.GetProjectsListForReport(ListOfProjects);
+            //Get Projects END
+
+            //Get Zone start
+            var SoidForZone = Convert.ToInt32(Session["SORelationID"]);
+            var ListOfZones = db.SOZoneAndTowns.Where(x => x.SOID == SoidForZone).Select(x => x.CityID).Distinct().ToList();
+            Complaintdata.Cities = FOS.Setup.ManageCity.GetCityListForReport(ListOfZones);
+            //Get Zone END
+
+            //Get town start
+            var SoidForTown = Convert.ToInt32(Session["SORelationID"]);
+            var ListOfTowns = db.SOZoneAndTowns.Where(x => x.SOID == SoidForTown).Select(x => x.AreaID).Distinct().ToList();
+            Complaintdata.Areas = FOS.Setup.ManageCity.GetAreaListForReport(ListOfTowns);
+            //Get town END
+
             Complaintdata.SubDivisions = FOS.Setup.ManageCity.GetSubdivisionsListForReport();
             Complaintdata.Sites = FOS.Setup.ManageCity.GetSitesListForReport();
             Complaintdata.faultTypes = FOS.Setup.ManageCity.GetFaultTypesListForReport();
@@ -315,12 +633,318 @@ namespace FOS.Web.UI.Controllers
             return View(Complaintdata);
         }
 
-     
-        public JsonResult GetTownFromZone(string ClientID)
+
+
+        
+        public JsonResult GetWorkDoneFromStatus(int FaultTypeID, int StatusID)
         {
-            var result = "ht";  /*FOS.Setup.ManageCity.GetProgressDetailListForReport(ClientID, "--Select Progress Status--")*/
-            return Json(result);
+            CityData comlist;
+            List<CityData> WorkDone = new List<CityData>();
+
+            if (FaultTypeID != 0 && StatusID != 0)
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    if (StatusID == 2003 || StatusID == 4 || StatusID == 1003)
+                    {
+                        var data2 = dbContext.ProgressStatus.Where(x => x.FaulttypeId == FaultTypeID).ToList();
+                        foreach (var items in data2)
+                        {
+                            comlist = new CityData();
+                            comlist.ID = items.ID;
+                            comlist.Name = items.Name;
+                            WorkDone.Add(comlist);
+                        }
+                    }
+                    else if (StatusID == 3)
+                    {
+                        var data2 = dbContext.WorkDones.Where(x => x.FaulttypeID == FaultTypeID).ToList();
+                        foreach (var items in data2)
+                        {
+                            comlist = new CityData();
+                            comlist.ID = items.ID;
+                            comlist.Name = items.Name;
+                            WorkDone.Add(comlist);
+                        }
+                    }
+                }
+            }
+            else if (FaultTypeID == 0 && StatusID == 0)
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+
+                    var data2 = dbContext.ProgressStatus.ToList();
+                    foreach (var items in data2)
+                    {
+                        comlist = new CityData();
+                        comlist.ID = items.ID;
+                        comlist.Name = items.Name;
+                        WorkDone.Add(comlist);
+                    }
+
+
+                    var data3 = dbContext.WorkDones.ToList();
+                    foreach (var items in data3)
+                    {
+                        comlist = new CityData();
+                        comlist.ID = items.ID;
+                        comlist.Name = items.Name;
+                        WorkDone.Add(comlist);
+                    }
+
+                }
+            }
+            else if (FaultTypeID == 0 && StatusID != 0)
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    if (StatusID == 2003 || StatusID == 4 || StatusID == 1003)
+                    {
+                        var data2 = dbContext.ProgressStatus.ToList();
+                        foreach (var items in data2)
+                        {
+                            comlist = new CityData();
+                            comlist.ID = items.ID;
+                            comlist.Name = items.Name;
+                            WorkDone.Add(comlist);
+                        }
+                    }
+                    else if (StatusID == 3)
+                    {
+                        var data2 = dbContext.WorkDones.ToList();
+                        foreach (var items in data2)
+                        {
+                            comlist = new CityData();
+                            comlist.ID = items.ID;
+                            comlist.Name = items.Name;
+                            WorkDone.Add(comlist);
+                        }
+                    }
+                }
+            }
+            else if (FaultTypeID != 0 && StatusID == 0)
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    
+                        var data2 = dbContext.ProgressStatus.Where(x => x.FaulttypeId == FaultTypeID).ToList();
+                        foreach (var items in data2)
+                        {
+                            comlist = new CityData();
+                            comlist.ID = items.ID;
+                            comlist.Name = items.Name;
+                            WorkDone.Add(comlist);
+                        }
+                    
+                   
+                        var data3 = dbContext.WorkDones.Where(x => x.FaulttypeID == FaultTypeID).ToList();
+                        foreach (var items in data3)
+                        {
+                            comlist = new CityData();
+                            comlist.ID = items.ID;
+                            comlist.Name = items.Name;
+                            WorkDone.Add(comlist);
+                        }
+                    
+                }
+            }
+            WorkDone.Insert(0, new CityData
+            {
+                ID = 0,
+                Name = "--All--"
+            });
+
+            return Json(WorkDone);
         }
+        public JsonResult GetLaunchedByFromProject(int ClientID)
+        {
+            List<CityData> city = new List<CityData>();
+
+            if (ClientID == 7 || ClientID == 8)
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    city = dbContext.SaleOfficers.Where(x => (x.RegionalHeadID == 4 || x.RegionalHeadID == 5) && x.IsActive == true && x.IsDeleted == false)
+                            .Select
+                            (
+                                u => new CityData
+                                {
+                                    ID = u.ID,
+                                    Name = u.Name,
+                                }).OrderBy(x => x.Name).ToList();
+                }
+            }
+            else if (ClientID == 9)
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    city = dbContext.SaleOfficers.Where(x => (x.RegionalHeadID == 4 || x.RegionalHeadID == 6) && x.IsActive == true && x.IsDeleted == false)
+                            .Select
+                            (
+                                u => new CityData
+                                {
+                                    ID = u.ID,
+                                    Name = u.Name,
+                                }).OrderBy(x => x.Name).ToList();
+                }
+            }
+
+            city.Insert(0, new CityData
+            {
+                ID = 0,
+                Name = "--All--"
+            });
+
+            return Json(city);
+        }
+        public JsonResult GetFieldOfficerFromProject(int ClientID)
+        {
+            List<CityData> city = new List<CityData>();
+            
+                if (ClientID == 7 || ClientID == 8)
+                {
+                    using (FOSDataModel dbContext = new FOSDataModel())
+                    {
+                        city = dbContext.SaleOfficers.Where(x => x.RegionalHeadID == 5 && x.RoleID==3  && x.IsActive == true && x.IsDeleted == false)
+                                .Select
+                                (
+                                    u => new CityData
+                                    {
+                                        ID = u.ID,
+                                        Name = u.Name,
+                                    }).OrderBy(x => x.Name).ToList();
+                    }
+                }
+                else if (ClientID == 9)
+                {
+                    using (FOSDataModel dbContext = new FOSDataModel())
+                    {
+                        city = dbContext.SaleOfficers.Where(x => x.RegionalHeadID == 6 && x.RoleID == 3 && x.IsActive == true && x.IsDeleted == false)
+                                .Select
+                                (
+                                    u => new CityData
+                                    {
+                                        ID = u.ID,
+                                        Name = u.Name,
+                                    }).OrderBy(x => x.Name).ToList();
+                    }
+                }
+                else
+                {
+                    using (FOSDataModel dbContext = new FOSDataModel())
+                    {
+                        city = dbContext.SaleOfficers.Where(x => x.RoleID == 3 && x.IsActive == true && x.IsDeleted == false)
+                                .Select
+                                (
+                                    u => new CityData
+                                    {
+                                        ID = u.ID,
+                                        Name = u.Name,
+                                    }).OrderBy(x => x.Name).ToList();
+                    }
+                }
+            city.Insert(0, new CityData
+            {
+                ID = 0,
+                Name = "--All--"
+            });
+
+
+
+
+            return Json(city);
+        }
+
+        public ActionResult GetComplaintsReport(string SitesIDs, DateTime StartingDate, DateTime EndingDate, int FaulttypeId, int StatusID, int WorkDoneID, int LaunchedByID, int FieldOfficersID)
+        {
+            string typeOfReport = "PDF";
+            List<ComplaintReport> ActualComplaintData = new List<ComplaintReport>();
+
+            LocalReport lr = new LocalReport();
+            string path = Path.Combine(Server.MapPath("~/RDLC(Reports)"), "ComplaintReportinPDF.rdlc");
+            if (System.IO.File.Exists(path))
+            {
+                lr.ReportPath = path;
+            }
+            else
+            {
+                return View("Index");
+            }
+
+            string[] SitesIDss = SitesIDs.Split(',');
+            foreach (var SiteID in SitesIDss)
+            {
+                int SitesID = Convert.ToInt32(SiteID);
+                using (FOSDataModel db = new FOSDataModel())
+                {
+
+                    var ComplaintsIDs = db.Jobs.Where(x => x.SiteID == SitesID && (x.CreatedDate >= StartingDate || x.CreatedDate <= EndingDate) && x.FaultTypeId == FaulttypeId && x.ComplaintStatusId == StatusID && x.SaleOfficerID == LaunchedByID).Select(x => x.ID).ToList();
+                    foreach (var ComplaintId in ComplaintsIDs)
+                    {
+                        var Complaints = db.Tbl_ComplaintHistory.Where(x => x.JobID == ComplaintId && x.IsPublished == 1 && x.SiteID == SitesID && (x.CreatedDate >= StartingDate || x.CreatedDate <= EndingDate) && x.LaunchedById == LaunchedByID && x.AssignedToSaleOfficer == FieldOfficersID).OrderByDescending(x => x.JobID)
+                            .Select(x => new ComplaintReport
+                            {
+                                ActualComplaintSiteCode = db.Retailers.Where(p => p.ID == x.SiteID).Select(p => p.RetailerCode).FirstOrDefault(),
+                                ActualComplaintSiteName = db.Retailers.Where(p => p.ID == x.SiteID).Select(p => p.Name).FirstOrDefault(),
+                                ActualComplaintComplaintNo = x.TicketNo,
+                                ActualComplaintLaunchedTime = x.CreatedDate.ToString(),
+                                ActualComplaintLaunchedBy = db.SaleOfficers.Where(p => p.ID == x.LaunchedById).Select(p => p.Name).FirstOrDefault(),
+                                ActualComplaintFaultType = db.FaultTypes.Where(p => p.Id == x.FaultTypeId).Select(p => p.Name).FirstOrDefault(),
+                                ActualComplaintFaultTypeDetail = db.FaultTypeDetails.Where(p => p.ID == x.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault() == "Others" ? "Others" + x.FaultTypeDetailRemarks : db.FaultTypeDetails.Where(p => p.ID == x.FaultTypeDetailID).Select(p => p.Name).FirstOrDefault(),
+                                ActualComplaintComplaintStatus = db.ComplaintStatus.Where(p => p.Id == x.ComplaintStatusId).Select(p => p.Name).FirstOrDefault(),
+                                ActualComplaintContactPerson = x.PersonName == null || x.PersonName == "" ? null : x.PersonName,
+                                ActualComplaintInitialRemarks = x.InitialRemarks == null || x.InitialRemarks == "" ? null : x.InitialRemarks,
+                                ActualComplaintPicture1 = x.Picture1 == null ? "/Images/KSB_Logo_New.jpg" : x.Picture1,
+                                ActualComplaintPicture2 = x.Picture2 == null ? "/Images/KSB_Logo_New.jpg" : x.Picture2,
+                            }).FirstOrDefault();
+                        ActualComplaintData.Add(Complaints);
+
+                    }
+                }
+            }
+
+
+
+
+            ReportDataSource rd = new ReportDataSource("ActualComplaintDataset", ActualComplaintData);
+
+            lr.DataSources.Add(rd);
+                string reportType = typeOfReport;
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+                string deviceInfo =
+
+                    "<DeviceInfo>" +
+
+                    "<OutputFormat>" + typeOfReport + "</OutputFormat>" +
+
+                    "<PageWidth>8.5in</PageWidth>" +
+
+                    "</DeviceInfo>";
+
+
+                Warning[] warning;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = lr.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warning);
+
+                return File(renderedBytes, mimeType);
+
+            }
+
+        
+
+
 
 
         public void ComplaintSummaryrpt(int ProjectID, int CityID, int FaulttypeID, int StatusID, int WorkDoneID, int SaleOfficerID,int FieldOfficerID, string sdate, string edate)
@@ -434,12 +1058,25 @@ namespace FOS.Web.UI.Controllers
         {
             var Complaintdata = new KSBComplaintData();
 
-            Complaintdata.Projects = FOS.Setup.ManageCity.GetProjectsListForReport();
-            Complaintdata.Cities = FOS.Setup.ManageCity.GetCityListForReport();
+            //Complaintdata.Projects = FOS.Setup.ManageCity.GetProjectsListForReport();
+            //Complaintdata.Cities = FOS.Setup.ManageCity.GetCityListForReport();
+            //Get Projects start
+            var SoidForFroject = Convert.ToInt32(Session["SORelationID"]);
+            var ListOfProjects = db.SOProjects.Where(x => x.SaleOfficerID == SoidForFroject).Select(x => x.ProjectID).Distinct().ToList();
+            Complaintdata.Projects = FOS.Setup.ManageCity.GetProjectsListForReport(ListOfProjects);
+            //Get Projects END
+
+            //Get Zone start
+            var SoidForZone = Convert.ToInt32(Session["SORelationID"]);
+            var ListOfZones = db.SOZoneAndTowns.Where(x => x.SOID == SoidForZone).Select(x => x.CityID).Distinct().ToList();
+            Complaintdata.Cities = FOS.Setup.ManageCity.GetCityListForReport(ListOfZones);
+            //Get Zone END
             Complaintdata.faultTypes = FOS.Setup.ManageCity.GetFaultTypesListForReport();
             Complaintdata.complaintStatuses = FOS.Setup.ManageCity.GetComplaintStatusListForReport();
             Complaintdata.WorkDone = FOS.Setup.ManageCity.GetWorkDoneListForReport();
             //Complaintdata.SaleOfficers = FOS.Setup.ManageCity.GetSOListForReport();
+            Complaintdata.LaunchedBy = FOS.Setup.ManageCity.GetLaunchedByListforReport();
+            Complaintdata.FieldOfficers = FOS.Setup.ManageCity.GetFieldOfficerListForReport();
             Complaintdata.FieldOfficers = FOS.Setup.ManageCity.GetFieldOfficerListForReport();
 
             return View(Complaintdata);

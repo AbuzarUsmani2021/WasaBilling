@@ -456,20 +456,20 @@ namespace FOS.Web.UI.Controllers
         }
         public JsonResult GetFaultTypeDetailListForFaulttypeID(int ClientID)
         {
-            int? Faulttypeid =db.Tbl_ComplaintHistory.Where(x => x.JobID == ClientID).Select(x => x.FaultTypeId).FirstOrDefault();
+            int? Faulttypeid =db.Tbl_ComplaintHistory.Where(x => x.JobID == ClientID && x.IsPublished==1).OrderByDescending(x => x.ID).Select(x => x.FaultTypeId).FirstOrDefault();
             var result = FOS.Setup.ManageCity.GetFaultTypeDetailListForFaulttypeID((int)Faulttypeid);
             return Json(result);
         }
 
         public JsonResult GetUpdateProgressStatusListForFaulttypeID(int ClientID)
         {
-            int? Faulttypeid = db.Tbl_ComplaintHistory.Where(x => x.JobID == ClientID).Select(x => x.FaultTypeId).FirstOrDefault();
+            int? Faulttypeid = db.Tbl_ComplaintHistory.Where(x => x.JobID == ClientID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.FaultTypeId).FirstOrDefault();
             var result = FOS.Setup.ManageCity.GetUpdateProgressStatusListForFaulttypeID((int)Faulttypeid);
             return Json(result);
         }
         public JsonResult GetWorkDoneStatusListForFaulttypeID(int ClientID)
         {
-            int? Faulttypeid = db.Tbl_ComplaintHistory.Where(x => x.JobID == ClientID).Select(x => x.FaultTypeId).FirstOrDefault();
+            int? Faulttypeid = db.Tbl_ComplaintHistory.Where(x => x.JobID == ClientID && x.IsPublished == 1).OrderByDescending(x => x.ID).Select(x => x.FaultTypeId).FirstOrDefault();
             var result = FOS.Setup.ManageCity.GetWorkDoneStatusListForFaulttypeID((int)Faulttypeid);
             return Json(result);
         }
@@ -536,7 +536,7 @@ namespace FOS.Web.UI.Controllers
                 }
                 if (itm.ProgressStatusName == "Others")
                 {
-                    itm.ProgressStatusName = "Others/" + itm.ProgressStatusName;
+                    itm.ProgressStatusName = "Others/" + itm.ProgressStatusOtherRemarks;
                 }
                 if (itm.ProgressRemarks == null || itm.ProgressRemarks == "")
                 {
@@ -574,7 +574,7 @@ namespace FOS.Web.UI.Controllers
                 }
                 if (itm.ProgressStatusName == "Others")
                 {
-                    itm.ProgressStatusName = "Others/" + itm.ProgressStatusName;
+                    itm.ProgressStatusName = "Others/" + itm.ProgressStatusOtherRemarks;
                 }
                 if (itm.ProgressRemarks == null || itm.ProgressRemarks == "")
                 {
@@ -1136,12 +1136,11 @@ namespace FOS.Web.UI.Controllers
         public JsonResult GetCurrentComplaintDetail(int ComplaintId)
         {
             var Response = ManageRetailer.GetCurrentComplaintDetail(ComplaintId);
-            //Response.LastUpdated = Convert.ToString(Response.ResolvedAt);
             if (Response.FaultTypesDetailName == "Others")
             {
                 Response.FaultTypesDetailName = "Others/" + Response.FaultTypeDetailOtherRemarks;
             }
-            Response.ProgressStatusId = db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).Select(x => x.ProgressStatusID).FirstOrDefault();
+            Response.ProgressStatusId = db.JobsDetails.Where(x => x.JobID == Response.ID && x.IsPublished==1).OrderByDescending(x => x.ID).Select(x => x.ProgressStatusID).FirstOrDefault();
             Response.ProgressStatusName = db.ProgressStatus.Where(x => x.ID == Response.ProgressStatusId).OrderByDescending(x => x.ID).Select(x => x.Name).FirstOrDefault();
             if (Response.StatusName == "Resolved")
             {
@@ -1155,7 +1154,7 @@ namespace FOS.Web.UI.Controllers
             }
             if (Response.ProgressStatusName == "Others")
             {
-                Response.ProgressStatusName = "Other/" + db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).Select(x => x.PRemarks).FirstOrDefault();
+                Response.ProgressStatusName = "Others/" + db.JobsDetails.Where(x => x.JobID == Response.ID).OrderByDescending(x => x.ID).Select(x => x.ProgressStatusRemarks).FirstOrDefault();
             }
             if (Response.ProgressStatusName == "" || Response.ProgressStatusName == null || Response.ProgressStatusId == null)
             {

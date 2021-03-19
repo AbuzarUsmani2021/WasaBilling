@@ -71,7 +71,7 @@
 
     <div id="header" class="navbar navbar-inverse navbar-fixed-top">
 
-        <div class="navbar-inner" id="WASA">
+        <div class="navbar-inner " id="WASA" style="display:none;" >
             <!-- BEGIN LOGO -->
             <a class="brand" style="width:52px;height:53px;">
                 <img src="~/Images/WASALahoreLogo2.jpg" />
@@ -102,7 +102,7 @@
 
         </div>
 
-        <div class="navbar-inner" id="KSB">
+        <div class="navbar-inner" id="KSB" style="display:none;">
             <!-- BEGIN LOGO -->
             <a class="brand" style="width:68px;height:53px;">
                 <img src="~/Images/KSB_Logo_New.jpg" style="height:53px;" />
@@ -271,14 +271,12 @@
         $(document).ready(function () {
             Getcount();
           var TeamID = @HttpContext.Current.Session["TeamID"];
-            if (TeamID== 4) {
-                $("#WASA").show();
-                $("#KSB").hide();
+            if (TeamID == 4) {
+                $("#WASA").removeAttr("style");
             }
             else
             {
-                $("#WASA").hide();
-                $("#KSB").show();
+                $("#KSB").removeAttr("style");
             }
         });
     </script>

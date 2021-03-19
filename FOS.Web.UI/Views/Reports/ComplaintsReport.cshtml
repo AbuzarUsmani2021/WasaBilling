@@ -18,113 +18,109 @@
 <br />
 <div class="row-fluid">
     <div class="span12">
-        <div class="widget green">
+        <div class="widget green" @*style="height:600px;"*@>
             <div class="widget-title text-center">
                 <h4><strong>Complaint Summary Report</strong></h4>
             </div>
-            @using (Ajax.BeginForm("ComplaintsReport", "Reports", new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @class = "form-horizontal" }))
-            {
-                @Html.AntiForgeryToken()
-
+        
         <div class="widget-body form-horizontal">
-            <div class="control-group">
-                <label class="control-label">Project:</label>
-                <div class="controls">
-                    @Html.DropDownListFor(model => model.Projects, new SelectList(Model.Projects, "ID", "Name"))
-                    @Html.HiddenFor(model => model.ProjectIDs)
+            <div class="span6">
+                <div class="control-group">
+                    <label class="control-label">Project:</label>
+                    <div class="controls">
+                        @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects, "ID", "Name"))
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Zone:</label>
+                    <div class="controls">
+                        @Html.DropDownListFor(model => model.CityID, new SelectList(Model.Cities, "ID", "Name"))
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Towns:</label>
+                    <div class="controls">
+                        @Html.DropDownListFor(model => model.AreaID, new SelectList(Model.Areas, "ID", "Name"))
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Subdivisions:</label>
+                    <div class="controls">
+                        @Html.DropDownListFor(model => model.SubDivisionID, new SelectList(Model.SubDivisions, "ID", "Name"))
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Sites :</label>
+                    <div class="controls">
+                        @Html.DropDownListFor(model => model.Sites, new SelectList(Model.Sites, "ID", "Name"))
+                        @Html.HiddenFor(model => model.SitesIDs)
+                    </div>
+                </div>
+                <div class="control-group" style="margin-bottom: 14px;">
+                    <label class="control-label">Starting Date:</label>
+                    <div class="controls">
+                        <input class="text-box single-line" id="StartingDate" name="StartingDate" autocomplete="off" placeholder="DD-MM-YYYY" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                    </div>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label">Zone:</label>
-                <div class="controls">
-                    @Html.DropDownListFor(model => model.Cities, new SelectList(Model.Cities, "ID", "Name"))
-                    @Html.TextBoxFor(model => model.CitiesIDs)
+            <div class="span6">
+                <div class="control-group" style="margin-bottom: 14px;">
+                    <label class="control-label">Ending Date:</label>
+                    <div class="controls">
+                        <input class="text-box single-line" id="EndingDate" name="EndingDate" autocomplete="off" placeholder="DD-MM-YYYY" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                    </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Towns:</label>
-                <div class="controls">
-                    @Html.DropDownListFor(model => model.Areas, new SelectList(Model.Areas, "ID", "Name"))
-                    @Html.HiddenFor(model => model.AreasIDs)
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Subdivisions:</label>
-                <div class="controls">
-                    @Html.DropDownListFor(model => model.SubDivisions, new SelectList(Model.SubDivisions, "ID", "Name"))
-                    @Html.HiddenFor(model => model.SubDivisionsIDs)
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Sites:</label>
-                <div class="controls">
-                    @Html.DropDownListFor(model => model.Sites, new SelectList(Model.Sites, "ID", "Name"))
-                    @Html.HiddenFor(model => model.SitesIDs)
-                </div>
-            </div>
-            <div class="control-group" style="margin-bottom: 14px;">
-                <label class="control-label">Starting Date *</label>
-                <div class="controls">
-                    <input class="text-box single-line" id="StartingDate1" name="StartingDate1" autocomplete="off" placeholder="DD-MM-YYYY" style="height: 22px; width: 202px; margin-bottom: 0px;">
-                </div>
-            </div>
-            <div class="control-group" style="margin-bottom: 14px;">
-                <label class="control-label">Ending Date *</label>
-                <div class="controls">
-                    <input class="text-box single-line" id="StartingDate2" name="StartingDate2" autocomplete="off" placeholder="DD-MM-YYYY" style="height: 22px; width: 202px; margin-bottom: 0px;">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label"> Fault Type:</label>
-                <div class="controls">
-                    @Html.DropDownListFor(model => model.faultTypes, new SelectList(Model.faultTypes, "Id", "Name"))
-                    @Html.HiddenFor(model => model.FaultTypesIDs)
+                <div class="control-group">
+                    <label class="control-label"> Fault Type:</label>
+                    <div class="controls">
+                        @Html.DropDownListFor(model => model.FaulttypeId, new SelectList(Model.faultTypes, "Id", "Name"))
 
+                    </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Complaint Status:</label>
-                <div class="controls">
-                    @Html.DropDownListFor(model => model.complaintStatuses, new SelectList(Model.complaintStatuses, "Id", "Name"))
-                    @Html.HiddenFor(model => model.complaintStatusesIDs)
+                <div class="control-group">
+                    <label class="control-label">Complaint Status:</label>
+                    <div class="controls">
+                        @Html.DropDownListFor(model => model.StatusID, new SelectList(Model.complaintStatuses, "Id", "Name"),new { onchange = @"form.submit()" })
 
+                    </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Work Done Status:</label>
-                <div class="controls">
-                    @Html.DropDownListFor(model => model.WorkDone, new SelectList(Model.WorkDone, "Id", "Name"))
-                    @Html.HiddenFor(model => model.WorkDoneIDs)
+                <div class="control-group">
+                    <label class="control-label">Work Done Status:</label>
+                    <div class="controls">
+                        @Html.DropDownListFor(model => model.WorkDoneID, new SelectList(Model.WorkDone, "Id", "Name"))
 
+                    </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Launched By:</label>
-                <div class="controls">
-                    @Html.DropDownListFor(model => model.LaunchedBy, new SelectList(Model.LaunchedBy, "Id", "Name"))
-                    @Html.HiddenFor(model => model.LaunchedByIDs)
+                <div class="control-group">
+                    <label class="control-label">Launched By:</label>
+                    <div class="controls">
+                        @Html.DropDownListFor(model => model.LaunchedByID, new SelectList(Model.LaunchedBy, "Id", "Name"))
 
+                    </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Field officer:</label>
-                <div class="controls">
-                    @Html.DropDownListFor(model => model.FieldOfficers, new SelectList(Model.FieldOfficers, "Id", "Name"))
-                    @Html.HiddenFor(model => model.FieldOfficersIDs)
+                <div class="control-group">
+                    <label class="control-label">Field officer:</label>
+                    <div class="controls">
+                        @Html.DropDownListFor(model => model.FieldOfficersID, new SelectList(Model.FieldOfficers, "Id", "Name"))
 
+                    </div>
                 </div>
             </div>
 
-            <div class="control-group" style="border-top: 1px solid #e5e5e5;">
-                <div style="margin-top:10px; margin-left:135px;">
-                    <button type="submit" id="btnNew" class="btn btn-primary"><i class="icon-ok icon-white"></i> Generate</button>
-                    <button type="button" id="Reset" class="btn btn-info"><i class="icon-ban-circle icon-white"></i> Reset</button>
+            <div class="span12 text-center" style=" margin: 0px;">
+                <div class="control-group" style="border-top: 1px solid #e5e5e5;">
+                    <div style="margin-top:10px;">
+                        <button  id="GenerateReportInPDF" class="btn btn-primary"><i class="icon-ok icon-white"></i><strong> Generate in PDF</strong></button>
+                        <button type="submit" id="" class="btn btn-primary"><i class="icon-ok icon-white"></i><strong> Generate in Excel</strong></button>
+                        <button type="button" id="Reset" class="btn btn-info"><i class="icon-ban-circle icon-white"></i><strong> Reset</strong></button>
+                    </div>
                 </div>
-
             </div>
+            
+
 
         </div>
-            }
+            
         </div>
     </div>
 </div>
@@ -134,30 +130,22 @@
 
     $(document).ready(function () {
 
-        $('#Projects').change(function () {
-            $('#ProjectIDs').val($('#Projects').multipleSelect('getSelects'));
-        }).multipleSelect({
-            filter: true
-        });
-
-        $('#Cities').change(function () {
-            $('#CitiesIDs').val($('#Cities').multipleSelect('getSelects'));
-        }).multipleSelect({
-            filter: true
-        });
 
 
-        $('#Areas').change(function () {
-            $('#AreasIDs').val($('#Areas').multipleSelect('getSelects'));
-        }).multipleSelect({
-            filter: true
-        });
-
-        $('#SubDivisions').change(function () {
-            $('#SubDivisionsIDs').val($('#SubDivisions').multipleSelect('getSelects'));
-        }).multipleSelect({
-            filter: true
-        });
+        $('#StartingDate').datepicker(
+            {
+                dateFormat: 'dd-M-yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1950:2100'
+            });
+        $('#EndingDate').datepicker(
+            {
+                dateFormat: 'dd-M-yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1950:2100'
+            });
 
         $('#Sites').change(function () {
             $('#SitesIDs').val($('#Sites').multipleSelect('getSelects'));
@@ -165,138 +153,179 @@
             filter: true
         });
 
-        $('#StartingDate1').datepicker(
-            {
-                dateFormat: 'dd-M-yy',
-                changeMonth: true,
-                changeYear: true,
-                yearRange: '1950:2100'
-            });
-        $('#StartingDate2').datepicker(
-            {
-                dateFormat: 'dd-M-yy',
-                changeMonth: true,
-                changeYear: true,
-                yearRange: '1950:2100'
-            });
-
-        $('#faultTypes').change(function () {
-            $('#FaultTypesIDs').val($('#faultTypes').multipleSelect('getSelects'));
-        }).multipleSelect({
-            filter: true
-        });
-
-        $('#complaintStatuses').change(function () {
-            $('#complaintStatusesIDs').val($('#complaintStatuses').multipleSelect('getSelects'));
-        }).multipleSelect({
-            filter: true
-        });
-
-        $('#WorkDone').change(function () {
-            $('#WorkDoneIDs').val($('#WorkDone').multipleSelect('getSelects'));
-        }).multipleSelect({
-            filter: true
-        });
-
-        $('#LaunchedBy').change(function () {
-            $('#LaunchedByIDs').val($('#LaunchedBy').multipleSelect('getSelects'));
-        }).multipleSelect({
-            filter: true
-        });
-
-        $('#FieldOfficers').change(function () {
-            $('#FieldOfficersIDs').val($('#FieldOfficers').multipleSelect('getSelects'));
-        }).multipleSelect({
-            filter: true
-        });
-
 
 
     });
 
 
+    $("#ProjectId").change(function () {
+        var ClientID = $("#ProjectId").val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetZoneFromProject", "Reports")",
+            data: { ClientID: ClientID},
+            success: function (json)
+            {
+                var $el = $("#CityID");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+                $("#CityID").change();
 
-    $('#CitiesIDs').val().change(function () {
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetLaunchedByFromProject", "Reports")",
+            data: { ClientID: ClientID},
+            success: function (json)
+            {
+                if (json != null) {
+                    var $el = $("#LaunchedByID");
+                    $el.empty(); // remove old options
+                    $.each(json, function (value, key) {
+                        $el.append($("<option></option>").val(key.ID).text(key.Name));
+                    });
+
+                }
+
+            }
+         });
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetFieldOfficerFromProject", "Reports")",
+            data: { ClientID: ClientID},
+            success: function (json)
+            {
+                if (json != null) {
+                    var $el = $("#FieldOfficersID");
+                    $el.empty(); // remove old options
+                    $.each(json, function (value, key) {
+                        $el.append($("<option></option>").val(key.ID).text(key.Name));
+                    });
+
+                }
+
+            }
+        });
 
     });
 
-    $("#CitiesIDs").on("input", function () {
-       var ClientID = $("#CitiesIDs").val();
-        debugger
-
+    $("#CityID").change(function () {
+        var ClientID = $("#CityID").val();
         $.ajax({
             type: "POST",
             url: "@Url.Action("GetTownFromZone", "Reports")",
             data: { ClientID: ClientID},
-            success: function (json) {
-
-                var $el = $("#Areas");
+            success: function (json)
+            {
+                var $el = $("#AreaID");
                 $el.empty(); // remove old options
                 $.each(json, function (value, key) {
                     $el.append($("<option></option>").val(key.ID).text(key.Name));
                 });
+                $("#AreaID").change();
+
+
             }
         });
     });
 
+    $("#AreaID").change(function () {
+        var ClientID = $("#AreaID").val();
+        var CityID = $("#CityID").val();
 
+        debugger
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetSubdivisionFromTown", "Reports")",
+            data: { ClientID: ClientID, CityID: CityID},
+            success: function (json)
+            {
+                if (json.length != 0)
+                {
+                var $el = $("#SubDivisionID");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+                 $("#SubDivisionID").change();
+                }
+            }
+        });
+    });
 
+    $("#SubDivisionID").change(function () {
+        var ClientID = $("#SubDivisionID").val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetSiteFromSubdivision", "Reports")",
+            data: { ClientID: ClientID},
+            success: function (json)
+            {
+                if (json.length != 0)
+                {
+                    var $el = $("#Sites");
+                    $el.empty(); // remove old options
+                    $.each(json, function (value, key) {
+                        $el.append($("<option></option>").val(key.ID).text(key.Name));
+                    });
 
+                    $('#Sites').change(function () {
+                        $('#SitesIDs').val($('#Sites').multipleSelect('getSelects'));
+                    }).multipleSelect({
+                        filter: true
+                    });
+                }
 
-
-
-
-
-
+            }
+        });
+    });
 
 
     $("#StatusID").change(function () {
-        if ($("#StatusID").val() == '3')
-        {
-            WorkDoneStatus();
-        }
-        else
-        {
-            ProgressStatus();
-        }
-    });
-    function ProgressStatus() {
-        var ClientID = $("#FaulttypeId").val();
-
+        var FaultTypeID = $("#FaulttypeId").val();
+        var StatusID = $("#StatusID").val();
         $.ajax({
             type: "POST",
-            url: "@Url.Action("GetProgressDetailListForReport", "Complaint")",
-            data: { ClientID: ClientID},
-            success: function (json) {
-
-                var $el = $("#WorkDoneID");
-                $el.empty(); // remove old options
-                $.each(json, function (value, key) {
-                    $el.append($("<option></option>").val(key.ID).text(key.Name));
-                });
-
-
-            }
-        });
-        }
-    function WorkDoneStatus() {
-        var ClientId = $("#FaulttypeId").val();
-         $.ajax({
-            type: "POST",
-            url: "@Url.Action("WorkDoneDetailList", "Complaint")",
-             data: { ClientId: ClientId },
-            success: function (json) {
-
-                var $el = $("#WorkDoneID");
-                $el.empty(); // remove old options
-                $.each(json, function (value, key) {
-                    $el.append($("<option></option>").val(key.ID).text(key.Name));
-                });
-
+            url: "@Url.Action("GetWorkDoneFromStatus", "Reports")",
+            data: {
+                FaultTypeID: FaultTypeID,
+                StatusID: StatusID
+                },
+            success: function (json)
+            {
+                if (json.length != 0) {
+                    var $el = $("#WorkDoneID");
+                    $el.empty(); // remove old options
+                    $.each(json, function (value, key) {
+                        $el.append($("<option></option>").val(key.ID).text(key.Name));
+                    });
+                }
 
             }
         });
-    }
+    });
+
+
+    
+
+    $('#GenerateReportInPDF').click(function () {
+
+        window.open("@Url.Action("GetComplaintsReport", "Reports")" + "?SitesIDs=" + $("#SitesIDs").val() + "&StartingDate=" + $("#StartingDate").val() + "&EndingDate=" + $("#EndingDate").val() + "&FaulttypeId=" + $("#FaulttypeId").val() + "&StatusID=" + $("#StatusID").val() + "&WorkDoneID=" + $("#WorkDoneID").val() + "&LaunchedByID=" + $("#LaunchedByID").val() + "&FieldOfficersID=" + $("#FieldOfficersID").val());
+    });
+
+
+
+
+
+
+
+
+
+
+
 
     $("#Reset").click(function () {
         ClearForm();
@@ -315,54 +344,6 @@
         $('#FieldOfficerID').val(0);
     }
 
-
-    function OnSuccess(response)
-    {
-        if (response == "1")
-        {
-            alertify.success("Report has Successfully Generated.");
-            ClearForm();
-        }
-        else if (response == "0")
-        {
-            alertify.error("Unable To Generate Report.");
-        }
-
-
-    }
-
-    $('#btnNew').click(function () {
-
-        debugger;
-        //var message = "";
-        //for (i = 0; i < sPainters.length ; i++) {
-        //    message += sPainters[i] + ",";
-        //}
-        //var $Shoptypeid = $("#Shoptypeid").val();
-        debugger;
-        var $sdate = $("#StartingDate1").val();
-        var $edate = $("#StartingDate2").val();
-        var $TID = $("#ClientID").val();
-        var $fosid = $("#SaleOfficerID").val();
-        var $cityid = $("#CityID").val();
-        var $areaid = $("#AreaID").val();
-            @*if ($("#cbCheck1").is(':checked') == true) {
-                window.open("@Url.Action("CityMonthWiseIntakeReport", "Retailer")" + "?StartingDate=" + $("#StartingDate1").val() + "&EndingDate=" + $("#StartingDate2").val() + "&TID=" + $("#TID").val() + "&Shoptypeid=" + $("#Shoptypeid").val() + "&message=" + message + "", "_top");
-            }*@
-        //else {
-        window.open("@Url.Action("ComplaintSummaryrpt", "Reports")" + "?ProjectID=" + $("#ProjectId").val() + "&CityID=" + $("#CityID").val()  + "&FaulttypeID=" + $("#FaulttypeId").val() + "&StatusID=" + $("#StatusID").val() + "&WorkDoneID=" + $("#WorkDoneID").val() + "&SaleOfficerID=" + $("#SaleOfficerID").val() + "&FieldOfficerID=" + $("#FieldOfficerID").val()+ "&sdate=" + $sdate+"&edate=" + $edate);
-        //}
-    });
-
-    function OnFailure(response) {
-        if (response.status == 422) {
-            var errors = JSON.parse(response.responseText);
-            alertify.error(errors.errors);
-        }
-        else {
-            alertify.error(response);
-        }
-    }
 
 
 </script>

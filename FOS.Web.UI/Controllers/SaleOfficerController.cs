@@ -31,7 +31,7 @@ namespace FOS.Web.UI.Controllers
             objSaleOffice.Regions = FOS.Setup.ManageRegion.GetZonesListInSO();
             objSaleOffice.Towns = FOS.Setup.ManageRegion.GetTownListInSO();
             objSaleOffice.SORoles = FOS.Setup.ManageRegion.GetSORoles();
-            objSaleOffice.SOProjects = FOS.Setup.ManageRegion.GetSOProjects();
+            //objSaleOffice.SOProjects = FOS.Setup.ManageRegion.GetSOProjects();
             objSaleOffice.Cities = new List<CityData>();
             objSaleOffice.Areas = new List<Area>();
             return View(objSaleOffice);

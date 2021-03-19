@@ -224,6 +224,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActualComplaintDataset.cs">
+      <DependentUpon>ActualComplaintDataset.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ActualComplaintDataset.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ActualComplaintDataset.xsd</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -740,13 +748,23 @@
     <Content Include="Images\WASALahoreLogo2.jpg" />
     <Content Include="Images\WASA_Logo.png" />
     <Content Include="Images\Whitening_REpairing_Cream__10736.1413186187.500.750.jpg" />
-    <Content Include="LOGO16.ico" />
     <Content Include="favicon.ico" />
     <Content Include="FOS_WallCoatDataSet.xsc">
       <DependentUpon>FOS_WallCoatDataSet.xsd</DependentUpon>
     </Content>
     <Content Include="DataSets\rptDataSet.xsc">
       <DependentUpon>rptDataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="ActualComplaintDataset.xsc">
+      <DependentUpon>ActualComplaintDataset.xsd</DependentUpon>
+    </Content>
+    <None Include="ActualComplaintDataset.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ActualComplaintDataset.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ActualComplaintDataset.xss">
+      <DependentUpon>ActualComplaintDataset.xsd</DependentUpon>
     </Content>
     <None Include="DataSets\rptDataSet.xsd">
       <SubType>Designer</SubType>
@@ -1089,6 +1107,7 @@
     <Content Include="Views\Home\WasaDashboard.cshtml" />
     <Content Include="Views\Reports\ComplaintsReport.cshtml" />
     <Content Include="Views\Reports\ComplaintDetailReport.cshtml" />
+    <Content Include="Views\Reports\SingleSiteReport.cshtml" />
     <None Include="WeeklyReport.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>WeeklyReport.Designer.cs</LastGenOutput>
@@ -1137,6 +1156,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="RDLC%28Reports%29\ComplaintReportinPDF.rdlc" />
     <EmbeddedResource Include="Reports\CityFosWise.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CityFosWise.cs</LastGenOutput>
