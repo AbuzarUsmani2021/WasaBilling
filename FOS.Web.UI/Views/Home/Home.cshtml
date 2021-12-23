@@ -1,7 +1,7 @@
 ﻿@model FOS.Shared.KSBComplaintData
 
 @{
-    ViewBag.Title = "KSB | O&M - Dashboard";
+    ViewBag.Title = "Wasa Billing - Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
@@ -87,7 +87,7 @@
 
 <h3 class="page-title"></h3>
 <div class="widget-title text-center" style=" background-color: #1969b1;">
-    <h4><strong> All Complaints Detail</strong></h4><hr style="margin:13px;" />
+    <h4><strong> All Bills Detail</strong></h4><hr style="margin:13px;" />
 </div>
 <div class="grid-container">
     <div class="grid-item">
@@ -112,7 +112,7 @@
         <button type="submit" id="ApplyFilter" class="btn btn-primary">
             <i class="icon-ok icon-white" style="padding-right: 2px"></i><span style="width:50px"><strong>Apply Filter</strong></span>
         </button>
-        <button type="submit" id="Clear" class="btn btn-primary">
+        @*<button type="submit" id="Clear" class="btn btn-primary">
             <i class="icon-remove icon-white" style="padding-right: 2px"></i><span style="width:50px"><strong>Clear</strong></span>
         </button>
         <button id="StartAutoPagination" class="btn btn-primary">
@@ -120,7 +120,7 @@
         </button>
         <button id="EndAutoPagination" class="btn btn-primary">
             <i class="icon-remove icon-white" style="padding-right: 2px"></i><span style="width:50px"><strong>Stop AP</strong></span>
-        </button>
+        </button>*@
     </div>
 
 
@@ -131,18 +131,17 @@
         <thead>
             <tr class="align-center" style="background-color:#1969b1; color:white;">
                 <th>Sr #</th>
-                <th>Complaint No</th>
-                <th>Site ID</th>
-                <th>Site Name</th>
-                <th>Fault Type/      Fault Type Detail</th>
-                <th>Complaint Type</th>
+                <th>Consumer No</th>
+                <th>Consumer Name</th>
+                <th>Consumer Address</th>
+                <th>DDR</th>
+                <th>Ward</th>
+                <th>Area</th>
                 <th>Launched By</th>
-                <th>Launched At</th>
-                <th>Elapsed Time (HH:MM)</th>
-                <th id="StatusColumn">Complaint Status</th>
-                <th id="StatusColumn">Progress Status</th>
-                <th id="StatusColumn">Updated At </th>
-                <th style="width:127px;">Detail/Remarks/ SMS/Update</th>
+               
+              
+             
+           
             </tr>
         </thead>
         <tbody></tbody>
@@ -288,6 +287,7 @@
                                     <th style="text-align: center; width: 164px;">Date Time</th>
                                     <th style="text-align: center; width: 164px;">Name</th>
                                     <th style="text-align: center;">Remarks</th>
+                                    <th style="text-align: center;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="RemarksData"></tbody>
@@ -317,7 +317,7 @@
         </div>
     </div>
 </div>
-<div id="AddRemarksModel" class="modal fade" role="dialog" style="top:35%; -webkit-border-radius: 0px; left:35%; width:430px; display:none;">
+@*<div id="AddRemarksModel" class="modal fade" role="dialog" style="top:35%; -webkit-border-radius: 0px; left:35%; width:430px; display:none;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #1969b1;">
@@ -347,8 +347,8 @@
             </div>
         </div>
     </div>
-</div>
-<div id="ChatBoxModel" class="modal fade" role="dialog" style="top:35%; -webkit-border-radius: 0px; left:35%; width:430px; display:none;">
+</div>*@
+@*<div id="ChatBoxModel" class="modal fade" role="dialog" style="top:35%; -webkit-border-radius: 0px; left:35%; width:430px; display:none;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #1969b1;">
@@ -380,8 +380,8 @@
             </div>
         </div>
     </div>
-</div>
-<div id="UpdateComplaintTime" class="modal fade" role="dialog" style="top:35%; -webkit-border-radius: 0px; left:35%; width:430px; display:none;">
+</div>*@
+@*<div id="UpdateComplaintTime" class="modal fade" role="dialog" style="top:35%; -webkit-border-radius: 0px; left:35%; width:430px; display:none;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #1969b1;">
@@ -412,208 +412,9 @@
             </div>
         </div>
     </div>
-</div>
-<div id="ViewChildRecord" class="modal fade" role="dialog" style="top:30%; left:15%; display:none; width: 828px; display:none;">
+</div>*@
 
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color: #1969b1;">
-                <button type="button" class="close" style="color:white;" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" style="font-weight: 900;color: white;"><strong>View Progress Detail</strong></h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <div class="span12">
-                        <div class="span12" style="border-style: solid; padding: 10px;margin-bottom: 10px;">
-                            <div class="span8">
-                                <div class="span5" style="margin-left:0px;"><label>Date Time:</label></div>
-                                <div class="span5" id="ChildViewDateTime" style="margin-left:0px;"></div>
-
-                                <div class="span5" style="margin-left:0px;"><label>Fault Type/Fault Type Detail:</label></div>
-                                <div class="span5" id="ChildViewFaultTypeFaultTypeDetail" style="margin-left:0px; "></div>
-
-                                <div class="span5" style="margin-left:0px;"><label>Complaint Status:</label></div>
-                                <div class="span5" id="ChildViewComplaintStatus" style="margin-left:0px; "></div>
-
-                                <div class="span5" style="margin-left:0px;"><label>Assigned FS:</label></div>
-                                <div class="span5" id="ChildViewAssignedFS" style="margin-left:0px; "></div>
-
-                                <div class="span5" style="margin-left:0px;"><label>Progress Status:</label></div>
-                                <div class="span5" id="ChildViewProgressStatus" style="margin-left:0px; "></div>
-
-                                <div class="span5" style="margin-left:0px;"><label>Progress Remarks:</label></div>
-                                <div class="span5" id="ChildViewProgressRemarks" style="margin-left:0px; "></div>
-                            </div>
-                            <div class="span4">
-
-                                <div class="span6" style="margin-left:0px; border-style: solid;margin-right: 5px;">
-                                    <img src="~/Images/no-image-available.png.jpg" style="width:150px; height:165px;" id="ChildViewPicture1" />
-
-                                </div>
-                                <div class="span6" style="margin-left:0px; border-style: solid;">
-                                    <img src="~/Images/no-image-available.png.jpg" style="width:150px; height:165px;" id="ChildViewPicture2" />
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="EditChildRecord" class="modal fade" role="dialog" style="top:7%; display:none; width: 1052px;">
-
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color: #1969b1;">
-                <button type="button" class="close" style="color:white;" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" style="font-weight: 900;color: white;"><strong>Edit Progress Detail</strong></h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <div class="span12">
-                        <div class="span3" style="margin-top: 0px;">
-                            <input id="EditComplaintID" name="EditComplaintID" class="hidden" type="text" value="">
-                            <input id="JobDetailID" name="JobDetailID" class="hidden" type="text" value="">
-                            <input id="JobDetailID" name="JobDetailID" class="hidden" type="text" value="">
-
-                            <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">DateTime:</label>
-                                <div class="controls" style="margin-left: 0px">
-                                    <input type="datetime-local" id="EditDateTime">
-
-                                </div>
-                            </div>
-
-                            <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Fault Type:*</label>
-                                <div class="controls" style="margin-left: 0px">
-                                    @Html.DropDownListFor(model => model.EditFaulttypeId, new SelectList(Model.faultTypes, "Id", "Name"), new { @class = "Areas" })
-                                    @Html.HiddenFor(model => model.FaulttypeId)
-                                </div>
-                            </div>
-                            <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Fault Type Detail:</label>
-                                <div class="controls" style="margin-left: 0px">
-                                    @Html.DropDownListFor(model => model.EditFaulttypeDetailId, new SelectList(Model.faultTypesDetail, "Id", "Name"), new { @class = "Areas" })
-                                    @Html.HiddenFor(model => model.FaulttypeDetailId)
-                                </div>
-                            </div>
-                            <div class="control-group" style="margin-bottom: 10px" id="EditOtherRemarksBox">
-                                <label class="control-label" style="">Fault Type Detail Other Remarks:</label>
-                                <div class="controls" style="margin-left: 0px">
-                                    @Html.EditorFor(model => model.EditFaultTypeDetailOtherRemarks)
-                                </div>
-                            </div>
-                            <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Priority:</label>
-                                <div class="controls" style="margin-left: 0px">
-                                    @Html.DropDownListFor(model => model.EditPriorityId, new SelectList(Model.priorityDatas, "ID", "Name"), new { @class = "Areas" })
-                                </div>
-                            </div>
-                            <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Complaint Type:</label>
-                                <div class="controls" style="margin-left: 0px">
-                                    @Html.DropDownListFor(model => model.EditComplaintTypeID, new SelectList(Model.ComplaintTypes, "ID", "Name"), new { @class = "Areas" })
-                                </div>
-                            </div>
-                            <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Assign FS:</label>
-                                <div class="controls" style="margin-left: 0px">
-                                    @Html.DropDownListFor(model => model.EditSalesOficerID, new SelectList(Model.FieldOfficers, "ID", "Name"), new { @class = "Areas" })
-                                </div>
-                            </div>
-
-
-                        </div>
-                        <div class="span3" style="margin-top: 0px;">
-                            <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Complaint Status:</label>
-                                <div class="controls" style="margin-left: 0px">
-                                    @Html.DropDownListFor(model => model.EditStatusID, new SelectList(Model.complaintStatuses, "ID", "Name"), new { @class = "Areas", @Value = "2003" })
-                                </div>
-                            </div>
-
-
-                            <div class="control-group" style="margin-bottom: 10px">
-                                <label class="control-label">Progress Status:</label>
-                                <div class="controls" style="margin-left: 0px">
-                                    @Html.DropDownListFor(model => model.EditProgressStatusId, new SelectList(Model.ProgressStatus, "ID", "Name"), new { @class = "Areas" })
-                                </div>
-                            </div>
-                            <div class="control-group" style="margin-bottom: 10px" id="EditProgressStatusOtherRemarksBox">
-                                <label class="control-label" style="">Progress Status Others Remarks:</label>
-                                <div class="controls" style="margin-left: 0px">
-                                    @Html.EditorFor(model => model.EditProgressStatusOtherRemarks)
-                                </div>
-                            </div>
-                            <div class="control-group " style="margin-bottom: 0px">
-                                <label class="control-label" style="">Timeline for resolution:</label>
-                                <select class="Areas" id="EditTime" name="Time">
-                                    <option selected value="0">--Select Time For Resolution--</option>
-
-                                </select>
-                            </div>
-                            <div class="control-group" style="margin-bottom: 0px">
-                                <label class="control-label" style="">Person Name:</label>
-                                <div class="controls" style="margin-left: 0px">
-                                    @Html.TextBoxFor(model => model.EditName, new { placeholder = "Enter Contact Person Name:" })
-                                </div>
-                            </div>
-                            <div class="control-group" style="margin-bottom: 10px; padding-top:20px;">
-                                <label class="control-label" style="">Complaint Progress Remarks:</label>
-                                <div class="controls" style="margin-left: 0px">
-                                    @Html.TextAreaFor(model => model.EditRemarks, new { @style = "height:22px; width:202px; margin: 0px 0px 10px;", placeholder = "Enter Progress Remarks:" })
-                                </div>
-                            </div>
-                        </div>
-
-
-
-
-                        <!-- Buttons -->
-                        <!--</div>-->
-                        <div class="span3" style="margin-top: 0px;">
-                            <div class="user-profile-image">
-                                <input type="file" name="ChildEditPicture1" @*style="display:none" ; class="hidden"*@ id="ChildEditPicture1" />
-                                <img src="~/Images/KSB_Logo_New.jpg" class="img-responsive" id="ChildEditUserImage" />
-                                <div class="upload-photo" style="width:230px;bottom:-310px;" id="EditUploadPicture1">
-                                    <img src="/Images/upload.png" class="img-responsive" />
-                                </div>
-                                <div class="remove-photo" style="top:21px;right:304px;" id="EditRemovePicture1" >
-                                    <span class="fa fa-window-close"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span3" style="margin-top: 0px;">
-                            <div class="user-profile-image">
-                                <input type="file" name="ChildEditPicture2" @*style="display:none" ; class="hidden"*@ id="ChildEditPicture2" />
-                                <img src="~/Images/KSB_Logo_New.jpg" class="img-responsive" id="ChildEditUserImage2" />
-                                <div class="upload-photo" style="width:230px;bottom:-310px;" id="EditUploadPicture2" >
-                                    <img src="/Images/upload.png" class="img-responsive" />
-                                </div>
-                                <div class="remove-photo" id="EditRemovePicture1" style="top:21px;right:56px;">
-                                    <span class="fa fa-window-close"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="control-group" style="margin-top: 10px">
-                            <div class="form-actions" style="padding-left: 0px;  margin-top: 16px;">
-                                <button type="submit" class="btn btn-primary" style="margin-top: 50px;margin-left: 208px;width: 100px;">
-                                    <span onclick="PostEditComplaint()" class="bold"><i class="icon-ok icon-white"></i> Update</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="UpdateComplaint" class="modal fade" role="dialog" style="top:7%; display:none; width: 1052px;">
+@*<div id="UpdateComplaint" class="modal fade" role="dialog" style="top:7%; display:none; width: 1052px;">
 
     <div class="modal-dialog">
         <div class="modal-content">
@@ -738,7 +539,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 
 <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
@@ -898,7 +699,7 @@
                             else
                             {
                                 $.each(Response, function (i, item) {
-                                    var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.RemarksByName + "</td><td style='text-align:center;'>" + item.ClientRemarks + "</td>");
+                                    var divHtml = $('<tr>').html("<td style='text-align:center;'>" + item.DateTime + "</td><td style='text-align:center;'>" + item.RemarksByName + "</td><td style='text-align:center;'>" + item.ClientRemarks + "</td><td style='text-align:center;'>" + "<a href='#' class='btn text-center' style='background-color:#1969b1; margin-right:5px; margin-bottom:5px; color:white;' onclick='RemarksDelete(" + item.ID + ")' ><b>Delete</b></td>");
                                     $("#RemarksData").append(divHtml);
                                 });
                             }
@@ -1652,11 +1453,7 @@
                     { "data": "FaultTypeFinalName", "sClass": "center-align-td" },
                     { "data": "ComplaintTypeName", "sClass": "center-align-td", },
                     { "data": "SaleOfficerName", "sClass": "center-align-td" },
-                    { "data": "dateformat", "sClass": "center-align-td", },
-                    { "data": "VisitDateFormatted", "sClass": "center-align-td", },
-                    { "data": "StatusName", "sClass": "center-align-td", },
-                    { "data": "ProgressStatus", "sClass": "center-align-td" },
-                    { "data": "UpdatedAt", "sClass": "center-align-td", },
+                 
                     {
                         "sClass": "center-align-td",
                         "mData": null,
@@ -1715,6 +1512,24 @@
                 table.page(pageNum).draw(false);
             }, 30000);
         });
+    }
+    function RemarksDelete(ProgressID) {
+        var url = "/Complaint/DeleteRemarksData?ProgressID=" + ProgressID;
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (Result) {
+
+                if (Result == true) {
+                    $('#myModal').modal('hide');
+                    $('#datatab').DataTable().ajax.reload();
+
+                    alertify.success("Complaint Remarks Deleted Successfully.");
+                }
+
+
+            }
+        })
     }
     function ChildView(ProgressID) {
         var url = "/Complaint/GetProgressIDData?ProgressID=" + ProgressID;

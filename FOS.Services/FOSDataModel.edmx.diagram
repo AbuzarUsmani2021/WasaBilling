@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d4a37a8cf060422ba4d16447284c293e" Name="Diagram1" ZoomLevel="53">
+      <Diagram DiagramId="d4a37a8cf060422ba4d16447284c293e" Name="Diagram1" ZoomLevel="89">
         <EntityTypeShape EntityType="FOS_WallCoatModel.Area" Width="1.5" PointX="5.25" PointY="47.375" />
         <EntityTypeShape EntityType="FOS_WallCoatModel.City" Width="1.5" PointX="3" PointY="40.75" />
         <EntityTypeShape EntityType="FOS_WallCoatModel.CityZone" Width="1.5" PointX="5.25" PointY="42" />
@@ -199,6 +199,24 @@
         <AssociationConnector Association="FOS_WallCoatModel.FK_MultipleSiteVisits_TBL_KsbVisits" />
         <EntityTypeShape EntityType="FOS_WallCoatModel.AddMultipleComplaintVisit" Width="1.5" PointX="22.5" PointY="54.5" />
         <AssociationConnector Association="FOS_WallCoatModel.FK_AddMultipleComplaintVisits_TBL_KsbVisits" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.ConnectionType" Width="1.5" PointX="23.375" PointY="3.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.Tbl_BillDistributionmultiselection" Width="1.5" PointX="23.375" PointY="6.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.TBL_RouteSelection" Width="1.5" PointX="24.625" PointY="33.25" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_TBL_RouteSelection_Areas" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_TBL_RouteSelection_Cities" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_TBL_RouteSelection_SaleOfficers" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_TBL_RouteSelection_SubDivision" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.BillDisMultiSelect" Width="1.5" PointX="25.625" PointY="6.75" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_BillDisMultiSelect_Tbl_BillDistributionmultiselection" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.NewConsumerData" Width="1.5" PointX="23.375" PointY="9.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.TBL_Consumers" Width="1.5" PointX="23.375" PointY="12.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.BillDispatchMultiSelectListOfConsumer" Width="1.5" PointX="25.625" PointY="20.125" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.ConsumerConnectionCode" Width="1.5" PointX="25.375" PointY="0.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.ConsumerStatusCode" Width="1.5" PointX="25.375" PointY="3.75" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_BillDispatchMultiSelectListOfConsumer_Retailers" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_BillDispatchMultiSelectListOfConsumer_Tbl_BillDistributionmultiselection" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.TBL_MeterReadingLovs" Width="1.5" PointX="25.375" PointY="9.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.Tbl_MeterredingMultiValues" Width="1.5" PointX="25.375" PointY="12.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

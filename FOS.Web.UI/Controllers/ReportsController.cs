@@ -301,34 +301,34 @@ namespace FOS.Web.UI.Controllers
 
         
         // Single Site Report Start
-        public ActionResult SingleSiteReport()
-        {
-            var Complaintdata = new KSBComplaintData();
+        //public ActionResult SingleSiteReport()
+        //{
+        //    var Complaintdata = new KSBComplaintData();
 
-            //Get Projects start
-            var SoidForFroject = Convert.ToInt32(Session["SORelationID"]);
-            var ListOfProjects = db.SOProjects.Where(x => x.SaleOfficerID == SoidForFroject).Select(x => x.ProjectID).Distinct().ToList();
-            Complaintdata.Projects = FOS.Setup.ManageCity.GetProjectsListForReport(ListOfProjects);
-            //Get Projects END
+        //    //Get Projects start
+        //    var SoidForFroject = Convert.ToInt32(Session["SORelationID"]);
+        //    var ListOfProjects = db.SOProjects.Where(x => x.SaleOfficerID == SoidForFroject).Select(x => x.ProjectID).Distinct().ToList();
+        //    Complaintdata.Projects = FOS.Setup.ManageCity.GetProjectsListForReport(ListOfProjects);
+        //    //Get Projects END
 
-            //Get Zone start
-            var SoidForZone = Convert.ToInt32(Session["SORelationID"]);
-            var ListOfZones = db.SOZoneAndTowns.Where(x => x.SOID == SoidForZone).Select(x => x.CityID).Distinct().ToList();
-            Complaintdata.Cities = FOS.Setup.ManageCity.GetCityListForReport(ListOfZones);
-            //Get Zone END
+        //    //Get Zone start
+        //    var SoidForZone = Convert.ToInt32(Session["SORelationID"]);
+        //    var ListOfZones = db.SOZoneAndTowns.Where(x => x.SOID == SoidForZone).Select(x => x.CityID).Distinct().ToList();
+        //    Complaintdata.Cities = FOS.Setup.ManageCity.GetCityListForReport(ListOfZones);
+        //    //Get Zone END
 
-            //Get town start
-            var SoidForTown = Convert.ToInt32(Session["SORelationID"]);
-            var ListOfTowns = db.SOZoneAndTowns.Where(x => x.SOID == SoidForTown).Select(x => x.AreaID).Distinct().ToList();
-            Complaintdata.Areas = FOS.Setup.ManageCity.GetAreaListForReport(ListOfTowns);
-            //Get town END
+        //    //Get town start
+        //    var SoidForTown = Convert.ToInt32(Session["SORelationID"]);
+        //    var ListOfTowns = db.SOZoneAndTowns.Where(x => x.SOID == SoidForTown).Select(x => x.AreaID).Distinct().ToList();
+        //    Complaintdata.Areas = FOS.Setup.ManageCity.GetAreaListForReport(ListOfTowns);
+        //    //Get town END
 
-            Complaintdata.SubDivisions = FOS.Setup.ManageCity.GetSubdivisionsListForReport();
-            Complaintdata.Sites = FOS.Setup.ManageCity.GetSitesListForReport();
+        //    Complaintdata.SubDivisions = FOS.Setup.ManageCity.GetSubdivisionsListForReport();
+        //    Complaintdata.Sites = FOS.Setup.ManageCity.GetSitesListForReport();
 
 
-            return View(Complaintdata);
-        }
+        //    return View(Complaintdata);
+        //}
         public JsonResult GetZoneFromProject(int ClientID)
         {
             CityData comlist;
@@ -600,38 +600,38 @@ namespace FOS.Web.UI.Controllers
 
         // Single Site Report END
 
-        public ActionResult ComplaintsReport()
-        {
-            var Complaintdata = new KSBComplaintData();
+        //public ActionResult ComplaintsReport()
+        //{
+        //    var Complaintdata = new KSBComplaintData();
 
-            //Get Projects start
-            var SoidForFroject = Convert.ToInt32(Session["SORelationID"]);
-            var ListOfProjects = db.SOProjects.Where(x => x.SaleOfficerID == SoidForFroject).Select(x => x.ProjectID).Distinct().ToList();
-            Complaintdata.Projects = FOS.Setup.ManageCity.GetProjectsListForReport(ListOfProjects);
-            //Get Projects END
+        //    //Get Projects start
+        //    var SoidForFroject = Convert.ToInt32(Session["SORelationID"]);
+        //    var ListOfProjects = db.SOProjects.Where(x => x.SaleOfficerID == SoidForFroject).Select(x => x.ProjectID).Distinct().ToList();
+        //    Complaintdata.Projects = FOS.Setup.ManageCity.GetProjectsListForReport(ListOfProjects);
+        //    //Get Projects END
 
-            //Get Zone start
-            var SoidForZone = Convert.ToInt32(Session["SORelationID"]);
-            var ListOfZones = db.SOZoneAndTowns.Where(x => x.SOID == SoidForZone).Select(x => x.CityID).Distinct().ToList();
-            Complaintdata.Cities = FOS.Setup.ManageCity.GetCityListForReport(ListOfZones);
-            //Get Zone END
+        //    //Get Zone start
+        //    var SoidForZone = Convert.ToInt32(Session["SORelationID"]);
+        //    var ListOfZones = db.SOZoneAndTowns.Where(x => x.SOID == SoidForZone).Select(x => x.CityID).Distinct().ToList();
+        //    Complaintdata.Cities = FOS.Setup.ManageCity.GetCityListForReport(ListOfZones);
+        //    //Get Zone END
 
-            //Get town start
-            var SoidForTown = Convert.ToInt32(Session["SORelationID"]);
-            var ListOfTowns = db.SOZoneAndTowns.Where(x => x.SOID == SoidForTown).Select(x => x.AreaID).Distinct().ToList();
-            Complaintdata.Areas = FOS.Setup.ManageCity.GetAreaListForReport(ListOfTowns);
-            //Get town END
+        //    //Get town start
+        //    var SoidForTown = Convert.ToInt32(Session["SORelationID"]);
+        //    var ListOfTowns = db.SOZoneAndTowns.Where(x => x.SOID == SoidForTown).Select(x => x.AreaID).Distinct().ToList();
+        //    Complaintdata.Areas = FOS.Setup.ManageCity.GetAreaListForReport(ListOfTowns);
+        //    //Get town END
 
-            Complaintdata.SubDivisions = FOS.Setup.ManageCity.GetSubdivisionsListForReport();
-            Complaintdata.Sites = FOS.Setup.ManageCity.GetSitesListForReport();
-            Complaintdata.faultTypes = FOS.Setup.ManageCity.GetFaultTypesListForReport();
-            Complaintdata.complaintStatuses = FOS.Setup.ManageCity.GetComplaintStatusListForReport();
-            Complaintdata.WorkDone = FOS.Setup.ManageCity.GetWorkDoneListForReport();
-            Complaintdata.LaunchedBy = FOS.Setup.ManageCity.GetLaunchedByListforReport();
-            Complaintdata.FieldOfficers = FOS.Setup.ManageCity.GetFieldOfficerListForReport();
+        //    Complaintdata.SubDivisions = FOS.Setup.ManageCity.GetSubdivisionsListForReport();
+        //    Complaintdata.Sites = FOS.Setup.ManageCity.GetSitesListForReport();
+        //    Complaintdata.faultTypes = FOS.Setup.ManageCity.GetFaultTypesListForReport();
+        //    Complaintdata.complaintStatuses = FOS.Setup.ManageCity.GetComplaintStatusListForReport();
+        //    Complaintdata.WorkDone = FOS.Setup.ManageCity.GetWorkDoneListForReport();
+        //    Complaintdata.LaunchedBy = FOS.Setup.ManageCity.GetLaunchedByListforReport();
+        //    Complaintdata.FieldOfficers = FOS.Setup.ManageCity.GetFieldOfficerListForReport();
 
-            return View(Complaintdata);
-        }
+        //    return View(Complaintdata);
+        //}
 
 
 
@@ -1054,49 +1054,198 @@ namespace FOS.Web.UI.Controllers
         }
 
 
-        public ActionResult ComplaintDetailReport()
+        public ActionResult MeterReadingDetail()
         {
             var Complaintdata = new KSBComplaintData();
 
-            //Complaintdata.Projects = FOS.Setup.ManageCity.GetProjectsListForReport();
-            //Complaintdata.Cities = FOS.Setup.ManageCity.GetCityListForReport();
-            //Get Projects start
-            var SoidForFroject = Convert.ToInt32(Session["SORelationID"]);
-            var ListOfProjects = db.SOProjects.Where(x => x.SaleOfficerID == SoidForFroject).Select(x => x.ProjectID).Distinct().ToList();
-            Complaintdata.Projects = FOS.Setup.ManageCity.GetProjectsListForReport(ListOfProjects);
-            //Get Projects END
-
-            //Get Zone start
-            var SoidForZone = Convert.ToInt32(Session["SORelationID"]);
-            var ListOfZones = db.SOZoneAndTowns.Where(x => x.SOID == SoidForZone).Select(x => x.CityID).Distinct().ToList();
-            Complaintdata.Cities = FOS.Setup.ManageCity.GetCityListForReport(ListOfZones);
+            var userID = Convert.ToInt32(Session["UserID"]);
+            Complaintdata.Cities = FOS.Setup.ManageCity.GetCityList1(userID);
+            var ID = Complaintdata.Cities.FirstOrDefault();
             //Get Zone END
-            Complaintdata.faultTypes = FOS.Setup.ManageCity.GetFaultTypesListForReport();
-            Complaintdata.complaintStatuses = FOS.Setup.ManageCity.GetComplaintStatusListForReport();
-            Complaintdata.WorkDone = FOS.Setup.ManageCity.GetWorkDoneListForReport();
-            //Complaintdata.SaleOfficers = FOS.Setup.ManageCity.GetSOListForReport();
-            Complaintdata.LaunchedBy = FOS.Setup.ManageCity.GetLaunchedByListforReport();
-            Complaintdata.FieldOfficers = FOS.Setup.ManageCity.GetFieldOfficerListForReport();
-            Complaintdata.FieldOfficers = FOS.Setup.ManageCity.GetFieldOfficerListForReport();
+            Complaintdata.WardList = FOS.Setup.ManageCity.GetWardListByID(ID.ID);
+
 
             return View(Complaintdata);
         }
 
 
-        public void ComplaintDetailrpt(int ProjectID, int CityID, int FaulttypeID, int StatusID, int WorkDoneID, int SaleOfficerID, int FieldOfficerID, string sdate, string edate)
+        public void MeterReadingDetailrpt(int ProjectID, int FaulttypeID, string sdate, string edate)
         {
 
 
             try
             {
-           
+
+
                 DateTime start = Convert.ToDateTime(string.IsNullOrEmpty(sdate) ? DateTime.Now.ToString() : sdate);
                 DateTime end = Convert.ToDateTime(string.IsNullOrEmpty(edate) ? DateTime.Now.ToString() : edate);
                 DateTime final = end.AddDays(1);
                 ManageRetailer objRetailers = new ManageRetailer();
-                var result = db.Sp_GetComplaintDetail(start, final, ProjectID, CityID, FaulttypeID, StatusID, SaleOfficerID, FieldOfficerID).ToList();
-              
+                var result = db.Sp_MeterReaderDetail(start, final, ProjectID, FaulttypeID).ToList();
 
+                StringWriter sw = new StringWriter();
+
+                sw.WriteLine("\"SR No\",\"Meter Reader  Name\",\"Consumer Name\",\"Consumer Code\",\"Address\",\"Area Marla\",\"DDR\",\"Ward\",\"Option Selected\",\"Date\"");
+
+                Response.ClearContent();
+                Response.AddHeader("content-disposition", "attachment;filename=BillDistributorDetail" + DateTime.Now + ".csv");
+                Response.ContentType = "application/octet-stream";
+
+                //   var retailers = ManageRetailer.GetRetailersForExportinExcel();
+
+                int srNo = 1;
+                foreach (var retailer in result)
+                {
+                    sw.WriteLine(string.Format("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\"",
+                    srNo,
+                    retailer.SOName,
+                    // retailer.Name,
+                    retailer.consumername,
+                    retailer.Consumerid,
+                    retailer.Address,
+                    retailer.AreaMarla,
+                     retailer.DDR,
+                    retailer.Ward,
+                    retailer.MultiSelectOption,
+                    retailer.createdon,
+
+                    srNo++
+
+
+                    ));
+                }
+                Response.Write(sw.ToString());
+                Response.End();
+
+            }
+            catch (Exception exp)
+            {
+                Log.Instance.Error(exp, "Report Not Working");
+
+            }
+
+        }
+
+
+
+        public ActionResult BillDistributionDetail()
+        {
+            var Complaintdata = new KSBComplaintData();
+
+            var userID = Convert.ToInt32(Session["UserID"]);
+            Complaintdata.Cities = FOS.Setup.ManageCity.GetCityList1(userID);
+            var ID = Complaintdata.Cities.FirstOrDefault();
+            //Get Zone END
+            Complaintdata.WardList = FOS.Setup.ManageCity.GetWardListByID(ID.ID);
+
+
+            return View(Complaintdata);
+        }
+
+
+        public void BillDistributionDetailrpt(int ProjectID, int FaulttypeID, string sdate, string edate)
+        {
+
+
+            try
+            {
+                
+
+                DateTime start = Convert.ToDateTime(string.IsNullOrEmpty(sdate) ? DateTime.Now.ToString() : sdate);
+                DateTime end = Convert.ToDateTime(string.IsNullOrEmpty(edate) ? DateTime.Now.ToString() : edate);
+                DateTime final = end.AddDays(1);
+                ManageRetailer objRetailers = new ManageRetailer();
+                var result = db.Sp_BillDistributorDetail(start, final, ProjectID, FaulttypeID).ToList();
+
+                StringWriter sw = new StringWriter();
+
+                sw.WriteLine("\"SR No\",\"Bill Distributor Name\",\"Consumer Name\",\"Consumer Code\",\"Address\",\"Area Marla\",\"DDR\",\"Ward\",\"Option Selected\",\"Date\"");
+
+                Response.ClearContent();
+                Response.AddHeader("content-disposition", "attachment;filename=BillDistributorDetail" + DateTime.Now + ".csv");
+                Response.ContentType = "application/octet-stream";
+
+                //   var retailers = ManageRetailer.GetRetailersForExportinExcel();
+
+                int srNo = 1;
+                foreach (var retailer in result)
+                {
+                    sw.WriteLine(string.Format("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\"",
+                    srNo,
+                    retailer.SOName,
+                    // retailer.Name,
+                    retailer.consumername,
+                    retailer.Consumerid,
+                    retailer.Address,
+                    retailer.AreaMarla,
+                     retailer.DDR,
+                    retailer.Ward,
+                    retailer.MultiSelectOption,
+                    retailer.createdon,
+
+                    srNo++
+
+
+                    ));
+                }
+                Response.Write(sw.ToString());
+                Response.End();
+
+            }
+            catch (Exception exp)
+            {
+                Log.Instance.Error(exp, "Report Not Working");
+
+            }
+
+        }
+
+        public ActionResult ComplaintDetailReport()
+        {
+            var Complaintdata = new KSBComplaintData();
+
+            var userID = Convert.ToInt32(Session["UserID"]);
+            Complaintdata.Cities = FOS.Setup.ManageCity.GetCityList1(userID);
+            var ID = Complaintdata.Cities.FirstOrDefault();
+            //Get Zone END
+            Complaintdata.WardList = FOS.Setup.ManageCity.GetWardListByID(ID.ID);
+          
+
+            return View(Complaintdata);
+        }
+
+
+        public void ComplaintDetailrpt(int ProjectID, int FaulttypeID, string sdate, string edate)
+        {
+
+
+            try
+            {
+                List<BillSummaryList> list = new List<BillSummaryList>();
+                BillSummaryList comlist;
+
+                DateTime start = Convert.ToDateTime(string.IsNullOrEmpty(sdate) ? DateTime.Now.ToString() : sdate);
+                DateTime end = Convert.ToDateTime(string.IsNullOrEmpty(edate) ? DateTime.Now.ToString() : edate);
+                DateTime final = end.AddDays(1);
+                ManageRetailer objRetailers = new ManageRetailer();
+                var result = db.Sp_BillDistributorSummary(start, final, ProjectID, FaulttypeID).ToList();
+
+                foreach (var item in result)
+                {
+                    comlist = new BillSummaryList();
+
+                    comlist.SOName = item.SOName;
+                    comlist.TotalBills = item.TotalBills;
+                    comlist.NormalBills = item.Normal;
+                    comlist.NewConsumers = item.NewConsumer;
+
+                    var nor= item.Normal+ item.NewConsumer;
+
+                    var tot = item.TotalBills - nor;
+                    comlist.Voilations = tot;
+
+                    list.Add(comlist);
+                }
 
 
                 // Example data
@@ -1107,37 +1256,27 @@ namespace FOS.Web.UI.Controllers
                 // Example data
                 StringWriter sw = new StringWriter();
 
-                sw.WriteLine("\"SR No\",\"ComplaintDate\",\"Complaint No\",\"SiteID\",\"SiteName\",\"Project\",\"Zone\",\"FaultType\",\"Fault Type Detail\",\"Fault Type Detail Other Remarks\",\"Complaint Type\",\"Launched By\",\"Launch At\",\"Updated At\",\"Complaint Status\",\"Progress Status\",\"Updated Remarks\",\"Work Done\"");
+                sw.WriteLine("\"SR No\",\"Bill Distributor Name\",\"Total Bills\",\"Normal Distribution\",\"New Connections\",\"Voilations Identified\"");
 
                 Response.ClearContent();
-                Response.AddHeader("content-disposition", "attachment;filename=ComplaintDetail" + DateTime.Now + ".csv");
+                Response.AddHeader("content-disposition", "attachment;filename=DistributorSummary" + DateTime.Now + ".csv");
                 Response.ContentType = "application/octet-stream";
 
                 //   var retailers = ManageRetailer.GetRetailersForExportinExcel();
 
                 int srNo = 1;
-                foreach (var retailer in result)
+                foreach (var retailer in list)
                 {
-                    sw.WriteLine(string.Format("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\",\"{11}\",\"{12}\",\"{13}\",\"{14}\",\"{15}\",\"{16}\",\"{17}\"",
+                    sw.WriteLine(string.Format("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\"",
                     srNo,
-                    retailer.ComplaintlaunchedAt,
+                    retailer.SOName,
                     // retailer.Name,
-                    retailer.ticketno,
-                    retailer.SiteCode,
-                    retailer.SiteName,
-                    retailer.Project,
-                    retailer.Zone,
-                    retailer.FaultTypeName,
-                    retailer.FaultTypeDetailName,
-                    retailer.faultTypeDetailRemarks,
-                    retailer.ComplaintTypeName,
-                     retailer.LaunchedByName,
-                      retailer.ComplaintlaunchedAt,
-                       retailer.UpdatedAT,
-                         retailer.ComplaintStatusName,
-                          retailer.ProgressStatusName,
-                           retailer.PRemarks,
-                           retailer.WorkDoneStatus,
+                    retailer.TotalBills,
+                    retailer.NormalBills,
+                    retailer.NewConsumers,
+                    retailer.Voilations,
+                  
+                  
                     srNo++
 
 

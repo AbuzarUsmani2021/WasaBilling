@@ -31,6 +31,7 @@ namespace FOS.DataLayer
             this.TblReminders = new HashSet<TblReminder>();
             this.Areas = new HashSet<Area>();
             this.OneSignalUsers = new HashSet<OneSignalUser>();
+            this.TBL_RouteSelection = new HashSet<TBL_RouteSelection>();
         }
     
         public int TID { get; set; }
@@ -51,6 +52,7 @@ namespace FOS.DataLayer
         public Nullable<int> RoleID { get; set; }
         public string IMEI { get; set; }
         public Nullable<int> AppUserWasaOrKSB { get; set; }
+        public string Type { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccessLog> AccessLogs { get; set; }
@@ -82,5 +84,7 @@ namespace FOS.DataLayer
         public virtual ICollection<Area> Areas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OneSignalUser> OneSignalUsers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBL_RouteSelection> TBL_RouteSelection { get; set; }
     }
 }

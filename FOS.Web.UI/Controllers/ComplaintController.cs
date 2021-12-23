@@ -492,6 +492,12 @@ namespace FOS.Web.UI.Controllers
             return Json(result);
         }
 
+        public JsonResult GetWardListForReport(int ClientID)
+        {
+            var result = FOS.Setup.ManageCity.GetWardListByID(ClientID);
+            return Json(result);
+        }
+
         public JsonResult GetUpdateComplaint(int ComplaintID)
         {
             var Response = ManageJobs.GetUpdateComplaint(ComplaintID);
@@ -736,6 +742,18 @@ namespace FOS.Web.UI.Controllers
             db.Tbl_ComplaintHistory.Remove(Tbl_ComplaintHistoryRecord);
             var Result = true;
             db.SaveChanges();
+            return Json(Result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult DeleteRemarksData(int ProgressID)
+        {
+
+            var JobDetailID = db.ClientRemarks.Where(x => x.ID == ProgressID).FirstOrDefault();
+            db.ClientRemarks.Remove(JobDetailID);
+            
+            db.SaveChanges();
+            var Result = true;
             return Json(Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult ProgressPublish(int ProgressID)

@@ -629,6 +629,24 @@ namespace FOS.Web.UI.Controllers.API
 
             return dbregions;
         }
+
+        public List<FaultType> GetLovs()
+        {
+            List<FaultType> cities = new List<FaultType>();
+
+
+
+            var dbregions = db.TBL_MeterReadingLovs.Select(x => new FaultType
+            {
+                ID = x.ID,
+                Name = x.Name
+            }).ToList();
+
+           
+
+
+            return dbregions;
+        }
         public List<FaultType> GetEquipmentBrands()
         {
             List<FaultType> cities = new List<FaultType>();
@@ -807,6 +825,27 @@ namespace FOS.Web.UI.Controllers.API
             return dbregions;
         }
 
+        public List<ComplaintType> GetMultiselectList()
+        {
+            List<ComplaintType> cities = new List<ComplaintType>();
+            //Regions cty;
+
+            //var dbCities = db.RegionalHeadRegions.Where(c => c.RegionHeadID == ID).ToList();
+
+
+            var dbregions = db.Tbl_BillDistributionmultiselection.Where(x=>x.IsActive==true).Select(x => new ComplaintType
+            {
+                ID = x.ID,
+              
+                Name = x.Name
+            }).ToList();
+
+
+           
+
+            return dbregions;
+        }
+
         public List<ComplaintType> GetRole()
         {
             List<ComplaintType> cities = new List<ComplaintType>();
@@ -901,7 +940,22 @@ namespace FOS.Web.UI.Controllers.API
             return dbregions;
         }
 
+        public List<ComplaintType> GetConnectiontypes()
+        {
 
+
+
+            var dbregions = db.ConnectionTypes.Select(x => new ComplaintType
+            {
+                ID = x.ID,
+                Name = x.ConnectionTypeName,
+
+            }).ToList();
+
+
+
+            return dbregions;
+        }
 
         public List<Purposes> GetvisitPurposeTypes()
         {

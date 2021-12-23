@@ -1,0 +1,199 @@
+﻿@model FOS.Shared.KSBComplaintData
+@{
+    ViewBag.Title = "ComplaintsReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href='~/Content/Style/fullcalendar.min.css' rel='stylesheet' />
+<link href='~/Content/Style/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+<script src='~/Scripts/lib/moment.min.js'></script>
+<script src='~/Scripts/lib/jquery-ui.min.js'></script>
+<script src='~/Scripts/lib/fullcalendar.min.js'></script>
+<link href="~/Content/Style/jquery-ui.min.css" rel="stylesheet" />
+<br />
+<div class="row-fluid">
+    <div class="span12">
+        <div class="widget green">
+            <div class="widget-title text-center">
+                <h4><strong>Bill Distribution Detail</strong></h4>
+            </div>
+            @using (Ajax.BeginForm("ComplaintsReport", "Reports", new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="widget-body form-horizontal">
+
+                    <div class="control-group" style="margin-bottom: 14px;">
+                        <label class="control-label">Starting Date *</label>
+                        <div class="controls">
+                            <input class="text-box single-line" id="StartingDate1" name="StartingDate1" autocomplete="off" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                        </div>
+                    </div>
+
+                    <div class="control-group" style="margin-bottom: 14px;">
+                        <label class="control-label">Ending Date *</label>
+                        <div class="controls">
+                            <input class="text-box single-line" id="StartingDate2" name="StartingDate2" autocomplete="off" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                        </div>
+                    </div>
+
+
+                    
+
+                    <div class="control-group">
+                        <label class="control-label">DDR:</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.CityID, new SelectList(Model.Cities, "ID", "Name"), new { @class = "" })
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label"> Area:</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.FaulttypeId, new SelectList(Model.WardList, "ID", "Name"), new { @class = "Areas" })
+                        </div>
+                    </div>
+                    
+
+
+
+                    <div class="control-group" style="border-top: 1px solid #e5e5e5;">
+                        <div style="margin-top:10px; margin-left:135px;">
+                            <button type="submit" id="btnNew" class="btn btn-primary"><i class="icon-ok icon-white"></i> Generate</button>
+                            <button type="button" id="Reset" class="btn btn-info"><i class="icon-ban-circle icon-white"></i> Reset</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+
+
+    $("#CityID").change(function () {
+       
+       
+            GetWards();
+       
+    });
+    function GetWards() {
+        var ClientID = $("#CityID").val();
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetWardListForReport", "Complaint")",
+            data: { ClientID: ClientID},
+            success: function (json) {
+
+                var $el = $("#FaulttypeId");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+
+
+            }
+        });
+        }
+    @*function WorkDoneStatus() {
+        var ClientId = $("#FaulttypeId").val();
+         $.ajax({
+            type: "POST",
+            url: "@Url.Action("WorkDoneDetailList", "Complaint")",
+             data: { ClientId: ClientId },
+            success: function (json) {
+
+                var $el = $("#WorkDoneID");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+
+
+            }
+        });
+    }*@
+
+    $("#Reset").click(function () {
+        ClearForm();
+
+    });
+
+    function ClearForm() {
+        $('#DateFrom').val("");
+        $('#DateTo').val("");
+        $('#ProjectId').val(0);
+        $('#CityID').val(0);
+        $('#FaulttypeId').val(0);
+        $('#StatusID').val(0);
+        $('#WorkDoneID').val(0);
+        $('#SaleOfficerID').val(0);
+        $('#FieldOfficerID').val(0);
+    }
+    $(document).ready(function () {
+
+        $('#StartingDate1').datepicker(
+            {
+                dateFormat: 'dd-M-yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1950:2100'
+            });
+        $('#StartingDate2').datepicker(
+            {
+                dateFormat: 'dd-M-yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1950:2100'
+            });
+    });
+
+    function OnSuccess(response)
+    {
+        if (response == "1")
+        {
+            alertify.success("Report has Successfully Generated.");
+            ClearForm();
+        }
+        else if (response == "0")
+        {
+            alertify.error("Unable To Generate Report.");
+        }
+
+
+    }
+
+    $('#btnNew').click(function () {
+
+        debugger;
+        //var message = "";
+        //for (i = 0; i < sPainters.length ; i++) {
+        //    message += sPainters[i] + ",";
+        //}
+        //var $Shoptypeid = $("#Shoptypeid").val();
+        debugger;
+        var $sdate = $("#StartingDate1").val();
+        var $edate = $("#StartingDate2").val();
+        var $TID = $("#ClientID").val();
+        var $fosid = $("#SaleOfficerID").val();
+        var $cityid = $("#CityID").val();
+        var $areaid = $("#AreaID").val();
+            @*if ($("#cbCheck1").is(':checked') == true) {
+                window.open("@Url.Action("CityMonthWiseIntakeReport", "Retailer")" + "?StartingDate=" + $("#StartingDate1").val() + "&EndingDate=" + $("#StartingDate2").val() + "&TID=" + $("#TID").val() + "&Shoptypeid=" + $("#Shoptypeid").val() + "&message=" + message + "", "_top");
+            }*@
+        //else {
+        window.open("@Url.Action("BillDistributionDetailrpt", "Reports")" + "?ProjectID=" + $("#CityID").val() + "&FaulttypeID=" + $("#FaulttypeId").val() + "&sdate=" + $sdate+"&edate=" + $edate);
+        //}
+    });
+
+  
+
+
+</script>
+

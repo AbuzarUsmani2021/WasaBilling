@@ -284,8 +284,31 @@ namespace FOS.Setup
                 return RegionList.ToList();
             }
         }
+        public static IEnumerable<RegionData> GetSOProjects()
+        {
+            IEnumerable<RegionData> RegionList;
 
- 
+
+            using (FOSDataModel dbContext = new FOSDataModel())
+            {
+
+
+                RegionList = from Regions in dbContext.Zones//.Where(r=>r.RegionalHeadRegions.Select(a=>a.RegionalHeadtype == 1).FirstOrDefault())
+
+
+
+                             select new RegionData()
+                             {
+                                 ID = Regions.ID,
+                                 Name = Regions.Name,
+
+                             };
+
+
+                return RegionList.ToList();
+            }
+        }
+
 
         // Get Regions For RegionalHead In Edit Mode ...
         public static IEnumerable<RegionData> GetRegionForRegionalHeadEdit(int intRegionID , int RegionalHeadType)
@@ -356,7 +379,7 @@ namespace FOS.Setup
 
 
         // Insert OR Update Region ...
-        public static int AddUpdateRegion(RegionData obj)
+        public static int AddUpdateRegion(RegionData obj,int ID)
         {
             int Res = 0;
 
@@ -368,33 +391,11 @@ namespace FOS.Setup
                     {
                         Region RegionObj = new Region();
 
-                        if (obj.RegionID == 0)
-                        {
-                            RegionObj.ID = dbContext.Regions.OrderByDescending(u => u.ID).Select(u => u.ID).FirstOrDefault() + 1;
-                            RegionObj.Name = obj.Name;
-                            RegionObj.Province = obj.Province;
-                            RegionObj.ContactNo = obj.ContactNo;
-                            RegionObj.Address = obj.Address;
-                            RegionObj.City = obj.City;
-                            RegionObj.Country = obj.Country;
-                            RegionObj.ShortCode = obj.ShortCode;
-                            RegionObj.IsActive = true;
-                            RegionObj.CreatedDate = DateTime.Now;
-                            RegionObj.LastUpdate = DateTime.Now;
-                            dbContext.Regions.Add(RegionObj);
-                        }
-                        else
-                        {
-                            RegionObj = dbContext.Regions.Where(u => u.ID == obj.RegionID).FirstOrDefault();
-                            RegionObj.Name = obj.Name;
-                            RegionObj.Province = obj.Province;
-                            RegionObj.ContactNo = obj.ContactNo;
-                            RegionObj.Address = obj.Address;
-                            RegionObj.City = obj.City;
-                            RegionObj.Country = obj.Country;
-                            RegionObj.ShortCode = obj.ShortCode;
-                            RegionObj.LastUpdate = DateTime.Now;
-                        }
+
+                        var data = dbContext.Users.Where(x => x.ID == ID).FirstOrDefault();
+                        data.Password = obj.Name;
+                     
+                     
 
                         dbContext.SaveChanges();
                         Res = 1;

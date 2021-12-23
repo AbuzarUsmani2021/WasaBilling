@@ -55,12 +55,12 @@ namespace FOS.Setup
             {
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                    SO = dbContext.SaleOfficers.Where(u => u.IsDeleted == false)
+                    SO = dbContext.Cities.Where(u => u.IsDeleted == false)
                             .ToList().Select(
                                 u => new SaleOfficerData
                                 {
                                     ID = u.ID,
-                                   UserName=u.UserName
+                                   UserName=u.Name
                                 }).ToList();
                 }
             }

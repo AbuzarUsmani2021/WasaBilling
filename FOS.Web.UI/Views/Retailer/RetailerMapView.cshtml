@@ -23,11 +23,11 @@
             <h3 class="page-title"></h3>
             <ul class="breadcrumb">
                 <li>
-                    <a href="#">Retailer</a>
+                    <a href="#">Consumer</a>
                     <span class="divider">/</span>
                 </li>
                 <li>
-                    <a href="#">Retailer Map View</a>
+                    <a href="#">Bill Distribution Map View</a>
                 </li>
             </ul>
             <!-- END PAGE TITLE & BREADCRUMB-->
@@ -38,100 +38,16 @@
     <div class="row-fluid">
         <div class="span12">
 
-            <div class="control-group" style="margin-bottom:0px;float:left">
-                                  <label class="control-label">Regional Head</label>
-                                    <div class="controls" style="margin-left:0px">
 
-                                        <select class="form-control chosen-select" id="regionalHead" style="width: 190px;">
-                                             <option value="0">Select Any</option>
-                                                    @{
-                                                        foreach (FOS.Shared.RegionalHeadData obj in ViewBag.RegionalHead)
-                                                        {
-                                                            <option value="@obj.ID">@obj.Name</option>
-                                                        }
-                                                    }
-                                       </select>
-
-                                    </div>
-                                </div>
-    
-             @*<div class="control-group" style="margin-bottom:0px;float:left;margin-left:12px">
-                                  <label class="control-label">Distributor</label>
-                                    <div class="controls" style="margin-left:0px">
-
-                                        <select class="form-control chosen-select" id="dealer" style="width: 190px;">
-                                            <option value="0">Select Any</option>
-                                                    @{
-                                                        foreach (FOS.Shared.DealerData obj in ViewBag.Dealers)
-                                                        {
-                                                            <option value="@obj.ID">@obj.Name</option>
-                                                        }
-                                                    }
-                                       </select>
-
-                                    </div>
-                                </div>*@
-
-                        <div class="control-group" style="margin-bottom:0px;float:left;margin-left:12px">
-                                  <label class="control-label">Sales Officer</label>
-                                    <div class="controls" style="margin-left:0px">
-                                       
-                                        <select class="form-control chosen-select" id="saleOfficer" style="width: 190px;">
-                                            <option value="0">Select Any</option>
-                                                    @{
-                                                        foreach (FOS.Shared.SaleOfficerData obj in ViewBag.SaleOfficer)
-                                                        {
-                                                            <option value="@obj.ID">@obj.Name</option>
-                                                        }
-                                                    }
-                                       </select>
-
-                                    </div>
-                                </div>
-
-            <div class="control-group" style="margin-bottom:0px;float:left;margin-left:12px; display:none;">
-                                  <label class="control-label">Region</label>
-                                    <div class="controls" style="margin-left:0px">
-                                        
-
-                                        <select class="form-control chosen-select" id="region" style="width: 190px;">
-                                            <option value="0">Select Any</option>
-                                                    @{
-                                                        foreach (FOS.Shared.RegionData obj in ViewBag.Region)
-                                                        {
-                                                            <option value="@obj.RegionID">@obj.Name</option>
-                                                        }
-                                                    }
-                                       </select>
-
-                                    </div>
-                                </div>
 
             <div class="control-group" style="margin-bottom:0px;float:left;margin-left:12px">
-                                  <label class="control-label">City</label>
-                                    <div class="controls" style="margin-left:0px">
-                                        
-                                        <select class="form-control chosen-select" id="city" style="width: 190px;">
-                                            <option value="0">Select Any</option>
-                                                    @{
-                                                        foreach (FOS.Shared.CityData obj in ViewBag.City)
-                                                        {
-                                                            <option value="@obj.ID">@obj.Name</option>
-                                                        }
-                                                    }
-                                       </select>
-
-                                    </div>
-                                </div>
-
-            <div class="control-group" style="margin-bottom:0px;float:left;margin-left:12px">
-                <label class="control-label">Zone</label>
+                <label class="control-label">DDR</label>
                 <div class="controls" style="margin-left:0px">
 
-                    <select class="form-control chosen-select" id="zone" style="width: 190px;">
+                    <select class="form-control chosen-select" id="city" style="width: 190px;">
                         <option value="0">Select Any</option>
                         @{
-                            foreach (FOS.Shared.ZoneData obj in ViewBag.Zone)
+                            foreach (FOS.Shared.CityData obj in ViewBag.City)
                             {
                                 <option value="@obj.ID">@obj.Name</option>
                             }
@@ -141,43 +57,54 @@
                 </div>
             </div>
 
-            <div class="control-group" style="margin-bottom:0px;float:left;margin-left:12px;margin-top:28px;">
-                <table style="padding-left:10px;font-size:small;" border="0">
-                    <tr>
-                        <td style="color:#ce0019;font-weight:600;">Total Retailers: </td>
-                        <td><span id="totalRet">&nbsp;&nbsp;</span></td>
-                        @*</tr>
-                    <tr>*@
-                        <td style="color:#ce0019;font-weight:600;padding-left:25px">Tagged Retailers: </td>
-                        <td><span id="tagRet">&nbsp;&nbsp;</span></td>
-                        <td><span id="tagRetExp" style="display:none;"><a href="javascript:exportRpt(1);">Export</a></span></td>
-                        @*</tr>
-                    <tr>*@
-                        <td style="color:#ce0019;font-weight:600;padding-left:25px">Untagged Retailers: </td>
-                        <td><span id="untagRet">&nbsp;&nbsp;</span></td>
-                        <td><span id="untagRetExp" style="display:none;"><a href="javascript:exportRpt(2);">Export</a></span></td>
-                    </tr>
-                </table>
+            <div class="control-group" style="margin-bottom:0px;float:left;margin-left:12px">
+                <label class="control-label">WARD</label>
+                <div class="controls" style="margin-left:0px">
 
+                    <select class="form-control chosen-select" id="ward" style="width: 190px;">
+                        <option value="0">Select Any</option>
+                        @{
+                            foreach (FOS.Shared.CityData obj in ViewBag.Area)
+                            {
+                                <option value="@obj.ID">@obj.Name</option>
+                            }
+                        }
+                    </select>
+
+                </div>
             </div>
 
-            @*<div class="control-group" style="margin-bottom:0px;float:left;margin-left:12px">
-                <table style="padding-left:10px" border="1">
-                    <tr>
-                        <td>Total Retailers: </td>
-                        <td><span id="totalRet">&nbsp;&nbsp;</span></td>
-                    </tr>
-                    <tr>
-                        <td>Tagged Retailers: </td>
-                        <td><span id="tagRet">&nbsp;&nbsp;</span></td>
-                    </tr>
-                    <tr>
-                        <td>Untagged Retailers: </td>
-                        <td><span id="untagRet">&nbsp;&nbsp;</span></td>
-                    </tr>
-                </table>
 
+            @*<div class="control-group" style="margin-bottom:0px;float:left;margin-left:12px">
+                <label class="control-label">Area</label>
+                <div class="controls" style="margin-left:0px">
+
+                    <select class="form-control chosen-select" id="subdiv" style="width: 190px;">
+                        <option value="0">Select Any</option>
+                        @{
+                            foreach (FOS.Shared.CityData obj in ViewBag.SubDivision)
+                            {
+                                <option value="@obj.ID">@obj.Name</option>
+                            }
+                        }
+                    </select>
+
+                </div>
             </div>*@
+            <div class="control-group" style="margin-bottom:0px;float:left;margin-left:12px">
+            <table style="padding-left:10px" border="1">
+                <tr>
+                    <td>Total Consumers: </td>
+                    <td><span id="totalRet">&nbsp;&nbsp;</span></td>
+                </tr>
+                <tr>
+                    <td>Bill Distributed: </td>
+                    <td><span id="tagRet">&nbsp;&nbsp;</span></td>
+                </tr>
+              
+            </table>
+
+        </div>
 
         </div>
     </div>
@@ -221,22 +148,31 @@
                 RegionalHeadID: $("#regionalHead").val(),
                 DealerID: $("#dealer").val(),
                 SaleOfficerID: $("#saleOfficer").val(),
-                RegionID: $("#region").val(),
+                RegionID: $("#subdiv").val(),
                 CityID: $("#city").val(),
-                ZoneID: $("#zone").val()
+                ZoneID: $("#ward").val()
             },
             success: function (json) {
 
                 locations = [];
+                location2 = [];
+                location3 = [];
 
                 $.each(json, function (value, key) {
+                    debugger;
 
-                    var array = key.Location.split(",");
-                    locations.push("" + key.ShopName + "," + array[0] + "," + array[1] + "," + key.Address + "," + key.Phone1 + "," + key.Name + "");
+
+
+                        var array = key.Location.split(",");
+                    locations.push("" + key.ShopName + "," + array[0] + "," + array[1] + "," + key.Address + "," + key.SaleOfficerName + "," + key.Name + "," + key.MultiSelectID + "," + key.LatitudeForMultiselect + "," + key.LongitudeForMultiselect + "," + key.ClientID + "," + key.TotalConsumers +"");
+
+
+
 
                 });
 
                 var marker, i;
+                var marker1, j;
 
                 var myOptions = {
                     center: new google.maps.LatLng(31.4265, 74.4538),
@@ -248,29 +184,78 @@
                     myOptions);
 
                 var markers = []; //array for all markers
-
+                var count1 = Object.keys(json).length;
                 for (i = 0; i < locations.length; i++) {
                     var array = locations[i].split(",");
-                    var name = array[0];
-                    var lat = array[1];
-                    var long = array[2];
-                    var add = array[3];
-                    var phone1 = array[4];
-                    var retName = array[5];
+                    if (array[6] == 1 || array[6] == "null") {
+                        var name = array[0];
+                        var lat = array[1];
+                        var long = array[2];
+                        var add = array[3];
+                        var clientId = array[9];
+                        var phone1 = array[4];
+                        var retName = array[5];
+                        var Id = array[6];
+                        var count = array[10];
+                    }
+                    else if (array[6] == 8) {
+                        var name = array[0];
+                        var lat = array[7];
+                        var long = array[8];
+                        var add = array[3];
+                        var clientId = array[9];
+                        var phone1 = array[4];
+                        var retName = array[5];
+                        var Id = array[6];
+                        var count = array[10];
+                    }
+                    else
+                    {
+                        var name = array[0];
+                        var lat = array[7];
+                        var long = array[8];
+                        var add = array[3];
+                        var clientId = array[9];
+                        var phone1 = array[4];
+                        var retName = array[5];
+                        var Id = array[6];
+                        var count = array[10];
+                    }
+
 
                     latlngset = new google.maps.LatLng(lat, long);
 
-                    var marker = new google.maps.Marker({
-                        map: map, title: name, position: latlngset,
-                        animation: google.maps.Animation.DROP
-                    });
+                    if (Id == 1 || Id == "null") {
+                        var marker = new google.maps.Marker({
+                            map: map, title: name, position: latlngset,
+                            animation: google.maps.Animation.DROP,
+                            icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+                        });
+                    }
+
+                    else if (Id == 8)
+                    {
+                        var marker = new google.maps.Marker({
+                            map: map, title: name, position: latlngset,
+                            animation: google.maps.Animation.DROP,
+                            icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+                        });
+                    }
+                    else {
+                        var marker = new google.maps.Marker({
+                            map: map, title: name, position: latlngset,
+                            animation: google.maps.Animation.DROP,
+                            icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                        });
+                    }
 
                     markers.push(marker);
 
                     map.setCenter(marker.getPosition())
 
                     var content = "<b> " + name + " </b><br/>"
-                                    + retName + "<br/>"
+                        + retName + "<br/>"
+                        + clientId + "<br/>"
                                     + lat + " , " + long + "<br/>"
                                     + phone1 + "<br/>"
                                     + add;
@@ -284,66 +269,65 @@
                     })(marker, content, infowindow));
                 }
 
-                //var bounds = new google.maps.LatLngBounds();
-                //for (var i = 0; i < markers.length; i++) {
-                //    //debugger;
-                //    bounds.extend(markers[i].getPosition());
+
+                $('#totalRet').text('(' + count + ')');
+                $('#tagRet').text('(' + count1 + ')');
+                //// map For New Consumers
+                //debugger;
+                //if (location2.length != 0) {
+                //    var myOptions1 = {
+                //        center: new google.maps.LatLng(31.4265, 74.4538),
+                //        zoom: 9,
+                //        mapTypeId: google.maps.MapTypeId.ROADMAP
+                //    };
+
+                //    var map1 = new google.maps.Map(document.getElementById("map"),
+                //        myOptions1);
+
+                //    var markers1 = []; //array for all markers
+
+                //    for (j = 0; j < location2.length; j++) {
+                //        var array = location2[j].split(",");
+                //        var name = array[0];
+                //        var lat = array[1];
+                //        var long = array[2];
+                //        var add = array[3];
+                //        var phone1 = array[4];
+                //        var retName = array[5];
+
+                //        latlngset = new google.maps.LatLng(lat, long);
+
+                //        var marker1 = new google.maps.Marker({
+                //            map1: map1, title: name, position: latlngset,
+                //            animation: google.maps.Animation.DROP
+                //        });
+
+                //        markers1.push(marker1);
+
+                //        map1.setCenter(marker1.getPosition())
+
+                //        var content = "<b> " + name + " </b><br/>"
+                //            + retName + "<br/>"
+                //            + lat + " , " + long + "<br/>"
+                //            + phone1 + "<br/>"
+                //            + add;
+                //        var infowindow = new google.maps.InfoWindow()
+
+                //        google.maps.event.addListener(marker1, 'click', (function (marker1, content, infowindow) {
+                //            return function () {
+                //                infowindow.setContent(content);
+                //                infowindow.open(map, marker1);
+                //            };
+                //        })(marker1, content, infowindow));
+                //    }
+
+
                 //}
-
-                //map.fitBounds(bounds);
-
-
             },
             async: true
         });
 
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("GetRetailerLocationsCount", "Retailer")",
-            dataType: 'json',
-            data: {
-                RegionalHeadID: $("#regionalHead").val(),
-                DealerID: $("#dealer").val(),
-                SaleOfficerID: $("#saleOfficer").val(),
-                RegionID: $("#region").val(),
-                CityID: $("#city").val(),
-                ZoneID: $("#zone").val()
-            },
-            success: function (json) {
-                var array = json.split(",");
-                
-                var tag = parseInt(array[0]);
-                var untag = parseInt(array[1]);
-                var total = tag + untag;
-                var tagPercent = parseFloat((parseFloat(tag / total)) * 100);
-                var untagPercent = parseFloat((parseFloat(untag / total)) * 100);
-                if (isNaN(tagPercent)) {
-                    tagPercent = 0;
-                }
-                if (isNaN(untagPercent)) {
-                    untagPercent = 0;
-                }
-                $("#totalRet").html(parseInt(array[0]) + parseInt(array[1]));
-                $("#tagRet").html(array[0] + ' ('+tagPercent.toFixed(2)+'%)');
-                $("#untagRet").html(array[1] + ' (' + untagPercent.toFixed(2) + '%)');
 
-                if (tagPercent > 0) {
-                    $("#tagRetExp").show();
-                }
-                else {
-                    $("#tagRetExp").hide();
-                }
-
-                if (untagPercent > 0) {
-                    $("#untagRetExp").show();
-                }
-                else {
-                    $("#untagRetExp").hide();
-                }
-                
-            },
-            async: true
-        });
     }
 
     $(document).ready(function () {
@@ -373,7 +357,7 @@
         }
 
         function LoadSalesOfficer() {
-            
+
             try {
                 var RegionalHeadID = $("#regionalHead").val();
                 //alert(RegionalHeadID);
@@ -405,7 +389,7 @@
             }
 
         }
-        
+
         $("#liRetailer,#liRetailerMapView").addClass("active");
 
         var locations = [];
@@ -430,7 +414,7 @@
         $("#regionalHead").change(function () {
             LoadSalesOfficer();
             LoadDealers();
-            
+
 
             // Get Dealer list related To Regional Head...
 
@@ -617,7 +601,7 @@
                 },
                 async: true
             });
-            
+
             */
 
             // Get Regions List Related to Regional Head...
@@ -646,13 +630,13 @@
         // Region
         $("#region").change(function () {
 
-            
+
             GetPins();
 
             /*
             locations = [];
 
-            
+
             $.ajax({
                 type: "POST",
                 url: "Url.Action("GetRetailerLocationsByRegion", "Retailer")",
@@ -741,84 +725,86 @@
         // City
         $("#city").change(function () {
 
-            
-            GetPins();
 
-            /*
-            locations = [];
+            //GetPins();
+            LoadWards();
+        });
 
-            
-            $.ajax({
-                type: "POST",
-                url: "Url.Action("GetRetailerLocationsByCity", "Retailer")",
-                dataType: 'json',
-                data: { CityID: $("#city").val() },
-                success: function (json) {
 
-                    locations = [];
 
-                    $.each(json, function (value, key) {
+        function LoadWards() {
 
-                        var array = key.Location.split(",");
-                        locations.push("" + key.ShopName + "," + array[0] + "," + array[1] + "," + key.Address + "");
-                        //alert(locations);
-                    });
-                    //alert(locations);
-                    var marker, i
+            try {
+                var RegionalHeadID = $("#city").val();
+                //alert(RegionalHeadID);
+                $.ajax({
+                    type: "POST",
+                    data: { RegionalHeadID: RegionalHeadID },
+                    url: "@Url.Action("GetAllWardsSelectOption", "Job")",
+                    success: function (json) {
 
-                    var myOptions = {
-                        center: new google.maps.LatLng(31.4265, 74.4538),
-                        zoom: 9,
-                        mapTypeId: google.maps.MapTypeId.ROADMAP
-                    };
+                        var $el = $("#ward");
+                        $el.empty(); // remove old options
+                        $.each(json, function (value, key) {
 
-                    var map = new google.maps.Map(document.getElementById("map"),
-                        myOptions);
-
-                    for (i = 0; i < locations.length; i++) {
-                        var array = locations[i].split(",");
-                        var name = array[0]
-                        var lat = array[1]
-                        var long = array[2]
-                        var add = array[3]
-
-                        latlngset = new google.maps.LatLng(lat, long);
-
-                        var marker = new google.maps.Marker({
-                            map: map, title: name, position: latlngset,
-                            animation: google.maps.Animation.DROP
+                            $el.append($("<option></option>")
+                                    .val(key.SaleOfficerID).text(key.SaleOfficerName));
                         });
-                        map.setCenter(marker.getPosition())
 
-                        var content = "(<b> " + name + " </b>)" + add;
-                        var infowindow = new google.maps.InfoWindow()
-
-                        google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow) {
-                            return function () {
-                                infowindow.setContent(content);
-                                infowindow.open(map, marker);
-                            };
-                        })(marker, content, infowindow));
 
                     }
 
+                });
+            } catch (e) {
+                alert(e);
+                //  $('#datatab').dataTable().fnDestroy();
+            }
+
+        }
+            $("#ward").change(function () {
+                GetPins();
+               // LoadAreas();
 
 
-
-                },
-                async: true
             });
 
-            */
+        $("#subdiv").change(function () {
+
+            GetPins();
+
+
         });
 
-        
-            $("#zone").change(function () {
+         function LoadAreas() {
+
+            try {
+                var RegionalHeadID = $("#city").val();
+                var WardID = $("#ward").val();
+                //alert(RegionalHeadID);
+                $.ajax({
+                    type: "POST",
+                    data: { RegionalHeadID: RegionalHeadID, WardID: WardID },
+                    url: "@Url.Action("GetAllSubdivSelectOption", "Job")",
+                    success: function (json) {
+
+                        var $el = $("#subdiv");
+                        $el.empty(); // remove old options
+                        $.each(json, function (value, key) {
+
+                            $el.append($("<option></option>")
+                                    .val(key.SaleOfficerID).text(key.SaleOfficerName));
+                        });
 
 
-                GetPins();
+                    }
 
-            });
+                });
+            } catch (e) {
+                alert(e);
+                //  $('#datatab').dataTable().fnDestroy();
+            }
+
+        }
 
             $("#btnReset").on("click", function () {
 
@@ -978,4 +964,4 @@
 
     });
 
-  </script>
+</script>

@@ -14,13 +14,24 @@ namespace FOS.DataLayer
     
     public partial class SubDivision
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public SubDivision()
+        {
+            this.TBL_RouteSelection = new HashSet<TBL_RouteSelection>();
+        }
+    
         public int ID { get; set; }
         public string Name { get; set; }
         public Nullable<int> CityID { get; set; }
         public Nullable<int> AreaID { get; set; }
         public string Code { get; set; }
+        public Nullable<int> AreaIDRef { get; set; }
+        public Nullable<int> AreaSrno { get; set; }
+        public string DisplayFieldinArea { get; set; }
     
         public virtual Area Area { get; set; }
         public virtual City City { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBL_RouteSelection> TBL_RouteSelection { get; set; }
     }
 }

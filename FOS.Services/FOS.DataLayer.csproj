@@ -52,6 +52,9 @@
     <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportViewer.Common.v12.12.0.0.1\lib\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
@@ -113,6 +116,12 @@
     <Compile Include="AreasRelatedtoCities_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="BillDisMultiSelect.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BillDispatchMultiSelectListOfConsumer.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="CalView_All_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
@@ -159,6 +168,15 @@
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ComplaintType.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConnectionType.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsumerConnectionCode.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsumerStatusCode.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Dealer.cs">
@@ -257,6 +275,9 @@
     <Compile Include="MultipleSiteVisit.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="NewConsumerData.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="NotificationSeen.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
@@ -349,6 +370,15 @@
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Sp_AbsentSOBarGraph_Result.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_BillDispatchMapView_Result.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_BillDistributorDetail_Result.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_BillDistributorSummary_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Sp_CityMarketRetailerInfo_Result.cs">
@@ -642,6 +672,12 @@
     <Compile Include="sp_MarketInformation_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Sp_MeterReaderDetail_Result.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_MeterreadingMapView_Result.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Sp_MyComplaintList1_1_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
@@ -652,6 +688,9 @@
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Sp_MyComplaintList1_4_Result.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_MyComplaintList1_5_Result.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Sp_MyComplaintListForFS1_1_Result.cs">
@@ -1104,7 +1143,13 @@
     <Compile Include="Tbl_Access.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Tbl_BillDistributionmultiselection.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Tbl_ComplaintHistory.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TBL_Consumers.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Tbl_FollowupReasons.cs">
@@ -1116,10 +1161,19 @@
     <Compile Include="Tbl_MasterStock.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TBL_MeterReadingLovs.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tbl_MeterredingMultiValues.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Tbl_RetailerClass.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Tbl_RetailerType.cs">
+      <DependentUpon>FOSDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TBL_RouteSelection.cs">
       <DependentUpon>FOSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Tbl_SchoolException.cs">

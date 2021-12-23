@@ -31,7 +31,7 @@ namespace FOS.Web.UI.Controllers
             objSaleOffice.Regions = FOS.Setup.ManageRegion.GetZonesListInSO();
             objSaleOffice.Towns = FOS.Setup.ManageRegion.GetTownListInSO();
             objSaleOffice.SORoles = FOS.Setup.ManageRegion.GetSORoles();
-            //objSaleOffice.SOProjects = FOS.Setup.ManageRegion.GetSOProjects();
+            objSaleOffice.SOProjects = FOS.Setup.ManageRegion.GetSOProjects();
             objSaleOffice.Cities = new List<CityData>();
             objSaleOffice.Areas = new List<Area>();
             return View(objSaleOffice);
@@ -205,10 +205,7 @@ namespace FOS.Web.UI.Controllers
                     {
                         item.SaleOfficerZonesName += dbContext.Cities.Where(x => x.ID == item2).Select(x => x.Name).FirstOrDefault() + "</br>";
                     }
-                    foreach (var item3 in item.SOTowns)
-                    {
-                        item.SaleOfficerTownName += dbContext.Areas.Where(x => x.ID == item3).Select(x => x.Name).FirstOrDefault() + "</br>";
-                    }
+                  
                     item.SaleOfficerRoleName = dbContext.SORoles.Where(x => x.ID == item.SoRoleID).Select(x => x.Name).FirstOrDefault();
 
                 }
@@ -236,7 +233,12 @@ namespace FOS.Web.UI.Controllers
             return ManageSaleOffice.DeleteSaleOfficer(saleOfficerID);
         }
 
+        public int ResetIMEI(int saleOfficerID)
+        {
+            return ManageSaleOffice.Reset(saleOfficerID);
+        }
+
         #endregion Sale Officer
-    
+
     }
 }

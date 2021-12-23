@@ -344,7 +344,7 @@ namespace FOS.Setup
                                     SoRoleID =(int)u.RoleID,
                                     SaleOfficersProjects =dbContext.SOProjects.Where(x=>x.SaleOfficerID== u.ID).Select(x=>x.ProjectID).ToList(),
                                     SOZones= dbContext.SOZoneAndTowns.Where(x => x.SOID == u.ID).Select(x => x.CityID).Distinct().ToList(),
-                                    SOTowns = dbContext.SOZoneAndTowns.Where(x => x.SOID == u.ID).Select(x => x.AreaID).Distinct().ToList(),
+                                    //SOTowns = dbContext.SOZoneAndTowns.Where(x => x.SOID == u.ID).Select(x => x.AreaID).Distinct().ToList(),
                                 }).ToList();
                 }
             }
@@ -603,6 +603,29 @@ namespace FOS.Setup
             return Resp;
         }
 
+        public static int Reset(int SaleOfficerID)
+        {
+            int Resp = 0;
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    SaleOfficer objSaleOfficer = dbContext.SaleOfficers.Where(u => u.ID == SaleOfficerID).FirstOrDefault();
+
+
+                    objSaleOfficer.IMEI = null;
+                    //obj.IsDeleted = true;
+                    dbContext.SaveChanges();
+                }
+            }
+            catch (Exception exp)
+            {
+                Log.Instance.Error(exp, "Delete SalesOfficer Failed");
+                Resp = 1;
+            }
+            return Resp;
+        }
 
         public static List<SaleOfficerData> GetResult(string search, string sortOrder, int start, int length, List<SaleOfficerData> dtResult, List<string> columnFilters)
         {
@@ -931,7 +954,7 @@ namespace FOS.Setup
             return saleOfficerData;
             
         }
-        public static List<ComplaintStatus> GetProjectsListForDashboard(List<int?> list)
+        public static List<ComplaintStatus> GetProjectsListForDashboard(List<int> list)
         {
             List<ComplaintStatus> city = new List<ComplaintStatus>();
             ComplaintStatus comlist;
@@ -944,16 +967,16 @@ namespace FOS.Setup
                     {
                         comlist = new ComplaintStatus();
                         comlist.ID = item;
-                        comlist.Name = dbContext.Zones.Where(x => x.ID == item).Select(x => x.Name).FirstOrDefault();
+                        comlist.Name = dbContext.Cities.Where(x => x.ID == item).Select(x => x.Name).FirstOrDefault();
                         city.Add(comlist);
                     }
 
                 }
-                city.Insert(0, new ComplaintStatus
-                {
-                    ID = 0,
-                    Name = "--All--"
-                });
+                //city.Insert(0, new ComplaintStatus
+                //{
+                //    ID = 0,
+                //    Name = "--All--"
+                //});
 
             }
             catch (Exception)

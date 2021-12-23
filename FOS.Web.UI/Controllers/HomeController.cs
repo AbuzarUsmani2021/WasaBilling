@@ -62,75 +62,75 @@ namespace FOS.Web.UI.Controllers
             List<DealerData> DealerObj = ManageDealer.GetAllDealersListRelatedToRegionalHead(regId);
 
               
-                objRetailer.Client = regionalHeadData;
-                //Get Projects start
-                var soid = Convert.ToInt32(Session["SORelationID"]);
-                var ListOfProjects = db.SOProjects.Where(x => x.SaleOfficerID == soid).Select(x => x.ProjectID).Distinct().ToList();
+                //objRetailer.Client = regionalHeadData;
+                ////Get Projects start
+                //var soid = Convert.ToInt32(Session["SORelationID"]);
+                var ListOfProjects = db.Cities.Select(x => x.ID).Distinct().ToList();
                 objRetailer.Projects = FOS.Setup.ManageSaleOffice.GetProjectsListForDashboard(ListOfProjects);
-                //Get Projects END
-                objRetailer.Cities = FOS.Setup.ManageCity.GetCityList();
-                objRetailer.priorityDatas = FOS.Setup.ManageCity.GetPrioritiesList();
-                objRetailer.faultTypes = FOS.Setup.ManageCity.GetFaultTypesList();
-                objRetailer.faultTypesDetail = FOS.Setup.ManageCity.GetFaultTypesDetailList();
-                objRetailer.complaintStatuses = FOS.Setup.ManageCity.GetComplaintStatusList();
-                objRetailer.FieldOfficers = FOS.Setup.ManageCity.GetFieldOfficersList(TeamID);
-                objRetailer.ProgressStatus = FOS.Setup.ManageCity.GetProgressStatusList();
-                objRetailer.LaunchedBy = FOS.Setup.ManageCity.GetLaunchedByList();
-                objRetailer.Areas = FOS.Setup.ManageArea.GetAreaList();
-                objRetailer.SubDivisions = ManageRetailer.GetSubDivisionsList();
-                objRetailer.Sites = FOS.Setup.ManageArea.GetSitesList();
-                 objRetailer.ComplaintTypes = FOS.Setup.ManageCity.GetComplaintTypeList();
+                ////Get Projects END
+                //objRetailer.Cities = FOS.Setup.ManageCity.GetCityList();
+                //objRetailer.priorityDatas = FOS.Setup.ManageCity.GetPrioritiesList();
+                //objRetailer.faultTypes = FOS.Setup.ManageCity.GetFaultTypesList();
+                //objRetailer.faultTypesDetail = FOS.Setup.ManageCity.GetFaultTypesDetailList();
+                //objRetailer.complaintStatuses = FOS.Setup.ManageCity.GetComplaintStatusList();
+                //objRetailer.FieldOfficers = FOS.Setup.ManageCity.GetFieldOfficersList(TeamID);
+                //objRetailer.ProgressStatus = FOS.Setup.ManageCity.GetProgressStatusList();
+                //objRetailer.LaunchedBy = FOS.Setup.ManageCity.GetLaunchedByList();
+                //objRetailer.Areas = FOS.Setup.ManageArea.GetAreaList();
+                //objRetailer.SubDivisions = ManageRetailer.GetSubDivisionsList();
+                //objRetailer.Sites = FOS.Setup.ManageArea.GetSitesList();
+                // objRetailer.ComplaintTypes = FOS.Setup.ManageCity.GetComplaintTypeList();
 
 
             // ViewBag.rptid = "";
-                ViewBag.retailers = ManageRetailer.GetRetailerForGrid().Count();
-                ViewBag.Towns = db.Areas.Where(x => x.IsActive == true).Count();
-                ViewBag.SubDivisions = db.SubDivisions.Count();
+                //ViewBag.retailers = ManageRetailer.GetRetailerForGrid().Count();
+                //ViewBag.Towns = db.Areas.Where(x => x.IsActive == true).Count();
+                //ViewBag.SubDivisions = db.SubDivisions.Count();
 
-                var jobs = ManageJobs.GetJobsToExportInExcel();
+                //var jobs = ManageJobs.GetJobsToExportInExcel();
 
-                DateTime now = DateTime.Now;
-                var startDate = new DateTime(now.Year, now.Month, 1);
-                var endDate = startDate.AddMonths(1).AddDays(-1);
-                var today = DateTime.Today;
-                var month = new DateTime(today.Year, today.Month, 1);
-                var first = month.AddMonths(-1);
-                var last = month.AddDays(-1);
+                //DateTime now = DateTime.Now;
+                //var startDate = new DateTime(now.Year, now.Month, 1);
+                //var endDate = startDate.AddMonths(1).AddDays(-1);
+                //var today = DateTime.Today;
+                //var month = new DateTime(today.Year, today.Month, 1);
+                //var first = month.AddMonths(-1);
+                //var last = month.AddDays(-1);
 
-                // Last Month Sales
-                var CurrentMonthRetailerSale = (from lm in db.Jobs
-                                                where lm.CreatedDate >= first
-                                                && lm.CreatedDate <= last
+                //// Last Month Sales
+                //var CurrentMonthRetailerSale = (from lm in db.Jobs
+                //                                where lm.CreatedDate >= first
+                //                                && lm.CreatedDate <= last
 
-                                                select lm).ToList();
+                //                                select lm).ToList();
 
-                // New Customers Today
+                //// New Customers Today
 
-                var CurrentMonthDistributorrSale = (from lm in db.Jobs
-                                                    where lm.CreatedDate >= startDate && lm.CreatedDate <= endDate
-                                                    select lm).ToList();
+                //var CurrentMonthDistributorrSale = (from lm in db.Jobs
+                //                                    where lm.CreatedDate >= startDate && lm.CreatedDate <= endDate
+                //                                    select lm).ToList();
 
-                //// Current Month Order Delievered
-                var PreviousMonthRetailerDelievered = (from lm in db.JobsDetails
-                                                       where lm.JobDate >= first
-                                                       && lm.JobDate <= last
-                                                       && lm.JobType == "Retailer Order"
-                                                       select lm).ToList();
+                ////// Current Month Order Delievered
+                //var PreviousMonthRetailerDelievered = (from lm in db.JobsDetails
+                //                                       where lm.JobDate >= first
+                //                                       && lm.JobDate <= last
+                //                                       && lm.JobType == "Retailer Order"
+                //                                       select lm).ToList();
 
 
 
-                ViewBag.Lastmonthsale = CurrentMonthRetailerSale.Count();
-                ViewBag.ThisMonthSale = CurrentMonthDistributorrSale.Count();
-                ViewBag.ThisMonthSaleDone = PreviousMonthRetailerDelievered.Count();
-                //ViewBag.PreviousMonthSaleDone = PreviousMonthDistributorDelievered.Count();
-                //ViewBag.TodaySaleDone = ThisMonthSampleDelievered.Count();
-                ViewBag.SOPresentToday = Dashboard.SOPresenttoday().Count();
-                ViewBag.SOAbsentToday = Dashboard.SOAbsenttoday().Count();
-                ViewBag.FSPlanndeToday = Dashboard.FSPlannedtoday().Count();
-                ViewBag.FSVisitedToday = Dashboard.FSVisitedtoday().Count();
-                ViewBag.RSPlannedToday = Dashboard.RSPlannedToday().Count();
-                ViewBag.OpenComplaints = Dashboard.OpenComplaints().Count();
-                ViewBag.RSFollowUpToday = Dashboard.RSFollowUpToday().Count();
+                //ViewBag.Lastmonthsale = CurrentMonthRetailerSale.Count();
+                //ViewBag.ThisMonthSale = CurrentMonthDistributorrSale.Count();
+                //ViewBag.ThisMonthSaleDone = PreviousMonthRetailerDelievered.Count();
+                ////ViewBag.PreviousMonthSaleDone = PreviousMonthDistributorDelievered.Count();
+                ////ViewBag.TodaySaleDone = ThisMonthSampleDelievered.Count();
+                //ViewBag.SOPresentToday = Dashboard.SOPresenttoday().Count();
+                //ViewBag.SOAbsentToday = Dashboard.SOAbsenttoday().Count();
+                //ViewBag.FSPlanndeToday = Dashboard.FSPlannedtoday().Count();
+                //ViewBag.FSVisitedToday = Dashboard.FSVisitedtoday().Count();
+                //ViewBag.RSPlannedToday = Dashboard.RSPlannedToday().Count();
+                //ViewBag.OpenComplaints = Dashboard.OpenComplaints().Count();
+                //ViewBag.RSFollowUpToday = Dashboard.RSFollowUpToday().Count();
                 ManageRetailer objRetailers = new ManageRetailer();
                 DateTime serverTime = DateTime.Now; // gives you current Time in server timeZone
                 DateTime utcTime = serverTime.ToUniversalTime(); // convert it to Utc using timezone setting of server computer
@@ -145,15 +145,15 @@ namespace FOS.Web.UI.Controllers
                
                 List<GetTComplaintsStatusWise_Result> SOVisits = objRetailers.SOVisitsToday(dtFromToday, dtToToday,0);
 
-                 faulttypes = objRetailers.FaultTypeGraph(dtFromToday, dtToToday,0);
-                PresentSO = objRetailers.TotalPresentSO();
+                // faulttypes = objRetailers.FaultTypeGraph(dtFromToday, dtToToday,0);
+                //PresentSO = objRetailers.TotalPresentSO();
           
          
 
                // ViewBag.DataPoints = JsonConvert.SerializeObject(result1);
-                ViewBag.DataPoints1 = JsonConvert.SerializeObject(faulttypes);
-                ViewBag.DataPoints2 = JsonConvert.SerializeObject(PresentSO);
-                ViewBag.DataPoints3 = JsonConvert.SerializeObject(SOVisits);
+                //ViewBag.DataPoints1 = JsonConvert.SerializeObject(faulttypes);
+                //ViewBag.DataPoints2 = JsonConvert.SerializeObject(PresentSO);
+                //ViewBag.DataPoints3 = JsonConvert.SerializeObject(SOVisits);
              
              
           
@@ -1560,7 +1560,7 @@ namespace FOS.Web.UI.Controllers
             jobDetail.AssignedToSaleOfficer = obj.EditSalesOficerID;
             jobDetail.ProgressStatusID = obj.EditProgressStatusId;
             jobDetail.ProgressStatusRemarks = obj.EditProgressStatusOtherRemarks;
-            jobDetail.JobDate = DateTime.UtcNow.AddHours(5);
+            //jobDetail.JobDate = DateTime.UtcNow.AddHours(5);
             jobDetail.IsPublished = 1;
             jobDetail.ChildFaultTypeDetailID = obj.EditFaulttypeDetailId;
             jobDetail.ChildFaultTypeID = obj.EditFaulttypeId;
@@ -1754,155 +1754,155 @@ namespace FOS.Web.UI.Controllers
         }
 
 
-        [CustomAuthorize]
-        public ActionResult WasaDashboard()
-        {
-            var objRetailer = new KSBComplaintData();
-            List<GetDataRelatedToFaultType_Result> faulttypes = null;
-            List<GetTotalByDate_Result> PresentSO = null;
+        //[CustomAuthorize]
+        //public ActionResult WasaDashboard()
+        //{
+        //    var objRetailer = new KSBComplaintData();
+        //    List<GetDataRelatedToFaultType_Result> faulttypes = null;
+        //    List<GetTotalByDate_Result> PresentSO = null;
 
-            List<RegionData> regionalHeadData = new List<RegionData>();
-            regionalHeadData = FOS.Setup.ManageRegionalHead.GetRegionalList();
-            int regId = 0;
-            if (FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser() == 0)
-            {
-                regId = regionalHeadData.Select(r => r.ID).FirstOrDefault();
-            }
-            else
-            {
-                regId = FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser();
-            }
+        //    List<RegionData> regionalHeadData = new List<RegionData>();
+        //    regionalHeadData = FOS.Setup.ManageRegionalHead.GetRegionalList();
+        //    int regId = 0;
+        //    if (FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser() == 0)
+        //    {
+        //        regId = regionalHeadData.Select(r => r.ID).FirstOrDefault();
+        //    }
+        //    else
+        //    {
+        //        regId = FOS.Web.UI.Controllers.AdminPanelController.GetRegionalHeadIDRelatedToUser();
+        //    }
 
-            //List<SaleOfficerData> SaleOfficerObj = ManageSaleOffice.GetProjectsData();
-            //var objSaleOff = SaleOfficerObj.FirstOrDefault();
+        //    //List<SaleOfficerData> SaleOfficerObj = ManageSaleOffice.GetProjectsData();
+        //    //var objSaleOff = SaleOfficerObj.FirstOrDefault();
 
-            List<DealerData> DealerObj = ManageDealer.GetAllDealersListRelatedToRegionalHead(regId);
-
-
-            objRetailer.Client = regionalHeadData;
-            //objRetailer.SaleOfficers = SaleOfficerObj;
-            //Get Projects start
-            var soid = Convert.ToInt32(Session["SORelationID"]);
-            var ListOfProjects = db.SOProjects.Where(x => x.SaleOfficerID == soid).Select(x => x.ProjectID).Distinct().ToList();
-            objRetailer.Projects = FOS.Setup.ManageSaleOffice.GetProjectsListForDashboard(ListOfProjects);
-            //Get Projects END
-            objRetailer.Cities = FOS.Setup.ManageCity.GetCityList();
-            objRetailer.priorityDatas = FOS.Setup.ManageCity.GetPrioritiesList();
-            objRetailer.faultTypes = FOS.Setup.ManageCity.GetFaultTypesList();
-            objRetailer.faultTypesDetail = FOS.Setup.ManageCity.GetFaultTypesDetailList();
-            objRetailer.complaintStatuses = FOS.Setup.ManageCity.GetComplaintStatusList();
-            objRetailer.FieldOfficers = FOS.Setup.ManageCity.GetFieldOfficersList();
-            objRetailer.ProgressStatus = FOS.Setup.ManageCity.GetProgressStatusList();
-            objRetailer.LaunchedBy = FOS.Setup.ManageCity.GetLaunchedByList();
-            objRetailer.Areas = FOS.Setup.ManageArea.GetAreaList();
-            objRetailer.SubDivisions = ManageRetailer.GetSubDivisionsList();
-            objRetailer.Sites = FOS.Setup.ManageArea.GetSitesList();
-            objRetailer.ComplaintTypes = FOS.Setup.ManageCity.GetComplaintTypeList();
+        //    List<DealerData> DealerObj = ManageDealer.GetAllDealersListRelatedToRegionalHead(regId);
 
 
-            //var userID = Convert.ToInt32(Session["UserID"]);
-
-            //if (userID == 1025)
-            //{
-            //    objRetailer.Projects = FOS.Setup.ManageCity.GetProjectsList();
-            //}
-            //else if(userID == 1026|| userID == 1027)
-            //{
-            //    var soid = db.Users.Where(x => x.ID == userID).Select(x => x.SOIDRelation).FirstOrDefault();
-
-            //    var list = db.SOProjects.Where(x => x.SaleOfficerID == soid).Select(x => x.ProjectID).Distinct().ToList();
-
-            //    var Projectlist= FOS.Setup.ManageCity.GetProjectsListForUsers(list);
-            //    objRetailer.Projects = Projectlist;
-            //}
-            //else
-            //{
-            //    var soid = db.Users.Where(x => x.ID == userID).Select(x => x.SOIDRelation).FirstOrDefault();
-
-            //    var list = db.SOProjects.Where(x => x.SaleOfficerID == soid).Select(x => x.ProjectID).Distinct().ToList();
-
-            //    var Projectlist = FOS.Setup.ManageCity.GetProjectsListForSDOS(list);
-            //    objRetailer.Projects = Projectlist;
-            //}
+        //    objRetailer.Client = regionalHeadData;
+        //    //objRetailer.SaleOfficers = SaleOfficerObj;
+        //    //Get Projects start
+        //    var soid = Convert.ToInt32(Session["SORelationID"]);
+        //    var ListOfProjects = db.SOProjects.Where(x => x.SaleOfficerID == soid).Select(x => x.ProjectID).Distinct().ToList();
+        //    objRetailer.Projects = FOS.Setup.ManageSaleOffice.GetProjectsListForDashboard(ListOfProjects);
+        //    //Get Projects END
+        //    objRetailer.Cities = FOS.Setup.ManageCity.GetCityList();
+        //    objRetailer.priorityDatas = FOS.Setup.ManageCity.GetPrioritiesList();
+        //    objRetailer.faultTypes = FOS.Setup.ManageCity.GetFaultTypesList();
+        //    objRetailer.faultTypesDetail = FOS.Setup.ManageCity.GetFaultTypesDetailList();
+        //    objRetailer.complaintStatuses = FOS.Setup.ManageCity.GetComplaintStatusList();
+        //    objRetailer.FieldOfficers = FOS.Setup.ManageCity.GetFieldOfficersList();
+        //    objRetailer.ProgressStatus = FOS.Setup.ManageCity.GetProgressStatusList();
+        //    objRetailer.LaunchedBy = FOS.Setup.ManageCity.GetLaunchedByList();
+        //    objRetailer.Areas = FOS.Setup.ManageArea.GetAreaList();
+        //    objRetailer.SubDivisions = ManageRetailer.GetSubDivisionsList();
+        //    objRetailer.Sites = FOS.Setup.ManageArea.GetSitesList();
+        //    objRetailer.ComplaintTypes = FOS.Setup.ManageCity.GetComplaintTypeList();
 
 
-            // ViewBag.rptid = "";
-            ViewBag.retailers = ManageRetailer.GetRetailerForGrid().Count();
-            ViewBag.Towns = db.Areas.Where(x => x.IsActive == true).Count();
-            ViewBag.SubDivisions = db.SubDivisions.Count();
+        //    //var userID = Convert.ToInt32(Session["UserID"]);
 
-            var jobs = ManageJobs.GetJobsToExportInExcel();
+        //    //if (userID == 1025)
+        //    //{
+        //    //    objRetailer.Projects = FOS.Setup.ManageCity.GetProjectsList();
+        //    //}
+        //    //else if(userID == 1026|| userID == 1027)
+        //    //{
+        //    //    var soid = db.Users.Where(x => x.ID == userID).Select(x => x.SOIDRelation).FirstOrDefault();
 
-            DateTime now = DateTime.Now;
-            var startDate = new DateTime(now.Year, now.Month, 1);
-            var endDate = startDate.AddMonths(1).AddDays(-1);
-            var today = DateTime.Today;
-            var month = new DateTime(today.Year, today.Month, 1);
-            var first = month.AddMonths(-1);
-            var last = month.AddDays(-1);
+        //    //    var list = db.SOProjects.Where(x => x.SaleOfficerID == soid).Select(x => x.ProjectID).Distinct().ToList();
 
-            // Last Month Sales
-            var CurrentMonthRetailerSale = (from lm in db.Jobs
-                                            where lm.CreatedDate >= first
-                                            && lm.CreatedDate <= last
+        //    //    var Projectlist= FOS.Setup.ManageCity.GetProjectsListForUsers(list);
+        //    //    objRetailer.Projects = Projectlist;
+        //    //}
+        //    //else
+        //    //{
+        //    //    var soid = db.Users.Where(x => x.ID == userID).Select(x => x.SOIDRelation).FirstOrDefault();
 
-                                            select lm).ToList();
+        //    //    var list = db.SOProjects.Where(x => x.SaleOfficerID == soid).Select(x => x.ProjectID).Distinct().ToList();
 
-            // New Customers Today
-
-            var CurrentMonthDistributorrSale = (from lm in db.Jobs
-                                                where lm.CreatedDate >= startDate && lm.CreatedDate <= endDate
-                                                select lm).ToList();
-
-            //// Current Month Order Delievered
-            var PreviousMonthRetailerDelievered = (from lm in db.JobsDetails
-                                                   where lm.JobDate >= first
-                                                   && lm.JobDate <= last
-                                                   && lm.JobType == "Retailer Order"
-                                                   select lm).ToList();
+        //    //    var Projectlist = FOS.Setup.ManageCity.GetProjectsListForSDOS(list);
+        //    //    objRetailer.Projects = Projectlist;
+        //    //}
 
 
+        //    // ViewBag.rptid = "";
+        //    ViewBag.retailers = ManageRetailer.GetRetailerForGrid().Count();
+        //    ViewBag.Towns = db.Areas.Where(x => x.IsActive == true).Count();
+        //    ViewBag.SubDivisions = db.SubDivisions.Count();
 
-            ViewBag.Lastmonthsale = CurrentMonthRetailerSale.Count();
-            ViewBag.ThisMonthSale = CurrentMonthDistributorrSale.Count();
-            ViewBag.ThisMonthSaleDone = PreviousMonthRetailerDelievered.Count();
-            //ViewBag.PreviousMonthSaleDone = PreviousMonthDistributorDelievered.Count();
-            //ViewBag.TodaySaleDone = ThisMonthSampleDelievered.Count();
-            ViewBag.SOPresentToday = Dashboard.SOPresenttoday().Count();
-            ViewBag.SOAbsentToday = Dashboard.SOAbsenttoday().Count();
-            ViewBag.FSPlanndeToday = Dashboard.FSPlannedtoday().Count();
-            ViewBag.FSVisitedToday = Dashboard.FSVisitedtoday().Count();
-            ViewBag.RSPlannedToday = Dashboard.RSPlannedToday().Count();
-            ViewBag.OpenComplaints = Dashboard.OpenComplaints().Count();
-            ViewBag.RSFollowUpToday = Dashboard.RSFollowUpToday().Count();
-            ManageRetailer objRetailers = new ManageRetailer();
-            DateTime serverTime = DateTime.Now; // gives you current Time in server timeZone
-            DateTime utcTime = serverTime.ToUniversalTime(); // convert it to Utc using timezone setting of server computer
+        //    var jobs = ManageJobs.GetJobsToExportInExcel();
 
-            TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("Pakistan Standard Time");
-            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi);
-            DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
+        //    DateTime now = DateTime.Now;
+        //    var startDate = new DateTime(now.Year, now.Month, 1);
+        //    var endDate = startDate.AddMonths(1).AddDays(-1);
+        //    var today = DateTime.Today;
+        //    var month = new DateTime(today.Year, today.Month, 1);
+        //    var first = month.AddMonths(-1);
+        //    var last = month.AddDays(-1);
 
-            DateTime dtFromToday = dtFromTodayUtc.Date;
-            DateTime dtToToday = dtFromToday.AddDays(1);
+        //    // Last Month Sales
+        //    var CurrentMonthRetailerSale = (from lm in db.Jobs
+        //                                    where lm.CreatedDate >= first
+        //                                    && lm.CreatedDate <= last
 
+        //                                    select lm).ToList();
 
-            List<GetTComplaintsStatusWise_Result> SOVisits = objRetailers.SOVisitsToday(dtFromToday, dtToToday, 0);
+        //    // New Customers Today
 
-            faulttypes = objRetailers.FaultTypeGraph(dtFromToday, dtToToday, 0);
-            PresentSO = objRetailers.TotalPresentSO();
+        //    var CurrentMonthDistributorrSale = (from lm in db.Jobs
+        //                                        where lm.CreatedDate >= startDate && lm.CreatedDate <= endDate
+        //                                        select lm).ToList();
+
+        //    //// Current Month Order Delievered
+        //    var PreviousMonthRetailerDelievered = (from lm in db.JobsDetails
+        //                                           where lm.JobDate >= first
+        //                                           && lm.JobDate <= last
+        //                                           && lm.JobType == "Retailer Order"
+        //                                           select lm).ToList();
 
 
 
-            // ViewBag.DataPoints = JsonConvert.SerializeObject(result1);
-            ViewBag.DataPoints1 = JsonConvert.SerializeObject(faulttypes);
-            ViewBag.DataPoints2 = JsonConvert.SerializeObject(PresentSO);
-            ViewBag.DataPoints3 = JsonConvert.SerializeObject(SOVisits);
+        //    ViewBag.Lastmonthsale = CurrentMonthRetailerSale.Count();
+        //    ViewBag.ThisMonthSale = CurrentMonthDistributorrSale.Count();
+        //    ViewBag.ThisMonthSaleDone = PreviousMonthRetailerDelievered.Count();
+        //    //ViewBag.PreviousMonthSaleDone = PreviousMonthDistributorDelievered.Count();
+        //    //ViewBag.TodaySaleDone = ThisMonthSampleDelievered.Count();
+        //    ViewBag.SOPresentToday = Dashboard.SOPresenttoday().Count();
+        //    ViewBag.SOAbsentToday = Dashboard.SOAbsenttoday().Count();
+        //    ViewBag.FSPlanndeToday = Dashboard.FSPlannedtoday().Count();
+        //    ViewBag.FSVisitedToday = Dashboard.FSVisitedtoday().Count();
+        //    ViewBag.RSPlannedToday = Dashboard.RSPlannedToday().Count();
+        //    ViewBag.OpenComplaints = Dashboard.OpenComplaints().Count();
+        //    ViewBag.RSFollowUpToday = Dashboard.RSFollowUpToday().Count();
+        //    ManageRetailer objRetailers = new ManageRetailer();
+        //    DateTime serverTime = DateTime.Now; // gives you current Time in server timeZone
+        //    DateTime utcTime = serverTime.ToUniversalTime(); // convert it to Utc using timezone setting of server computer
+
+        //    TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("Pakistan Standard Time");
+        //    DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi);
+        //    DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
+
+        //    DateTime dtFromToday = dtFromTodayUtc.Date;
+        //    DateTime dtToToday = dtFromToday.AddDays(1);
+
+
+        //    List<GetTComplaintsStatusWise_Result> SOVisits = objRetailers.SOVisitsToday(dtFromToday, dtToToday, 0);
+
+        //    faulttypes = objRetailers.FaultTypeGraph(dtFromToday, dtToToday, 0);
+        //    PresentSO = objRetailers.TotalPresentSO();
 
 
 
-            return View(objRetailer);
-        }
+        //    // ViewBag.DataPoints = JsonConvert.SerializeObject(result1);
+        //    ViewBag.DataPoints1 = JsonConvert.SerializeObject(faulttypes);
+        //    ViewBag.DataPoints2 = JsonConvert.SerializeObject(PresentSO);
+        //    ViewBag.DataPoints3 = JsonConvert.SerializeObject(SOVisits);
+
+
+
+        //    return View(objRetailer);
+        //}
 
 
     }

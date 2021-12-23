@@ -357,37 +357,41 @@ namespace FOS.Setup
 
             return city;
         }
-        public static List<CityData> GetCityListForReport(List<int?> list)
-        {
-            List<CityData> city = new List<CityData>();
-            CityData comlist;
+        //public static List<CityData> GetCityListForReport(int list)
+        //{
+        //    List<CityData> city = new List<CityData>();
+        //    CityData comlist;
 
 
-            try
-            {
-                using (FOSDataModel dbContext = new FOSDataModel())
-                {
-                    foreach (var item in list)
-                    {
-                        comlist = new CityData();
-                        comlist.ID =(int) item;
-                        comlist.Name = dbContext.Cities.Where(x => x.ID == item).Select(x => x.Name).FirstOrDefault();
-                        city.Add(comlist);
-                    }
-                }
-                city.Insert(0, new CityData
-                {
-                    ID = 0,
-                    Name = "--Select Zone--"
-                });
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+        //    try
+        //    {
+        //        using (FOSDataModel dbContext = new FOSDataModel())
+        //        {
+        //            if (list == 1)
+        //            {
 
-            return city;
-        }
+        //            }
+        //            foreach (var item in list)
+        //            {
+        //                comlist = new CityData();
+        //                comlist.ID =(int) item;
+        //                comlist.Name = dbContext.Cities.Where(x => x.ID == item).Select(x => x.Name).FirstOrDefault();
+        //                city.Add(comlist);
+        //            }
+        //        }
+        //        city.Insert(0, new CityData
+        //        {
+        //            ID = 0,
+        //            Name = "--Select Zone--"
+        //        });
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+
+        //    return city;
+        //}
         public static List<AreaData> GetAreaListForReport(List<int?> list)
         {
             List<AreaData> city = new List<AreaData>();
@@ -782,7 +786,101 @@ namespace FOS.Setup
             {
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                    city = dbContext.Cities.Where(c => c.IsDeleted == false && c.IsActive == true)
+                   
+                        city = dbContext.Cities.Where(c => c.IsDeleted == false && c.IsActive == true)
+                                .Select
+                                (
+                                    u => new CityData
+                                    {
+                                        ID = u.ID,
+                                        Name = u.Name,
+                                    //RegionID = u.RegionID,
+                                    //RegionName = u.Region.Name,
+                                    //ShortCode = u.ShortCode,
+                                    //LastUpdate = u.LastUpdate
+                                }).OrderBy(x => x.Name).ToList();
+                 
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+         
+
+            return city;
+        }
+
+        public static List<CityData> GetCityList1(int userID)
+        {
+            List<CityData> city = new List<CityData>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    if (userID == 1)
+                    {
+                        city = dbContext.Cities.Where(c => c.IsDeleted == false && c.IsActive == true)
+                                .Select
+                                (
+                                    u => new CityData
+                                    {
+                                        ID = u.ID,
+                                        Name = u.Name,
+                                        //RegionID = u.RegionID,
+                                        //RegionName = u.Region.Name,
+                                        //ShortCode = u.ShortCode,
+                                        //LastUpdate = u.LastUpdate
+                                    }).OrderBy(x => x.Name).ToList();
+                        city.Insert(0, new CityData
+                        {
+                            ID = 0,
+                            Name = "--All--"
+                        });
+                    }
+                    else
+                    {
+                        var ID = dbContext.Users.Where(x => x.ID == userID).Select(x => x.SOIDRelation).FirstOrDefault();
+                        city = dbContext.Cities.Where(c => c.IsDeleted == false && c.IsActive == true && c.ID == ID)
+                                   .Select
+                                   (
+                                       u => new CityData
+                                       {
+                                           ID = u.ID,
+                                           Name = u.Name,
+                                           //RegionID = u.RegionID,
+                                           //RegionName = u.Region.Name,
+                                           //ShortCode = u.ShortCode,
+                                           //LastUpdate = u.LastUpdate
+                                       }).OrderBy(x => x.Name).ToList();
+                        city.Insert(0, new CityData
+                        {
+                            ID = 0,
+                            Name = "--Select DDR--"
+                        });
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+
+
+            return city;
+        }
+        public static List<CityData> GetWardList()
+        {
+            List<CityData> city = new List<CityData>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    city = dbContext.Areas.Where(c => c.IsDeleted == false && c.IsActive == true)
                             .Select
                             (
                                 u => new CityData
@@ -801,20 +899,78 @@ namespace FOS.Setup
                 throw;
             }
 
-            city.Insert(0, new CityData
-            {
-                ID = 0,
-                Name = "--Select Zone--"
-            });
+
 
             return city;
         }
 
-      
+        public static List<CityData> GetWardListByID(int ID)
+        {
+            List<CityData> city = new List<CityData>();
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    city = dbContext.Areas.Where(c => c.IsDeleted == false && c.IsActive == true && c.CityID==ID)
+                            .Select
+                            (
+                                u => new CityData
+                                {
+                                    ID = u.ID,
+                                    Name = u.Name,
+                                    //RegionID = u.RegionID,
+                                    //RegionName = u.Region.Name,
+                                    //ShortCode = u.ShortCode,
+                                    //LastUpdate = u.LastUpdate
+                                }).OrderBy(x => x.Name).ToList();
+                    city.Insert(0, new CityData
+                    {
+                        ID = 0,
+                        Name = "--Select All--"
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
 
 
+            return city;
+        }
+        public static List<CityData> GetAreaList()
+        {
+            List<CityData> city = new List<CityData>();
 
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+                    city = dbContext.SubDivisions
+                            .Select
+                            (
+                                u => new CityData
+                                {
+                                    ID = u.ID,
+                                    Name = u.Name,
+                                    //RegionID = u.RegionID,
+                                    //RegionName = u.Region.Name,
+                                    //ShortCode = u.ShortCode,
+                                    //LastUpdate = u.LastUpdate
+                                }).OrderBy(x => x.Name).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+
+
+            return city;
+        }
 
 
         public static List<RegionData> GetRegionList()

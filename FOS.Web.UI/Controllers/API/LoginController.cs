@@ -32,10 +32,8 @@ namespace FOS.Web.UI.Controllers.API
 
                     var SO = db.SaleOfficers.Where(s => s.UserName.ToLower().Equals(inModel.UserName.ToLower()) && s.Password.ToLower().Equals(inModel.Password.ToLower())).FirstOrDefault();
 
-                    if (SO != null && SO.IMEI==null && SO.AppUserWasaOrKSB == inModel.AppUser)
+                    if (SO != null)
                     {
-                        SO.IMEI = inModel.IMEI;
-                        db.SaveChanges();
 
                         string Token = FOS.Web.UI.Common.Token.TokenAttribute.GenerateToken(inModel.UserName, inModel.Password);
                         Token tokenObj = new Token();
@@ -50,6 +48,7 @@ namespace FOS.Web.UI.Controllers.API
                         {
                             SOID = SO.ID,
                             Name = SO.Name,
+                            SOType=SO.Type,
                             RoleID = SO.RoleID,
                             RegionalHeadID = SO.RegionalHeadID,
                             RegionID = SO.RegionID,
@@ -58,6 +57,7 @@ namespace FOS.Web.UI.Controllers.API
                             Projects= new CommonController().GetProjects(SO.ID),
                             FaultTypes= new CommonController().GetFaultTypes(),
                             EquipmentCategory = new CommonController().GetEquipmentCategory(),
+                            MeterReadingLovs = new CommonController().GetLovs(),
                             EquipmentBrand = new CommonController().GetEquipmentBrands(),
                             Priorities = new CommonController().GetPriorities(),
                             Status= new CommonController().GetComplaintStatus(),
@@ -66,10 +66,12 @@ namespace FOS.Web.UI.Controllers.API
                             LaunchedBy = new CommonController().GetLaunchedBy(),
                             EquipParent = new CommonController().GetEquipParent(),
                             EquipChild = new CommonController().GetEquipCild(),
+                            MultiSelectlist = new CommonController().GetMultiselectList(),
                             Roles = new CommonController().GetRole(),
                             WorkDoneStatus= new CommonController().GetWorkDoneStatuses(),
                             VisitTypes = new CommonController().GetvisitTypesStatuses(),
                             VisitPersons = new CommonController().GetvisitPersons(),
+                            ConnectionTypes = new CommonController().GetConnectiontypes(),
                             Staff = new CommonController().GetStaffList(SO.RegionalHeadID, SO.RegionID),
                             VisitPurposesTypes= new CommonController().GetvisitPurposeTypes(),
                             //RegionID=db.RegionalHeadRegions.Where(x=>x.RegionHeadID==SO.RegionalHeadID).Select(x=>x.RegionID).FirstOrDefault(),
@@ -99,34 +101,7 @@ namespace FOS.Web.UI.Controllers.API
 
 
                         };
-                        DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
-
-                        DateTime dtFromToday = dtFromTodayUtc.Date;
-                        DateTime dtToToday = dtFromToday.AddDays(1);
-                        OneSignalUser Ac = new OneSignalUser();
-
-                        if (inModel.OneSignalUserID != null)
-                        {
-
-                            var result = db.OneSignalUsers.Where(x => x.OneSidnalUserID == inModel.OneSignalUserID && x.UserID==SO.ID).FirstOrDefault();
-                          
-                            if (result == null)
-                            {
-
-                                Ac.UserID = SO.ID;
-                                Ac.CreatedAt = dtFromTodayUtc;
-                                Ac.OneSidnalUserID = inModel.OneSignalUserID;
-                                Ac.RoleID = SO.RoleID;
-                                Ac.HeadID = SO.RegionalHeadID;
-                                db.OneSignalUsers.Add(Ac);
-                                db.SaveChanges();
-                            }
-                            //else { }
-
-
-
-
-                        }
+                       
 
                         return new Result<LoginResponse>
                         {
@@ -138,162 +113,7 @@ namespace FOS.Web.UI.Controllers.API
                         };
                     }
 
-                    else if(SO != null && SO.IMEI != null && SO.AppUserWasaOrKSB == inModel.AppUser)
-                    {
-                        var SOs = db.SaleOfficers.Where(s => s.UserName.ToLower().Equals(inModel.UserName.ToLower()) && s.IMEI==inModel.IMEI && s.Password.ToLower().Equals(inModel.Password.ToLower())).FirstOrDefault();
-
-                        if (SOs != null)
-                        {
-                            string Token = FOS.Web.UI.Common.Token.TokenAttribute.GenerateToken(inModel.UserName, inModel.Password);
-                            Token tokenObj = new Token();
-
-                            tokenObj.SalesOfficerID = SOs.ID;
-                            tokenObj.TokenName = Token;
-                            tokenObj.TokenAssignDate = DateTime.Now;
-                            db.Tokens.Add(tokenObj);
-                            db.SaveChanges();
-
-                            LoginResponse data = new LoginResponse
-                            {
-                                SOID = SOs.ID,
-                                Name = SOs.Name,
-                                RoleID = SOs.RoleID,
-                                RegionalHeadID = SOs.RegionalHeadID,
-                                RegionID = SOs.RegionID,
-                                RegionalHeadType = new CommonController().GetRegionalHeadTypeID((int)SOs.RegionalHeadID),
-                                Token = Token,
-                                Projects = new CommonController().GetProjects(SOs.ID),
-                                FaultTypes = new CommonController().GetFaultTypes(),
-                                EquipmentCategory = new CommonController().GetEquipmentCategory(),
-                                EquipmentBrand = new CommonController().GetEquipmentBrands(),
-                                Priorities = new CommonController().GetPriorities(),
-                                Status = new CommonController().GetComplaintStatus(),
-                                Type = new CommonController().GetComplaintTypes(),
-                                SiteStatuses = new CommonController().GetSiteStatuses(SOs.RegionID),
-                                LaunchedBy = new CommonController().GetLaunchedBy(),
-                                EquipParent = new CommonController().GetEquipParent(),
-                                EquipChild = new CommonController().GetEquipCild(),
-                                Roles = new CommonController().GetRole(),
-                                WorkDoneStatus = new CommonController().GetWorkDoneStatuses(),
-                                VisitTypes = new CommonController().GetvisitTypesStatuses(),
-                                VisitPersons = new CommonController().GetvisitPersons(),
-                                Staff = new CommonController().GetStaffList(SO.RegionalHeadID, SOs.RegionID),
-                                VisitPurposesTypes = new CommonController().GetvisitPurposeTypes(),
-                                //RegionID=db.RegionalHeadRegions.Where(x=>x.RegionHeadID==SO.RegionalHeadID).Select(x=>x.RegionID).FirstOrDefault(),
-                                //Region = new CommonController().GetCities(SO.RegionalHeadID),
-                                Count = new CommonController().GetNotificationCount(SOs.ID, SOs.RoleID),
-                                //RetailersRelatedtoSO = new CommonController().CustomersRrelatedToSoForCheckin(SO.ID),
-                                //DistributorRelatedtoSO = new CommonController().DistributorRrelatedToSoForCheckin(SO.ID),
-                                //MainCatg = new CommonController().MainCat(),
-                                //RetailerClass = new CommonController().RetailerType(),
-                                //RetailerType = new CommonController().RetailerType1(),
-                                //SalesOfficer = new CommonController().SalesOfficers(SO.RegionalHeadID, SO.ID),
-                                SalesOfficerNames = new CommonController().SalesOfficersNames(SOs.ID),
-                                AssignedSaleofficer = new CommonController().AssignedSalesOfficersNames((int)SOs.RegionalHeadID),
-                                //Followupreasons= new CommonController().FollowUp(),
-                                //Retailers =db.Retailers.Where(x=>x.IsActive==true).Count(),
-                                //Distributors= db.Dealers.Where(x => x.IsActive == true).Count(),
-                                //RetailersOrders= (from lm in db.JobsDetails
-                                //                  where lm.JobDate >= startDate
-                                //                  && lm.JobDate <= endDate
-                                //                  && lm.JobType == "Retailer Order"
-                                //                  select lm).Count(),
-
-                                //DistributorsOrders= (from lm in db.JobsDetails
-                                //                     where lm.JobDate >= startDate
-                                //                     && lm.JobDate <= endDate
-                                //                  
-
-
-                            };
-                            DateTime dtFromTodayUtc = DateTime.UtcNow.AddHours(5);
-
-                            DateTime dtFromToday = dtFromTodayUtc.Date;
-                            DateTime dtToToday = dtFromToday.AddDays(1);
-                            OneSignalUser Ac = new OneSignalUser();
-
-                            if (inModel.OneSignalUserID != null)
-                            {
-
-                                var result = db.OneSignalUsers.Where(x => x.OneSidnalUserID == inModel.OneSignalUserID && x.UserID == SOs.ID).FirstOrDefault();
-
-                                if (result == null)
-                                {
-
-                                    Ac.UserID = SOs.ID;
-                                    Ac.CreatedAt = dtFromTodayUtc;
-                                    Ac.OneSidnalUserID = inModel.OneSignalUserID;
-                                    Ac.RoleID = SOs.RoleID;
-                                    Ac.HeadID = SOs.RegionalHeadID;
-                                    db.OneSignalUsers.Add(Ac);
-                                    db.SaveChanges();
-                                }
-                                //else { }
-
-
-
-
-                            }
-
-                            return new Result<LoginResponse>
-                            {
-                                Data = data,
-                                Message = "Login successful",
-                                ResultType = ResultType.Success,
-                                Exception = null,
-                                ValidationErrors = null
-                            };
-
-                        }
-
-                        else
-                        {
-                            return new Result<LoginResponse>
-                            {
-                                Data = null,
-                                Message = "Login Is Specific to only one User",
-                                ResultType = ResultType.Failure,
-                                Exception = null,
-                                ValidationErrors = null
-                            };
-                        }
-
-                    }
-
-                    else if (SO != null && SO.IMEI == null && SO.AppUserWasaOrKSB != inModel.AppUser)
-                    {
-
-                        return new Result<LoginResponse>
-                        {
-                            Data = null,
-                            Message = "Incorrect UserName/Password For the App",
-                            ResultType = ResultType.Failure,
-                            Exception = null,
-                            ValidationErrors = null
-                        };
-
-
-
-
-                    }
-
-
-                    else if (SO != null && SO.IMEI != null && SO.AppUserWasaOrKSB != inModel.AppUser)
-                    {
-
-                        return new Result<LoginResponse>
-                        {
-                            Data = null,
-                            Message = "Incorrect UserName/Password For the App",
-                            ResultType = ResultType.Failure,
-                            Exception = null,
-                            ValidationErrors = null
-                        };
-
-
-
-
-                    }
+               
 
                     else
                     {
@@ -339,6 +159,7 @@ namespace FOS.Web.UI.Controllers.API
     public class LoginResponse
     {
         public string Name { get; set; }
+        public string SOType { get; set; }
         public int SOID { get; set; }
         public int? RegionalHeadID { get; set; }
         public String Token { get; set; }
@@ -356,6 +177,7 @@ namespace FOS.Web.UI.Controllers.API
         public List<Projects> RegionalHeadType { get; set; }
         public List<FaultType> FaultTypes { get; set; }
         public List<FaultType> EquipmentCategory { get; set; }
+        public List<FaultType> MeterReadingLovs { get; set; }
         public List<FaultType> EquipmentBrand { get; set; }
         public List<Priority> Priorities { get; set; }
         public List<WorkDone> WorkDoneStatus { get; set; }
@@ -363,7 +185,9 @@ namespace FOS.Web.UI.Controllers.API
 
         public List<ComplaintType> EquipParent { get; set; }
         public List<EquipChild> EquipChild { get; set; }
+        public List<ComplaintType> MultiSelectlist { get; set; }
         public List<ComplaintType> VisitPersons { get; set; }
+        public List<ComplaintType> ConnectionTypes { get; set; }
         public List<StaffList> Staff { get; set; }
         public List<Purposes> VisitPurposesTypes { get; set; }
         public List<ComplaintStatus> Status { get; set; }

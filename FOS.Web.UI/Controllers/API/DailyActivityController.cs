@@ -78,28 +78,7 @@ namespace FOS.Web.UI.Controllers.API
                     db.SaveChanges();
                    
 
-                    // Here StockItems is the array which is changed From JobItems Array due to Hassan 
-                     
-                    if (rm.StockItems != null && rm.StockItems.Count > 0)
-                    {
-                        foreach (var item in rm.StockItems)
-                        {
-                            db.JobItems.Add(
-                                new JobItem
-                                {
-                                    JobID = JobObj.ID,
-                                    ItemID = item.ItemID,
-                                    Quantity = item.Quantity,
-                                    Price = item.Price,
-                                    IsActive = true,
-                                    IsDeleted = false,
-                                    CreatedOn = localTime,
-                                    CreatedBy = rm.SaleOfficerId,
-
-                                });
-                            db.SaveChanges();
-                        }
-                    }
+                  
                 }
 
                 return new Result<SuccessResponse>

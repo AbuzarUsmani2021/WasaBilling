@@ -105,6 +105,15 @@ namespace FOS.DataLayer
         public string Audio { get; set; }
         public Nullable<System.DateTime> VideoDate { get; set; }
         public Nullable<System.DateTime> AudioDate { get; set; }
+        public Nullable<bool> IsbillDistributrd { get; set; }
+        public Nullable<System.DateTime> BillDistributionTime { get; set; }
+        public Nullable<int> MeterReadingValue { get; set; }
+        public Nullable<System.DateTime> MeterReadingDate { get; set; }
+        public Nullable<decimal> LatitudeForBillDistribution { get; set; }
+        public Nullable<decimal> LongitudeForBillDistribution { get; set; }
+        public Nullable<decimal> LatitudeForMeterreading { get; set; }
+        public Nullable<decimal> LongitudeForMeterreading { get; set; }
+        public Nullable<int> ConsumerID { get; set; }
     
         public virtual Area Area { get; set; }
         public virtual Dealer Dealer { get; set; }

@@ -58,13 +58,13 @@
                 <span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.SubDivisions</span>
             </div>
             <div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
-                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">Complaints Current Month </h5>
+                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">BillDistributed Current Month </h5>
                 <span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.ThisMonthSale</span>
             </div>
 
 
             <div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
-                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">Complaints Last Month</h5>
+                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">BillDistributed Last Month</h5>
                 <span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.Lastmonthsale</span>
             </div>
 
@@ -105,12 +105,12 @@
         background-image: linear-gradient(to bottom, #0169b2, #0169b2);
         color: #ffffff;
         border: 1px solid;">
-            <h3 style="font-size: 18px;width: 100%;font-weight: 700;float: left;margin: 0px;">Complaint Info</h3>
+            <h3 style="font-size: 18px;width: 100%;font-weight: 700;float: left;margin: 0px;">Todays Info</h3>
         </div>
 
         <div class="span12" style="box-shadow: 0px 0px 7px grey;background-image: linear-gradient(to bottom, #ffffff, #f3f3f3);color: #000000;    border: 1px solid #ff5925;padding: 15px;margin-left:0px">
             <div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
-                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">Total Complaints Today</h5>
+                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">Total Bill Distributed Today</h5>
                 <span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.SOPresentToday</span>
             </div>
             @*<div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
@@ -118,24 +118,21 @@
                     <span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.FSPlanndeToday</span>
                 </div>*@
             <div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
-                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">Resolved/Closed Today</h5>
+                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">Meter Reading Today</h5>
                 <span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.FSPlanndeToday</span>
             </div>
 
             <div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
-                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">In Progress/Open Today</h5>
+                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">Total Bill Distributed Previous Month</h5>
                 <span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.FSVisitedToday</span>
             </div>
 
             <div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
-                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">Transfered/PassOn Today</h5>
+                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">Meter Reading Previous Month</h5>
                 <span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.RSPlannedToday</span>
             </div>
 
-            <div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
-
-                <a href="~/Complaint/OpenComplaints" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;"> <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">InProgress/Open Complaints (Previous)</h5><span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.OpenComplaints</span> </a>
-            </div>
+      
 
             @*<div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
                     <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">Closed</h5>
@@ -169,49 +166,48 @@
 
             <div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
                 @*<a data-toggle="modal" data-target="#ChooseDates1" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">FOS Wise Order Intake/Delivered Report</a>*@
-                <a href="~/Reports/RetailerInfo" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Site Information Report </a>
+                <a href="~/Reports/RetailerInfo" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Consumer Information Report </a>
             </div>
 
-           
+
             <div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
                 @*<a data-toggle="modal" data-target="#ChooseDates1" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">FOS Wise Order Intake/Delivered Report</a>*@
-                <a href="~/Reports/ComplaintsReport" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Complaint Summary Report </a>
+                <a href="~/Reports/ComplaintDetailReport" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Bill Distribution Summary Report </a>
             </div>
             <div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
                 @*<a data-toggle="modal" data-target="#ChooseDates1" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">FOS Wise Order Intake/Delivered Report</a>*@
-                <a href="~/Reports/ComplaintDetailReport" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Complaint Detail Report </a>
+                <a href="~/Reports/BillDistributionDetail" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Bill Distribution Detail Report </a>
             </div>
-
-           
             <div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
                 @*<a data-toggle="modal" data-target="#ChooseDates1" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">FOS Wise Order Intake/Delivered Report</a>*@
-                <a href="#" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Site Equipment Detail Report</a>
+                <a href="~/Reports/MeterReadingDetail" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Meter Reading Detail Report </a>
             </div>
-            @*<div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
-
-                    <a href="~/Reports/DailyPerformanceKPI" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Daily Performance KPI</a>
-                </div>*@
 
             @*<div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
 
-                    <a href="~/Reports/OrderSummaryReport" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Daily Sales Report</a>
-                </div>*@
+            <a href="~/Reports/DailyPerformanceKPI" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Daily Performance KPI</a>
+        </div>*@
+
             @*<div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
 
-                    <a href="~/Reports/OrderSummaryReportForDistributor" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Daily Sales Report For Distributor</a>
-                </div>*@
+            <a href="~/Reports/OrderSummaryReport" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Daily Sales Report</a>
+        </div>*@
             @*<div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
 
-                    <a href="~/Reports/ShopsNotVisitedBySORpt" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Shops Not Visited By SO</a>
-                </div>*@
+            <a href="~/Reports/OrderSummaryReportForDistributor" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Daily Sales Report For Distributor</a>
+        </div>*@
             @*<div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
 
-                    <a href="~/Reports/ItemsNotSoldBySoRpt" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Items Not Sold By SO</a>
-                </div>*@
+            <a href="~/Reports/ShopsNotVisitedBySORpt" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Shops Not Visited By SO</a>
+        </div>*@
             @*<div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
 
-                    <a href="~/Reports/VisitInformationRpt" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Visit Information Report</a>
-                </div>*@
+            <a href="~/Reports/ItemsNotSoldBySoRpt" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Items Not Sold By SO</a>
+        </div>*@
+            @*<div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
+
+            <a href="~/Reports/VisitInformationRpt" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Visit Information Report</a>
+        </div>*@
         </div>
     </div>
 
@@ -222,7 +218,7 @@
 
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
-<div id="chartContainerForPresentSO" style="width:auto; height: 400px;">
+@*<div id="chartContainerForPresentSO" style="width:auto; height: 400px;">
 
 </div>
 <div id="chartContainerForSOVisits" style="width: auto; height: 400px;">
@@ -230,7 +226,7 @@
 </div>
 
 <div id="ChartContainerCitywise" style="width: 45%; height: 400px;display: inline-block;">
-</div>
+</div>*@
 @*<div id="chartContainer" style="width: 45%; height: 400px;display: inline-block;">
 
 </div>

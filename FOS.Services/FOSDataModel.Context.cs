@@ -119,6 +119,17 @@ namespace FOS.DataLayer
         public virtual DbSet<EquipParent> EquipParents { get; set; }
         public virtual DbSet<MultipleSiteVisit> MultipleSiteVisits { get; set; }
         public virtual DbSet<AddMultipleComplaintVisit> AddMultipleComplaintVisits { get; set; }
+        public virtual DbSet<ConnectionType> ConnectionTypes { get; set; }
+        public virtual DbSet<Tbl_BillDistributionmultiselection> Tbl_BillDistributionmultiselection { get; set; }
+        public virtual DbSet<TBL_RouteSelection> TBL_RouteSelection { get; set; }
+        public virtual DbSet<BillDisMultiSelect> BillDisMultiSelects { get; set; }
+        public virtual DbSet<NewConsumerData> NewConsumerDatas { get; set; }
+        public virtual DbSet<TBL_Consumers> TBL_Consumers { get; set; }
+        public virtual DbSet<BillDispatchMultiSelectListOfConsumer> BillDispatchMultiSelectListOfConsumers { get; set; }
+        public virtual DbSet<ConsumerConnectionCode> ConsumerConnectionCodes { get; set; }
+        public virtual DbSet<ConsumerStatusCode> ConsumerStatusCodes { get; set; }
+        public virtual DbSet<TBL_MeterReadingLovs> TBL_MeterReadingLovs { get; set; }
+        public virtual DbSet<Tbl_MeterredingMultiValues> Tbl_MeterredingMultiValues { get; set; }
     
         [DbFunction("FOSDataModel", "fnStringList2Table")]
         public virtual IQueryable<fnStringList2Table_Result> fnStringList2Table(string list)
@@ -3934,6 +3945,120 @@ namespace FOS.DataLayer
                 new ObjectParameter("StockID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetProgressView1_3_Result>("Sp_GetProgressView1_3", stockIDParameter);
+        }
+    
+        public virtual ObjectResult<Sp_MyComplaintList1_5_Result> Sp_MyComplaintList1_5(Nullable<int> regionID, Nullable<System.DateTime> dateFrom, Nullable<System.DateTime> dateTo)
+        {
+            var regionIDParameter = regionID.HasValue ?
+                new ObjectParameter("RegionID", regionID) :
+                new ObjectParameter("RegionID", typeof(int));
+    
+            var dateFromParameter = dateFrom.HasValue ?
+                new ObjectParameter("dateFrom", dateFrom) :
+                new ObjectParameter("dateFrom", typeof(System.DateTime));
+    
+            var dateToParameter = dateTo.HasValue ?
+                new ObjectParameter("dateTo", dateTo) :
+                new ObjectParameter("dateTo", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_MyComplaintList1_5_Result>("Sp_MyComplaintList1_5", regionIDParameter, dateFromParameter, dateToParameter);
+        }
+    
+        public virtual ObjectResult<Sp_MeterreadingMapView_Result> Sp_MeterreadingMapView(Nullable<int> saleofficerID, Nullable<System.DateTime> dateFrom, Nullable<System.DateTime> dateTo)
+        {
+            var saleofficerIDParameter = saleofficerID.HasValue ?
+                new ObjectParameter("saleofficerID", saleofficerID) :
+                new ObjectParameter("saleofficerID", typeof(int));
+    
+            var dateFromParameter = dateFrom.HasValue ?
+                new ObjectParameter("dateFrom", dateFrom) :
+                new ObjectParameter("dateFrom", typeof(System.DateTime));
+    
+            var dateToParameter = dateTo.HasValue ?
+                new ObjectParameter("dateTo", dateTo) :
+                new ObjectParameter("dateTo", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_MeterreadingMapView_Result>("Sp_MeterreadingMapView", saleofficerIDParameter, dateFromParameter, dateToParameter);
+        }
+    
+        public virtual ObjectResult<Sp_BillDistributorSummary_Result> Sp_BillDistributorSummary(Nullable<System.DateTime> startingDate, Nullable<System.DateTime> endingDate, Nullable<int> dDRID, Nullable<int> areaID)
+        {
+            var startingDateParameter = startingDate.HasValue ?
+                new ObjectParameter("StartingDate", startingDate) :
+                new ObjectParameter("StartingDate", typeof(System.DateTime));
+    
+            var endingDateParameter = endingDate.HasValue ?
+                new ObjectParameter("EndingDate", endingDate) :
+                new ObjectParameter("EndingDate", typeof(System.DateTime));
+    
+            var dDRIDParameter = dDRID.HasValue ?
+                new ObjectParameter("DDRID", dDRID) :
+                new ObjectParameter("DDRID", typeof(int));
+    
+            var areaIDParameter = areaID.HasValue ?
+                new ObjectParameter("AreaID", areaID) :
+                new ObjectParameter("AreaID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_BillDistributorSummary_Result>("Sp_BillDistributorSummary", startingDateParameter, endingDateParameter, dDRIDParameter, areaIDParameter);
+        }
+    
+        public virtual ObjectResult<Sp_BillDispatchMapView_Result> Sp_BillDispatchMapView(Nullable<int> saleofficerID, Nullable<System.DateTime> dateFrom, Nullable<System.DateTime> dateTo)
+        {
+            var saleofficerIDParameter = saleofficerID.HasValue ?
+                new ObjectParameter("saleofficerID", saleofficerID) :
+                new ObjectParameter("saleofficerID", typeof(int));
+    
+            var dateFromParameter = dateFrom.HasValue ?
+                new ObjectParameter("dateFrom", dateFrom) :
+                new ObjectParameter("dateFrom", typeof(System.DateTime));
+    
+            var dateToParameter = dateTo.HasValue ?
+                new ObjectParameter("dateTo", dateTo) :
+                new ObjectParameter("dateTo", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_BillDispatchMapView_Result>("Sp_BillDispatchMapView", saleofficerIDParameter, dateFromParameter, dateToParameter);
+        }
+    
+        public virtual ObjectResult<Sp_MeterReaderDetail_Result> Sp_MeterReaderDetail(Nullable<System.DateTime> startingDate, Nullable<System.DateTime> endingDate, Nullable<int> dDRID, Nullable<int> areaID)
+        {
+            var startingDateParameter = startingDate.HasValue ?
+                new ObjectParameter("StartingDate", startingDate) :
+                new ObjectParameter("StartingDate", typeof(System.DateTime));
+    
+            var endingDateParameter = endingDate.HasValue ?
+                new ObjectParameter("EndingDate", endingDate) :
+                new ObjectParameter("EndingDate", typeof(System.DateTime));
+    
+            var dDRIDParameter = dDRID.HasValue ?
+                new ObjectParameter("DDRID", dDRID) :
+                new ObjectParameter("DDRID", typeof(int));
+    
+            var areaIDParameter = areaID.HasValue ?
+                new ObjectParameter("AreaID", areaID) :
+                new ObjectParameter("AreaID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_MeterReaderDetail_Result>("Sp_MeterReaderDetail", startingDateParameter, endingDateParameter, dDRIDParameter, areaIDParameter);
+        }
+    
+        public virtual ObjectResult<Sp_BillDistributorDetail_Result> Sp_BillDistributorDetail(Nullable<System.DateTime> startingDate, Nullable<System.DateTime> endingDate, Nullable<int> dDRID, Nullable<int> areaID)
+        {
+            var startingDateParameter = startingDate.HasValue ?
+                new ObjectParameter("StartingDate", startingDate) :
+                new ObjectParameter("StartingDate", typeof(System.DateTime));
+    
+            var endingDateParameter = endingDate.HasValue ?
+                new ObjectParameter("EndingDate", endingDate) :
+                new ObjectParameter("EndingDate", typeof(System.DateTime));
+    
+            var dDRIDParameter = dDRID.HasValue ?
+                new ObjectParameter("DDRID", dDRID) :
+                new ObjectParameter("DDRID", typeof(int));
+    
+            var areaIDParameter = areaID.HasValue ?
+                new ObjectParameter("AreaID", areaID) :
+                new ObjectParameter("AreaID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_BillDistributorDetail_Result>("Sp_BillDistributorDetail", startingDateParameter, endingDateParameter, dDRIDParameter, areaIDParameter);
         }
     }
 }

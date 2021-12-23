@@ -18,7 +18,7 @@
                     <span class="divider">/</span>
                 </li>
                 <li>
-                    <a href="#">Manage Zone</a>
+                    <a href="#">Manage DDR</a>
                 </li>
             </ul>
             <!-- END PAGE TITLE & BREADCRUMB-->
@@ -34,7 +34,7 @@
                 <!-- BEGIN SAMPLE FORMPORTLET-->
                 <div class="widget green" style="">
                     <div class="widget-title">
-                        <h4>Manage Zone</h4>
+                        <h4>Manage DDR</h4>
                         <span class="tools">
                             @*<a href="javascript:;" class="icon-chevron-down"></a>*@
                             @*<a href="javascript:;" class="icon-remove"></a>*@
@@ -54,7 +54,7 @@
 
                         <!--City Name -->
                         <div class="control-group">
-                            <label class="control-label">Zone Name *</label>
+                            <label class="control-label">DDR Name *</label>
                             <div class="controls">
                                 @Html.EditorFor(model => model.Name)
                                 @Html.ValidationMessageFor(model => model.Name)
@@ -64,7 +64,7 @@
 
                         <div class="control-group">
 
-                            <label class="control-label" for="ShortCode">Zone Code *</label>
+                            <label class="control-label" for="ShortCode">DDR Code *</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.ShortCode, new {@style="text-transform: uppercase;" })
                                 @Html.ValidationMessageFor(model => model.ShortCode)
@@ -122,13 +122,13 @@
                                     </th>
                                     <th style="width:  10%!important">Sr #</th>
                                     <th>
-                                        Zone Name
+                                        DDR Name
                                     </th>
                                     <th style="width:40% !important">
                                         Client
                                     </th>
                                     <th style="width:40% !important">
-                                        Zone Code
+                                        DDR Code
                                     </th>
                                     <th style="width:10% !important">Actions</th>
                                 </tr>

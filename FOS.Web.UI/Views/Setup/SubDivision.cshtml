@@ -17,7 +17,7 @@
                     <span class="divider">/</span>
                 </li>
                 <li>
-                    <a href="#">Manage Sub Division</a>
+                    <a href="#">Manage Area</a>
                 </li>
             </ul>
             <!-- END PAGE TITLE & BREADCRUMB-->
@@ -34,7 +34,7 @@
                 <!-- BEGIN SAMPLE FORMPORTLET-->
                 <div class="widget green" style="">
                     <div class="widget-title">
-                        <h4>Manage Sub Division</h4>
+                        <h4>Manage Area</h4>
                         <span class="tools">
                             @*<a href="javascript:;" class="icon-chevron-down"></a>*@
                             @*<a href="javascript:;" class="icon-remove"></a>*@
@@ -54,7 +54,7 @@
 
                         <!-- Select City -->
                         <div class="control-group">
-                            <label class="control-label">Select Zone *</label>
+                            <label class="control-label">Select DDR *</label>
                             <div class="controls">
                                 @Html.DropDownListFor(model => model.CityID, new SelectList(Model.Cities, "ID", "Name"), new { @class = "" })
                                 @Html.ValidationMessageFor(model => model.CityID)
@@ -62,7 +62,7 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">Select Town *</label>
+                            <label class="control-label">Select Ward *</label>
                             <div class="controls">
                                 @Html.DropDownListFor(model => model.AreaID, new SelectList(Model.Areas, "ID", "Name"), new { @class = "" })
                                 @Html.ValidationMessageFor(model => model.AreaID)
@@ -71,7 +71,7 @@
 
                         <!-- Area Name -->
                         <div class="control-group">
-                            <label class="control-label">SubDivision Name *</label>
+                            <label class="control-label">Area Name *</label>
                             <div class="controls">
                                 @Html.EditorFor(model => model.Name)
                                 @Html.ValidationMessageFor(model => model.Name)
@@ -82,7 +82,7 @@
                         <!-- Short Code -->
                         <div class="control-group">
 
-                            <label class="control-label" for="ShortCode">SubDivision Code *</label>
+                            <label class="control-label" for="ShortCode">Area Code *</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.ShortCode, new { @style = "text-transform: uppercase;" })
                                 @Html.ValidationMessageFor(model => model.ShortCode)
@@ -143,14 +143,14 @@
                                     </th>
                                     <th style="width: 10% !important">Sr #</th>
                                     <th style="width:40% !important">
-                                        Sub Division Name
+                                        Area Name
                                     </th>
                                     <th style="width:40% !important">
-                                        Town Name
+                                        Ward Name
                                     </th>
 
                                     <th style="width:40% !important">
-                                        SubDivision Code
+                                        Area Code
                                     </th>
                                     <th style="width:10% !important">Actions</th>
                                 </tr>

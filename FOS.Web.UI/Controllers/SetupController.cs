@@ -117,6 +117,7 @@ namespace FOS.Web.UI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddUpdateRegion([Bind(Exclude = "TID")] RegionData newRegion)
         {
+            var userID = Convert.ToInt32(Session["UserID"]);
             Boolean boolFlag = true;
             ValidationResult results = new ValidationResult();
             try
@@ -132,7 +133,7 @@ namespace FOS.Web.UI.Controllers
 
                     if (boolFlag)
                     {
-                        int Response = ManageRegion.AddUpdateRegion(newRegion);
+                        int Response = ManageRegion.AddUpdateRegion(newRegion, userID);
 
                         if (Response == 1)
                         {

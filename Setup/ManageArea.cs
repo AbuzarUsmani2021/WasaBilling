@@ -659,7 +659,7 @@ namespace FOS.Setup
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
 
-                    var list = dbContext.SOZoneAndTowns.Where(x => x.SOID == SOID && x.CityID==CityID).Select(x=>x.AreaID).ToList();
+                    var list = dbContext.Areas.Where(x => x.CityID==CityID).Select(x=>x.ID).ToList();
                     
 
                     foreach (var data in list)
@@ -708,7 +708,7 @@ namespace FOS.Setup
                     cityList = dbContext.SubDivisions.Where(a => a.CityID == RegionID && a.AreaID == CityID).Select(a => new CityData
                     {
                         ID = a.ID,
-                        Name = a.Name,
+                        Name = a.DisplayFieldinArea,
                         
 
                     }).ToList();

@@ -488,13 +488,30 @@ namespace FOS.Web.UI.Controllers
         // View ...
         public ActionResult RetailerMapView()
         {
-             ViewData["RegionalHead"] = FOS.Setup.ManageRegionalHead.GetRegionalHeadList();
-            
-             ViewData["SaleOfficer"] = FOS.Setup.ManageSaleOffice.GetSaleOfficerList(true);
-             ViewData["Region"] = FOS.Setup.ManageRegion.GetRegionForGrid();
-             ViewData["City"] = FOS.Setup.ManageCity.GetCityList();
-             ViewData["Zone"] = FOS.Setup.ManageZone.GetZoneList();
-          
+           var userID = Convert.ToInt32(Session["UserID"]);
+
+
+            ViewData["City"] = FOS.Setup.ManageCity.GetCityList1(userID);
+            ViewData["Area"] = FOS.Setup.ManageCity.GetWardList();
+            ViewData["SubDivision"] = FOS.Setup.ManageCity.GetAreaList();
+
+            return View();
+        }
+
+
+        [CustomAuthorize]
+        // View ...
+        public ActionResult BillReadingMapView()
+        {
+
+            var userID = Convert.ToInt32(Session["UserID"]);
+
+
+            ViewData["City"] = FOS.Setup.ManageCity.GetCityList1(userID);
+            ViewData["Area"] = FOS.Setup.ManageCity.GetWardList();
+            ViewData["SubDivision"] = FOS.Setup.ManageCity.GetAreaList();
+
+
             return View();
         }
 
@@ -503,6 +520,18 @@ namespace FOS.Web.UI.Controllers
         {
             List<RetailerData> retailerData = new List<RetailerData>();
             retailerData = FOS.Setup.ManageRetailer.GetRetailerLocations(model.RegionalHeadID, model.DealerID, model.SaleOfficerID, model.RegionID, model.CityID, model.ZoneID);
+
+            //ViewBag.TotalConsumers = db.TBL_Consumers.Where(x => x.DDRID == model.CityID && x.WardID == model.ZoneID).Count();
+            //ViewBag.BillDispatch = retailerData.Count();
+            return Json(retailerData);
+        }
+
+
+        [HttpPost]
+        public JsonResult GetMeterReadingLocationsByAllFilters(LatLongModel model)
+        {
+            List<RetailerData> retailerData = new List<RetailerData>();
+            retailerData = FOS.Setup.ManageRetailer.GetMeterReadingLocations(model.RegionalHeadID, model.DealerID, model.SaleOfficerID, model.RegionID, model.CityID, model.ZoneID);
 
             return Json(retailerData);
         }

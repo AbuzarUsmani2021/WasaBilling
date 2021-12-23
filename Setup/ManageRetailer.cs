@@ -595,79 +595,63 @@ namespace FOS.Setup
         public static List<RetailerData> GetRetailerLocations(int RegionalHeadID, int DealerID, int SaleOfficerID, int RegionID, int CityID, int ZoneID, string untaggedOnly = null)
         {
             List<RetailerData> retailerData = new List<RetailerData>();
-
+            var today = DateTime.UtcNow.AddHours(5);
+            var month = new DateTime(today.Year, today.Month, 1);
+            var first = month.AddMonths(1);
+            
             try
             {
                 using (FOSDataModel dbContext = new FOSDataModel())
                 {
-                    if (untaggedOnly == null)
-                    {
-                        retailerData = dbContext.Retailers.Where(u => u.IsDeleted == false
-                        && u.Status == true
-                        && u.SaleOfficer.RegionalHeadID == (RegionalHeadID > 0 ? RegionalHeadID : u.SaleOfficer.RegionalHeadID)
-                        // && u.Dealer.ID == (DealerID > 0 ? DealerID : u.Dealer.ID)
-                        && u.SaleOfficerID == (SaleOfficerID > 0 ? SaleOfficerID : u.SaleOfficerID)
-                        && u.SaleOfficer.City.RegionID == (RegionID > 0 ? RegionID : u.SaleOfficer.City.RegionID)
-                        && u.CityID == (CityID > 0 ? CityID : u.CityID)
-                        && u.ZoneID == (ZoneID > 0 ? ZoneID : u.ZoneID)
-                        && u.Location != null)
-                            .Select(
-                                u => new RetailerData
-                                {
-                                    ID = u.ID,
-                                    Name = u.Name,
-                                    ShopName = u.ShopName,
-                                    Location = u.Location,
-                                    LocationMargin = u.LocationMargin,
-                                    LocationName = u.LocationName,
-                                    RetailerType = u.RetailerType,
-                                    Latitude = u.Latitude,
-                                    Longitude = u.Longitude,
-                                    Address = u.Address == null ? "" : u.Address,
-                                    Phone1 = u.Phone1,
+                    //var SubdivID = dbContext.SubDivisions.Where(x => x.ID == RegionID).Select(x => x.AreaIDRef).FirstOrDefault();
+                    retailerData = dbContext.JobsDetails.Where(u => u.Job.CityID == CityID && u.Job.ZoneID == ZoneID && u.JobDate >= month && u.JobDate <= first
+                             && u.Status == true && u.IsbillDistributrd==true
+                            )
+                             .Select(
+                                 u => new RetailerData
+                                 {
+                                     ID = u.ID,
+                                     Name = dbContext.TBL_Consumers.Where(x => x.ID == u.ConsumerID).Select(x => x.ConsumerName).FirstOrDefault(),
+                                     ShopName = dbContext.TBL_Consumers.Where(x => x.ID == u.ConsumerID).Select(x => x.ConsumerName).FirstOrDefault(),
+                                     ClientID = dbContext.TBL_Consumers.Where(x => x.ID == u.ConsumerID).Select(x => x.ConsumerID).FirstOrDefault(),
+                                     Location = u.LatitudeForBillDistribution + "," + u.LongitudeForBillDistribution,
+                                     Latitude = u.LatitudeForBillDistribution,
+                                     Longitude = u.LongitudeForBillDistribution,
+                                     Address = dbContext.TBL_Consumers.Where(x => x.ID == u.ConsumerID).Select(x => x.Address).FirstOrDefault(),
+                                     // DealerName = u.Dealer.Name,
+                                     SaleOfficerName = dbContext.SaleOfficers.Where(x => x.ID == u.SalesOficerID).Select(x => x.Name).FirstOrDefault(),
+                                     MultiSelectID = dbContext.BillDisMultiSelects.Where(x => x.JobID == u.JobID).Select(x => x.MultiselectID).FirstOrDefault(),
+                                     LatitudeForMultiselect = dbContext.BillDisMultiSelects.Where(x => x.JobID == u.JobID).Select(x => x.Latitude).FirstOrDefault(),
+                                     LongitudeForMultiselect = dbContext.BillDisMultiSelects.Where(x => x.JobID == u.JobID).Select(x => x.Longitude).FirstOrDefault(),
+                                     LocationForMultiselect = dbContext.BillDisMultiSelects.Where(x => x.JobID == u.JobID).Select(x => x.Latitude).FirstOrDefault() + "," + dbContext.BillDisMultiSelects.Where(x => x.JobID == u.JobID).Select(x => x.Longitude).FirstOrDefault(),
+                                     AreaName = u.Area.Name,
+                                     TotalConsumers= dbContext.TBL_Consumers.Where(x => x.DDRID == CityID && x.WardID == ZoneID).Count(),
 
-                                    //DealerName = u.Dealer.Name,
-                                    SaleOfficerName = u.SaleOfficer.Name,
-                                    CItyName = u.City.Name,
-                                    AreaName = u.Area.Name,
-                                    Phone2 = u.Phone2
+                }).ToList();
 
-                                }).ToList();
-                    }
-                    else
-                    {
-                        retailerData = dbContext.Retailers.Where(u => u.IsDeleted == false
-                            && u.Status == true
-                            && u.SaleOfficer.RegionalHeadID == (RegionalHeadID > 0 ? RegionalHeadID : u.SaleOfficer.RegionalHeadID)
-                            // && u.Dealer.ID == (DealerID > 0 ? DealerID : u.Dealer.ID)
-                            && u.SaleOfficerID == (SaleOfficerID > 0 ? SaleOfficerID : u.SaleOfficerID)
-                            && u.SaleOfficer.City.RegionID == (RegionID > 0 ? RegionID : u.SaleOfficer.City.RegionID)
-                            && u.CityID == (CityID > 0 ? CityID : u.CityID)
-                            && u.ZoneID == (ZoneID > 0 ? ZoneID : u.ZoneID)
-                            && u.Location == null)
-                            .Select(
-                                u => new RetailerData
-                                {
-                                    ID = u.ID,
-                                    Name = u.Name,
-                                    ShopName = u.ShopName,
-                                    Location = u.Location,
-                                    LocationMargin = u.LocationMargin,
-                                    LocationName = u.LocationName,
-                                    RetailerType = u.RetailerType,
-                                    Latitude = u.Latitude,
-                                    Longitude = u.Longitude,
-                                    Address = u.Address == null ? "" : u.Address,
-                                    Phone1 = u.Phone1,
+                    //retailerData = (from job in dbContext.JobsDetails
+                    //            join con in dbContext.TBL_Consumers on job.ConsumerID equals con.ID
+                    //            where job.JobDate >= month && job.JobDate <= first && con.DDRID == CityID && con.WardID == ZoneID
+                    //            && con.DDRID == SubdivID
+                    //                select new RetailerData
+                    //            {
+                    //                ID = job.ID,
+                    //                Name = dbContext.TBL_Consumers.Where(x => x.ID == job.ConsumerID).Select(x => x.ConsumerName).FirstOrDefault(),
+                    //                ShopName = dbContext.TBL_Consumers.Where(x => x.ID == job.ConsumerID).Select(x => x.ConsumerName).FirstOrDefault(),
+                    //                Location = job.LatitudeForBillDistribution + "," + job.LongitudeForBillDistribution,
+                    //                Latitude = job.LatitudeForBillDistribution,
+                    //                Longitude = job.LongitudeForBillDistribution,
+                    //                Address = dbContext.TBL_Consumers.Where(x => x.ID == job.ConsumerID).Select(x => x.Address).FirstOrDefault(),
+                    //                // DealerName = u.Dealer.Name,
+                    //                SaleOfficerName = dbContext.SaleOfficers.Where(x => x.ID == job.SalesOficerID).Select(x => x.Name).FirstOrDefault(),
+                    //                MultiSelectID = dbContext.BillDisMultiSelects.Where(x => x.JobID == job.JobID).Select(x => x.MultiselectID).FirstOrDefault(),
+                    //                LatitudeForMultiselect = dbContext.BillDisMultiSelects.Where(x => x.JobID == job.JobID).Select(x => x.Latitude).FirstOrDefault(),
+                    //                LongitudeForMultiselect = dbContext.BillDisMultiSelects.Where(x => x.JobID == job.JobID).Select(x => x.Longitude).FirstOrDefault(),
+                    //                LocationForMultiselect = dbContext.BillDisMultiSelects.Where(x => x.JobID == job.JobID).Select(x => x.Latitude).FirstOrDefault() + "," + dbContext.BillDisMultiSelects.Where(x => x.JobID == job.JobID).Select(x => x.Longitude).FirstOrDefault(),
+                    //                AreaName = job.Area.Name,
+                    //            }).ToList();
 
-                                    // DealerName = u.Dealer.Name,
-                                    SaleOfficerName = u.SaleOfficer.Name,
-                                    CItyName = u.City.Name,
-                                    AreaName = u.Area.Name,
-                                    Phone2 = u.Phone2
 
-                                }).ToList();
-                    }
                 }
             }
             catch (Exception)
@@ -677,6 +661,55 @@ namespace FOS.Setup
 
             return retailerData;
         }
+
+
+        public static List<RetailerData> GetMeterReadingLocations(int RegionalHeadID, int DealerID, int SaleOfficerID, int RegionID, int CityID, int ZoneID, string untaggedOnly = null)
+        {
+            List<RetailerData> retailerData = new List<RetailerData>();
+            var today = DateTime.UtcNow.AddHours(5);
+            var month = new DateTime(today.Year, today.Month, 1);
+            var first = month.AddMonths(1);
+
+            try
+            {
+                using (FOSDataModel dbContext = new FOSDataModel())
+                {
+
+                    retailerData = dbContext.JobsDetails.Where(u => u.Job.CityID == CityID && u.Job.ZoneID == ZoneID && u.JobDate >= month && u.JobDate <= first
+                               && u.Status == true && u.IsbillDistributrd == null
+                              )
+                               .Select(
+                                   u => new RetailerData
+                                   {
+                                       ID = u.ID,
+                                       Name = dbContext.TBL_Consumers.Where(x => x.ID == u.ConsumerID).Select(x => x.ConsumerName).FirstOrDefault(),
+                                       ShopName = dbContext.TBL_Consumers.Where(x => x.ID == u.ConsumerID).Select(x => x.ConsumerName).FirstOrDefault(),
+                                       ClientID = dbContext.TBL_Consumers.Where(x => x.ID == u.ConsumerID).Select(x => x.ConsumerID).FirstOrDefault(),
+                                       Location = u.LatitudeForMeterreading + "," + u.LongitudeForMeterreading,
+                                       Latitude = u.LatitudeForMeterreading,
+                                       Longitude = u.LongitudeForMeterreading,
+                                       Address = dbContext.TBL_Consumers.Where(x => x.ID == u.ConsumerID).Select(x => x.Address).FirstOrDefault(),
+                                     // DealerName = u.Dealer.Name,
+                                     SaleOfficerName = dbContext.SaleOfficers.Where(x => x.ID == u.SalesOficerID).Select(x => x.Name).FirstOrDefault(),
+                                       MultiSelectID = dbContext.Tbl_MeterredingMultiValues.Where(x => x.JobID == u.JobID).Select(x => x.MultiselectID).FirstOrDefault(),
+                                       LatitudeForMultiselect = dbContext.Tbl_MeterredingMultiValues.Where(x => x.JobID == u.JobID).Select(x => x.Latitude).FirstOrDefault(),
+                                       LongitudeForMultiselect = dbContext.Tbl_MeterredingMultiValues.Where(x => x.JobID == u.JobID).Select(x => x.Longitude).FirstOrDefault(),
+                                       LocationForMultiselect = dbContext.Tbl_MeterredingMultiValues.Where(x => x.JobID == u.JobID).Select(x => x.Latitude).FirstOrDefault() + "," + dbContext.BillDisMultiSelects.Where(x => x.JobID == u.JobID).Select(x => x.Longitude).FirstOrDefault(),
+                                       AreaName = u.Area.Name,
+                                       TotalConsumers = dbContext.TBL_Consumers.Where(x => x.DDRID == CityID && x.WardID == ZoneID).Count(),
+
+                                   }).ToList();
+
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return retailerData;
+        }
+
 
         // Get All Locations ...
         public static List<RetailerData> GetRetailerLocations()

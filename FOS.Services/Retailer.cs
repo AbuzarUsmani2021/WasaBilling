@@ -31,6 +31,7 @@ namespace FOS.DataLayer
             this.AddPurposeOfVisits = new HashSet<AddPurposeOfVisit>();
             this.AddSiteStatus = new HashSet<AddSiteStatu>();
             this.AddStaffLists = new HashSet<AddStaffList>();
+            this.BillDispatchMultiSelectListOfConsumers = new HashSet<BillDispatchMultiSelectListOfConsumer>();
         }
     
         public int TID { get; set; }
@@ -101,6 +102,8 @@ namespace FOS.DataLayer
         public Nullable<decimal> SWL { get; set; }
         public string Year_of_In { get; set; }
         public string ProjectCode { get; set; }
+        public Nullable<int> SearchCode { get; set; }
+        public Nullable<int> ConnectionTypeID { get; set; }
     
         public virtual Area Area { get; set; }
         public virtual City City { get; set; }
@@ -137,5 +140,7 @@ namespace FOS.DataLayer
         public virtual ICollection<AddSiteStatu> AddSiteStatus { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AddStaffList> AddStaffLists { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BillDispatchMultiSelectListOfConsumer> BillDispatchMultiSelectListOfConsumers { get; set; }
     }
 }

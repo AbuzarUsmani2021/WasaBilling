@@ -81,6 +81,27 @@
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="BillDisMultiSelect">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConsumerID" Type="int" />
+          <Property Name="MultiselectID" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="JobID" Type="int" />
+          <Property Name="Latitude" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="Longitude" Type="decimal" Precision="18" Scale="10" />
+        </EntityType>
+        <EntityType Name="BillDispatchMultiSelectListOfConsumer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="RetailerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MultiselectID" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
         <EntityType Name="ChatBox">
           <Key>
             <PropertyRef Name="ID" />
@@ -226,6 +247,30 @@
           <Property Name="Name" Type="nvarchar" MaxLength="500" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="ConnectionTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConnectionTypeName" Type="varchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="ConsumerConnectionCodes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="ConsumerStatusCode">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Code" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="DealerCityArea">
           <Key>
@@ -546,6 +591,15 @@
           <Property Name="Audio" Type="varchar" MaxLength="5000" />
           <Property Name="VideoDate" Type="datetime" />
           <Property Name="AudioDate" Type="datetime" />
+          <Property Name="IsbillDistributrd" Type="bit" />
+          <Property Name="BillDistributionTime" Type="datetime" />
+          <Property Name="MeterReadingValue" Type="int" />
+          <Property Name="MeterReadingDate" Type="datetime" />
+          <Property Name="LatitudeForBillDistribution" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="LongitudeForBillDistribution" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="LatitudeForMeterreading" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="LongitudeForMeterreading" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="ConsumerID" Type="int" />
         </EntityType>
         <EntityType Name="JobsDetail_HTR">
           <Key>
@@ -688,6 +742,16 @@
           <Property Name="KSBVisitID" Type="int" />
           <Property Name="SiteID" Type="int" />
           <Property Name="LaunchedAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="NewConsumerData">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RetailerID" Type="int" />
+          <Property Name="ConnectionTypeId" Type="int" />
+          <Property Name="Marla" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
         </EntityType>
         <EntityType Name="NotificationSeen">
           <Key>
@@ -922,6 +986,8 @@
           <Property Name="SWL" Type="decimal" Precision="18" Scale="0" />
           <Property Name="Year_of_In" Type="varchar" MaxLength="50" />
           <Property Name="ProjectCode" Type="varchar" MaxLength="50" />
+          <Property Name="SearchCode" Type="int" />
+          <Property Name="ConnectionTypeID" Type="int" />
         </EntityType>
         <EntityType Name="RetailersForApproval">
           <Key>
@@ -1016,6 +1082,7 @@
           <Property Name="RoleID" Type="int" />
           <Property Name="IMEI" Type="varchar" MaxLength="500" />
           <Property Name="AppUserWasaOrKSB" Type="int" />
+          <Property Name="Type" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="SalesOfficerJobs">
           <Key>
@@ -1115,7 +1182,7 @@
           <Property Name="HeadID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'KSBComplaint.dbo.Student' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'WasaBilling.dbo.Student' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Student">
           <Key>
             <PropertyRef Name="TID" />
@@ -1196,6 +1263,9 @@ warning 6002: The table/view 'KSBComplaint.dbo.Student' does not have a primary 
           <Property Name="CityID" Type="int" />
           <Property Name="AreaID" Type="int" />
           <Property Name="Code" Type="nvarchar" MaxLength="500" />
+          <Property Name="AreaIDRef" Type="int" />
+          <Property Name="AreaSrno" Type="int" />
+          <Property Name="DisplayFieldinArea" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="Sylabus">
           <Key>
@@ -1222,6 +1292,14 @@ warning 6002: The table/view 'KSBComplaint.dbo.Student' does not have a primary 
           <Property Name="Status" Type="bit" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="RegionID" Type="int" />
+        </EntityType>
+        <EntityType Name="Tbl_BillDistributionmultiselection">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="Tbl_ComplaintHistory">
           <Key>
@@ -1256,6 +1334,30 @@ warning 6002: The table/view 'KSBComplaint.dbo.Student' does not have a primary 
           <Property Name="Audio" Type="varchar" MaxLength="5000" />
           <Property Name="VideoDate" Type="datetime" />
           <Property Name="AudioDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TBL_Consumers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DDRID" Type="int" />
+          <Property Name="WardID" Type="int" />
+          <Property Name="AreaID" Type="int" />
+          <Property Name="ConsumerID" Type="int" />
+          <Property Name="ConsumerName" Type="varchar" MaxLength="500" />
+          <Property Name="F_Name" Type="varchar" MaxLength="500" />
+          <Property Name="CNIC" Type="int" />
+          <Property Name="Address" Type="varchar" MaxLength="500" />
+          <Property Name="AreaMarla" Type="int" />
+          <Property Name="ConnectionCode" Type="int" />
+          <Property Name="WalkSortNo" Type="int" />
+          <Property Name="MeterNo" Type="int" />
+          <Property Name="DigitCode" Type="int" />
+          <Property Name="AreaSerial" Type="int" />
+          <Property Name="StatusID" Type="int" />
+          <Property Name="Latitude" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="Longitude" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="ward_Digits" Type="int" />
         </EntityType>
         <EntityType Name="Tbl_FollowupReasons">
           <Key>
@@ -1297,6 +1399,26 @@ warning 6002: The table/view 'KSBComplaint.dbo.Student' does not have a primary 
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="Createdby" Type="int" />
         </EntityType>
+        <EntityType Name="TBL_MeterReadingLovs">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="500" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="Tbl_MeterredingMultiValues">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConsumerID" Type="int" />
+          <Property Name="MultiselectID" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="JobID" Type="int" />
+          <Property Name="Latitude" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="Longitude" Type="decimal" Precision="18" Scale="10" />
+        </EntityType>
         <EntityType Name="Tbl_RetailerClass">
           <Key>
             <PropertyRef Name="ID" />
@@ -1315,6 +1437,18 @@ warning 6002: The table/view 'KSBComplaint.dbo.Student' does not have a primary 
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
           <Property Name="CreatedBy" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TBL_RouteSelection">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SOID" Type="int" />
+          <Property Name="Createddate" Type="datetime" />
+          <Property Name="DDRID" Type="int" />
+          <Property Name="WardID" Type="int" />
+          <Property Name="AreaID" Type="int" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="Tbl_SchoolException">
           <Key>
@@ -1535,7 +1669,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.Student' does not have a primary 
           <Property Name="DateTo" Type="varchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'WasaBilling.dbo.vActiveJobs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vActiveJobs">
           <Key>
             <PropertyRef Name="TID" />
@@ -1682,6 +1816,42 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
             </Principal>
             <Dependent Role="Areas">
               <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDisMultiSelect_Tbl_BillDistributionmultiselection">
+          <End Role="Tbl_BillDistributionmultiselection" Type="Self.Tbl_BillDistributionmultiselection" Multiplicity="0..1" />
+          <End Role="BillDisMultiSelect" Type="Self.BillDisMultiSelect" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_BillDistributionmultiselection">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BillDisMultiSelect">
+              <PropertyRef Name="MultiselectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDispatchMultiSelectListOfConsumer_Retailers">
+          <End Role="Retailers" Type="Self.Retailers" Multiplicity="1" />
+          <End Role="BillDispatchMultiSelectListOfConsumer" Type="Self.BillDispatchMultiSelectListOfConsumer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Retailers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BillDispatchMultiSelectListOfConsumer">
+              <PropertyRef Name="RetailerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDispatchMultiSelectListOfConsumer_Tbl_BillDistributionmultiselection">
+          <End Role="Tbl_BillDistributionmultiselection" Type="Self.Tbl_BillDistributionmultiselection" Multiplicity="0..1" />
+          <End Role="BillDispatchMultiSelectListOfConsumer" Type="Self.BillDispatchMultiSelectListOfConsumer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_BillDistributionmultiselection">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BillDispatchMultiSelectListOfConsumer">
+              <PropertyRef Name="MultiselectID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2699,6 +2869,54 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TBL_RouteSelection_Areas">
+          <End Role="Areas" Type="Self.Areas" Multiplicity="0..1" />
+          <End Role="TBL_RouteSelection" Type="Self.TBL_RouteSelection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Areas">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_RouteSelection">
+              <PropertyRef Name="WardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_RouteSelection_Cities">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
+          <End Role="TBL_RouteSelection" Type="Self.TBL_RouteSelection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_RouteSelection">
+              <PropertyRef Name="DDRID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_RouteSelection_SaleOfficers">
+          <End Role="SaleOfficers" Type="Self.SaleOfficers" Multiplicity="0..1" />
+          <End Role="TBL_RouteSelection" Type="Self.TBL_RouteSelection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SaleOfficers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_RouteSelection">
+              <PropertyRef Name="SOID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_RouteSelection_SubDivision">
+          <End Role="SubDivision" Type="Self.SubDivision" Multiplicity="0..1" />
+          <End Role="TBL_RouteSelection" Type="Self.TBL_RouteSelection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubDivision">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_RouteSelection">
+              <PropertyRef Name="AreaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Tbl_SchoolException_SaleOfficers">
           <End Role="SaleOfficers" Type="Self.SaleOfficers" Multiplicity="1" />
           <End Role="Tbl_SchoolException" Type="Self.Tbl_SchoolException" Multiplicity="*" />
@@ -2949,6 +3167,23 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
         <Function Name="Sp_AbsentSOBarGraph" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="DateFrom" Type="date" Mode="In" />
           <Parameter Name="dateTo" Type="date" Mode="In" />
+        </Function>
+        <Function Name="Sp_BillDispatchMapView" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="saleofficerID" Type="int" Mode="In" />
+          <Parameter Name="dateFrom" Type="date" Mode="In" />
+          <Parameter Name="dateTo" Type="date" Mode="In" />
+        </Function>
+        <Function Name="Sp_BillDistributorDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StartingDate" Type="date" Mode="In" />
+          <Parameter Name="EndingDate" Type="date" Mode="In" />
+          <Parameter Name="DDRID" Type="int" Mode="In" />
+          <Parameter Name="AreaID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Sp_BillDistributorSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StartingDate" Type="date" Mode="In" />
+          <Parameter Name="EndingDate" Type="date" Mode="In" />
+          <Parameter Name="DDRID" Type="int" Mode="In" />
+          <Parameter Name="AreaID" Type="int" Mode="In" />
         </Function>
         <Function Name="Sp_CityMarketRetailerInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="date" Type="datetime" Mode="In" />
@@ -3272,6 +3507,17 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Parameter Name="SaleOfficerId" Type="int" Mode="In" />
           <Parameter Name="dealerId" Type="int" Mode="In" />
         </Function>
+        <Function Name="Sp_MeterReaderDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StartingDate" Type="date" Mode="In" />
+          <Parameter Name="EndingDate" Type="date" Mode="In" />
+          <Parameter Name="DDRID" Type="int" Mode="In" />
+          <Parameter Name="AreaID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Sp_MeterreadingMapView" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="saleofficerID" Type="int" Mode="In" />
+          <Parameter Name="dateFrom" Type="date" Mode="In" />
+          <Parameter Name="dateTo" Type="date" Mode="In" />
+        </Function>
         <Function Name="Sp_MyComplaintList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RegionID" Type="int" Mode="In" />
           <Parameter Name="dateFrom" Type="date" Mode="In" />
@@ -3293,6 +3539,11 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Parameter Name="dateTo" Type="date" Mode="In" />
         </Function>
         <Function Name="Sp_MyComplaintList1_4" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="Sp_MyComplaintList1.4">
+          <Parameter Name="RegionID" Type="int" Mode="In" />
+          <Parameter Name="dateFrom" Type="date" Mode="In" />
+          <Parameter Name="dateTo" Type="date" Mode="In" />
+        </Function>
+        <Function Name="Sp_MyComplaintList1_5" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="Sp_MyComplaintList1.5">
           <Parameter Name="RegionID" Type="int" Mode="In" />
           <Parameter Name="dateFrom" Type="date" Mode="In" />
           <Parameter Name="dateTo" Type="date" Mode="In" />
@@ -3826,6 +4077,8 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySet Name="AddSiteStatus" EntityType="Self.AddSiteStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AddStaffList" EntityType="Self.AddStaffList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Areas" EntityType="Self.Areas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BillDisMultiSelect" EntityType="Self.BillDisMultiSelect" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BillDispatchMultiSelectListOfConsumer" EntityType="Self.BillDispatchMultiSelectListOfConsumer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChatBox" EntityType="Self.ChatBox" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CityZone" EntityType="Self.CityZone" Schema="dbo" store:Type="Tables" />
@@ -3837,6 +4090,9 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySet Name="ComplaintPriority" EntityType="Self.ComplaintPriority" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComplaintStatus" EntityType="Self.ComplaintStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComplaintTypes" EntityType="Self.ComplaintTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConnectionTypes" EntityType="Self.ConnectionTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConsumerConnectionCodes" EntityType="Self.ConsumerConnectionCodes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConsumerStatusCode" EntityType="Self.ConsumerStatusCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DealerCityArea" EntityType="Self.DealerCityArea" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Dealers" EntityType="Self.Dealers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipChild" EntityType="Self.EquipChild" Schema="dbo" store:Type="Tables" />
@@ -3857,6 +4113,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySet Name="LoginHistories" EntityType="Self.LoginHistories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MainCategory" EntityType="Self.MainCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MultipleSiteVisits" EntityType="Self.MultipleSiteVisits" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NewConsumerData" EntityType="Self.NewConsumerData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NotificationSeen" EntityType="Self.NotificationSeen" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OneSignalUsers" EntityType="Self.OneSignalUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pages" EntityType="Self.Pages" Schema="dbo" store:Type="Tables" />
@@ -3888,12 +4145,17 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySet Name="SubDivision" EntityType="Self.SubDivision" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sylabus" EntityType="Self.Sylabus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_Access" EntityType="Self.Tbl_Access" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_BillDistributionmultiselection" EntityType="Self.Tbl_BillDistributionmultiselection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_ComplaintHistory" EntityType="Self.Tbl_ComplaintHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_Consumers" EntityType="Self.TBL_Consumers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_FollowupReasons" EntityType="Self.Tbl_FollowupReasons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_KsbVisits" EntityType="Self.TBL_KsbVisits" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_MasterStock" EntityType="Self.Tbl_MasterStock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_MeterReadingLovs" EntityType="Self.TBL_MeterReadingLovs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_MeterredingMultiValues" EntityType="Self.Tbl_MeterredingMultiValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_RetailerClass" EntityType="Self.Tbl_RetailerClass" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_RetailerType" EntityType="Self.Tbl_RetailerType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_RouteSelection" EntityType="Self.TBL_RouteSelection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_SchoolException" EntityType="Self.Tbl_SchoolException" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_SMSLogs" EntityType="Self.Tbl_SMSLogs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_SOREGIONS" EntityType="Self.Tbl_SOREGIONS" Schema="dbo" store:Type="Tables" />
@@ -4016,6 +4278,18 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <AssociationSet Name="FK_Areas_Cities" Association="Self.FK_Areas_Cities">
             <End Role="Cities" EntitySet="Cities" />
             <End Role="Areas" EntitySet="Areas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDisMultiSelect_Tbl_BillDistributionmultiselection" Association="Self.FK_BillDisMultiSelect_Tbl_BillDistributionmultiselection">
+            <End Role="Tbl_BillDistributionmultiselection" EntitySet="Tbl_BillDistributionmultiselection" />
+            <End Role="BillDisMultiSelect" EntitySet="BillDisMultiSelect" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDispatchMultiSelectListOfConsumer_Retailers" Association="Self.FK_BillDispatchMultiSelectListOfConsumer_Retailers">
+            <End Role="Retailers" EntitySet="Retailers" />
+            <End Role="BillDispatchMultiSelectListOfConsumer" EntitySet="BillDispatchMultiSelectListOfConsumer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDispatchMultiSelectListOfConsumer_Tbl_BillDistributionmultiselection" Association="Self.FK_BillDispatchMultiSelectListOfConsumer_Tbl_BillDistributionmultiselection">
+            <End Role="Tbl_BillDistributionmultiselection" EntitySet="Tbl_BillDistributionmultiselection" />
+            <End Role="BillDispatchMultiSelectListOfConsumer" EntitySet="BillDispatchMultiSelectListOfConsumer" />
           </AssociationSet>
           <AssociationSet Name="FK_ChatBox_Jobs" Association="Self.FK_ChatBox_Jobs">
             <End Role="Jobs" EntitySet="Jobs" />
@@ -4352,6 +4626,22 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <AssociationSet Name="FK_Tbl_MasterStock_SaleOfficers" Association="Self.FK_Tbl_MasterStock_SaleOfficers">
             <End Role="SaleOfficers" EntitySet="SaleOfficers" />
             <End Role="Tbl_MasterStock" EntitySet="Tbl_MasterStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_RouteSelection_Areas" Association="Self.FK_TBL_RouteSelection_Areas">
+            <End Role="Areas" EntitySet="Areas" />
+            <End Role="TBL_RouteSelection" EntitySet="TBL_RouteSelection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_RouteSelection_Cities" Association="Self.FK_TBL_RouteSelection_Cities">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="TBL_RouteSelection" EntitySet="TBL_RouteSelection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_RouteSelection_SaleOfficers" Association="Self.FK_TBL_RouteSelection_SaleOfficers">
+            <End Role="SaleOfficers" EntitySet="SaleOfficers" />
+            <End Role="TBL_RouteSelection" EntitySet="TBL_RouteSelection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_RouteSelection_SubDivision" Association="Self.FK_TBL_RouteSelection_SubDivision">
+            <End Role="SubDivision" EntitySet="SubDivision" />
+            <End Role="TBL_RouteSelection" EntitySet="TBL_RouteSelection" />
           </AssociationSet>
           <AssociationSet Name="FK_Tbl_SchoolException_SaleOfficers" Association="Self.FK_Tbl_SchoolException_SaleOfficers">
             <End Role="SaleOfficers" EntitySet="SaleOfficers" />
@@ -6041,7 +6331,79 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
             <Parameter Name="dateTo" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="Sp_GetProgressView1_3" ReturnType="Collection(FOS_WallCoatModel.Sp_GetProgressView1_3_Result)">
-            <Parameter Name="StockID" Mode="In" Type="Int32" />
+          <Parameter Name="StockID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_MyComplaintList1_5" ReturnType="Collection(FOS_WallCoatModel.Sp_MyComplaintList1_5_Result)">
+            <Parameter Name="RegionID" Mode="In" Type="Int32" />
+            <Parameter Name="dateFrom" Mode="In" Type="DateTime" />
+            <Parameter Name="dateTo" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="ConnectionTypes" EntityType="FOS_WallCoatModel.ConnectionType" />
+          <EntitySet Name="Tbl_BillDistributionmultiselection" EntityType="FOS_WallCoatModel.Tbl_BillDistributionmultiselection" />
+          <EntitySet Name="TBL_RouteSelection" EntityType="FOS_WallCoatModel.TBL_RouteSelection" />
+          <AssociationSet Name="FK_TBL_RouteSelection_Areas" Association="FOS_WallCoatModel.FK_TBL_RouteSelection_Areas">
+            <End Role="Area" EntitySet="Areas" />
+            <End Role="TBL_RouteSelection" EntitySet="TBL_RouteSelection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_RouteSelection_Cities" Association="FOS_WallCoatModel.FK_TBL_RouteSelection_Cities">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="TBL_RouteSelection" EntitySet="TBL_RouteSelection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_RouteSelection_SaleOfficers" Association="FOS_WallCoatModel.FK_TBL_RouteSelection_SaleOfficers">
+            <End Role="SaleOfficer" EntitySet="SaleOfficers" />
+            <End Role="TBL_RouteSelection" EntitySet="TBL_RouteSelection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_RouteSelection_SubDivision" Association="FOS_WallCoatModel.FK_TBL_RouteSelection_SubDivision">
+            <End Role="SubDivision" EntitySet="SubDivisions" />
+            <End Role="TBL_RouteSelection" EntitySet="TBL_RouteSelection" />
+          </AssociationSet>
+          <FunctionImport Name="Sp_MeterreadingMapView" ReturnType="Collection(FOS_WallCoatModel.Sp_MeterreadingMapView_Result)">
+            <Parameter Name="saleofficerID" Mode="In" Type="Int32" />
+            <Parameter Name="dateFrom" Mode="In" Type="DateTime" />
+            <Parameter Name="dateTo" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="BillDisMultiSelects" EntityType="FOS_WallCoatModel.BillDisMultiSelect" />
+          <AssociationSet Name="FK_BillDisMultiSelect_Tbl_BillDistributionmultiselection" Association="FOS_WallCoatModel.FK_BillDisMultiSelect_Tbl_BillDistributionmultiselection">
+            <End Role="Tbl_BillDistributionmultiselection" EntitySet="Tbl_BillDistributionmultiselection" />
+            <End Role="BillDisMultiSelect" EntitySet="BillDisMultiSelects" />
+          </AssociationSet>
+          <EntitySet Name="NewConsumerDatas" EntityType="FOS_WallCoatModel.NewConsumerData" />
+          <EntitySet Name="TBL_Consumers" EntityType="FOS_WallCoatModel.TBL_Consumers" />
+          <EntitySet Name="BillDispatchMultiSelectListOfConsumers" EntityType="FOS_WallCoatModel.BillDispatchMultiSelectListOfConsumer" />
+          <EntitySet Name="ConsumerConnectionCodes" EntityType="FOS_WallCoatModel.ConsumerConnectionCode" />
+          <EntitySet Name="ConsumerStatusCodes" EntityType="FOS_WallCoatModel.ConsumerStatusCode" />
+          <AssociationSet Name="FK_BillDispatchMultiSelectListOfConsumer_Retailers" Association="FOS_WallCoatModel.FK_BillDispatchMultiSelectListOfConsumer_Retailers">
+            <End Role="Retailer" EntitySet="Retailers" />
+            <End Role="BillDispatchMultiSelectListOfConsumer" EntitySet="BillDispatchMultiSelectListOfConsumers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDispatchMultiSelectListOfConsumer_Tbl_BillDistributionmultiselection" Association="FOS_WallCoatModel.FK_BillDispatchMultiSelectListOfConsumer_Tbl_BillDistributionmultiselection">
+            <End Role="Tbl_BillDistributionmultiselection" EntitySet="Tbl_BillDistributionmultiselection" />
+            <End Role="BillDispatchMultiSelectListOfConsumer" EntitySet="BillDispatchMultiSelectListOfConsumers" />
+          </AssociationSet>
+          <EntitySet Name="TBL_MeterReadingLovs" EntityType="FOS_WallCoatModel.TBL_MeterReadingLovs" />
+          <EntitySet Name="Tbl_MeterredingMultiValues" EntityType="FOS_WallCoatModel.Tbl_MeterredingMultiValues" />
+          <FunctionImport Name="Sp_BillDistributorSummary" ReturnType="Collection(FOS_WallCoatModel.Sp_BillDistributorSummary_Result)">
+            <Parameter Name="StartingDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndingDate" Mode="In" Type="DateTime" />
+            <Parameter Name="DDRID" Mode="In" Type="Int32" />
+            <Parameter Name="AreaID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_BillDispatchMapView" ReturnType="Collection(FOS_WallCoatModel.Sp_BillDispatchMapView_Result)">
+            <Parameter Name="saleofficerID" Mode="In" Type="Int32" />
+            <Parameter Name="dateFrom" Mode="In" Type="DateTime" />
+            <Parameter Name="dateTo" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_MeterReaderDetail" ReturnType="Collection(FOS_WallCoatModel.Sp_MeterReaderDetail_Result)">
+            <Parameter Name="StartingDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndingDate" Mode="In" Type="DateTime" />
+            <Parameter Name="DDRID" Mode="In" Type="Int32" />
+            <Parameter Name="AreaID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_BillDistributorDetail" ReturnType="Collection(FOS_WallCoatModel.Sp_BillDistributorDetail_Result)">
+            <Parameter Name="StartingDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndingDate" Mode="In" Type="DateTime" />
+            <Parameter Name="DDRID" Mode="In" Type="Int32" />
+            <Parameter Name="AreaID" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="AreasRelatedtoCities_Result">
@@ -6406,6 +6768,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <NavigationProperty Name="SubDivisions" Relationship="FOS_WallCoatModel.FK_SubDivision_Areas" FromRole="Area" ToRole="SubDivision" />
           <NavigationProperty Name="SaleOfficers" Relationship="FOS_WallCoatModel.SaleOfficerAreas" FromRole="Area" ToRole="SaleOfficer" />
           <NavigationProperty Name="JobsDetails" Relationship="FOS_WallCoatModel.FK_JobsDetail_Areas" FromRole="Area" ToRole="JobsDetail" />
+          <NavigationProperty Name="TBL_RouteSelection" Relationship="FOS_WallCoatModel.FK_TBL_RouteSelection_Areas" FromRole="Area" ToRole="TBL_RouteSelection" />
         </EntityType>
         <EntityType Name="City">
           <Key>
@@ -6431,6 +6794,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Property Name="ZoneId" Type="Int32" />
           <NavigationProperty Name="SubDivisions" Relationship="FOS_WallCoatModel.FK_SubDivision_Cities" FromRole="City" ToRole="SubDivision" />
           <NavigationProperty Name="SaleOfficers" Relationship="FOS_WallCoatModel.FK_SaleOfficers_Cities" FromRole="City" ToRole="SaleOfficer" />
+          <NavigationProperty Name="TBL_RouteSelection" Relationship="FOS_WallCoatModel.FK_TBL_RouteSelection_Cities" FromRole="City" ToRole="TBL_RouteSelection" />
         </EntityType>
         <EntityType Name="CityZone">
           <Key>
@@ -7855,6 +8219,9 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <NavigationProperty Name="AddSiteStatus" Relationship="FOS_WallCoatModel.FK_AddSiteStatus_Retailers" FromRole="Retailer" ToRole="AddSiteStatu" />
           <NavigationProperty Name="AddStaffLists" Relationship="FOS_WallCoatModel.FK_AddStaffList_Retailers" FromRole="Retailer" ToRole="AddStaffList" />
           <Property Name="ProjectCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SearchCode" Type="Int32" />
+          <Property Name="ConnectionTypeID" Type="Int32" />
+          <NavigationProperty Name="BillDispatchMultiSelectListOfConsumers" Relationship="FOS_WallCoatModel.FK_BillDispatchMultiSelectListOfConsumer_Retailers" FromRole="Retailer" ToRole="BillDispatchMultiSelectListOfConsumer" />
         </EntityType>
         <Association Name="FK_Retailers_Areas">
           <End Type="FOS_WallCoatModel.Area" Role="Area" Multiplicity="0..1" />
@@ -9116,6 +9483,10 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Property Name="Code" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Area" Relationship="FOS_WallCoatModel.FK_SubDivision_Areas" FromRole="SubDivision" ToRole="Area" />
           <NavigationProperty Name="City" Relationship="FOS_WallCoatModel.FK_SubDivision_Cities" FromRole="SubDivision" ToRole="City" />
+          <NavigationProperty Name="TBL_RouteSelection" Relationship="FOS_WallCoatModel.FK_TBL_RouteSelection_SubDivision" FromRole="SubDivision" ToRole="TBL_RouteSelection" />
+          <Property Name="AreaIDRef" Type="Int32" />
+          <Property Name="AreaSrno" Type="Int32" />
+          <Property Name="DisplayFieldinArea" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <ComplexType Name="Sp_GetComplaintDetails_Result">
           <Property Type="Int32" Name="ProgressStatusID" Nullable="true" />
@@ -9749,6 +10120,8 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <NavigationProperty Name="OneSignalUsers" Relationship="FOS_WallCoatModel.FK_OneSignalUsers_SaleOfficers" FromRole="SaleOfficer" ToRole="OneSignalUser" />
           <Property Name="IMEI" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="AppUserWasaOrKSB" Type="Int32" />
+          <NavigationProperty Name="TBL_RouteSelection" Relationship="FOS_WallCoatModel.FK_TBL_RouteSelection_SaleOfficers" FromRole="SaleOfficer" ToRole="TBL_RouteSelection" />
+          <Property Name="Type" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_AccessLog_SaleOfficers">
           <End Type="FOS_WallCoatModel.SaleOfficer" Role="SaleOfficer" Multiplicity="1" />
@@ -10133,6 +10506,15 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Property Name="Audio" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
           <Property Name="VideoDate" Type="DateTime" Precision="3" />
           <Property Name="AudioDate" Type="DateTime" Precision="3" />
+          <Property Name="IsbillDistributrd" Type="Boolean" />
+          <Property Name="BillDistributionTime" Type="DateTime" Precision="3" />
+          <Property Name="MeterReadingValue" Type="Int32" />
+          <Property Name="MeterReadingDate" Type="DateTime" Precision="3" />
+          <Property Name="LatitudeForBillDistribution" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="LongitudeForBillDistribution" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="LatitudeForMeterreading" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="LongitudeForMeterreading" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="ConsumerID" Type="Int32" />
         </EntityType>
         <Association Name="FK_JobsDetail_Areas">
           <End Type="FOS_WallCoatModel.Area" Role="Area" Multiplicity="0..1" />
@@ -11479,6 +11861,282 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <Property Type="String" Name="FaultTypeDetailOtherRemarks" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="faultTypeDetailRemarks" Nullable="true" MaxLength="500" />
           <Property Type="Int32" Name="ispublished" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Sp_MyComplaintList1_5_Result">
+          <Property Type="Int32" Name="ComplaintID" Nullable="true" />
+          <Property Type="String" Name="TicketNo" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="LaunchDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="SiteName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="SiteID" Nullable="true" />
+          <Property Type="String" Name="SiteCode" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ComplaintStatusId" Nullable="true" />
+          <Property Type="String" Name="StatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="InitialRemarks" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="FaulttypeName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FaulttypedetailName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LaunchedByName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProgressStatusRemarks" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ProgressStatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="faulttypedetailremarks" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="LaunchedById" Nullable="true" />
+          <Property Type="Int32" Name="progressstatusid" Nullable="true" />
+          <Property Type="DateTime" Name="historydate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Projectid" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="ConnectionType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConnectionTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Tbl_BillDistributionmultiselection">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="BillDisMultiSelects" Relationship="FOS_WallCoatModel.FK_BillDisMultiSelect_Tbl_BillDistributionmultiselection" FromRole="Tbl_BillDistributionmultiselection" ToRole="BillDisMultiSelect" />
+          <NavigationProperty Name="BillDispatchMultiSelectListOfConsumers" Relationship="FOS_WallCoatModel.FK_BillDispatchMultiSelectListOfConsumer_Tbl_BillDistributionmultiselection" FromRole="Tbl_BillDistributionmultiselection" ToRole="BillDispatchMultiSelectListOfConsumer" />
+        </EntityType>
+        <EntityType Name="TBL_RouteSelection">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SOID" Type="Int32" />
+          <Property Name="Createddate" Type="DateTime" Precision="3" />
+          <Property Name="DDRID" Type="Int32" />
+          <Property Name="WardID" Type="Int32" />
+          <Property Name="AreaID" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Area" Relationship="FOS_WallCoatModel.FK_TBL_RouteSelection_Areas" FromRole="TBL_RouteSelection" ToRole="Area" />
+          <NavigationProperty Name="City" Relationship="FOS_WallCoatModel.FK_TBL_RouteSelection_Cities" FromRole="TBL_RouteSelection" ToRole="City" />
+          <NavigationProperty Name="SaleOfficer" Relationship="FOS_WallCoatModel.FK_TBL_RouteSelection_SaleOfficers" FromRole="TBL_RouteSelection" ToRole="SaleOfficer" />
+          <NavigationProperty Name="SubDivision" Relationship="FOS_WallCoatModel.FK_TBL_RouteSelection_SubDivision" FromRole="TBL_RouteSelection" ToRole="SubDivision" />
+        </EntityType>
+        <Association Name="FK_TBL_RouteSelection_Areas">
+          <End Type="FOS_WallCoatModel.Area" Role="Area" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.TBL_RouteSelection" Role="TBL_RouteSelection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Area">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_RouteSelection">
+              <PropertyRef Name="WardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_RouteSelection_Cities">
+          <End Type="FOS_WallCoatModel.City" Role="City" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.TBL_RouteSelection" Role="TBL_RouteSelection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_RouteSelection">
+              <PropertyRef Name="DDRID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_RouteSelection_SaleOfficers">
+          <End Type="FOS_WallCoatModel.SaleOfficer" Role="SaleOfficer" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.TBL_RouteSelection" Role="TBL_RouteSelection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SaleOfficer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_RouteSelection">
+              <PropertyRef Name="SOID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_RouteSelection_SubDivision">
+          <End Type="FOS_WallCoatModel.SubDivision" Role="SubDivision" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.TBL_RouteSelection" Role="TBL_RouteSelection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubDivision">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_RouteSelection">
+              <PropertyRef Name="AreaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="Sp_MeterreadingMapView_Result">
+          <Property Type="DateTime" Name="VisitDate" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="Lattitude" Nullable="true" Precision="18" Scale="10" />
+          <Property Type="Decimal" Name="LongitudeForMeterreading" Nullable="true" Precision="18" Scale="10" />
+          <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <EntityType Name="BillDisMultiSelect">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConsumerID" Type="Int32" />
+          <Property Name="MultiselectID" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Tbl_BillDistributionmultiselection" Relationship="FOS_WallCoatModel.FK_BillDisMultiSelect_Tbl_BillDistributionmultiselection" FromRole="BillDisMultiSelect" ToRole="Tbl_BillDistributionmultiselection" />
+          <Property Name="JobID" Type="Int32" />
+          <Property Name="Latitude" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="Longitude" Type="Decimal" Precision="18" Scale="10" />
+        </EntityType>
+        <Association Name="FK_BillDisMultiSelect_Tbl_BillDistributionmultiselection">
+          <End Type="FOS_WallCoatModel.Tbl_BillDistributionmultiselection" Role="Tbl_BillDistributionmultiselection" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.BillDisMultiSelect" Role="BillDisMultiSelect" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_BillDistributionmultiselection">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BillDisMultiSelect">
+              <PropertyRef Name="MultiselectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="NewConsumerData">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RetailerID" Type="Int32" />
+          <Property Name="ConnectionTypeId" Type="Int32" />
+          <Property Name="Marla" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="TBL_Consumers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DDRID" Type="Int32" />
+          <Property Name="WardID" Type="Int32" />
+          <Property Name="AreaID" Type="Int32" />
+          <Property Name="ConsumerID" Type="Int32" />
+          <Property Name="ConsumerName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="F_Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CNIC" Type="Int32" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="AreaMarla" Type="Int32" />
+          <Property Name="ConnectionCode" Type="Int32" />
+          <Property Name="WalkSortNo" Type="Int32" />
+          <Property Name="MeterNo" Type="Int32" />
+          <Property Name="DigitCode" Type="Int32" />
+          <Property Name="AreaSerial" Type="Int32" />
+          <Property Name="StatusID" Type="Int32" />
+          <Property Name="Latitude" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="Longitude" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="ward_Digits" Type="Int32" />
+        </EntityType>
+        <EntityType Name="BillDispatchMultiSelectListOfConsumer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="RetailerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MultiselectID" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Retailer" Relationship="FOS_WallCoatModel.FK_BillDispatchMultiSelectListOfConsumer_Retailers" FromRole="BillDispatchMultiSelectListOfConsumer" ToRole="Retailer" />
+          <NavigationProperty Name="Tbl_BillDistributionmultiselection" Relationship="FOS_WallCoatModel.FK_BillDispatchMultiSelectListOfConsumer_Tbl_BillDistributionmultiselection" FromRole="BillDispatchMultiSelectListOfConsumer" ToRole="Tbl_BillDistributionmultiselection" />
+        </EntityType>
+        <EntityType Name="ConsumerConnectionCode">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="ConsumerStatusCode">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_BillDispatchMultiSelectListOfConsumer_Retailers">
+          <End Type="FOS_WallCoatModel.Retailer" Role="Retailer" Multiplicity="1" />
+          <End Type="FOS_WallCoatModel.BillDispatchMultiSelectListOfConsumer" Role="BillDispatchMultiSelectListOfConsumer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Retailer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BillDispatchMultiSelectListOfConsumer">
+              <PropertyRef Name="RetailerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDispatchMultiSelectListOfConsumer_Tbl_BillDistributionmultiselection">
+          <End Type="FOS_WallCoatModel.Tbl_BillDistributionmultiselection" Role="Tbl_BillDistributionmultiselection" Multiplicity="0..1" />
+          <End Type="FOS_WallCoatModel.BillDispatchMultiSelectListOfConsumer" Role="BillDispatchMultiSelectListOfConsumer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_BillDistributionmultiselection">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BillDispatchMultiSelectListOfConsumer">
+              <PropertyRef Name="MultiselectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TBL_MeterReadingLovs">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Tbl_MeterredingMultiValues">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConsumerID" Type="Int32" />
+          <Property Name="MultiselectID" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="JobID" Type="Int32" />
+          <Property Name="Latitude" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="Longitude" Type="Decimal" Precision="18" Scale="10" />
+        </EntityType>
+        <ComplexType Name="Sp_BillDistributorSummary_Result">
+          <Property Type="String" Name="SOName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TotalBills" Nullable="true" />
+          <Property Type="Int32" Name="Normal" Nullable="true" />
+          <Property Type="Int32" Name="NewConsumer" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Sp_BillDispatchMapView_Result">
+          <Property Type="DateTime" Name="VisitDate" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="Lattitude" Nullable="true" Precision="18" Scale="10" />
+          <Property Type="Decimal" Name="LongitudeForBillDistribution" Nullable="true" Precision="18" Scale="10" />
+          <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="Multiselectid" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Sp_MeterReaderDetail_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="SOName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="consumername" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="Consumerid" Nullable="true" />
+          <Property Type="String" Name="Address" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="AreaMarla" Nullable="true" />
+          <Property Type="String" Name="DDR" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="Ward" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="MultiSelectOption" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="createdon" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="Sp_BillDistributorDetail_Result">
+          <Property Type="String" Name="SOName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="consumername" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="Consumerid" Nullable="true" />
+          <Property Type="String" Name="Address" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="AreaMarla" Nullable="true" />
+          <Property Type="String" Name="DDR" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="Ward" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="MultiSelectOption" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="createdon" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -12870,6 +13528,8 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySetMapping Name="Retailers">
             <EntityTypeMapping TypeName="FOS_WallCoatModel.Retailer">
               <MappingFragment StoreEntitySet="Retailers">
+                <ScalarProperty Name="ConnectionTypeID" ColumnName="ConnectionTypeID" />
+                <ScalarProperty Name="SearchCode" ColumnName="SearchCode" />
                 <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
                 <ScalarProperty Name="Year_of_In" ColumnName="Year_of_In" />
                 <ScalarProperty Name="SWL" ColumnName="SWL" />
@@ -14179,6 +14839,9 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySetMapping Name="SubDivisions">
             <EntityTypeMapping TypeName="FOS_WallCoatModel.SubDivision">
               <MappingFragment StoreEntitySet="SubDivision">
+                <ScalarProperty Name="DisplayFieldinArea" ColumnName="DisplayFieldinArea" />
+                <ScalarProperty Name="AreaSrno" ColumnName="AreaSrno" />
+                <ScalarProperty Name="AreaIDRef" ColumnName="AreaIDRef" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="AreaID" ColumnName="AreaID" />
                 <ScalarProperty Name="CityID" ColumnName="CityID" />
@@ -14862,6 +15525,7 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySetMapping Name="SaleOfficers">
             <EntityTypeMapping TypeName="FOS_WallCoatModel.SaleOfficer">
               <MappingFragment StoreEntitySet="SaleOfficers">
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="AppUserWasaOrKSB" ColumnName="AppUserWasaOrKSB" />
                 <ScalarProperty Name="IMEI" ColumnName="IMEI" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
@@ -15037,6 +15701,15 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
           <EntitySetMapping Name="JobsDetails">
             <EntityTypeMapping TypeName="FOS_WallCoatModel.JobsDetail">
               <MappingFragment StoreEntitySet="JobsDetail">
+                <ScalarProperty Name="ConsumerID" ColumnName="ConsumerID" />
+                <ScalarProperty Name="LongitudeForMeterreading" ColumnName="LongitudeForMeterreading" />
+                <ScalarProperty Name="LatitudeForMeterreading" ColumnName="LatitudeForMeterreading" />
+                <ScalarProperty Name="LongitudeForBillDistribution" ColumnName="LongitudeForBillDistribution" />
+                <ScalarProperty Name="LatitudeForBillDistribution" ColumnName="LatitudeForBillDistribution" />
+                <ScalarProperty Name="MeterReadingDate" ColumnName="MeterReadingDate" />
+                <ScalarProperty Name="MeterReadingValue" ColumnName="MeterReadingValue" />
+                <ScalarProperty Name="BillDistributionTime" ColumnName="BillDistributionTime" />
+                <ScalarProperty Name="IsbillDistributrd" ColumnName="IsbillDistributrd" />
                 <ScalarProperty Name="AudioDate" ColumnName="AudioDate" />
                 <ScalarProperty Name="VideoDate" ColumnName="VideoDate" />
                 <ScalarProperty Name="Audio" ColumnName="Audio" />
@@ -16010,6 +16683,224 @@ warning 6002: The table/view 'KSBComplaint.dbo.vActiveJobs' does not have a prim
                 <ScalarProperty Name="FaultTypeDetailOtherRemarks" ColumnName="FaultTypeDetailOtherRemarks" />
                 <ScalarProperty Name="faultTypeDetailRemarks" ColumnName="faultTypeDetailRemarks" />
                 <ScalarProperty Name="ispublished" ColumnName="ispublished" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_MyComplaintList1_5" FunctionName="FOS_WallCoatModel.Store.Sp_MyComplaintList1_5">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_MyComplaintList1_5_Result">
+                <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
+                <ScalarProperty Name="TicketNo" ColumnName="TicketNo" />
+                <ScalarProperty Name="LaunchDate" ColumnName="LaunchDate" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+                <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
+                <ScalarProperty Name="ComplaintStatusId" ColumnName="ComplaintStatusId" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="InitialRemarks" ColumnName="InitialRemarks" />
+                <ScalarProperty Name="FaulttypeName" ColumnName="FaulttypeName" />
+                <ScalarProperty Name="FaulttypedetailName" ColumnName="FaulttypedetailName" />
+                <ScalarProperty Name="LaunchedByName" ColumnName="LaunchedByName" />
+                <ScalarProperty Name="ProgressStatusRemarks" ColumnName="ProgressStatusRemarks" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ProgressStatusName" ColumnName="ProgressStatusName" />
+                <ScalarProperty Name="faulttypedetailremarks" ColumnName="faulttypedetailremarks" />
+                <ScalarProperty Name="LaunchedById" ColumnName="LaunchedById" />
+                <ScalarProperty Name="progressstatusid" ColumnName="progressstatusid" />
+                <ScalarProperty Name="historydate" ColumnName="historydate" />
+                <ScalarProperty Name="Projectid" ColumnName="Projectid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="ConnectionTypes">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.ConnectionType">
+              <MappingFragment StoreEntitySet="ConnectionTypes">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ConnectionTypeName" ColumnName="ConnectionTypeName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_BillDistributionmultiselection">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.Tbl_BillDistributionmultiselection">
+              <MappingFragment StoreEntitySet="Tbl_BillDistributionmultiselection">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_RouteSelection">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.TBL_RouteSelection">
+              <MappingFragment StoreEntitySet="TBL_RouteSelection">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="AreaID" ColumnName="AreaID" />
+                <ScalarProperty Name="WardID" ColumnName="WardID" />
+                <ScalarProperty Name="DDRID" ColumnName="DDRID" />
+                <ScalarProperty Name="Createddate" ColumnName="Createddate" />
+                <ScalarProperty Name="SOID" ColumnName="SOID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_MeterreadingMapView" FunctionName="FOS_WallCoatModel.Store.Sp_MeterreadingMapView">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_MeterreadingMapView_Result">
+                <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
+                <ScalarProperty Name="Lattitude" ColumnName="Lattitude" />
+                <ScalarProperty Name="LongitudeForMeterreading" ColumnName="LongitudeForMeterreading" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="BillDisMultiSelects">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.BillDisMultiSelect">
+              <MappingFragment StoreEntitySet="BillDisMultiSelect">
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="MultiselectID" ColumnName="MultiselectID" />
+                <ScalarProperty Name="ConsumerID" ColumnName="ConsumerID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NewConsumerDatas">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.NewConsumerData">
+              <MappingFragment StoreEntitySet="NewConsumerData">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Marla" ColumnName="Marla" />
+                <ScalarProperty Name="ConnectionTypeId" ColumnName="ConnectionTypeId" />
+                <ScalarProperty Name="RetailerID" ColumnName="RetailerID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_Consumers">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.TBL_Consumers">
+              <MappingFragment StoreEntitySet="TBL_Consumers">
+                <ScalarProperty Name="ward_Digits" ColumnName="ward_Digits" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="AreaSerial" ColumnName="AreaSerial" />
+                <ScalarProperty Name="DigitCode" ColumnName="DigitCode" />
+                <ScalarProperty Name="MeterNo" ColumnName="MeterNo" />
+                <ScalarProperty Name="WalkSortNo" ColumnName="WalkSortNo" />
+                <ScalarProperty Name="ConnectionCode" ColumnName="ConnectionCode" />
+                <ScalarProperty Name="AreaMarla" ColumnName="AreaMarla" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="CNIC" ColumnName="CNIC" />
+                <ScalarProperty Name="F_Name" ColumnName="F_Name" />
+                <ScalarProperty Name="ConsumerName" ColumnName="ConsumerName" />
+                <ScalarProperty Name="ConsumerID" ColumnName="ConsumerID" />
+                <ScalarProperty Name="AreaID" ColumnName="AreaID" />
+                <ScalarProperty Name="WardID" ColumnName="WardID" />
+                <ScalarProperty Name="DDRID" ColumnName="DDRID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillDispatchMultiSelectListOfConsumers">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.BillDispatchMultiSelectListOfConsumer">
+              <MappingFragment StoreEntitySet="BillDispatchMultiSelectListOfConsumer">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="MultiselectID" ColumnName="MultiselectID" />
+                <ScalarProperty Name="RetailerID" ColumnName="RetailerID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConsumerConnectionCodes">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.ConsumerConnectionCode">
+              <MappingFragment StoreEntitySet="ConsumerConnectionCodes">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConsumerStatusCodes">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.ConsumerStatusCode">
+              <MappingFragment StoreEntitySet="ConsumerStatusCode">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_MeterReadingLovs">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.TBL_MeterReadingLovs">
+              <MappingFragment StoreEntitySet="TBL_MeterReadingLovs">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_MeterredingMultiValues">
+            <EntityTypeMapping TypeName="FOS_WallCoatModel.Tbl_MeterredingMultiValues">
+              <MappingFragment StoreEntitySet="Tbl_MeterredingMultiValues">
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="MultiselectID" ColumnName="MultiselectID" />
+                <ScalarProperty Name="ConsumerID" ColumnName="ConsumerID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_BillDistributorSummary" FunctionName="FOS_WallCoatModel.Store.Sp_BillDistributorSummary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_BillDistributorSummary_Result">
+                <ScalarProperty Name="SOName" ColumnName="SOName" />
+                <ScalarProperty Name="TotalBills" ColumnName="TotalBills" />
+                <ScalarProperty Name="Normal" ColumnName="Normal" />
+                <ScalarProperty Name="NewConsumer" ColumnName="NewConsumer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_BillDispatchMapView" FunctionName="FOS_WallCoatModel.Store.Sp_BillDispatchMapView">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_BillDispatchMapView_Result">
+                <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
+                <ScalarProperty Name="Lattitude" ColumnName="Lattitude" />
+                <ScalarProperty Name="LongitudeForBillDistribution" ColumnName="LongitudeForBillDistribution" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Multiselectid" ColumnName="Multiselectid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_MeterReaderDetail" FunctionName="FOS_WallCoatModel.Store.Sp_MeterReaderDetail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_MeterReaderDetail_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="SOName" ColumnName="SOName" />
+                <ScalarProperty Name="consumername" ColumnName="consumername" />
+                <ScalarProperty Name="Consumerid" ColumnName="Consumerid" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="AreaMarla" ColumnName="AreaMarla" />
+                <ScalarProperty Name="DDR" ColumnName="DDR" />
+                <ScalarProperty Name="Ward" ColumnName="Ward" />
+                <ScalarProperty Name="MultiSelectOption" ColumnName="MultiSelectOption" />
+                <ScalarProperty Name="createdon" ColumnName="createdon" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_BillDistributorDetail" FunctionName="FOS_WallCoatModel.Store.Sp_BillDistributorDetail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FOS_WallCoatModel.Sp_BillDistributorDetail_Result">
+                <ScalarProperty Name="SOName" ColumnName="SOName" />
+                <ScalarProperty Name="consumername" ColumnName="consumername" />
+                <ScalarProperty Name="Consumerid" ColumnName="Consumerid" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="AreaMarla" ColumnName="AreaMarla" />
+                <ScalarProperty Name="DDR" ColumnName="DDR" />
+                <ScalarProperty Name="Ward" ColumnName="Ward" />
+                <ScalarProperty Name="MultiSelectOption" ColumnName="MultiSelectOption" />
+                <ScalarProperty Name="createdon" ColumnName="createdon" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

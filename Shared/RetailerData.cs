@@ -49,6 +49,8 @@ namespace FOS.Shared
 
         [DisplayName("Sales Officer *")]
         public int SaleOfficerID { get; set; }
+        public int TotalConsumers { get; set; }
+        public int? MultiSelectID { get; set; }
 
         [DisplayName("Sale Officer Name *")]
         public string SaleOfficerName { get; set; }
@@ -69,7 +71,9 @@ namespace FOS.Shared
         public string Location { get; set; }
         public decimal? Latitude { get; set; }
         public decimal? Longitude { get; set; }
-       
+        public string LocationForMultiselect { get; set; }
+        public decimal? LatitudeForMultiselect { get; set; }
+        public decimal? LongitudeForMultiselect { get; set; }
         public string LocationName { get; set; }
 
         [DisplayName("Shop Margin *")]
@@ -86,7 +90,7 @@ namespace FOS.Shared
         public string Market { get; set; }
         public string ZoneName { get; set; }
 
-        public int ClientID { get; set; }
+        public int? ClientID { get; set; }
         public int? RegionID { get; set; }
         public int? ZoneID { get; set; }
         [DisplayName("Region Name *")]

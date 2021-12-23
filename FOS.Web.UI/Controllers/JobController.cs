@@ -685,6 +685,19 @@ namespace FOS.Web.UI.Controllers
             var result = FOS.Setup.ManageJobs.GetAllSaleOfficerSelectOption(regionalHeadId);
             return Json(result);
         }
+
+
+        public JsonResult GetAllWardsSelectOption(int regionalHeadId)
+        {
+            var result = FOS.Setup.ManageJobs.GetAllWardsSelectOption(regionalHeadId);
+            return Json(result);
+        }
+
+        public JsonResult GetAllSubdivSelectOption(int regionalHeadId, int WardID)
+        {
+            var result = FOS.Setup.ManageJobs.GetAllSubDivSelectOption(regionalHeadId, WardID);
+            return Json(result);
+        }
         public JsonResult GetAllSaleOfficerListByRegHeadId(int RegionalHeadID)
         {
             var result = FOS.Setup.ManageSaleOffice.GetSaleOfficerByRegionalHeadID(RegionalHeadID, true, true);

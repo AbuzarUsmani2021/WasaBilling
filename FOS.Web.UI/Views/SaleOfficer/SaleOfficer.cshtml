@@ -197,7 +197,7 @@
                                     <th>Head Type</th>
                                     <th>Projects</th>
                                     <th>Zones</th>
-                                    <th>Towns</th>
+                                    
                                     <th>Role</th>
                                     <th>Actions</th>
                                 </tr>
@@ -248,7 +248,7 @@
 
                 if (UpdateCheck == "@HttpContext.Current.Session["UpdateCheck"]") { $(".edit").css("display", "none"); }
                 else {
-                  
+
                     $(".edit").on("click", function () {
                         ClearForm();
                     var SOID = $(this).attr("data-id");
@@ -272,8 +272,8 @@
                             $('#Name').val(Response.Name);
                             $('#UserName').val(Response.UserName);
                             $('#Password').val(Response.Password);
-                            
-                            
+
+
 
             }
                     });
@@ -315,6 +315,37 @@
                         });
 
                     });
+
+                    $(".IMEI").on("click", function () {
+
+                        var SaleOfficerID = $(this).attr("data-id");
+
+                        // confirm dialog
+                        alertify.confirm("Are You Sure You Want To Reset IMEI for This Record ?  ", function (e) {
+                            if (e) {
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("ResetIMEI", "SaleOfficer")",
+                                    data: { saleOfficerID: SaleOfficerID },
+                                    success: function (data) {
+
+                                        if (data == "0") {
+                                            alertify.success('Sales Officer IMEI Reset Successfully.');
+                                            var table = $('#datatab').DataTable();
+                                            table.row(this).remove().draw(false);
+                                            LoadRegionalHead();
+                                        }
+
+                                        else { alertify.error('This Sales Officer Has Retailers. Delete Them First.'); }
+                                    }
+
+                                });
+
+                            } else { }
+                        });
+
+                    });
                 }
             },
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
@@ -334,7 +365,7 @@
                 { "data": "RegionalHeadName", "sClass": "center-align-td" },
                 { "data": "SaleOfficerProjectsName", "sClass": "center-align-td" },
                 { "data": "SaleOfficerZonesName", "sClass": "center-align-td" },
-                { "data": "SaleOfficerTownName", "sClass": "center-align-td" },
+               
                 { "data": "SaleOfficerRoleName", "sClass": "center-align-td" },
 
             {
@@ -342,7 +373,7 @@
                 "mData": null,
                 "bSortable": false,
                 "mRender": function (data, type, row) {
-                    return '<button class="btn btn-success edit" data-id=' + row.ID + '>' + '<i class=icon-pencil></i>' + '</button>&nbsp;<button class="btn btn-info delete" data-id=' + row.ID + '>' + '<i class=icon-trash></i>' + '</button>';
+                    return '<button class="btn btn-success edit" data-id=' + row.ID + '>' + '<i class=icon-pencil></i>' + '</button>&nbsp;<button class="btn btn-info delete" data-id=' + row.ID + '>' + '<i class=icon-trash></i>' + '</button>&nbsp;<button class="btn btn-info IMEI " data-id=' + row.ID + '>' + "Reset IMEI" + '</button>';
                 }
             }
             ],

@@ -22,6 +22,7 @@ namespace FOS.DataLayer
             this.SubDivisions = new HashSet<SubDivision>();
             this.SaleOfficers = new HashSet<SaleOfficer>();
             this.JobsDetails = new HashSet<JobsDetail>();
+            this.TBL_RouteSelection = new HashSet<TBL_RouteSelection>();
         }
     
         public int TID { get; set; }
@@ -47,5 +48,7 @@ namespace FOS.DataLayer
         public virtual ICollection<SaleOfficer> SaleOfficers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JobsDetail> JobsDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBL_RouteSelection> TBL_RouteSelection { get; set; }
     }
 }

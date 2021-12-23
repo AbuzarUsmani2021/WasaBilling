@@ -53,6 +53,7 @@ namespace FOS.Shared
         public List<RetailerData> Sites { get; set; }
         //public int SiteId { get; set; }
         public List<FaultTypeData> faultTypes { get; set; }
+        public List<CityData> WardList { get; set; }
         public int? FaulttypeId { get; set; }
         public List<ComplaintStatus> complaintStatuses { get; set; }
         public Nullable<int> StatusID { get; set; }
