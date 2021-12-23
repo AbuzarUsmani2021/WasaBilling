@@ -67,7 +67,7 @@ namespace FOS.Web.UI.Controllers
                 //var soid = Convert.ToInt32(Session["SORelationID"]);
                 var ListOfProjects = db.Cities.Select(x => x.ID).Distinct().ToList();
                 objRetailer.Projects = FOS.Setup.ManageSaleOffice.GetProjectsListForDashboard(ListOfProjects);
-                //////Get Projects END
+              //  ////////Get Projects END
                 //objRetailer.Cities = FOS.Setup.ManageCity.GetCityList();
                 //objRetailer.priorityDatas = FOS.Setup.ManageCity.GetPrioritiesList();
                 //objRetailer.faultTypes = FOS.Setup.ManageCity.GetFaultTypesList();
